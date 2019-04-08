@@ -1,0 +1,3 @@
+rootProject.name = 'ShooterStatistic'
+include ':apps:rest'
+// include ':apps:frontend'

@@ -1,0 +1,15 @@
+.idea/
+.gradle/
+.settings/
+bin/
+build/
+logs/
+out/
+bower_components/
+node_modules/
+vendors/
+.classpath
+*.iml
+*.log
+.project
+package-lock.json

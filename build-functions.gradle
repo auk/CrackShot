@@ -1,0 +1,27 @@
+ext {
+  getGitRevision = { proj ->
+    File dir = proj.getProjectDir()
+    def command = """git rev-list HEAD --count ."""
+    def text = command.execute(null, dir).in.text.trim().toInteger()
+    return text
+  }
+
+  getGitCommit = { proj ->
+    File dir = proj.getProjectDir()
+    def command = """git rev-parse HEAD"""
+    def text = command.execute(null, dir).in.text.trim().take(8)
+    return text
+  }
+
+  getRepoName = { String version ->
+    return version?.endsWith('-SNAPSHOT') ? 'libs-snapshot-local' : 'libs-release-local';
+  }
+
+  final def snapshot = '-SNAPSHOT'
+  getExtVersion = {
+    final def versionId = '.' + rootProject.ext.getGitRevision(rootProject) + '.' + rootProject.ext.getGitCommit(rootProject)
+    if (rootProject.version.endsWith('-SNAPSHOT'))
+      return rootProject.version.take(rootProject.version.length() - snapshot.length()) + versionId + snapshot
+    return rootProject.version + versionId
+  }
+}

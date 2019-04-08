@@ -1,0 +1,59 @@
+repositories {
+  jcenter()
+  maven {
+    url 'http://artifactory.startext.ru/artifactory/' + rootProject.ext.getRepoName(rootProject.version)
+  }
+}
+
+def source='1.8'
+
+if (new File(getProject().projectDir, 'src').directory) {
+  apply plugin: 'java'
+  apply plugin: 'maven'
+}
+
+if (plugins.findPlugin('java') || plugins.findPlugin('groovy')) {
+  tasks.withType(JavaCompile) { options.encoding = 'UTF-8' }
+  tasks.withType(GroovyCompile) { options.encoding = 'UTF-8' }
+
+  sourceCompatibility = source
+  targetCompatibility = source
+
+  task sourcesJar(type: Jar, dependsOn: classes, description: 'Creates sources jar') {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+  }
+
+  jar {
+    manifest {
+      def commitId = rootProject.ext.getGitCommit(rootProject)
+      def commitRevision = rootProject.ext.getGitRevision(rootProject)
+      attributes(
+        (java.util.jar.Attributes.Name.IMPLEMENTATION_VENDOR.toString()): 'startext GmbH',
+        'Built-With': "gradle-${project.getGradle().getGradleVersion()}, groovy-${GroovySystem.getVersion()}",
+        'Built-By': project.hasProperty('BF_USER') ? project.getProperty('BF_USER') : System.getProperty('user.name'),
+        'Built-On': "${InetAddress.localHost.hostName}/${InetAddress.localHost.hostAddress}",
+        'Created-By': System.getProperty('java.version') + ' (' + System.getProperty('java.vendor') + ')',
+        'Implementation-Version': "${commitId} (${commitRevision})"
+      )
+    }
+  }
+
+  task copyWar(type: Copy) {
+    dependsOn build
+
+    def currentTask = it
+    plugins.withType(WarPlugin) {
+      from (war.destinationDir) {
+        include '*.war'
+      }
+      into new File(rootProject.buildDir, project.version)
+      project.tasks.build.finalizedBy currentTask
+      rename "(.)-${war.version}.war", '$1.war'
+    }
+  }
+}
+
+task printVersion() {
+  println "version: " + getProject().getName() + "-" + version
+}

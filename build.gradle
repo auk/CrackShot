@@ -1,0 +1,6 @@
+apply from: 'build-functions.gradle'
+
+subprojects {
+  version = rootProject.ext.getExtVersion()
+  apply from: rootProject.file('build-subprojects.gradle')
+}
