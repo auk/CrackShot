@@ -1,0 +1,3 @@
+* Shooter statistic
+
+Main aim of project to gather statistic for shooter trainings
