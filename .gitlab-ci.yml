@@ -1,0 +1,52 @@
+image: docker:git
+services:
+  - docker:dind
+
+stages:
+  - build
+  - build-docker-image
+  - release-docker-image
+
+before_script:
+  - uname -a
+
+build:
+  stage: build
+  before_script:
+    - gradle -v
+  script:
+    - gradle clean build
+  tags:
+    - gradle
+    - java
+
+variables:
+  CONTAINER_IMAGE: registry.startext.ru/auk/shooterstatistic
+  CONTAINER_TEST_IMAGE: $CONTAINER_IMAGE:$CI_BUILD_REF_NAME
+  CONTAINER_RELEASE_IMAGE: $CONTAINER_IMAGE:latest
+
+build-docker-image:
+  stage: build-docker-image
+  before_script:
+    - gradle -v
+  script:
+    - gradle clean build
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.startext.ru
+    - docker build -t $CONTAINER_TEST_IMAGE -f docker/develop/Dockerfile .
+    - docker push $CONTAINER_TEST_IMAGE
+    - docker image prune --force
+  tags:
+    - docker
+
+release-docker-image:
+  stage: release-docker-image
+  script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.startext.ru
+    - docker pull $CONTAINER_TEST_IMAGE
+    - docker tag $CONTAINER_TEST_IMAGE $CONTAINER_RELEASE_IMAGE
+    - docker push $CONTAINER_RELEASE_IMAGE
+    - docker image prune --force
+  only:
+    - master
+  tags:
+    - docker
