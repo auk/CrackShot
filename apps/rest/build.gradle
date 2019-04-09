@@ -15,7 +15,7 @@ repositories {
 }
 
 bootWar {
-  baseName = 'ConfigService-rest'
+  baseName = 'ShooterStatistic-rest'
 }
 
 dependencies {

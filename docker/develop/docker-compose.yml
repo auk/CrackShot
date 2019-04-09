@@ -1,0 +1,29 @@
+version: "3.5"
+services:
+  auk-shooter-statistic:
+    container_name: auk-shooter-statistic
+    image: auk/shooter-statistic
+    build:
+      context: ../..
+      dockerfile: docker/develop/Dockerfile
+    entrypoint:
+      - catalina.sh
+      - jpda
+      - run
+    environment:
+      - JPDA_ADDRESS=8000
+      - JPDA_TRANSPORT=dt_socket
+    ports:
+      - "8000:8000"
+      - "8080:8080"
+#    env_file:
+#      - .env_https
+#      - .env_configservice
+#      - .env_db.h2
+#    volumes:
+#      - ../secrets:/etc/secrets:ro
+    networks:
+      - auk-shooter-statistic
+
+networks:
+  auk-shooter-statistic:
