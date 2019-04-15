@@ -16,14 +16,24 @@ class HomePage extends React.Component {
     super(props);
 
     this.state = {
-      initValues: {
+      results: {
         A: 0,
         C: 0,
         D: 0,
         NS: 0,
-        Miss: 0,
-        Penalty: 0,
-      }
+        MISS: 0,
+        PENALTY: 0,
+      },
+      rates: {
+        A: 5,
+        C: 3,
+        D: 1,
+        NS: -10,
+        MISS: -10,
+        PENALTY: -10
+      },
+      stageScores: {},
+      stageScore: 0
     }
   }
 
@@ -31,20 +41,50 @@ class HomePage extends React.Component {
     console.log('handleSubmit', data);
   }
 
+  handleChange = data => {
+    const newResults = { ...this.state.results, ...{ [data.target.name]: data.target.value }};
+    this.assignResults(newResults);
+  }
+
   increment = id => {
     console.log('increment', id);
-    const newValue = this.state.initValues[id] + 1
-    this.setState(prevState => ({
-      initValues: { ...prevState.initValues, [id]: newValue, ['score_' + id] : newValue * 2 }
-    }));
+    const newValue = this.state.results[id] + 1
+    const newResults = { ...this.state.results, ...{ [id]: newValue }};
+    this.assignResults(newResults);
   }
 
   decrement = id => {
     console.log('decrement', id);
-    const newValue = Math.max(this.state.initValues[id] - 1, 0)
+    const newValue = Math.max(this.state.results[id] - 1, 0)
+    const newResults = { ...this.state.results, ...{ [id]: newValue }};
+    this.assignResults(newResults);
+  }
+
+  assignResults = (results) => {
+    console.assert(results);
+
+    const scores = this.buildScores(results, this.state.rates);
+    const score = Math.max(Object.values(scores).reduce((acc, val) => acc + val, 0), 0);
     this.setState(prevState => ({
-      initValues: { ...prevState.initValues, [id]: newValue, ['score_' + id] : newValue * 2 }
+      results: { ...results },
+      stageScores: { ...prevState.stageScores, ...scores },
+      stageScore: score
     }));
+  }
+
+  buildScores = (results, rates) => {
+    return Object.keys(results).reduce((map, id) => {
+      map[id] = rates[id] ? results[id] * rates[id] : 0;
+      return map;
+    }, {});
+  }
+
+  prepareScoreValues = (values) => {
+    console.assert(values);
+    return Object.keys(values).reduce((acc, i) => {
+      acc['score_' + i] = values[i];
+      return acc;
+    }, {});
   }
 
   render() {
@@ -61,6 +101,12 @@ class HomePage extends React.Component {
         text: common.breadcrumb.about,
       },
     ];
+
+    var resultFormData = {
+      ...this.state.results,
+      ...this.prepareScoreValues(this.state.stageScores),
+      stageScore: this.state.stageScore
+    };
 
     return (
       <React.Fragment>
@@ -90,8 +136,10 @@ class HomePage extends React.Component {
             <Page.Container size="col-md-6">
               <Page.Content>
                 <StageResultForm
-                  initialValues={this.state.initValues}
+                  fields={this.state.results}
+                  initialValues={resultFormData}
                   onSubmit={this.handleSubmit}
+                  handleChange={this.handleChange}
                   handleIncrement={this.increment}
                   handleDecriment={this.decrement}
                 />

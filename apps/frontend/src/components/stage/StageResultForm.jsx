@@ -7,17 +7,18 @@ import InputText from '../common/form-elements/InputText';
 import SpecialInputText from '../common/form-elements/SpecialInputText';
 
 let StageResultForm = React.memo(props => {
-  const { handleSubmit, handleIncrement, handleDecriment, initialValues } = props;
+  const { handleSubmit, handleIncrement, handleDecriment, handleChange, initialValues, fields } = props;
 
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
       <div className="hr-line-dashed"></div>
-      {Object.keys(initialValues).map(key =>
+      {Object.keys(fields).map(key =>
         <div className="row" key={key}>
           <div className="col-md-4">{key}</div>
           <div className="col-md-4">
             <Field name={key}
               component={SpecialInputText}
+              onChange={handleChange}
               prefixButton={{ text: '-1', onClick: () => handleDecriment(key) }}
               postfixButton={{ text: '+1', onClick: () => handleIncrement(key), className: 'btn-primary' }}
               placeholder='0'
@@ -39,7 +40,7 @@ let StageResultForm = React.memo(props => {
         <div className="col-md-4">&nbsp;</div>
         <div className="col-md-1">Shots</div>
         <div className="col-md-3">
-          <Field name="text"
+          <Field name="stageTime"
             component={InputText}
             placeholder='0'
             disabled={true}
@@ -47,7 +48,7 @@ let StageResultForm = React.memo(props => {
         </div>
         <div className="col-md-1">Score</div>
         <div className="col-md-3">
-          <Field name="text"
+          <Field name="stageScore"
             component={InputText}
             placeholder='0'
             disabled={true}
@@ -67,7 +68,7 @@ let StageResultForm = React.memo(props => {
         </div>
         <div className="col-md-1">Factor</div>
         <div className="col-md-3">
-          <Field name="factor"
+          <Field name="stageFactor"
             component={InputText}
             placeholder='0'
             // required={true}
@@ -87,8 +88,9 @@ let StageResultForm = React.memo(props => {
 
 StageResultForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  handleIncrement:PropTypes.func.isRequired,
-  handleDecriment:PropTypes.func.isRequired,
+  handleIncrement: PropTypes.func.isRequired,
+  handleDecriment: PropTypes.func.isRequired,
+  handleChange: PropTypes.func.isRequired
 }
 
 StageResultForm = reduxForm({
