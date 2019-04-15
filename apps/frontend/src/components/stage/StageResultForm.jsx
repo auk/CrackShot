@@ -25,7 +25,7 @@ let StageResultForm = React.memo(props => {
             />
           </div>
           <div className="col-md-4">
-            <Field name="A"
+            <Field name={`score_${key}`}
               component={InputText}
               placeholder='0'
               // required={true}

@@ -17,12 +17,12 @@ class HomePage extends React.Component {
 
     this.state = {
       initValues: {
-        A: 2,
+        A: 0,
         C: 0,
         D: 0,
-        NS: 3,
+        NS: 0,
         Miss: 0,
-        Penalty: 1,
+        Penalty: 0,
       }
     }
   }
@@ -33,15 +33,17 @@ class HomePage extends React.Component {
 
   increment = id => {
     console.log('increment', id);
+    const newValue = this.state.initValues[id] + 1
     this.setState(prevState => ({
-      initValues: { ...prevState.initValues, [id]: prevState.initValues[id] + 1 }
+      initValues: { ...prevState.initValues, [id]: newValue, ['score_' + id] : newValue * 2 }
     }));
   }
 
   decrement = id => {
     console.log('decrement', id);
+    const newValue = Math.max(this.state.initValues[id] - 1, 0)
     this.setState(prevState => ({
-      initValues: { ...prevState.initValues, [id]: prevState.initValues[id] - 1 }
+      initValues: { ...prevState.initValues, [id]: newValue, ['score_' + id] : newValue * 2 }
     }));
   }
 
