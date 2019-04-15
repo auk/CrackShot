@@ -5,7 +5,6 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import WithLayout from 'containers/layouts/WithLayout';
 import Page from 'components/common/pageTemplate/Page';
 import StageResultForm from 'components/stage/StageResultForm';
-import TestComponent from 'components/testComponent/TestComponent';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
 
@@ -13,20 +12,37 @@ const messages = defaultMessage.home;
 const common = defaultMessage.common;
 
 class HomePage extends React.Component {
+  constructor(props) {
+    super(props);
 
-  handleResultIncrease = (e, id) => {
-    console.log(id);
+    this.state = {
+      initValues: {
+        A: 2,
+        C: 0,
+        D: 0,
+        NS: 3,
+        Miss: 0,
+        Penalty: 1,
+      }
+    }
   }
 
-  handleResultDecrease = (e, id) => {
-    console.log(e);
-    console.log(id);
+  handleSubmit = data => {
+    console.log('handleSubmit', data);
   }
 
-  handleResultChange = (e, id, v) => {
-    console.log(e);
-    console.log(id);
-    console.log(v);
+  increment = id => {
+    console.log('increment', id);
+    this.setState(prevState => ({
+      initValues: { ...prevState.initValues, [id]: prevState.initValues[id] + 1 }
+    }));
+  }
+
+  decrement = id => {
+    console.log('decrement', id);
+    this.setState(prevState => ({
+      initValues: { ...prevState.initValues, [id]: prevState.initValues[id] - 1 }
+    }));
   }
 
   render() {
@@ -71,13 +87,13 @@ class HomePage extends React.Component {
             </Page.Container>
             <Page.Container size="col-md-6">
               <Page.Content>
-                <StageResultForm 
-                  handleResultIncrease={this.handleResultIncrease}
-                  handleResultDecrease={this.handleResultDecrease}
-                  handleResultChange={this.handleResultChange}
+                <StageResultForm
+                  initialValues={this.state.initValues}
+                  onSubmit={this.handleSubmit}
+                  handleIncrement={this.increment}
+                  handleDecriment={this.decrement}
                 />
                 <div className="hr-line-dashed"></div>
-                <TestComponent />
               </Page.Content>
             </Page.Container>
           </Page.ContainerWrap>
