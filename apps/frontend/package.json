@@ -1,0 +1,55 @@
+{
+  "name": "react-inspinia-starter-kit",
+  "version": "0.0.1",
+  "homepage": "/",
+  "private": true,
+  "dependencies": {
+    "animate.css": "^3.1.1",
+    "axios": "^0.18.0",
+    "babel-polyfill": "^6.26.0",
+    "bootstrap": "^3.4.1",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.3.1",
+    "jwt-decode": "^2.2.0",
+    "ladda": "^2.0.1",
+    "metismenu": "^3.0.3",
+    "moment": "^2.24.0",
+    "pace-js": "^1.0.2",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.3",
+    "react-app-polyfill": "^0.2.2",
+    "react-bootstrap": "^0.32.4",
+    "react-document-title": "^2.0.3",
+    "react-dom": "^16.8.3",
+    "react-icheck": "^0.3.8",
+    "react-intl": "^2.8.0",
+    "react-paginate": "^6.3.0",
+    "react-redux": "^6.0.1",
+    "react-router-bootstrap": "^0.24.4",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "^2.1.5",
+    "react-select": "^2.4.1",
+    "redux": "^4.0.1",
+    "redux-form": "^8.1.0",
+    "redux-saga": "^1.0.2",
+    "url-search-params-polyfill": "^5.0.0"
+  },
+  "devDependencies": {
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.10.0",
+    "redux-act": "^1.7.4",
+    "redux-saga-testing": "^1.0.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

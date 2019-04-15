@@ -1,0 +1,23 @@
+.loginscreen .form-group .help-block,
+.loginscreen .alert {
+  text-align: left;
+}
+
+.company-name {
+  text-align: center;
+  font-size: 50px;
+  letter-spacing: 10px;
+  color: #dad8d8;
+}
+
+.middle-box.loginscreen {
+  padding: 0
+}
+
+.flex-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 75vh;
+}

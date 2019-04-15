@@ -1,0 +1,26 @@
+/* error page */
+._stx-error.error-page {
+  margin: 60px auto 20px auto;
+}
+._stx-error.error-page p{
+  font-size: 16px;
+}
+
+@media (max-width: 991px) {
+  ._stx-error.error-page > .error-content > h3 {
+      margin-top: 0;
+      margin-bottom: 40px;
+  }
+  ._stx-error.error-page > .headline {
+    margin-bottom: 0;
+  }
+  ._stx-error.error-page > .error-content {
+    text-align: center;
+  }
+}
+
+@media (min-width: 992px) {
+  ._stx-error.error-page > .error-content {
+    padding-top: 17px;
+  }
+}

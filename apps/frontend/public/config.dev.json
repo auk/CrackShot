@@ -1,0 +1,29 @@
+{
+  "webapp": {
+    "version": "0.0.0"
+  },
+  "services": {
+    "auth": "https://tt.startext.ru/TimeTracker-auth",
+    "rest": "http://127.0.0.1:8083"
+  },
+  "roles": {
+    "admin": [
+      "ROLE_TimeTracker"
+    ],
+    "user": []
+  },
+  "links": {
+    "auth": {
+      "url": "{AUTH_URL}/oauth/token"
+    },
+    "home": {
+      "url": "/"
+    },
+    "about": {
+      "url": "/about"
+    },
+    "login": {
+      "url": "/login"
+    }
+  }
+}

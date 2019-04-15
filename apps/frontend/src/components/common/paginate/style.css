@@ -1,0 +1,10 @@
+.paginate-select .Select-menu-outer {
+  top: auto;
+  bottom: 100%;
+  width: 75px;
+}
+
+.paginate-wrapper {
+  display: flex;
+  align-items: center;
+}

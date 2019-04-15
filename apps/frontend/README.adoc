@@ -1,0 +1,6 @@
+React Redux v16 starter kit with inspinia theme based on Bootstrap v3
+
+1. npm i
+2. npm start
+
+Required auth server(AuthService-ACTApro) to access for some functional
