@@ -18,7 +18,7 @@ class StageResultForm extends Component {
     handleResultChange: PropTypes.func.isRequired,
     data: PropTypes.object.isRequired,
   }
-  
+
   constructor(props) {
     super(props);
 //     this.incrementAsync = this.incrementAsync.bind(this);
@@ -27,7 +27,9 @@ class StageResultForm extends Component {
 
   inc(e, id) {
     e.preventDefault();
+    console.log(e);
     console.log(id);
+    // console.log(i);
   }
 
   render() {
@@ -54,7 +56,7 @@ class StageResultForm extends Component {
               />
             </div>
             <div className="col-md-1">
-              <button className="btn btn-primary" onClick={this.inc.bind(i)}>
+              <button type="button" className="btn btn-primary" onClick={this.inc.bind(i)}>
               +1
               </button>
             </div>
@@ -69,7 +71,32 @@ class StageResultForm extends Component {
           </div>
           )
         }
-        <div class="hr-line-dashed"></div>
+        <div className="row">
+          <div className="col-md-4">
+            &nbsp;
+          </div>
+          <div className="col-md-1">
+            Shots
+          </div>
+          <div className="col-md-3">
+            <Field name="text"
+              component={InputText}
+              placeholder='0'
+              disabled={true}
+            />
+          </div>
+          <div className="col-md-1">
+            Score
+          </div>
+          <div className="col-md-3">
+            <Field name="text"
+              component={InputText}
+              placeholder='0'
+              disabled={true}
+            />
+          </div>
+        </div>
+        <div className="hr-line-dashed"></div>
         <div className="row">
           <div className="col-md-4">
             &nbsp;
@@ -96,35 +123,10 @@ class StageResultForm extends Component {
             />
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-4">
-            &nbsp;
-          </div>
-          <div className="col-md-1">
-            Shots
-          </div>
-          <div className="col-md-3">
-            <Field name="text"
-              component={InputText}
-              placeholder='0'
-              disabled={true}
-            />
-          </div>
-          <div className="col-md-1">
-            Score
-          </div>
-          <div className="col-md-3">
-            <Field name="text"
-              component={InputText}
-              placeholder='0'
-              disabled={true}
-            />
-          </div>
-        </div>
 
-      </form>  
-    );  
-  }  
+      </form>
+    );
+  }
 }
 
 StageResultForm = reduxForm({
