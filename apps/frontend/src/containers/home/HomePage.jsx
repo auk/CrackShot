@@ -34,7 +34,8 @@ class HomePage extends React.Component {
       },
       stageScores: {},
       stageScore: 0,
-      stageShots: 0
+      stageShots: 0,
+      stageTime: 0
     }
   }
 
@@ -42,10 +43,18 @@ class HomePage extends React.Component {
     console.log('handleSubmit', data);
   }
 
-  handleChange = data => {
-    // data.target.value = Math.max(data.target.value, 0);
-    const newResults = { ...this.state.results, ...{ [data.target.name]: data.target.value }};
-    this.assignResults(newResults);
+  handleTimeChange = data => {
+    // console.log('Time', data.target.value);
+    var number = 0;
+    if (data.target.value)
+      number = Number.parseFloat(data.target.value.replace(',', '.'));
+    if (isNaN(number))
+      number = 0;
+
+    this.setState(prevState => ({
+      ...prevState,
+      stageTime: number
+    }), this.calculateFactor);
   }
 
   increment = id => {
@@ -73,9 +82,21 @@ class HomePage extends React.Component {
       stageScores: { ...prevState.stageScores, ...scores },
       stageScore: score,
       stageShots: shots
+    }), this.calculateFactor);
+    // console.log('shots:', shots);
+
+  }
+
+  calculateFactor = () => {
+    const score = this.state.stageScore;
+    const time = this.state.stageTime;
+    const factor = score && time ? (score / time).toFixed(4) : 0;
+    console.log('score: ', score, 'time: ', time, 'factor:', factor);
+
+    this.setState(prevState => ({
+      ...prevState,
+      stageFactor: factor
     }));
-    console.log('shots:', shots);
-    
   }
 
   buildScores = (results, rates) => {
@@ -112,7 +133,9 @@ class HomePage extends React.Component {
       ...this.state.results,
       ...this.prepareScoreValues(this.state.stageScores),
       stageScore: this.state.stageScore,
-      stageShots: this.state.stageShots
+      stageShots: this.state.stageShots,
+      stageTime: this.state.stageTime,
+      stageFactor: this.state.stageFactor,
     };
 
     return (
@@ -143,10 +166,10 @@ class HomePage extends React.Component {
             <Page.Container size="col-md-6">
               <Page.Content>
                 <StageResultForm
-                  fields={this.state.results}
+                  fields={this.state.rates}
                   initialValues={resultFormData}
                   onSubmit={this.handleSubmit}
-                  handleChange={this.handleChange}
+                  handleTimeChange={this.handleTimeChange}
                   handleIncrement={this.increment}
                   handleDecriment={this.decrement}
                 />

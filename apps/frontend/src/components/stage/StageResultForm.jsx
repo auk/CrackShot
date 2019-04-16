@@ -7,7 +7,7 @@ import InputText from '../common/form-elements/InputText';
 import SpecialInputText from '../common/form-elements/SpecialInputText';
 
 let StageResultForm = React.memo(props => {
-  const { handleSubmit, handleIncrement, handleDecriment, handleChange, initialValues, fields } = props;
+  const { handleSubmit, handleIncrement, handleDecriment, handleTimeChange, initialValues, fields } = props;
 
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
@@ -64,6 +64,7 @@ let StageResultForm = React.memo(props => {
           <Field name="stageTime"
             component={InputText}
             placeholder='0'
+            onChange={handleTimeChange}
           // required={true}
           />
         </div>
@@ -91,7 +92,7 @@ StageResultForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
   handleIncrement: PropTypes.func.isRequired,
   handleDecriment: PropTypes.func.isRequired,
-  handleChange: PropTypes.func.isRequired
+  handleTimeChange: PropTypes.func.isRequired
 }
 
 StageResultForm = reduxForm({
