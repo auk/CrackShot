@@ -7,7 +7,11 @@ import InputText from '../common/form-elements/InputText';
 import SpecialInputText from '../common/form-elements/SpecialInputText';
 
 let StageResultForm = React.memo(props => {
-  const { handleSubmit, handleIncrement, handleDecriment, handleTimeChange, initialValues, fields } = props;
+  const { handleSubmit, handleIncrement, handleDecriment, handleTimeChange, handleClean, initialValues, fields } = props;
+
+  const onClick = e => {
+    e.setSelectionRange(0, e.value.length)
+  }
 
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
@@ -64,7 +68,9 @@ let StageResultForm = React.memo(props => {
           <Field name="stageTime"
             component={InputText}
             placeholder='0'
+            type='number'
             onChange={handleTimeChange}
+            onClick={onClick}
           // required={true}
           />
         </div>
@@ -79,8 +85,11 @@ let StageResultForm = React.memo(props => {
         </div>
       </div>
       <div className="row">
-        <div className="col-md-12">
-          <button className="btn btn-primary">Submit</button>
+        <div className="col-xs-3 col-md-1">
+          <button className="btn btn-secondary" onClick={handleClean} type="button">Clean</button>
+        </div>
+        <div className="col-xs-3 col-md-1">
+          <button className="btn btn-primary active">Submit</button>
         </div>
       </div>
 
@@ -90,13 +99,14 @@ let StageResultForm = React.memo(props => {
 
 StageResultForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
+  handleClean: PropTypes.func.isRequired,
   handleIncrement: PropTypes.func.isRequired,
   handleDecriment: PropTypes.func.isRequired,
   handleTimeChange: PropTypes.func.isRequired
 }
 
 StageResultForm = reduxForm({
-  form: 'stageResultForm',
+  form: 'StageResultForm',
   validate: Validate,
   enableReinitialize: true,
   touchOnBlur: false,

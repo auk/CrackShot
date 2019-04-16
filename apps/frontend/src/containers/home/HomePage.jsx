@@ -15,7 +15,7 @@ class HomePage extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
+    this.initialState = {
       results: {
         A: 0,
         C: 0,
@@ -24,23 +24,39 @@ class HomePage extends React.Component {
         MISS: 0,
         PENALTY: 0,
       },
-      rates: {
-        A: 5,
-        C: 3,
-        D: 1,
-        NS: -10,
-        MISS: -10,
-        PENALTY: -10
-      },
       stageScores: {},
       stageScore: 0,
       stageShots: 0,
-      stageTime: 0
+      stageTime: undefined,
+      stageFactor: 0
     }
+
+    this.state = Object.assign({}, this.initialState);
   }
+
+  rates = {
+    A: 5,
+    C: 3,
+    D: 1,
+    NS: -10,
+    MISS: -10,
+    PENALTY: -10
+  };
 
   handleSubmit = data => {
     console.log('handleSubmit', data);
+  }
+
+  handleClean = data => {
+    const scores = Object.keys(this.rates).reduce((acc, i) => {
+      acc[i] = 0;
+      return acc;
+    }, {});
+
+    this.setState(prevState => ({
+      ...prevState,
+      ...this.initialState
+    }));
   }
 
   handleTimeChange = data => {
@@ -74,7 +90,7 @@ class HomePage extends React.Component {
   assignResults = (results) => {
     console.assert(results);
 
-    const scores = this.buildScores(results, this.state.rates);
+    const scores = this.buildScores(results, this.rates);
     const score = Math.max(Object.values(scores).reduce((acc, val) => acc + val, 0), 0);
     const shots = Object.keys(results).filter(k => k !== 'PENALTY').reduce((acc, val) => acc + results[val], 0);
     this.setState(prevState => ({
@@ -83,8 +99,6 @@ class HomePage extends React.Component {
       stageScore: score,
       stageShots: shots
     }), this.calculateFactor);
-    // console.log('shots:', shots);
-
   }
 
   calculateFactor = () => {
@@ -166,9 +180,10 @@ class HomePage extends React.Component {
             <Page.Container size="col-md-6">
               <Page.Content>
                 <StageResultForm
-                  fields={this.state.rates}
+                  fields={this.rates}
                   initialValues={resultFormData}
                   onSubmit={this.handleSubmit}
+                  handleClean={this.handleClean}
                   handleTimeChange={this.handleTimeChange}
                   handleIncrement={this.increment}
                   handleDecriment={this.decrement}
