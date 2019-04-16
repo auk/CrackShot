@@ -33,7 +33,8 @@ class HomePage extends React.Component {
         PENALTY: -10
       },
       stageScores: {},
-      stageScore: 0
+      stageScore: 0,
+      stageShots: 0
     }
   }
 
@@ -42,6 +43,7 @@ class HomePage extends React.Component {
   }
 
   handleChange = data => {
+    // data.target.value = Math.max(data.target.value, 0);
     const newResults = { ...this.state.results, ...{ [data.target.name]: data.target.value }};
     this.assignResults(newResults);
   }
@@ -65,11 +67,15 @@ class HomePage extends React.Component {
 
     const scores = this.buildScores(results, this.state.rates);
     const score = Math.max(Object.values(scores).reduce((acc, val) => acc + val, 0), 0);
+    const shots = Object.keys(results).filter(k => k !== 'PENALTY').reduce((acc, val) => acc + results[val], 0);
     this.setState(prevState => ({
       results: { ...results },
       stageScores: { ...prevState.stageScores, ...scores },
-      stageScore: score
+      stageScore: score,
+      stageShots: shots
     }));
+    console.log('shots:', shots);
+    
   }
 
   buildScores = (results, rates) => {
@@ -105,7 +111,8 @@ class HomePage extends React.Component {
     var resultFormData = {
       ...this.state.results,
       ...this.prepareScoreValues(this.state.stageScores),
-      stageScore: this.state.stageScore
+      stageScore: this.state.stageScore,
+      stageShots: this.state.stageShots
     };
 
     return (

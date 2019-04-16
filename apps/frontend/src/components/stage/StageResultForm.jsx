@@ -14,18 +14,19 @@ let StageResultForm = React.memo(props => {
       <div className="hr-line-dashed"></div>
       {Object.keys(fields).map(key =>
         <div className="row" key={key}>
-          <div className="col-md-4">{key}</div>
-          <div className="col-md-4">
+          <div className="col-xs-3 col-sm-4">{key}</div>
+          <div className="col-xs-6 col-sm-4">
             <Field name={key}
               component={SpecialInputText}
-              onChange={handleChange}
-              prefixButton={{ text: '-1', onClick: () => handleDecriment(key) }}
+              // onChange={handleChange}
+              disabled={true}
+              prefixButton={{ text: '-1', onClick: () => handleDecriment(key), className: 'btn-danger' }}
               postfixButton={{ text: '+1', onClick: () => handleIncrement(key), className: 'btn-primary' }}
               placeholder='0'
             // required={true}
             />
           </div>
-          <div className="col-md-4">
+          <div className="col-xs-3 col-sm-4">
             <Field name={`score_${key}`}
               component={InputText}
               placeholder='0'
@@ -38,16 +39,16 @@ let StageResultForm = React.memo(props => {
 
       <div className="row">
         <div className="col-md-4">&nbsp;</div>
-        <div className="col-md-1">Shots</div>
-        <div className="col-md-3">
-          <Field name="stageTime"
+        <div className="col-xs-2 col-md-1">Shots</div>
+        <div className="col-xs-4 col-md-3">
+          <Field name="stageShots"
             component={InputText}
             placeholder='0'
             disabled={true}
           />
         </div>
-        <div className="col-md-1">Score</div>
-        <div className="col-md-3">
+        <div className="col-xs-2 col-md-1">Score</div>
+        <div className="col-xs-4 col-md-3">
           <Field name="stageScore"
             component={InputText}
             placeholder='0'
@@ -55,19 +56,19 @@ let StageResultForm = React.memo(props => {
           />
         </div>
       </div>
-      <div className="hr-line-dashed"></div>
+      {/* <div className="hr-line-dashed"></div> */}
       <div className="row">
         <div className="col-md-4">&nbsp;</div>
-        <div className="col-md-1">Time</div>
-        <div className="col-md-3">
-          <Field name="time"
+        <div className="col-xs-2 col-md-1">Time</div>
+        <div className="col-xs-4 col-md-3">
+          <Field name="stageTime"
             component={InputText}
             placeholder='0'
           // required={true}
           />
         </div>
-        <div className="col-md-1">Factor</div>
-        <div className="col-md-3">
+        <div className="col-xs-2 col-md-1">Factor</div>
+        <div className="col-xs-4 col-md-3">
           <Field name="stageFactor"
             component={InputText}
             placeholder='0'
