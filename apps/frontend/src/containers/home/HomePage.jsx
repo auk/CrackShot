@@ -5,7 +5,6 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import WithLayout from 'containers/layouts/WithLayout';
 import Page from 'components/common/pageTemplate/Page';
 import StageResultForm from 'components/stage/StageResultForm';
-import TestComponent from 'components/testComponent/TestComponent';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
 
@@ -13,20 +12,120 @@ const messages = defaultMessage.home;
 const common = defaultMessage.common;
 
 class HomePage extends React.Component {
+  constructor(props) {
+    super(props);
 
-  handleResultIncrease = (e, id) => {
-    console.log(id);
+    this.initialState = {
+      results: {
+        A: 0,
+        C: 0,
+        D: 0,
+        NS: 0,
+        MISS: 0,
+        PENALTY: 0,
+      },
+      stageScores: {},
+      stageScore: 0,
+      stageShots: 0,
+      stageTime: undefined,
+      stageFactor: 0
+    }
+
+    this.state = Object.assign({}, this.initialState);
   }
 
-  handleResultDecrease = (e, id) => {
-    console.log(e);
-    console.log(id);
+  rates = {
+    A: 5,
+    C: 3,
+    D: 1,
+    NS: -10,
+    MISS: -10,
+    PENALTY: -10
+  };
+
+  handleSubmit = data => {
+    console.log('handleSubmit', data);
   }
 
-  handleResultChange = (e, id, v) => {
-    console.log(e);
-    console.log(id);
-    console.log(v);
+  handleClean = data => {
+    const scores = Object.keys(this.rates).reduce((acc, i) => {
+      acc[i] = 0;
+      return acc;
+    }, {});
+
+    this.setState(prevState => ({
+      ...prevState,
+      ...this.initialState
+    }));
+  }
+
+  handleTimeChange = data => {
+    // console.log('Time', data.target.value);
+    var number = 0;
+    if (data.target.value)
+      number = Number.parseFloat(data.target.value.replace(',', '.'));
+    if (isNaN(number))
+      number = 0;
+
+    this.setState(prevState => ({
+      ...prevState,
+      stageTime: number
+    }), this.calculateFactor);
+  }
+
+  increment = id => {
+    console.log('increment', id);
+    const newValue = this.state.results[id] + 1
+    const newResults = { ...this.state.results, ...{ [id]: newValue }};
+    this.assignResults(newResults);
+  }
+
+  decrement = id => {
+    console.log('decrement', id);
+    const newValue = Math.max(this.state.results[id] - 1, 0)
+    const newResults = { ...this.state.results, ...{ [id]: newValue }};
+    this.assignResults(newResults);
+  }
+
+  assignResults = (results) => {
+    console.assert(results);
+
+    const scores = this.buildScores(results, this.rates);
+    const score = Math.max(Object.values(scores).reduce((acc, val) => acc + val, 0), 0);
+    const shots = Object.keys(results).filter(k => k !== 'PENALTY').reduce((acc, val) => acc + results[val], 0);
+    this.setState(prevState => ({
+      results: { ...results },
+      stageScores: { ...prevState.stageScores, ...scores },
+      stageScore: score,
+      stageShots: shots
+    }), this.calculateFactor);
+  }
+
+  calculateFactor = () => {
+    const score = this.state.stageScore;
+    const time = this.state.stageTime;
+    const factor = score && time ? (score / time).toFixed(4) : 0;
+    console.log('score: ', score, 'time: ', time, 'factor:', factor);
+
+    this.setState(prevState => ({
+      ...prevState,
+      stageFactor: factor
+    }));
+  }
+
+  buildScores = (results, rates) => {
+    return Object.keys(results).reduce((map, id) => {
+      map[id] = rates[id] ? results[id] * rates[id] : 0;
+      return map;
+    }, {});
+  }
+
+  prepareScoreValues = (values) => {
+    console.assert(values);
+    return Object.keys(values).reduce((acc, i) => {
+      acc['score_' + i] = values[i];
+      return acc;
+    }, {});
   }
 
   render() {
@@ -43,6 +142,15 @@ class HomePage extends React.Component {
         text: common.breadcrumb.about,
       },
     ];
+
+    var resultFormData = {
+      ...this.state.results,
+      ...this.prepareScoreValues(this.state.stageScores),
+      stageScore: this.state.stageScore,
+      stageShots: this.state.stageShots,
+      stageTime: this.state.stageTime,
+      stageFactor: this.state.stageFactor,
+    };
 
     return (
       <React.Fragment>
@@ -71,13 +179,16 @@ class HomePage extends React.Component {
             </Page.Container>
             <Page.Container size="col-md-6">
               <Page.Content>
-                <StageResultForm 
-                  handleResultIncrease={this.handleResultIncrease}
-                  handleResultDecrease={this.handleResultDecrease}
-                  handleResultChange={this.handleResultChange}
+                <StageResultForm
+                  fields={this.rates}
+                  initialValues={resultFormData}
+                  onSubmit={this.handleSubmit}
+                  handleClean={this.handleClean}
+                  handleTimeChange={this.handleTimeChange}
+                  handleIncrement={this.increment}
+                  handleDecriment={this.decrement}
                 />
                 <div className="hr-line-dashed"></div>
-                <TestComponent />
               </Page.Content>
             </Page.Container>
           </Page.ContainerWrap>

@@ -10,9 +10,9 @@ const Validate = (values, props) => {
   if(!values.texticon) {
     errors.texticon = 'Like icons?'
   }
-  if(!values.text) {
-    errors.text = 'Just input text'
-  }
+  // if(!values.text) {
+  //   errors.text = 'Just input text'
+  // }
   if(!values.textgroup) {
     errors.textgroup = 'Just input text twice'
   }
