@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 
 import Validate from './validate';
-import InputText from '../common/form-elements/InputText';
+import { InputText } from '@startext/react-components';
 import SpecialInputText from '../common/form-elements/SpecialInputText';
 
 let StageResultForm = React.memo(props => {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
-import InputText from 'components/common/form-elements/InputText';
+import { InputText } from '@startext/react-components';
 import validate from './LoginValidate';
 import { defaultMessage } from 'i18n/defineMessages';
 

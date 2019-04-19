@@ -48,11 +48,6 @@ class HomePage extends React.Component {
   }
 
   handleClean = data => {
-    const scores = Object.keys(this.rates).reduce((acc, i) => {
-      acc[i] = 0;
-      return acc;
-    }, {});
-
     this.setState(prevState => ({
       ...prevState,
       ...this.initialState
