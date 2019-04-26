@@ -29,7 +29,7 @@ const LoginButton = (props) => {
 
 LoginButton.propTypes = {
   intl: intlShape.isRequired,
-  user_name: PropTypes.string.isRequired,
+  user_name: PropTypes.string/*.isRequired*/,
   handleLogout: PropTypes.func.isRequired,
 };
 

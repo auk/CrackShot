@@ -1,20 +1,25 @@
-import * as IPSC from '../../constants/score.js';
+'use strict';
+
+import { Enums } from '@startext/ipsc';
 
 describe('Test IPSC scores', () => {
-  it('Valid scores', () => {
-    expect(IPSC.getResultScore(IPSC.POWER_FACTOR.MINOR, IPSC.RESULT.A)).toEqual(5);
-    expect(IPSC.getResultScore(IPSC.POWER_FACTOR.MINOR, IPSC.RESULT.C)).toEqual(3);
-    expect(IPSC.getResultScore(IPSC.POWER_FACTOR.MINOR, IPSC.RESULT.D)).toEqual(1);
+  it('scores from component', () => {
+    expect(Enums.getResultScore(Enums.PowerFactors.MINOR, Enums.Results.A)).toEqual(5);
+    expect(Enums.getResultScore(Enums.PowerFactors.MINOR, Enums.Results.C)).toEqual(3);
+    expect(Enums.getResultScore(Enums.PowerFactors.MINOR, Enums.Results.D)).toEqual(1);
 
-    expect(IPSC.getResultScore(IPSC.POWER_FACTOR.MAJOR, IPSC.RESULT.A)).toEqual(5);
-    expect(IPSC.getResultScore(IPSC.POWER_FACTOR.MAJOR, IPSC.RESULT.C)).toEqual(4);
-    expect(IPSC.getResultScore(IPSC.POWER_FACTOR.MAJOR, IPSC.RESULT.D)).toEqual(2);
-  });
+    expect(Enums.getResultScore(Enums.PowerFactors.MAJOR, Enums.Results.A)).toEqual(5);
+    expect(Enums.getResultScore(Enums.PowerFactors.MAJOR, Enums.Results.C)).toEqual(4);
+    expect(Enums.getResultScore(Enums.PowerFactors.MAJOR, Enums.Results.D)).toEqual(2);
+  })
 
-  it('Invalid scores', () => {
-    expect(function(){ IPSC.getResultScore('fake', IPSC.RESULT.A) }).toThrow();
-    expect(function(){ IPSC.getResultScore(null, IPSC.RESULT.A) }).toThrow();
-    expect(function(){ IPSC.getResultScore(IPSC.POWER_FACTOR.MINOR, 'fake') }).toThrow();
-    expect(function(){ IPSC.getResultScore(IPSC.POWER_FACTOR.MINOR, null) }).toThrow();
-  });
+  it('scores from component', () => {
+    expect(Enums.getResultScore(Enums.PowerFactors.MINOR, Enums.Result.of('A'))).toEqual(5);
+    expect(Enums.getResultScore(Enums.PowerFactors.MINOR, Enums.Result.of('C'))).toEqual(3);
+    expect(Enums.getResultScore(Enums.PowerFactors.MINOR, Enums.Result.of('D'))).toEqual(1);
+
+    expect(Enums.getResultScore(Enums.PowerFactors.MAJOR, Enums.Results.A)).toEqual(5);
+    expect(Enums.getResultScore(Enums.PowerFactors.MAJOR, Enums.Results.C)).toEqual(4);
+    expect(Enums.getResultScore(Enums.PowerFactors.MAJOR, Enums.Results.D)).toEqual(2);
+  })
 });

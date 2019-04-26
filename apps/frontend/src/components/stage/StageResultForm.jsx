@@ -7,7 +7,7 @@ import { InputText } from '@startext/react-components';
 import SpecialInputText from '../common/form-elements/SpecialInputText';
 
 let StageResultForm = React.memo(props => {
-  const { handleSubmit, handleIncrement, handleDecriment, handleTimeChange, handleClean, initialValues, fields } = props;
+  const { handleSubmit, handleIncrement, handleDecriment, handleTimeChange, handleClean, fields } = props;
 
   const onClick = e => {
     e.setSelectionRange(0, e.value.length)

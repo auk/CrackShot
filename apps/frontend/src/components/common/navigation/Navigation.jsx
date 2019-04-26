@@ -11,7 +11,7 @@ const messages = defaultMessage.navigation;
 
 class Navigation extends Component {
   static propTypes = {
-    user_name: PropTypes.string.isRequired,
+    user_name: PropTypes.string/*.isRequired*/,
     isAdmin: PropTypes.bool.isRequired,
     links: PropTypes.object.isRequired,
     location: PropTypes.object,

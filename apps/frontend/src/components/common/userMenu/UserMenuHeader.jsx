@@ -29,7 +29,7 @@ const UserMenuHeader = props => {
 UserMenuHeader.propTypes = {
   intl: intlShape.isRequired,
   handleLogout: PropTypes.func.isRequired,
-  user_name: PropTypes.string.isRequired,
+  user_name: PropTypes.string/*.isRequired*/,
 };
 
 export default injectIntl(UserMenuHeader)

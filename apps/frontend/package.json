@@ -4,6 +4,7 @@
   "homepage": "/",
   "private": true,
   "dependencies": {
+    "@startext/ipsc": "^0.0.5",
     "@startext/react-components": "^0.1.10",
     "animate.css": "^3.1.1",
     "axios": "^0.18.0",
