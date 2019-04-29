@@ -24,6 +24,9 @@
     },
     "login": {
       "url": "/login"
+    },
+    "calculator": {
+      "url": "/calculator"
     }
   }
 }

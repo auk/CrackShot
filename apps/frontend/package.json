@@ -32,6 +32,7 @@
     "react-scripts": "^2.1.5",
     "react-select": "^2.4.1",
     "redux": "^4.0.1",
+    "redux-actions": "^2.6.5",
     "redux-form": "^8.1.0",
     "redux-saga": "^1.0.2",
     "url-search-params-polyfill": "^5.0.0"
@@ -39,6 +40,7 @@
   "devDependencies": {
     "enzyme": "^3.9.0",
     "enzyme-adapter-react-16": "^1.10.0",
+    "flux-standard-action": "^2.1.0",
     "redux-act": "^1.7.4",
     "redux-saga-testing": "^1.0.5"
   },
