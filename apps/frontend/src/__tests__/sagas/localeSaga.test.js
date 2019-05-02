@@ -1,4 +1,4 @@
-import { cloneableGenerator } from 'redux-saga/utils';
+import { cloneableGenerator } from '@redux-saga/testing-utils';
 import * as sagas from '../../sagas/localeSaga';
 
 describe('Locale saga', () => {

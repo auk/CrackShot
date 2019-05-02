@@ -138,6 +138,11 @@ export const defaultMessage = defineMessages({
         description: 'Calculator navigation item',
         defaultMessage: 'Calculator'
       },
+      organizations: {
+        id: 'navigation.navItem.organizations',
+        description: 'Calculator navigation item',
+        defaultMessage: 'Organizations'
+      },
     }
   },
   language: {

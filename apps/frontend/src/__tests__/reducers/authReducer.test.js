@@ -3,6 +3,7 @@ import * as ACTIONS from '../../constants/actions';
 import initialState from '../../reducers/initialState';
 
 describe('Auth reducer', () => {
+  const fakeError = new Error('err');
   it('should return the initial state', () => {
     expect(authReducer(undefined, {})).toEqual(initialState.auth)
   });
@@ -17,14 +18,22 @@ describe('Auth reducer', () => {
   })
 
   it('should handle LOGIN_SUCCESS', () => {
-    expect(authReducer({
-      loggingIn: true,
-    }, {
+    expect(authReducer(
+      { loggingIn: true, },
+      {
         type: ACTIONS.LOGIN_SUCCESS,
+        payload: {
+          exp: 'exp',
+          user_name: 'user_name',
+          authorities: 'authorities',
+        }
       }
     )).toEqual({
       loggingIn: false,
       error: null,
+      exp: 'exp',
+      user_name: 'user_name',
+      role: 'authorities',
     })
   })
 
@@ -79,11 +88,22 @@ describe('Auth reducer', () => {
       loggingOut: true,
     }, {
         type: ACTIONS.LOGOUT_FAILURE,
-        error: new Error('err'),
+        error: fakeError,
       }
     )).toEqual({
       loggingOut: false,
-      error: new Error('err'),
+      error: fakeError,
+    })
+  })
+
+  it('should handle CHANGE_STATUS', () => {
+    expect(authReducer({}, {
+        type: ACTIONS.CHANGE_STATUS,
+        payload: 'a'
+      }
+    )).toEqual({
+      isAdmin: 'a',
+      permissionChecked: true,
     })
   })
 })

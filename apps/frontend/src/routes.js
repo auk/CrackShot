@@ -3,6 +3,7 @@ import React from 'react'
 import AboutPage from 'containers/about/AboutPage';
 import HomePage from 'containers/home/HomePage';
 import LoginPage from 'containers/login/LoginPage';
+import OrganizationsPage from 'containers/organizations/OrganizationsPage';
 import StageResultsPage from 'containers/stage/StageResultsPage';
 import NotFound from 'containers/notFound/NotFound';
 
@@ -15,6 +16,7 @@ export const createRoutes = (history, links) => (
     <Route exact path={links.about.url} component={AboutPage} />
     <Route exact path={links.calculator.url} component={StageResultsPage} />
     <Route exact path={links.login.url} component={LoginPage} />
+    <Route exact path={links.organizations.url} component={OrganizationsPage} />
     <Route path='*' component={NotFound} />
   </Switch>
   </Router>

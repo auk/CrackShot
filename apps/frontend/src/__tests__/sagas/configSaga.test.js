@@ -1,5 +1,5 @@
 import { call, put, select } from "redux-saga/effects";
-import { cloneableGenerator } from 'redux-saga/utils';
+import { cloneableGenerator } from '@redux-saga/testing-utils';
 import * as sagas from '../../sagas/configSaga';
 import * as actions from '../../actions/configActions';
 import { callApi } from '../../utils/ApiUtils';

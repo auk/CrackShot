@@ -24,6 +24,31 @@ export function configReducer(state = initialState.config, action) {
         isConfigLoaded: false,
         error: action.error,
       };
+      case ACTIONS.FETCH_VERSION_REQUEST:
+      return {
+        ...state,
+        webapp: {
+          isFetching: true,
+          error: null,
+          // version: state.webapp.version,
+        }
+      }
+    case ACTIONS.FETCH_VERSION_SUCCESS:
+      return {
+        ...state,
+        webapp: {
+          isFetching: false,
+          version: action.payload.version,
+        }
+      }
+    case ACTIONS.FETCH_VERSION_FAILURE:
+      return {
+        ...state,
+        webapp: {
+          isFetching: false,
+          error: action.error, 
+        }
+      }
     default:
       return state;
   }

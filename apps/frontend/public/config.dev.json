@@ -27,6 +27,21 @@
     },
     "calculator": {
       "url": "/calculator"
+    },
+    "organizations": {
+      "url": "/organizations",
+      "api": {
+        "get": "{REST_URL}/organizations"
+      }
+    },
+    "organization": {
+      "url": "/organizations/{oid}",
+      "api": {
+        "get": "{REST_URL}/organization/{oid}",
+        "create": "{REST_URL}/organization",
+        "update": "{REST_URL}/organization/{oid}",
+        "delete": "{REST_URL}/organization/{oid}"
+      }
     }
   }
 }

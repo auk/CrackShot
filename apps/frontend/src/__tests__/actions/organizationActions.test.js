@@ -1,6 +1,6 @@
 import * as actions from '../../actions/organizationActions';
 import { isFSA } from 'flux-standard-action';
-import { createAction, createActions } from 'redux-actions';
+// import { createAction, createActions } from 'redux-actions';
 
 describe('Organizations actions', () => {
   describe('Get organizations', () => {
@@ -16,6 +16,7 @@ describe('Organizations actions', () => {
     test('fetch organizations success', () => {
       const action = actions.fetchOrganizationsSuccess( [ { id: '001', name: 'org'} ] );
       expect(isFSA(action)).toBeTruthy()
+      expect(actions.fetchOrganizationsSuccess.toString()).toEqual('FETCH_ORGANIZATIONS_SUCCESS');
       expect(action).toEqual({
         type: 'FETCH_ORGANIZATIONS_SUCCESS',
         payload: [
@@ -74,4 +75,7 @@ describe('Organizations actions', () => {
       })
     })
   })
+})
+
+describe('Organizations actions', () => {
 })

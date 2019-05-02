@@ -13,7 +13,7 @@ export const configWatcherSaga = [
  */
 export function* fetchConfig() {
   try {
-    const url = `${process.env.PUBLIC_URL}${process.env.NODE_ENV === 'development' ? '/config.dev.json' : '/config.prod.json' }`;
+    const url = `${process.env.PUBLIC_URL}${process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test' ? '/config.dev.json' : '/config.prod.json' }`;
 
     const response = yield call(callApi, { url, });
     yield put(actions.fetchConfigSuccess(replaceHost(response.data)));

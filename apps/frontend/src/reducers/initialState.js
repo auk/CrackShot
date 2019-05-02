@@ -37,4 +37,16 @@ export default {
     json: {}
   },
   locale: initializeLocale(),
+  organizations: {
+    isFetching: false,
+    error: null,
+    content: [],
+    requestParams: {
+      page: 0,
+      size: 20,
+      filter: { }
+    },
+    totalPages: 0,
+    sizePerPageList: [10, 20, 50, 100],
+  }
 }

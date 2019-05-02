@@ -19,6 +19,39 @@ let OrganizationForm = React.memo(props => {
             required={true}
           />
         </div>
+      </div>  
+      <div className="row">
+        <div className="col-md-12">
+          <Field name="texticon"
+            component={InputText}
+            label="Site"
+            placeholder='Web site'
+            icon='glyphicon glyphicon-home'
+            required={true}
+          />
+        </div>
+      </div>  
+      <div className="row">
+        <div className="col-md-12">
+          <Field name="texticon"
+            component={InputText}
+            label="E-mail"
+            placeholder='email'
+            icon='glyphicon glyphicon-envelope'
+            required={true}
+          />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-12">
+          <Field name="texticon"
+            component={InputText}
+            label="Phone"
+            placeholder='phone'
+            icon='glyphicon glyphicon-phone'
+            required={true}
+          />
+        </div>
       </div>
     </form>
   )

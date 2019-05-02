@@ -12,3 +12,14 @@ export const getHomeUrlSelector = state => state.config.links.home.url;
  */
 export const getAuthUrl = state => state.config.links.auth.url;
 export const getAuthSelector = state => state.auth;
+
+// Organization
+
+export const getOrganizationsUrl = state => state.config.links.organizations.api.get;
+
+export const getOrganizationUrl = state => state.config.links.organization.api.get;
+export const createOrganizationUrl = state => state.config.links.organization.api.create;
+export const deleteOrganizationUrl = state => state.config.links.organization.api.delete;
+export const updateOrganizationUrl = state => state.config.links.organization.api.update;
+
+export const getOrganizationsSelector = state => state.organizations;

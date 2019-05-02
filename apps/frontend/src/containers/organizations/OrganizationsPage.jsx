@@ -1,4 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+
 // import { Link } from 'react-router-dom';
 import { injectIntl, intlShape/*, FormattedMessage*/ } from 'react-intl';
 
@@ -8,6 +11,8 @@ import SmartStageResultForm from 'components/stage/SmartStageResultForm';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
 import { Enums } from '@startext/ipsc';
+import { fetchOrganizations } from 'actions/organizationActions';
+import { getLinksSelector, getOrganizationsSelector } from 'selectors';
 
 const messages = defaultMessage.home;
 const common = defaultMessage.common;
@@ -20,6 +25,11 @@ class OrganizatiosPage extends React.Component {
     this.state = {
       powerFactor: Enums.PowerFactors.MINOR
     };
+  }
+
+  componentDidMount() {
+    const { fetchOrganizations/*, organizations: {requestParams}*/ } = this.props;
+    fetchOrganizations(/*requestParams*/);
   }
 
   handleSubmit = data => {
@@ -63,6 +73,17 @@ class OrganizatiosPage extends React.Component {
 
 OrganizatiosPage.propTypes = {
   intl: intlShape.isRequired,
+  links: PropTypes.object.isRequired,
+  organizations: PropTypes.object.isRequired,
+  fetchOrganizations: PropTypes.func.isRequired
 }
 
-export default WithLayout(injectIntl(OrganizatiosPage));
+function mapStateToProps(state) {
+  // const { auth } = state;
+  return {
+    links: getLinksSelector(state),
+    organizations: getOrganizationsSelector(state),
+  };
+}
+
+export default WithLayout(connect(mapStateToProps, { fetchOrganizations })(injectIntl(OrganizatiosPage)));
