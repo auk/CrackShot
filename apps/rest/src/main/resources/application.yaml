@@ -1,0 +1,28 @@
+#server:
+#  ssl:
+#    enabled: ${SSL_ENABLED:false}
+#    hsts-enabled: ${SSL_HSTS_ENABLED:true}
+#    key-store: ${SSL_KEYSTORE:classpath:keystore.jks}
+#    key-store-password: ${SSL_KEYSTORE_PASSWORD:ssl-password-not-specified}
+#    key-alias: ${SSL_KEY_ALIAS:tomcat}
+#    key-password: ${SSL_KEY_PASSWORD:tomcat-password-not-specified}
+
+spring:
+  jackson:
+    serialization:
+      WRITE_DATES_AS_TIMESTAMPS: false
+  datasource:
+    driverClassName: ${REST_DB_DRIVER:org.h2.Driver}
+    url: ${REST_DB_URL:jdbc:h2:mem:~/stx-timetracker}
+    username: ${REST_DB_USERNAME:sa}
+    password: ${REST_DB_PASSWORD:}
+  jpa:
+    database-platform: ${REST_DB_PLATFORM:org.hibernate.dialect.H2Dialect}
+    hibernate:
+      ddl-auto: ${REST_DB_DDL_AUTO:update}
+
+stx:
+  rest:
+    admin:
+      username: ${REST_ADMIN_USERNAME:admin}
+      email: ${REST_ADMIN_EMAIL:admin@startext.ru}
