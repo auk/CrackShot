@@ -24,10 +24,10 @@ class Navigation extends Component {
       <nav className="navbar-default navbar-static-side">
         <ul className="nav metismenu" id="side-menu" ref="menu">
           <li className="nav-header _stx-nav-header">
-            <a href="/" className="_stx-navbar-brand">stx<b>Toggl</b></a>
+            <a href="/" className="_stx-navbar-brand"><b>Crack shot</b></a>
             <div className="_stx-nav-header-wrap">
               <UserMenuNav user_name={user_name} isAdmin={isAdmin} />
-              <div className="logo-element">ST+</div>
+              <div className="logo-element">CS+</div>
             </div>
           </li>
           <LinkContainer exact to={links.home.url}>
@@ -38,7 +38,7 @@ class Navigation extends Component {
           </LinkContainer>
           <LinkContainer exact to={links.calculator.url}>
             <NavItem>
-              <i className="fa fa-file-text" aria-hidden="true"></i>{' '}
+              <i className="fa fa-calculator" aria-hidden="true"></i>{' '}
               <FormattedMessage {...messages.navItem.calculator} />
             </NavItem>
           </LinkContainer>

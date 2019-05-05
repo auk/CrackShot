@@ -49,7 +49,7 @@ class App extends Component {
       <IntlProvider key={locale} {...intlData}>
         <AppConfig>
           {links && AdminPermission && UserPermission &&
-            createRoutes(history, links)
+            createRoutes(history, links, AdminPermission, UserPermission)
           }
         </AppConfig>
       </IntlProvider>

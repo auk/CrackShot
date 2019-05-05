@@ -37,6 +37,7 @@ export default {
     json: {}
   },
   locale: initializeLocale(),
+  auk: "test",
   organizations: {
     isFetching: false,
     error: null,

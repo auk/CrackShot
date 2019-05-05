@@ -14,7 +14,7 @@ let OrganizationForm = React.memo(props => {
           <Field name="texticon"
             component={InputText}
             label="Name"
-            placeholder='organization name'
+            placeholder='Organization name'
             icon='glyphicon glyphicon-home'
             required={true}
           />
@@ -24,9 +24,9 @@ let OrganizationForm = React.memo(props => {
         <div className="col-md-12">
           <Field name="texticon"
             component={InputText}
-            label="Site"
+            label="Web site"
             placeholder='Web site'
-            icon='glyphicon glyphicon-home'
+            icon='glyphicon glyphicon-globe'
             required={true}
           />
         </div>

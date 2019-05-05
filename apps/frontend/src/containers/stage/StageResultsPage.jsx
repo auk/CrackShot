@@ -9,8 +9,9 @@ import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
 import { Enums } from '@startext/ipsc';
 
-const messages = defaultMessage.home;
 const common = defaultMessage.common;
+const pageMessages = defaultMessage.pages.calculator;
+const navigationMessages = defaultMessage.navigation;
 
 class StageResultsPage extends React.Component {
 
@@ -31,20 +32,20 @@ class StageResultsPage extends React.Component {
     const crumbs = [
       {
         url: 'fake url',
-        icon: 'fa-bank',
+        icon: 'fa-home',
         text: common.breadcrumb.home,
       },
       {
         url: 'fake yrl 2',
-        icon: 'fa-pencil',
-        text: common.breadcrumb.about,
+        icon: 'fa-calculator',
+        text: navigationMessages.navItem.calculator,
       },
     ];
 
     return (
       <React.Fragment>
-        <Breadcrumbs header={messages.title} crumbs={crumbs} />
-        <Page title={formatMessage(messages.title)}>
+        <Breadcrumbs header={pageMessages.title} crumbs={crumbs} />
+        <Page title={formatMessage(pageMessages.title)}>
           <Page.ContainerWrap>
             <Page.Container size="col-md-6">
               <Page.Header><h5>Minor</h5></Page.Header>

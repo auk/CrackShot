@@ -4,7 +4,7 @@
   },
   "services": {
     "auth": "https://tt.startext.ru/TimeTracker-auth",
-    "rest": "http://127.0.0.1:8083"
+    "rest": "http://127.0.0.1:8080"
   },
   "roles": {
     "admin": [
@@ -17,7 +17,7 @@
       "url": "{AUTH_URL}/oauth/token"
     },
     "home": {
-      "url": "/"
+      "url": "/main"
     },
     "about": {
       "url": "/about"
@@ -35,12 +35,12 @@
       }
     },
     "organization": {
-      "url": "/organizations/{oid}",
+      "url": "/organization/:oid",
       "api": {
-        "get": "{REST_URL}/organization/{oid}",
+        "get": "{REST_URL}/organization/:oid",
         "create": "{REST_URL}/organization",
-        "update": "{REST_URL}/organization/{oid}",
-        "delete": "{REST_URL}/organization/{oid}"
+        "update": "{REST_URL}/organization/:oid",
+        "delete": "{REST_URL}/organization/:oid"
       }
     }
   }

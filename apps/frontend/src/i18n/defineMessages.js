@@ -2,6 +2,10 @@ import { defineMessages } from 'react-intl';
 
 export const defaultMessage = defineMessages({
   common: {
+    actions: {
+      id: 'common.actions',
+      defaultMessage: 'Actions'
+    },
     close: {
       id: 'common.close',
       description: 'Close button',
@@ -9,8 +13,23 @@ export const defaultMessage = defineMessages({
     },
     delete: {
       id: 'common.delete',
-      description: 'Delete button',
       defaultMessage: 'Delete'
+    },
+    id: {
+      id: 'common.id',
+      defaultMessage: 'ID'
+    },
+    id_fmt: {
+      id: 'pages.organizations.id',
+      defaultMessage: 'ID: {id}'
+    },
+    name: {
+      id: 'common.name',
+      defaultMessage: 'Name'
+    },
+    status: {
+      id: 'common.status',
+      defaultMessage: 'Status'
     },
     view: {
       id: 'common.view',
@@ -104,43 +123,35 @@ export const defaultMessage = defineMessages({
   navigation: {
     anonymous: {
       id: 'navigation.anonymous',
-      description: 'Anonymous user',
       defaultMessage: 'Anonymous'
     },
     guest: {
       id: 'navigation.guest',
-      description: 'Guest role',
       defaultMessage: 'Guest'
     },
     user: {
       id: 'navigation.user',
-      description: 'User role',
       defaultMessage: 'User'
     },
     admin: {
       id: 'navigation.admin',
-      description: 'Admin role',
       defaultMessage: 'Admin',
     },
     navItem: {
       home: {
         id: 'navigation.navItem.home',
-        description: 'Home navigation item',
         defaultMessage: 'Home'
       },
       about: {
         id: 'navigation.navItem.about',
-        description: 'About navigation item',
         defaultMessage: 'About'
       },
       calculator: {
         id: 'navigation.navItem.calculator',
-        description: 'Calculator navigation item',
         defaultMessage: 'Calculator'
       },
       organizations: {
         id: 'navigation.navItem.organizations',
-        description: 'Calculator navigation item',
         defaultMessage: 'Organizations'
       },
     }
@@ -166,7 +177,7 @@ export const defaultMessage = defineMessages({
     welcome: {
       id: 'loginpage.welcome',
       description: 'Welcome message to the user',
-      defaultMessage: 'Welcome in appName Project'
+      defaultMessage: 'Welcome in Crack shot Project'
     },
     description: {
       id: 'loginpage.description',
@@ -191,14 +202,14 @@ export const defaultMessage = defineMessages({
     title: {
       id: 'loginpage.title',
       description: 'Title for login page',
-      defaultMessage: 'appName | Login'
+      defaultMessage: 'Crack shot | Login'
     },
   },
   notFound: {
     title: {
       id: 'notFound.title',
       description: 'Title for 404 page',
-      defaultMessage: 'appName | Page not found'
+      defaultMessage: 'Crack shot | Page not found'
     },
     h3: {
       id: 'notFound.h3',
@@ -220,7 +231,7 @@ export const defaultMessage = defineMessages({
     welcome: {
       id: 'home.welcome',
       description: 'Welcome message to the user',
-      defaultMessage: 'Welcome in appName Project'
+      defaultMessage: 'Welcome in Crack shot Project'
     },
     about: {
       id: 'home.about',
@@ -230,7 +241,7 @@ export const defaultMessage = defineMessages({
     intro: {
       id: 'home.intro',
       description: 'Introductive message about the website',
-      defaultMessage: 'appName\'s time tracker is built for speed and ease of use. {br} Time logging with sxtToggl is so simple that you’ll actually use it.'
+      defaultMessage: 'Crack shot\'s time tracker is built for speed and ease of use. {br} Time logging with sxtToggl is so simple that you’ll actually use it.'
     },
     start: {
       id: 'home.start',
@@ -240,14 +251,13 @@ export const defaultMessage = defineMessages({
     title: {
       id: 'home.title',
       description: 'Title for Home page',
-      defaultMessage: 'appName | Home'
+      defaultMessage: 'Crack shot | Home'
     }
   },
   about: {
     title: {
       id: 'about.title',
-      description: 'Title for About page',
-      defaultMessage: 'appName | About'
+      defaultMessage: 'Crack shot | About'
     },
     h2: {
       id: 'about.h2',
@@ -255,4 +265,26 @@ export const defaultMessage = defineMessages({
       defaultMessage: 'About'
     }
   },
+  pages: {
+    calculator: {
+      title: {
+        id: 'pages.calculator.title',
+        defaultMessage: 'Crack shot | Calculator'
+      },
+      header: {
+        id: 'pages.calculator.header',
+        defaultMessage: 'Calculator'
+      }
+    },
+    organizations: {
+      title: {
+        id: 'pages.organizations.title',
+        defaultMessage: 'Crack shot | Organizations'
+      },
+      header: {
+        id: 'pages.organizations.header',
+        defaultMessage: 'Organizations'
+      }
+    }  
+  }
 })

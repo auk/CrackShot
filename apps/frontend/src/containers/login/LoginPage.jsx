@@ -45,7 +45,7 @@ class LoginPage extends Component {
       <DocumentTitle title={formatMessage(messages.title)}>
         <div className="flex-wrapper animated fadeInDown">
           <span className="company-name">startext</span>
-          <p className="logo-name">HiDA-X</p>
+          <p className="logo-name">Crack shot</p>
           <div className="middle-box text-center loginscreen">
             <h3><FormattedMessage {...messages.welcome} /></h3>
             <p><FormattedMessage {...messages.description} /></p>

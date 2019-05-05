@@ -7,16 +7,17 @@ import OrganizationsPage from 'containers/organizations/OrganizationsPage';
 import StageResultsPage from 'containers/stage/StageResultsPage';
 import NotFound from 'containers/notFound/NotFound';
 
-import { Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch, Redirect } from 'react-router-dom';
 
-export const createRoutes = (history, links) => (
+export const createRoutes = (history, links, AdminPermission, UserPermission) => (
   <Router history={history}>
   <Switch>
+    <Route exact path="/" render={() => <Redirect to={links.calculator.url} />} />
     <Route exact path={links.home.url} component={HomePage} />
     <Route exact path={links.about.url} component={AboutPage} />
     <Route exact path={links.calculator.url} component={StageResultsPage} />
     <Route exact path={links.login.url} component={LoginPage} />
-    <Route exact path={links.organizations.url} component={OrganizationsPage} />
+    <Route exact path={links.organizations.url} component={AdminPermission(OrganizationsPage)} />
     <Route path='*' component={NotFound} />
   </Switch>
   </Router>

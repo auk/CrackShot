@@ -13,8 +13,8 @@ let UserForm = React.memo(props => {
         <div className="col-md-12">
           <Field name="texticon"
             component={InputText}
-            label="Name"
-            placeholder='organization name'
+            label="Full name"
+            placeholder='Full name'
             icon='glyphicon glyphicon-home'
             required={true}
           />

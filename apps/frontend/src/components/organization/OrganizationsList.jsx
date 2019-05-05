@@ -10,12 +10,14 @@ import Paginate from 'components/common/paginate/Paginate';
 import ActionMenu from 'components/actionMenu/ActionMenu';
 import Table, { HeadItem } from 'components/common/table/Table';
 
-const messages = defaultMessage.Organizatios;
+const messages = defaultMessage.organizations;
 const common = defaultMessage.common;
 
 const OrganizationsList = props => {
   const { data, currentUser, links, oid, onSizeChange, onPageChange, intl: { formatMessage } } = props;
-  
+
+  console.log("OrganizationsList data:", JSON.stringify(data));
+
   return (
     <React.Fragment>
       <Table addClass="table-hover table-striped table-big">
@@ -32,38 +34,40 @@ const OrganizationsList = props => {
         </Table.Head>
         <Table.Body>
           {data.content.map((workspace) =>
-            <tr key={workspace.id} className={workspace.id === wid ? "active" : ""}>
+            <tr key={workspace.id} className={workspace.id === 'wid' ? "active" : ""}>
               <td className="project-status col-md-2 col-sm-2">
-                <span className={"label " + (workspace.ownerID === currentUser.id ? "label-info" : "label-default")}>
+                status_todo
+                {/* <span className={"label " + (workspace.ownerID === currentUser.id ? "label-info" : "label-default")}>
                   {workspace.ownerID === currentUser.id ? formatMessage(messages.own) : formatMessage(messages.invited)}
-                </span>
+                </span> */}
               </td>
               <td className="project-title col-md-8 col-sm-8">
-                <Link to={links.workspace.url.view.replace(/:wid/i, workspace.id)}>
-                  {workspace.name}
-                </Link>
+                {workspace.name}
+                {/* <Link to={links.workspace.url.view.replace(/:wid/i, workspace.id)}>
+                  name_todo{workspace.name}
+                </Link> */}
                 <br />
                 <small>
-                  <FormattedMessage {...messages.id} values={{ id: workspace.id }} />
+                  <FormattedMessage {...common.id_fmt} values={{ id: workspace.id }} />
                 </small>
               </td>
               <td className="project-actions col-md-2 col-sm-2">
                 <ActionMenu>
-                  {workspace.ownerID === currentUser.id &&
+                  {/* workspace.ownerID === currentUser.id &&
                     <LinkContainer to={links.workspaceUser.url.invite.replace(/:wid/i, workspace.id)}>
                       <MenuItem eventKey="invite">
                         <i className="fa fa-plus"></i>
                         <span><FormattedMessage {...common.invite} /></span>
                       </MenuItem>
                     </LinkContainer>
-                  }
-                  <LinkContainer to={links.workspace.url.view.replace(/:wid/i, workspace.id)}>
+                  */}
+                  <LinkContainer to={links.organization.url.replace(/:oid/i, workspace.id)}>
                     <MenuItem eventKey="view">
                       <i className="fa fa-eye"></i>
                       <span><FormattedMessage {...common.view} /></span>
                     </MenuItem>
                   </LinkContainer>
-                  {workspace.ownerID === currentUser.id &&
+                  {/*workspace.ownerID === currentUser.id &&
                     <LinkContainer to={links.workspace.url.edit.replace(/:wid/i, workspace.id)}>
                       <MenuItem eventKey="edit">
                         <i className="fa fa-pencil"></i>
@@ -71,7 +75,7 @@ const OrganizationsList = props => {
                       </MenuItem>
                     </LinkContainer>
                     
-                  }
+                  */}
                 </ActionMenu>
               </td>
             </tr>
@@ -92,7 +96,7 @@ const OrganizationsList = props => {
 
       {data.content.length === 0 && !data.isFetching &&
         <p>
-          <FormattedMessage {...messages.empty} />
+          TODO: Empty{/* <FormattedMessage {...messages.empty} /> */}
         </p>
       }
     </React.Fragment>

@@ -12,8 +12,6 @@ console.log('Store mode:', process.env.NODE_ENV);
 
 export default function configureStore() {
   const store = createStore(rootReducer, initialState, composeEnhancers(applyMiddleware(sagaMiddleware)));
-
   sagaMiddleware.run(rootSaga);
-
   return store;
 }

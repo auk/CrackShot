@@ -7,7 +7,7 @@ import { injectIntl, intlShape/*, FormattedMessage*/ } from 'react-intl';
 
 import WithLayout from 'containers/layouts/WithLayout';
 import Page from 'components/common/pageTemplate/Page';
-import SmartStageResultForm from 'components/stage/SmartStageResultForm';
+import OrganizationsList from 'components/organization/OrganizationsList';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
 import { Enums } from '@startext/ipsc';
@@ -16,6 +16,8 @@ import { getLinksSelector, getOrganizationsSelector } from 'selectors';
 
 const messages = defaultMessage.home;
 const common = defaultMessage.common;
+const navigationMessages = defaultMessage.navigation;
+const pageMessages = defaultMessage.pages.organizations;
 
 class OrganizatiosPage extends React.Component {
 
@@ -28,8 +30,8 @@ class OrganizatiosPage extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchOrganizations/*, organizations: {requestParams}*/ } = this.props;
-    fetchOrganizations(/*requestParams*/);
+    const { fetchOrganizations, organizations: {requestParams} } = this.props;
+    fetchOrganizations(requestParams);
   }
 
   handleSubmit = data => {
@@ -37,31 +39,31 @@ class OrganizatiosPage extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage } } = this.props;
+    const { organizations, links, intl: { formatMessage } } = this.props;
     const crumbs = [
       {
         url: 'fake url',
-        icon: 'fa-bank',
+        icon: 'fa-home',
         text: common.breadcrumb.home,
       },
       {
         url: 'fake yrl 2',
-        icon: 'fa-pencil',
-        text: common.breadcrumb.about,
+        icon: 'fa-globe',
+        text: navigationMessages.navItem.organizations,
       },
     ];
 
     return (
       <React.Fragment>
-        <Breadcrumbs header={messages.title} crumbs={crumbs} />
-        <Page title={formatMessage(messages.title)}>
+        <Breadcrumbs header={pageMessages.title} crumbs={crumbs} />
+        <Page title={formatMessage(pageMessages.title)}>
           <Page.ContainerWrap>
             <Page.Container size="col-md-6">
-              <Page.Header><h5>Minor</h5></Page.Header>
+              <Page.Header><h5>{formatMessage(pageMessages.header)}</h5></Page.Header>
               <Page.Content>
-              <SmartStageResultForm
-                  powerFactor={Enums.PowerFactors.MINOR}
-                />
+                <OrganizationsList
+                  data={organizations}
+                  links={links}/>
               </Page.Content>
             </Page.Container>
           </Page.ContainerWrap>
@@ -79,7 +81,6 @@ OrganizatiosPage.propTypes = {
 }
 
 function mapStateToProps(state) {
-  // const { auth } = state;
   return {
     links: getLinksSelector(state),
     organizations: getOrganizationsSelector(state),

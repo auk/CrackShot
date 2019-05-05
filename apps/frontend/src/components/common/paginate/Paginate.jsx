@@ -3,8 +3,11 @@ import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 import Select from 'react-select';
 
-import 'react-select/dist/react-select.css';
 import './style.css'
+
+const selectorStyle = {
+  control: base => ({ ...base, width: 85 })
+}
 
 const Paginate = (props) => {
   const { sizePerPageList, pageCount, onPageChange, forcePage, pageSize, onSizeChange } = props;
@@ -18,7 +21,7 @@ const Paginate = (props) => {
         <ReactPaginate
           previousLabel={"‹"}
           nextLabel={"›"}
-          breakLabel={<a href="">...</a>}
+          breakLabel={<span>...</span>}
           breakClassName={"break-me"}
           pageCount={pageCount}
           marginPagesDisplayed={2}
@@ -32,9 +35,10 @@ const Paginate = (props) => {
       <div className="col-sm-6 pull-right">
         <Select className="pull-right paginate-select"
           name="size"
-          clearable={false}
-          style={{ width: '75px' }}
-          value={pageSize}
+          isSearchable={false}
+          styles={selectorStyle}
+          menuPlacement="top"
+          value={{ label: pageSize.toString(), value: pageSize }}
           onChange={onSizeChange}
           options={options}
         />

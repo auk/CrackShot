@@ -1,0 +1,13 @@
+#actionsDropdown{
+  max-width: 50px;
+  background-color: inherit;
+}
+
+.actions-menu i {
+  padding-right: 10px;
+  font-size: 14px;
+}
+
+i.toggle-icon {
+  font-size: 18px;
+}
