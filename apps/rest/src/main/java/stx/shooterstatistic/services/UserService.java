@@ -30,6 +30,12 @@ public class UserService {
     return userRepository.save(user);
   }
 
+  public User createUser(User user) {
+    Objects.requireNonNull(user);
+//    checkUserExist(user.getUsername());
+    return userRepository.save(user);
+  }
+
   public void deleteUser(@NotNull SecurityContext context, User user) {
     Objects.requireNonNull(context);
     Objects.requireNonNull(user);

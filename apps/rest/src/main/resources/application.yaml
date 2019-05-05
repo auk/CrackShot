@@ -21,6 +21,22 @@ spring:
     hibernate:
       ddl-auto: ${REST_DB_DDL_AUTO:update}
 
+security:
+  cors.origin: '*'
+  oauth2:
+    resource:
+      jwt:
+        keyValue: |
+          -----BEGIN PUBLIC KEY-----
+          MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAltt/MzKpEH7BXhGEoRwj
+          np+M8WP0pLZIoa4Izvq9fmt3c7GwGswRh7SHGQbPIOA+dKwJjUO5lrN8LZ/2eSrC
+          RLj9cU/4WKT+KoEgPneZHJgHwaoxKUA5tZWjTjNQKiMdHK42ExbE/8HTS4ODfJIW
+          6bOBIqiPtqilbCB1DgoOmA9lNGuj0N+n2RJWBM39sKTTC+HK5WTMudQB3xaNlJhO
+          KUa6guYzK6j11Gh3kSpY+x9Rlz8KO5HVbNiT50pY0sgZYJhwh5NUceU5IZgjRxuH
+          4mWeNVaz/F6hACN34y/R8uPfcvKXCfEyhDeR8qH9KZ6jmJclJzcyNksFh6EwN+G2
+          kQIDAQAB
+          -----END PUBLIC KEY-----
+
 stx:
   rest:
     admin:

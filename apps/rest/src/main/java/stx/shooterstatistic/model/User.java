@@ -9,13 +9,15 @@ import java.util.Objects;
 @Entity
 public class User extends AbstractEntity {
 
-  String username;
+  private String username;
 
-  String email;
+  private String email;
 
-  String name;
+  private String name;
 
-  String phone;
+  private String phone;
+
+  private String source;
 
   protected User() {
   }
@@ -50,6 +52,14 @@ public class User extends AbstractEntity {
 
   public void setPhone(String phone) {
     this.phone = phone;
+  }
+
+  public String getSource() {
+    return source;
+  }
+
+  public void setSource(String source) {
+    this.source = source;
   }
 
   public String getUsername() {

@@ -30,6 +30,30 @@ public class Organization extends AbstractEntity {
     this.name = Objects.requireNonNull(name);
   }
 
+  public String getOwner() {
+    return owner;
+  }
+
+  public void setOwner(String owner) {
+    this.owner = owner;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Collection<Training> getTrainings() {
+    return trainings;
+  }
+
+  public void setTrainings(Collection<Training> trainings) {
+    this.trainings = trainings;
+  }
+
   public List<UserMembership> getUserMemberships() {
     return userMemberships;
   }
