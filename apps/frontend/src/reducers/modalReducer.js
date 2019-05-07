@@ -19,10 +19,10 @@ import initialState from '../reducers/initialState';
 
 export const reducer = handleActions({
   [ actions.showModal.toString() ]: (state, action) => {
-    // console.log("modalReducer.showModal");
+    // console.log("modalReducer.showModal, action:", JSON.stringify(action));
     return {
       ...state,
-      ...action.modal
+      ...action.payload
     };
   },
   [ actions.hideModal.toString() ]: (state, action) => {

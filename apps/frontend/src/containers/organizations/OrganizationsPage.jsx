@@ -49,7 +49,7 @@ class OrganizatiosPage extends React.Component {
         userName: 'Alexey Ukhov',
       }
     };
-    showModal(modal);
+    this.props.showModal(modal);
   }
 
   render() {

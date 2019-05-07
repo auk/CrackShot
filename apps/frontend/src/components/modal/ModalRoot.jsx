@@ -8,8 +8,6 @@ const MODAL_COMPONENTS = {
 }
 
 const ModalRoot = ({ modalType, modalProps }) => {
-  console.log("ModalRoot [1] type:", modalType, ", props: ", modalProps);
-
   if (!modalType) {
     return <span />
   }
