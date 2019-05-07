@@ -13,6 +13,18 @@ describe('Organizations actions', () => {
       })
     })
 
+    test('fetch organizations', () => {
+      expect(actions.fetchOrganizations({ page: 1, sort: 'name' })).toEqual({
+        type: 'FETCH_ORGANIZATIONS',
+        payload: {
+          requestParams: {
+            page: 1,
+            sort: 'name'
+          },
+        }
+      })
+    })
+
     test('fetch organizations success', () => {
       const action = actions.fetchOrganizationsSuccess( [ { id: '001', name: 'org'} ] );
       expect(isFSA(action)).toBeTruthy()
@@ -45,9 +57,7 @@ describe('Organizations actions', () => {
     test('fetch organization', () => {
       expect(actions.fetchOrganization('id-555')).toEqual({
         type: 'FETCH_ORGANIZATION',
-        payload: {
-          oid: 'id-555'
-        }
+        payload: 'id-555'
       })
     })
 

@@ -8,8 +8,11 @@ export const defaultMessage = defineMessages({
     },
     close: {
       id: 'common.close',
-      description: 'Close button',
       defaultMessage: 'Close'
+    },
+    create: {
+      id: 'common.create',
+      defaultMessage: 'Create'
     },
     delete: {
       id: 'common.delete',
@@ -45,11 +48,6 @@ export const defaultMessage = defineMessages({
       id: 'common.search',
       description: 'Search button',
       defaultMessage: 'Search'
-    },
-    create: {
-      id: 'common.create',
-      description: 'Create button',
-      defaultMessage: 'Create'
     },
     add: {
       id: 'common.add',
@@ -101,6 +99,12 @@ export const defaultMessage = defineMessages({
         description: 'About breadcrumb item',
         defaultMessage: 'About'
       },
+    },
+  },
+  organization: {
+    create: {
+      id: 'organization.create',
+      defaultMessage: 'Create organization'
     },
   },
   footer: {

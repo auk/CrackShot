@@ -7,16 +7,21 @@ import initialState from '../../reducers/initialState';
 
 describe('Organization reducer', () => {
   test('should return the initial state', () => {
-    expect(organizationReducer(undefined, {})).toEqual(initialState)
-    expect(organizationReducer(undefined, { id: 'fake' })).toEqual(initialState)
-    expect(organizationReducer(undefined, initialState)).toEqual(initialState)
+    expect(organizationReducer(undefined, {})).toEqual(initialState.organizations)
+    expect(organizationReducer(undefined, { id: 'fake' })).toEqual(initialState.organizations)
+    expect(organizationReducer(undefined, initialState.organizations)).toEqual(initialState.organizations)
   })
 
   test('should handle FETCH_ORGANIZATIONS', () => {
     const action = actions.fetchOrganizations();
     expect(isFSA(action)).toBeTruthy()
+    expect(organizationReducer({}, action)).toEqual({ error: null, isFetching: true });
+  })
 
-    expect(organizationReducer({}, action)).toEqual({ content: null, error: null, isFetching: true });
+  test('should handle FETCH_ORGANIZATIONS with params', () => {
+    const action = actions.fetchOrganizations({ page: 1, sort: 'name'});
+    expect(isFSA(action)).toBeTruthy()
+    expect(organizationReducer({}, action)).toEqual({ error: null, isFetching: true });
   })
 
   test('should handle FETCH_ORGANIZATIONS_SUCCESS', () => {
@@ -26,8 +31,17 @@ describe('Organization reducer', () => {
     ]
     const action = actions.fetchOrganizationsSuccess(payload);
     expect(isFSA(action)).toBeTruthy()
-
     expect(organizationReducer({}, action)).toEqual({ content: payload, error: null, isFetching: false });
+  })
+
+  test('should handle FETCH_ORGANIZATIONS_SUCCESS ex', () => {
+    const payload = [
+      { id: 1, name: 'Org 1' },
+      { id: 2, name: 'Org 2' }
+    ]
+    const action = actions.fetchOrganizationsSuccess({ content: payload });
+    expect(isFSA(action)).toBeTruthy()
+    expect(organizationReducer({}, action)).toEqual({ content: { content: payload }, error: null, isFetching: false });
   })
 
   test('should handle FETCH_ORGANIZATIONS_ERROR', () => {
@@ -35,13 +49,13 @@ describe('Organization reducer', () => {
     const action = actions.fetchOrganizationsError(payload);
     expect(isFSA(action)).toBeTruthy()
 
-    expect(organizationReducer({}, action)).toEqual({ content: null, error: payload, isFetching: false });
+    expect(organizationReducer({}, action)).toEqual({ error: payload, isFetching: false });
   })
 
   test('should handle FETCH_ORGANIZATION', () => {
     const action = actions.fetchOrganization({ id: '001' });
     expect(isFSA(action)).toBeTruthy()
-    expect(organizationReducer({}, action)).toEqual({ content: null, error: null, isFetching: true });
+    expect(organizationReducer({}, action)).toEqual({ error: null, isFetching: true });
   })
 
   test('should handle FETCH_ORGANIZATION_SUCCESS', () => {

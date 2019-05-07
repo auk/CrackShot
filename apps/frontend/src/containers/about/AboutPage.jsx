@@ -18,20 +18,24 @@ const AboutPage = (props) => {
   }];
 
   return (
-    <Page title={formatMessage(messages.title)}>
-      <Breadcrumbs header={messages.h2} crumbs={crumbs} />
-      <Page.Container>
-        <Page.Header>
-          <h5><FormattedMessage {...messages.h2} /></h5>
-        </Page.Header>
-        <Page.Content>
-          <div className="text-center m-t-lg">
-            <h1>Sample example of second view</h1>
-            <small>Written in Minor.js component</small>
-          </div>
-        </Page.Content>
-      </Page.Container>
-    </Page>
+    <React.Fragment>
+      <Breadcrumbs header={messages.title} crumbs={crumbs} />
+      <Page title={formatMessage(messages.title)}>
+        <Page.ContainerWrap>
+          <Page.Container size="col-md-12">
+          <Page.Header>
+              <h5><FormattedMessage {...messages.h2} /></h5>
+            </Page.Header>
+            <Page.Content>
+            <div className="text-center m-t-lg">
+                <h1>Sample example of second view</h1>
+                <small>Written in Minor.js component</small>
+              </div>
+            </Page.Content>
+          </Page.Container>
+        </Page.ContainerWrap>
+      </Page>
+    </React.Fragment>
   )
 }
 

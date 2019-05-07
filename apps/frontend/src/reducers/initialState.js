@@ -36,8 +36,11 @@ export default {
     error: null,
     json: {}
   },
+  modal: {
+    modalType: null,
+    modalProps: {},
+  },
   locale: initializeLocale(),
-  auk: "test",
   organizations: {
     isFetching: false,
     error: null,

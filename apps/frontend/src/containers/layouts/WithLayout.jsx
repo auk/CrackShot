@@ -9,6 +9,7 @@ import Navigation from 'components/common/navigation/Navigation';
 import Progress from 'components/common/progress/Progress';
 import Header from 'components/common/header/Header';
 import Footer from 'components/common/footer/Footer';
+import ModalRoot from 'components/modal/ModalRoot';
 import { logout } from 'actions/authActions';
 import * as selectors from 'selectors';
 
@@ -66,6 +67,7 @@ const WithLayout = WrappedComponent => {
       return (
         <div id="wrapper">
           <Progress />
+          <ModalRoot />
           <Navigation links={links} 
             user_name={user_name} 
             isAdmin={isAdmin} 

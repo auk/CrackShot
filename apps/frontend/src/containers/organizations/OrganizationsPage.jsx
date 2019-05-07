@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-// import { Link } from 'react-router-dom';
-import { injectIntl, intlShape/*, FormattedMessage*/ } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { Link } from 'react-router-dom';
 
 import WithLayout from 'containers/layouts/WithLayout';
 import Page from 'components/common/pageTemplate/Page';
@@ -13,8 +13,8 @@ import { defaultMessage } from 'i18n/defineMessages';
 import { Enums } from '@startext/ipsc';
 import { fetchOrganizations } from 'actions/organizationActions';
 import { getLinksSelector, getOrganizationsSelector } from 'selectors';
+import { showModal } from 'actions/modalActions';
 
-const messages = defaultMessage.home;
 const common = defaultMessage.common;
 const navigationMessages = defaultMessage.navigation;
 const pageMessages = defaultMessage.pages.organizations;
@@ -38,6 +38,20 @@ class OrganizatiosPage extends React.Component {
     console.log('handleSubmit', data);
   }
 
+  handleCreateOrganization = e => {
+    e.preventDefault();
+    console.log('handleCreateOrganization');
+
+    const modal = {
+      modalType: 'CREATE_ORGANIZATION',
+      modalProps: {
+        userId: 'auk',
+        userName: 'Alexey Ukhov',
+      }
+    };
+    showModal(modal);
+  }
+
   render() {
     const { organizations, links, intl: { formatMessage } } = this.props;
     const crumbs = [
@@ -58,8 +72,20 @@ class OrganizatiosPage extends React.Component {
         <Breadcrumbs header={pageMessages.title} crumbs={crumbs} />
         <Page title={formatMessage(pageMessages.title)}>
           <Page.ContainerWrap>
-            <Page.Container size="col-md-6">
-              <Page.Header><h5>{formatMessage(pageMessages.header)}</h5></Page.Header>
+            <Page.Container size="col-md-12">
+              <Page.Header>
+                <h5>{formatMessage(pageMessages.header)}</h5>
+                <Page.Tools>
+                  <Link to={links.organizations.url} className="btn btn-primary btn-xs">
+                    <FormattedMessage {...common.create} />
+                  </Link>
+                  <span className="input-group-btn">
+                    <button type="button" className='btn btn-primary btn-xs active' onClick={this.handleCreateOrganization}>
+                      <FormattedMessage {...common.create} />
+                    </button>
+                  </span>
+                </Page.Tools>
+              </Page.Header>
               <Page.Content>
                 <OrganizationsList
                   data={organizations}
@@ -87,4 +113,9 @@ function mapStateToProps(state) {
   };
 }
 
-export default WithLayout(connect(mapStateToProps, { fetchOrganizations })(injectIntl(OrganizatiosPage)));
+const mapDispatchToProps = {
+  fetchOrganizations,
+  showModal,
+}
+
+export default WithLayout(connect(mapStateToProps, mapDispatchToProps)(injectIntl(OrganizatiosPage)));
