@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 
 import { InputText } from '@startext/react-components';
+import Validate from './validate';
 
 let OrganizationForm = React.memo(props => {
   const { handleSubmit } = props;
@@ -11,7 +12,7 @@ let OrganizationForm = React.memo(props => {
     <form className="form-horizontal" onSubmit={handleSubmit}>
       <div className="row">
         <div className="col-md-12">
-          <Field name="texticon"
+          <Field name="name"
             component={InputText}
             label="Name"
             placeholder='Organization name'
@@ -22,7 +23,7 @@ let OrganizationForm = React.memo(props => {
       </div>  
       <div className="row">
         <div className="col-md-12">
-          <Field name="texticon"
+          <Field name="site"
             component={InputText}
             label="Web site"
             placeholder='Web site'
@@ -33,7 +34,7 @@ let OrganizationForm = React.memo(props => {
       </div>  
       <div className="row">
         <div className="col-md-12">
-          <Field name="texticon"
+          <Field name="email"
             component={InputText}
             label="E-mail"
             placeholder='email'
@@ -44,7 +45,7 @@ let OrganizationForm = React.memo(props => {
       </div>
       <div className="row">
         <div className="col-md-12">
-          <Field name="texticon"
+          <Field name="phone"
             component={InputText}
             label="Phone"
             placeholder='phone'
@@ -63,7 +64,7 @@ OrganizationForm.propTypes = {
 
 OrganizationForm = reduxForm({
   form: 'OrganizationForm',
-  // validate: Validate,
+  validate: Validate,
   enableReinitialize: true,
   touchOnBlur: false,
 })(OrganizationForm);

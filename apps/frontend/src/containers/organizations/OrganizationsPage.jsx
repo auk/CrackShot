@@ -16,6 +16,7 @@ import { getLinksSelector, getOrganizationsSelector } from 'selectors';
 import { showModal } from 'actions/modalActions';
 
 const common = defaultMessage.common;
+const organizationMessages = defaultMessage.organization;
 const navigationMessages = defaultMessage.navigation;
 const pageMessages = defaultMessage.pages.organizations;
 
@@ -76,12 +77,9 @@ class OrganizatiosPage extends React.Component {
               <Page.Header>
                 <h5>{formatMessage(pageMessages.header)}</h5>
                 <Page.Tools>
-                  <Link to={links.organizations.url} className="btn btn-primary btn-xs">
-                    <FormattedMessage {...common.create} />
-                  </Link>
                   <span className="input-group-btn">
                     <button type="button" className='btn btn-primary btn-xs active' onClick={this.handleCreateOrganization}>
-                      <FormattedMessage {...common.create} />
+                      <FormattedMessage {...organizationMessages.create} />
                     </button>
                   </span>
                 </Page.Tools>

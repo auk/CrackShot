@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import { FormattedMessage} from 'react-intl';
 
+import OrganizationForm from 'components/organization/OrganizationForm';
+
 import { hideModal } from 'actions/modalActions';
 // import { revokeUser } from 'actions/workspaceUsersActions';
 import { defaultMessage } from 'i18n/defineMessages';
@@ -18,17 +20,17 @@ const CreateOrganizationModal = ({ user, wid, dispatch }) => (
       </Modal.Title>
     </Modal.Header>
     <Modal.Body>
-      <p className="m-b-n"><FormattedMessage {...messages.text}/> <b>{user.name}</b>?</p>
+      <OrganizationForm/>
     </Modal.Body>
     <Modal.Footer>
       <button className="btn btn-primary" onClick={() => {
         // dispatch(revokeUser(wid, user.id));
         dispatch(hideModal());
       }}>
-        <FormattedMessage {...common.yes}/>
+        <FormattedMessage {...common.create}/>
       </button>
       <button className="btn btn-white" onClick={() => dispatch(hideModal())}>
-        <FormattedMessage {...common.no}/>
+        <FormattedMessage {...common.cancel}/>
       </button>
     </Modal.Footer>
   </Modal>
@@ -36,6 +38,11 @@ const CreateOrganizationModal = ({ user, wid, dispatch }) => (
 
 export default connect(
   (state, ownProps) => ({
-    user: { id: ownProps.userId, name: ownProps.userName }
+    user: { id: ownProps.userId, name: ownProps.userName },
+    validate: (values, props) => {
+      console.log("values: ", values, ", props:", props)
+      return { name: "required" };
+    }
+
   })
 )(CreateOrganizationModal)
