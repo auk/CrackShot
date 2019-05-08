@@ -3,15 +3,45 @@
     "version": "0.0.0"
   },
   "services": {
-    "auth": "http://127.0.0.1:9999",
-    "rest": "http://127.0.0.1:8083"
+    "auth": "https://tt.startext.ru/TimeTracker-auth",
+    "rest": "/CrackShot-rest"
+  },
+  "roles": {
+    "admin": [
+      "ROLE_TimeTracker"
+    ],
+    "user": []
   },
   "links": {
     "auth": {
-      "url": "{AUTH_URL}/uaa/oauth/token"
+      "url": "{AUTH_URL}/oauth/token"
     },
     "home": {
-      "url": "/"
+      "url": "/main"
+    },
+    "about": {
+      "url": "/about"
+    },
+    "login": {
+      "url": "/login"
+    },
+    "calculator": {
+      "url": "/calculator"
+    },
+    "organizations": {
+      "url": "/organizations",
+      "api": {
+        "get": "{REST_URL}/organizations"
+      }
+    },
+    "organization": {
+      "url": "/organization/:oid",
+      "api": {
+        "get": "{REST_URL}/organization/:oid",
+        "create": "{REST_URL}/organization",
+        "update": "{REST_URL}/organization/:oid",
+        "delete": "{REST_URL}/organization/:oid"
+      }
     }
   }
 }

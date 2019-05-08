@@ -1,7 +1,7 @@
 {
   "name": "react-inspinia-starter-kit",
   "version": "0.0.1",
-  "homepage": "/",
+  "homepage": "/CrackShot",
   "private": true,
   "dependencies": {
     "@startext/ipsc": "^0.0.5",
@@ -49,6 +49,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
+    "testci": "react-scripts test --env=jsdom --modulePaths=src --watchAll=false",
     "eject": "react-scripts eject"
   },
   "browserslist": [

@@ -1,0 +1,74 @@
+plugins {
+  id "com.moowork.node" version "1.2.0"
+}
+
+import groovy.json.JsonSlurper
+import org.apache.tools.ant.taskdefs.condition.Os
+
+apply plugin: 'war'
+apply plugin: 'com.moowork.node'
+
+buildDir='buildGradle'
+
+node {
+  download = true
+  version = '10.15.3'
+}
+
+war {
+  webAppDirName = 'build'
+  archiveName = 'CrackShot.war'
+  webInf { from 'WEB-INF' } // adds a file-set to the WEB-INF dir.
+}
+
+clean{
+  delete 'build'
+  delete 'buildGradle'
+  delete 'node_modules'
+}
+
+task appNpmInstall(type: Exec) {
+  description 'Grab NodeJS dependencies (from package.json)'
+  if(Os.isFamily(Os.FAMILY_WINDOWS)) {
+    commandLine 'cmd', '/c', 'npm', 'install'
+  } else {
+    commandLine 'npm', 'install'
+  }
+  doLast {
+    println '==================================================='
+    println '1. Installs dependencies from package.json - done!'
+    println '==================================================='
+  }
+}
+
+task appNpmBuild(dependsOn: appNpmInstall, type: NpmTask) {
+  args = ['run', 'build']
+  doLast {
+    println '======================================='
+    println '2. Create build for production - done!'
+    println '======================================='
+  }
+}
+
+tasks.build.dependsOn("appNpmBuild") 
+
+task appNpmTest(dependsOn: appNpmInstall, type: NpmTask) {
+  args = ['run', 'testci']
+}
+
+tasks.test.dependsOn("appNpmTest")
+
+task copyNodeWar(type: Copy) {
+  dependsOn build
+
+  def currentTask = it
+  plugins.withType(WarPlugin) {
+    println "* war: ${war.destinationDir}"
+    from (war.destinationDir) {
+      include '*.war'
+    }
+    into new File(rootProject.buildDir, project.version)
+    project.tasks.build.finalizedBy currentTask
+    rename "(.)-${war.version}.war", '$1.war'
+  }
+}
