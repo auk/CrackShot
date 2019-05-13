@@ -3,8 +3,21 @@ import { handleActions, combineActions } from 'redux-actions';
 import * as actions from '../actions/organizationActions';
 import initialState from '../reducers/initialState';
 
+const handleRequest = state => ({ ...state, isFetching: true, error: null });
+const handleRequestSuccess = (state, action) => ({ ...state, isFetching: false, content: action.payload, error: null });
+const handlePageableRequestSuccess = (state, action) => ({ 
+  ...state,
+  isFetching: false,
+  totalPages: action.payload.totalPages,
+  requestParams: action.payload.requestParams,
+  content: action.payload.content,
+  error: null
+});
+const handleRequestError = (state, error) => ({ ...state, isFetching: false, error: error.payload });
+
 export const reducer = handleActions({
-  [ combineActions(actions.fetchOrganizations, actions.fetchOrganization) ]: state => ({ ...state, isFetching: true, error: null }),
-  [ combineActions(actions.fetchOrganizationsSuccess, actions.fetchOrganizationSuccess) ]: (state, action) => ({ ...state, isFetching: false, content: action.payload.content, error: null }),
-  [ combineActions(actions.fetchOrganizationsError, actions.fetchOrganizationError) ]: (state, action) => ({ ...state, isFetching: false, error: action.payload })
+  [ combineActions(actions.fetchOrganizations, actions.createOrganization, actions.fetchOrganization) ]: handleRequest,
+  [ combineActions(actions.fetchOrganizationsSuccess) ]: handlePageableRequestSuccess,
+  [ combineActions(actions.createOrganizationSuccess, actions.fetchOrganizationSuccess) ]: handleRequestSuccess,
+  [ combineActions(actions.fetchOrganizationsError, actions.createOrganizationError, actions.fetchOrganizationError) ]: handleRequestError
 }, initialState.organizations);

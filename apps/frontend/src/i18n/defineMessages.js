@@ -106,6 +106,10 @@ export const defaultMessage = defineMessages({
       id: 'organization.create',
       defaultMessage: 'Create organization'
     },
+    name: {
+      id: 'organization.name',
+      defaultMessage: 'Name'
+    },
   },
   footer: {
     version: {

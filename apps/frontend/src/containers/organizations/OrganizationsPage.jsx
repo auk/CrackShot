@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import { Link } from 'react-router-dom';
 
 import WithLayout from 'containers/layouts/WithLayout';
 import Page from 'components/common/pageTemplate/Page';
@@ -35,22 +34,39 @@ class OrganizatiosPage extends React.Component {
     fetchOrganizations(requestParams);
   }
 
-  handleSubmit = data => {
-    console.log('handleSubmit', data);
-  }
-
   handleCreateOrganization = e => {
     e.preventDefault();
-    console.log('handleCreateOrganization');
 
     const modal = {
       modalType: 'CREATE_ORGANIZATION',
       modalProps: {
-        userId: 'auk',
-        userName: 'Alexey Ukhov',
+        resetText: this.props.intl.formatMessage(common.reset),
+        submitText: this.props.intl.formatMessage(common.create)
       }
     };
     this.props.showModal(modal);
+  }
+
+  onSizeChange = (size) => {
+    // const { clients: { requestParams } } = this.props;
+    // const newRequestParams = { ...requestParams, size: size.value, page: 0 };
+    // this.refetchData(newRequestParams);
+  }
+
+  onPageChange = (page) => {
+    // const { clients: { requestParams } } = this.props;
+    // const newRequestParams = { ...requestParams, page: page.selected };
+    // this.refetchData(newRequestParams);
+  };
+
+  onSortChange = (field, order) => {
+    // const { clients: { requestParams } } = this.props;
+    // const newRequestParams = {
+    //   ...requestParams,
+    //   sortField: field,
+    //   sortOrder: order,
+    // };
+    // this.refetchData(newRequestParams);
   }
 
   render() {
@@ -87,7 +103,10 @@ class OrganizatiosPage extends React.Component {
               <Page.Content>
                 <OrganizationsList
                   data={organizations}
-                  links={links}/>
+                  links={links}
+                  onSizeChange={this.onSizeChange}
+                  onPageChange={this.onPageChange}
+                  onSortChange={this.onSortChange}/>
               </Page.Content>
             </Page.Container>
           </Page.ContainerWrap>

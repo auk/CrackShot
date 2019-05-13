@@ -29,7 +29,7 @@ describe('Organization reducer', () => {
       { id: 1, name: 'Org 1' },
       { id: 2, name: 'Org 2' }
     ]
-    const action = actions.fetchOrganizationsSuccess(payload);
+    const action = actions.fetchOrganizationsSuccess({ content: payload });
     expect(isFSA(action)).toBeTruthy()
     expect(organizationReducer({}, action)).toEqual({ content: payload, error: null, isFetching: false });
   })
@@ -41,7 +41,7 @@ describe('Organization reducer', () => {
     ]
     const action = actions.fetchOrganizationsSuccess({ content: payload });
     expect(isFSA(action)).toBeTruthy()
-    expect(organizationReducer({}, action)).toEqual({ content: { content: payload }, error: null, isFetching: false });
+    expect(organizationReducer({}, action)).toEqual({ content: payload, error: null, isFetching: false });
   })
 
   test('should handle FETCH_ORGANIZATIONS_ERROR', () => {

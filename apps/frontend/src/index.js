@@ -6,6 +6,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { createBrowserHistory } from 'history';
 import { Provider } from 'react-redux';
+import ReduxToastr from 'react-redux-toastr'
 
 import configureStore from './store/configureStore';
 import App from './containers/app/App';
@@ -32,6 +33,15 @@ const store = configureStore();
 ReactDOM.render(
   <Provider store={store}>
     <App history={history} />
+    <ReduxToastr
+        position="bottom-right"
+        timeOut={3000}
+        closeButton={true}
+        showDuration={0}
+        transitionIn="fadeIn"
+        transitionOut="fadeOut"
+        className='inspinia'
+      />
   </Provider>,
   document.getElementById('root')
 );

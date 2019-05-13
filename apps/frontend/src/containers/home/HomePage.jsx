@@ -24,10 +24,6 @@ class HomePage extends React.Component {
     };
   }
 
-  handleSubmit = data => {
-    console.log('handleSubmit', data);
-  }
-
   render() {
     const { intl: { formatMessage } } = this.props;
     const crumbs = [

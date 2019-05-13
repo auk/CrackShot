@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { reducer as reduxFormReducer } from 'redux-form';
+import { reducer as toastrReducer } from 'react-redux-toastr';
 
 import { authReducer } from 'reducers/authReducer';
 import { configReducer } from 'reducers/configReducer';
@@ -13,7 +14,8 @@ const rootReducer = combineReducers({
   form: reduxFormReducer,
   locale: localeReducer,
   modal: modalReducer,
-  organizations: organizationsReducer
+  organizations: organizationsReducer,
+  toastr: toastrReducer,
 });
 
 export default rootReducer;

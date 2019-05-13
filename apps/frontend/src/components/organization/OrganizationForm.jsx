@@ -6,7 +6,7 @@ import { InputText } from '@startext/react-components';
 import Validate from './validate';
 
 let OrganizationForm = React.memo(props => {
-  const { handleSubmit } = props;
+  const { handleReset, handleSubmit, resetBtnText, submitBtnText } = props;
 
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
@@ -54,6 +54,16 @@ let OrganizationForm = React.memo(props => {
           />
         </div>
       </div>
+
+      <div className="hr-line-dashed"></div>
+
+      <div className="form-group">
+        <div className="col-sm-10">
+          <button type="submit" className="btn btn-primary" onClick={handleSubmit}>{submitBtnText}</button>
+          <button type="button" className="btn btn-white" onClick={handleReset}>{resetBtnText}</button>
+        </div>
+      </div>
+
     </form>
   )
 })

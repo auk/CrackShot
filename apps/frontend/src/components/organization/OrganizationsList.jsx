@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { LinkContainer } from 'react-router-bootstrap';
 import { MenuItem } from 'react-bootstrap';
@@ -10,11 +10,11 @@ import Paginate from 'components/common/paginate/Paginate';
 import ActionMenu from 'components/actionMenu/ActionMenu';
 import Table, { HeadItem } from 'components/common/table/Table';
 
-const messages = defaultMessage.organizations;
 const common = defaultMessage.common;
+const organizationMessage = defaultMessage.organization;
 
 const OrganizationsList = props => {
-  const { data, currentUser, links, oid, onSizeChange, onPageChange, intl: { formatMessage } } = props;
+  const { data, links, onSizeChange, onPageChange, intl: { formatMessage } } = props;
 
   console.log("OrganizationsList data:", JSON.stringify(data));
 
@@ -26,14 +26,14 @@ const OrganizationsList = props => {
             {formatMessage(common.status)}
           </HeadItem>
           <HeadItem noSort name="name">
-            {formatMessage(common.name)}
+            {formatMessage(organizationMessage.name)}
           </HeadItem>
           <HeadItem noSort className="pull-right">
             {formatMessage(common.actions)}
           </HeadItem>
         </Table.Head>
         <Table.Body>
-          {data.content.map((workspace) =>
+          {data.content && data.content.map((workspace) =>
             <tr key={workspace.id} className={workspace.id === 'wid' ? "active" : ""}>
               <td className="project-status col-md-2 col-sm-2">
                 status_todo

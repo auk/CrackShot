@@ -88,7 +88,7 @@ let StageResultForm = React.memo(props => {
         <div className="col-xs-3 col-md-1">
           <button className="btn btn-secondary" onClick={handleClean} type="button">Clean</button>
         </div>
-        <div className="col-xs-3 col-md-1">
+        <div className="col-xs-3 col-md-1" type="submit">
           <button className="btn btn-primary active">Submit</button>
         </div>
       </div>

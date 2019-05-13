@@ -1,5 +1,6 @@
 /*eslint-disable max-len,quotes*/
 export default {
+  "common.actions": "Действия",
   "common.close": "Закрыть",
   "common.refresh": "Обновить",
   "common.delete": "Удалить",
@@ -10,6 +11,7 @@ export default {
   "common.add": "Добавить",
   "common.login": "Войти",
   "common.logout": "Выйти",
+  "common.name": "Имя",
   "common.reset": "Сбросить",
   "common.yes": "Да",
   "common.no": "Нет",
@@ -61,6 +63,9 @@ export default {
   "about.h2": "О проекте",
   "pages.organizations.title": "Crack shot | Организации",
   "pages.organizations.header": "Организации",
+  "pages.organizations.id": "ID: {id}",
   "pages.calculator.title": "Crack shot | Калькулятор",
-  "pages.calculator.header": "Калькулятор"
+  "pages.calculator.header": "Калькулятор",
+  "organization.create": "Создать организацию",
+  "organization.name": "Название"
 }
