@@ -7,11 +7,13 @@ import org.springframework.stereotype.Service;
 import stx.shooterstatistic.jpa.UserMembershipRepository;
 import stx.shooterstatistic.model.*;
 
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class UserMembershipService {
 
   @Autowired
@@ -56,5 +58,13 @@ public class UserMembershipService {
 
     securityService.checkHasAccess(context, organization, Permission.WRITE);
     userMembershipRepository.deleteByOrganizationAndUser(organization, user);
+  }
+
+  public void unregisterAll(@NotNull SecurityContext context, @NotNull Organization organization) {
+    Objects.requireNonNull(context);
+    Objects.requireNonNull(organization);
+
+    securityService.checkHasAccess(context, organization, Permission.WRITE);
+    userMembershipRepository.deleteByOrganization(organization);
   }
 }

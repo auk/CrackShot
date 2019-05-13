@@ -13,11 +13,13 @@ import stx.shooterstatistic.model.Permission;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
 
+import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
 import java.util.Objects;
 
 @Service
+@Transactional
 public class OrganizationService {
   @Autowired
   OrganizationRepository organizationRepository;
@@ -58,10 +60,26 @@ public class OrganizationService {
     return organizationRepository.findAll(pageable);
   }
 
+  public void deleteOrganization(SecurityContext context, String id) {
+    Organization org = organizationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Organization", id));
+    securityService.checkHasAccess(context, org, Permission.WRITE);
+    userMembershipService.unregisterAll(context, org);
+    organizationRepository.delete(org);
+  }
+
   @NotNull
   public Organization getOrganization(SecurityContext context, String id) {
     Organization org = organizationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Organization", id));
     securityService.checkHasAccess(context, org, Permission.READ);
     return org;
+  }
+
+  @NotNull
+  public Organization save(SecurityContext context, @NotNull Organization org) {
+    Objects.requireNonNull(context);
+    Objects.requireNonNull(org);
+
+    securityService.checkHasAccess(context, org, Permission.WRITE);
+    return organizationRepository.save(org);
   }
 }

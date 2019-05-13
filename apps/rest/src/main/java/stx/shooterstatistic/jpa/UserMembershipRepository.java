@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RepositoryRestResource(exported = false)
 public interface UserMembershipRepository extends JpaRepository<UserMembership, String> {
+  void deleteByOrganization(Organization organization);
   void deleteByOrganizationAndUser(Organization organization, User user);
   Page<UserMembership> findByOrganization(Organization organization, Pageable pageable);
   Page<UserMembership> findByUser(User user, Pageable pageable);

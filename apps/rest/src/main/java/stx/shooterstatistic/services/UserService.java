@@ -19,17 +19,20 @@ public class UserService {
   @Autowired
   UserRepository userRepository;
 
+  @NotNull
   public User createUser(@NotNull String login) {
     User user = new User(login);
     return userRepository.save(user);
   }
 
+  @NotNull
   public User createUser(@NotNull String login, @NotNull String email) {
     User user = new User(login);
     user.setEmail(email);
     return userRepository.save(user);
   }
 
+  @NotNull
   public User createUser(User user) {
     Objects.requireNonNull(user);
 //    checkUserExist(user.getUsername());

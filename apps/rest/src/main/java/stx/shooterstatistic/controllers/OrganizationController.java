@@ -47,10 +47,23 @@ public class OrganizationController {
   }
 
   @PostMapping(value = "/organization")
-  public ResponseEntity<Organization> createOrganization(Principal principal, @RequestParam String name) {
+  public ResponseEntity<Organization> createOrganization(Principal principal,
+    @RequestParam String name,
+    @RequestParam(required = false) String email,
+    @RequestParam(required = false) String phone
+  ) {
     log.debug("POST /ws, principal: {}, name: {}", principal, name);
-    Organization ws = organizationService.createOrganization(principal, name);
-    return new ResponseEntity<>(ws, HttpStatus.OK);
+
+    Organization org = organizationService.createOrganization(principal, name);
+    if (email != null && !email.isEmpty())
+      org.setEmail(email);
+    if (phone != null && !phone.isEmpty())
+      org.setPhone(phone);
+
+    User user = userService.findUser(principal).orElseThrow(() -> new ResourceNotFoundException("User", principal.getName()));
+    SecurityContext context = securityService.createContext(user);
+
+    return new ResponseEntity<>(organizationService.save(context, org), HttpStatus.CREATED);
   }
 
   @GetMapping(value = "/organization/{id}")
@@ -59,5 +72,14 @@ public class OrganizationController {
     SecurityContext context = securityService.createContext(user);
 
     return ResponseEntity.ok(organizationService.getOrganization(context, id));
+  }
+
+  @DeleteMapping(value = "/organization/{id}")
+  public ResponseEntity<Void> deleteOrganization(Principal principal, @PathVariable String id) {
+    User user = userService.findUser(principal).orElseThrow(() -> new ResourceNotFoundException("User", principal.getName()));
+    SecurityContext context = securityService.createContext(user);
+
+    organizationService.deleteOrganization(context, id);
+    return ResponseEntity.ok().build();
   }
 }

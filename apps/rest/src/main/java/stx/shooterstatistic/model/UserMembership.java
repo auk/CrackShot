@@ -17,6 +17,8 @@ public class UserMembership extends AbstractEntity {
 
   boolean isAdmin;
 
+  private UserMembership() {}
+
   public UserMembership(Organization organization, User user, boolean isAdmin) {
     this.organization = Objects.requireNonNull(organization);
     this.user = Objects.requireNonNull(user);

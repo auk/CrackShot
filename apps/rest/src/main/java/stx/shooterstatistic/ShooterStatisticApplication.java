@@ -73,8 +73,7 @@ public class ShooterStatisticApplication {
   @Bean
   public InitializingBean insertDefaultUsers() {
     return () -> {
-      User user = userRepository.findByEmail(adminEmail).orElse(userService.createUser(adminUsername, adminEmail));
-      SecurityContext context = new SecurityContext(user);
+      User user = userRepository.findByEmail(adminEmail).orElseGet(() -> userService.createUser(adminUsername, adminEmail));
       if (organizationRepository.count() == 0) {
         organizationService.createOrganization(user, "Initial organization");
       }
