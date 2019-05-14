@@ -52,5 +52,10 @@ export default {
     },
     totalPages: 0,
     sizePerPageList: [10, 20, 50, 100],
+  },
+  organization: {
+    isFetching: false,
+    error: null,
+    content: {},
   }
 }

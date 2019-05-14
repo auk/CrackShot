@@ -49,6 +49,7 @@ public class OrganizationController {
   @PostMapping(value = "/organization")
   public ResponseEntity<Organization> createOrganization(Principal principal,
     @RequestParam String name,
+    @RequestParam(required = false) String web,
     @RequestParam(required = false) String email,
     @RequestParam(required = false) String phone
   ) {
@@ -57,6 +58,8 @@ public class OrganizationController {
     Organization org = organizationService.createOrganization(principal, name);
     if (email != null && !email.isEmpty())
       org.setEmail(email);
+    if (web != null && !web.isEmpty())
+      org.setWeb(web);
     if (phone != null && !phone.isEmpty())
       org.setPhone(phone);
 

@@ -16,7 +16,7 @@ const organizationMessage = defaultMessage.organization;
 const OrganizationsList = props => {
   const { data, links, onSizeChange, onPageChange, intl: { formatMessage } } = props;
 
-  console.log("OrganizationsList data:", JSON.stringify(data));
+  // console.log("OrganizationsList data:", JSON.stringify(data));
 
   return (
     <React.Fragment>
@@ -28,6 +28,15 @@ const OrganizationsList = props => {
           <HeadItem noSort name="name">
             {formatMessage(organizationMessage.name)}
           </HeadItem>
+          <HeadItem noSort name="web">
+            {formatMessage(common.web)}
+          </HeadItem>
+          <HeadItem noSort name="email">
+            {formatMessage(common.email)}
+          </HeadItem>
+          <HeadItem noSort name="phone">
+            {formatMessage(common.phone)}
+          </HeadItem>
           <HeadItem noSort className="pull-right">
             {formatMessage(common.actions)}
           </HeadItem>
@@ -35,13 +44,13 @@ const OrganizationsList = props => {
         <Table.Body>
           {data.content && data.content.map((workspace) =>
             <tr key={workspace.id} className={workspace.id === 'wid' ? "active" : ""}>
-              <td className="project-status col-md-2 col-sm-2">
+              <td className="col-md-1 col-sm-1">
                 status_todo
                 {/* <span className={"label " + (workspace.ownerID === currentUser.id ? "label-info" : "label-default")}>
                   {workspace.ownerID === currentUser.id ? formatMessage(messages.own) : formatMessage(messages.invited)}
                 </span> */}
               </td>
-              <td className="project-title col-md-8 col-sm-8">
+              <td className="col-md-5 col-sm-5">
                 {workspace.name}
                 {/* <Link to={links.workspace.url.view.replace(/:wid/i, workspace.id)}>
                   name_todo{workspace.name}
@@ -51,7 +60,16 @@ const OrganizationsList = props => {
                   <FormattedMessage {...common.id_fmt} values={{ id: workspace.id }} />
                 </small>
               </td>
-              <td className="project-actions col-md-2 col-sm-2">
+              <td className="col-md-2 col-sm-2">
+                {workspace.web}
+              </td>
+              <td className="col-md-2 col-sm-2">
+                {workspace.email}
+              </td>
+              <td className="col-md-2 col-sm-2">
+                {workspace.phone}
+              </td>
+              <td className="col-md-1 col-sm-1">
                 <ActionMenu>
                   {/* workspace.ownerID === currentUser.id &&
                     <LinkContainer to={links.workspaceUser.url.invite.replace(/:wid/i, workspace.id)}>

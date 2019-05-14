@@ -11,6 +11,7 @@ import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth
 import org.springframework.context.annotation.Bean;
 import stx.shooterstatistic.jpa.OrganizationRepository;
 import stx.shooterstatistic.jpa.UserRepository;
+import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
 import stx.shooterstatistic.services.OrganizationService;
@@ -75,7 +76,11 @@ public class ShooterStatisticApplication {
     return () -> {
       User user = userRepository.findByEmail(adminEmail).orElseGet(() -> userService.createUser(adminUsername, adminEmail));
       if (organizationRepository.count() == 0) {
-        organizationService.createOrganization(user, "Initial organization");
+        Organization org = organizationService.createOrganization(user, "Initial organization");
+        org.setEmail("org@ipsc.ru");
+        org.setPhone("+7 (495) 111-2222");
+        org.setWeb("http://ipsc.ru");
+        organizationRepository.save(org);
       }
     };
   }

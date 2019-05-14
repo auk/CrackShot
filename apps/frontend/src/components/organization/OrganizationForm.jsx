@@ -23,7 +23,7 @@ let OrganizationForm = React.memo(props => {
       </div>  
       <div className="row">
         <div className="col-md-12">
-          <Field name="site"
+          <Field name="web"
             component={InputText}
             label="Web site"
             placeholder='Web site'
@@ -74,7 +74,7 @@ OrganizationForm.propTypes = {
 
 OrganizationForm = reduxForm({
   form: 'OrganizationForm',
-  validate: Validate,
+  // validate: Validate,
   enableReinitialize: true,
   touchOnBlur: false,
 })(OrganizationForm);

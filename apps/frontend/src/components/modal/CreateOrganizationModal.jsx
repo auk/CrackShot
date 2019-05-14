@@ -15,10 +15,9 @@ const CreateOrganizationModal = (props) => {
   const { submitText, resetText, dispatch } = props;
 
   const handleSubmit = data => {
-    console.log("CreateOrganizationModal: Handle submit, data:", data);
-    const action = createOrganization(data);
-    console.log("CreateOrganizationModal: action:", action);
-    dispatch(action);
+    // console.log("CreateOrganizationModal: Handle submit, data:", data);
+    // console.log("CreateOrganizationModal: action:", action);
+    dispatch(createOrganization(data));
     dispatch(hideModal());
   }
 

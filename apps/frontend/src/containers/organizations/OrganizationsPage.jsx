@@ -9,7 +9,6 @@ import Page from 'components/common/pageTemplate/Page';
 import OrganizationsList from 'components/organization/OrganizationsList';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
-import { Enums } from '@startext/ipsc';
 import { fetchOrganizations } from 'actions/organizationActions';
 import { getLinksSelector, getOrganizationsSelector } from 'selectors';
 import { showModal } from 'actions/modalActions';
@@ -21,16 +20,8 @@ const pageMessages = defaultMessage.pages.organizations;
 
 class OrganizatiosPage extends React.Component {
 
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      powerFactor: Enums.PowerFactors.MINOR
-    };
-  }
-
   componentDidMount() {
-    const { fetchOrganizations, organizations: {requestParams} } = this.props;
+    const { fetchOrganizations, organizations: { requestParams } } = this.props;
     fetchOrganizations(requestParams);
   }
 
@@ -45,6 +36,8 @@ class OrganizatiosPage extends React.Component {
       }
     };
     this.props.showModal(modal);
+
+    this.props.fetchOrganizations(this.props.organizations.requestParams);
   }
 
   onSizeChange = (size) => {

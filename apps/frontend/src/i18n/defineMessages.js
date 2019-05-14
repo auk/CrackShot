@@ -18,6 +18,10 @@ export const defaultMessage = defineMessages({
       id: 'common.delete',
       defaultMessage: 'Delete'
     },
+    email: {
+      id: 'common.email',
+      defaultMessage: 'Email'
+    },
     id: {
       id: 'common.id',
       defaultMessage: 'ID'
@@ -29,6 +33,10 @@ export const defaultMessage = defineMessages({
     name: {
       id: 'common.name',
       defaultMessage: 'Name'
+    },
+    phone: {
+      id: 'common.phone',
+      defaultMessage: 'Phone'
     },
     status: {
       id: 'common.status',
@@ -87,6 +95,10 @@ export const defaultMessage = defineMessages({
     save: {
       id: 'common.save',
       defaultMessage: 'Save'
+    },
+    web: {
+      id: 'common.web',
+      defaultMessage: 'Web'
     },
     breadcrumb: {
       home: {

@@ -6,7 +6,7 @@ import { authReducer } from 'reducers/authReducer';
 import { configReducer } from 'reducers/configReducer';
 import { localeReducer } from 'reducers/localeReducer';
 import { reducer as modalReducer } from 'reducers/modalReducer';
-import { reducer as organizationsReducer } from 'reducers/organizationReducer';
+import { organizationReducer, organizationsReducer } from 'reducers/organizationReducer';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -15,6 +15,7 @@ const rootReducer = combineReducers({
   locale: localeReducer,
   modal: modalReducer,
   organizations: organizationsReducer,
+  organization: organizationReducer,
   toastr: toastrReducer,
 });
 

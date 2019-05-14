@@ -14,6 +14,7 @@ import java.util.Objects;
 public class Organization extends AbstractEntity {
   String owner; // user id
   String name;
+  String web;
   String email;
   String phone;
 
@@ -62,6 +63,14 @@ public class Organization extends AbstractEntity {
 
   public void setPhone(String phone) {
     this.phone = phone;
+  }
+
+  public String getWeb() {
+    return web;
+  }
+
+  public void setWeb(String web) {
+    this.web = web;
   }
 
   public Collection<Training> getTrainings() {
