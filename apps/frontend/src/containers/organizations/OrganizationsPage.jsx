@@ -18,7 +18,7 @@ const organizationMessages = defaultMessage.organization;
 const navigationMessages = defaultMessage.navigation;
 const pageMessages = defaultMessage.pages.organizations;
 
-class OrganizatiosPage extends React.Component {
+class OrganizationsPage extends React.Component {
 
   componentDidMount() {
     const { fetchOrganizations, organizations: { requestParams } } = this.props;
@@ -66,12 +66,12 @@ class OrganizatiosPage extends React.Component {
     const { organizations, links, intl: { formatMessage } } = this.props;
     const crumbs = [
       {
-        url: 'fake url',
+        url: links.home.url,
         icon: 'fa-home',
         text: common.breadcrumb.home,
       },
       {
-        url: 'fake yrl 2',
+        url: '',
         icon: 'fa-globe',
         text: navigationMessages.navItem.organizations,
       },
@@ -109,7 +109,7 @@ class OrganizatiosPage extends React.Component {
   }
 }
 
-OrganizatiosPage.propTypes = {
+OrganizationsPage.propTypes = {
   intl: intlShape.isRequired,
   links: PropTypes.object.isRequired,
   organizations: PropTypes.object.isRequired,
@@ -128,4 +128,4 @@ const mapDispatchToProps = {
   showModal,
 }
 
-export default WithLayout(connect(mapStateToProps, mapDispatchToProps)(injectIntl(OrganizatiosPage)));
+export default WithLayout(connect(mapStateToProps, mapDispatchToProps)(injectIntl(OrganizationsPage)));

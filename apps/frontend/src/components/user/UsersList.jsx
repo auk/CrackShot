@@ -36,7 +36,7 @@ const UsersList = props => {
           {data.content && data.content.map((workspace) =>
             <tr key={workspace.id} className={workspace.id === 'wid' ? "active" : ""}>
               <td className="col-md-6 col-sm-6">
-                {workspace.name}
+                {workspace.name ? `${workspace.name} (${workspace.username})` : workspace.username}
                 {/* <Link to={links.workspace.url.view.replace(/:wid/i, workspace.id)}>
                   name_todo{workspace.name}
                 </Link> */}

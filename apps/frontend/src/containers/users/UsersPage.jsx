@@ -66,7 +66,7 @@ class UsersPage extends React.Component {
     const { users, links, intl: { formatMessage } } = this.props;
     const crumbs = [
       {
-        url: 'fake url',
+        url: links.home.url,
         icon: 'fa-home',
         text: common.breadcrumb.home,
       },

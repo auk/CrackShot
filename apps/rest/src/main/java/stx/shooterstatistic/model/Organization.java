@@ -17,6 +17,7 @@ public class Organization extends AbstractEntity {
   String web;
   String email;
   String phone;
+  String address;
 
   @OneToMany
   List<UserMembership> userMemberships;
@@ -31,6 +32,14 @@ public class Organization extends AbstractEntity {
   public Organization(String owner, String name) {
     this.owner = Objects.requireNonNull(owner);
     this.name = Objects.requireNonNull(name);
+  }
+
+  public String getAddress() {
+    return address;
+  }
+
+  public void setAddress(String address) {
+    this.address = address;
   }
 
   public String getOwner() {

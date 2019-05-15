@@ -1,5 +1,7 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import WithLayout from 'containers/layouts/WithLayout';
@@ -7,6 +9,7 @@ import Page from 'components/common/pageTemplate/Page';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
 import { Enums } from '@startext/ipsc';
+import { getLinksSelector } from 'selectors';
 
 import OrganizationForm from 'components/organization/OrganizationForm';
 import UserForm from 'components/user/UserForm';
@@ -25,10 +28,10 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage } } = this.props;
+    const { links, intl: { formatMessage } } = this.props;
     const crumbs = [
       {
-        url: 'fake url',
+        url: links.home.url,
         icon: 'fa-bank',
         text: common.breadcrumb.home,
       },
@@ -88,6 +91,13 @@ class HomePage extends React.Component {
 
 HomePage.propTypes = {
   intl: intlShape.isRequired,
+  links: PropTypes.object.isRequired,
 }
 
-export default WithLayout(injectIntl(HomePage));
+const mapStateToProps = state => {
+  return {
+    links: getLinksSelector(state),
+  };
+}
+
+export default WithLayout(connect(mapStateToProps)(injectIntl(HomePage)));

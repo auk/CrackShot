@@ -8,6 +8,7 @@ import * as selectors from '../selectors';
 export const organizationWatcherSaga = [
   takeLatest(actions.createOrganization.toString(), createOrganization),
   takeLatest(actions.fetchOrganizations.toString(), fetchOrganizations),
+  takeLatest(actions.fetchOrganization.toString(), fetchOrganization),
 ];
 
 export function* createOrganization({payload}) {
@@ -53,5 +54,24 @@ export function* fetchOrganizations({requestParams}) {
     yield put(action);
   } catch (error) {
     yield put(actions.fetchOrganizationsError(error.response ? error.response.data : error));
+  }
+}
+
+export function* fetchOrganization({payload}) {
+  const oid = payload;
+  try {
+    const url = yield select(selectors.getOrganizationUrl);
+    console.log('fetchOrganization id:', oid);
+
+    const config = { params: { id: oid } };
+    const response = yield call(callApi, { url: url.replace(/:oid/i, oid), config, });
+    console.log('fetchOrganization: response=', response.data);
+    
+    const action = actions.fetchOrganizationSuccess({ ...response.data });
+    console.log("Fetch organization success action:", action);
+    yield put(action);
+  } catch (error) {
+    console.error("Fetch organization error: ", error)
+    yield put(actions.fetchOrganizationError(error.response ? error.response.data : error));
   }
 }

@@ -21,7 +21,7 @@ const Breadcrumbs = props => {
                   <li key={index}>
                     <Link to={crumb.url}>
                       <i className={`fa ${crumb.icon}`} aria-hidden="true"></i>{' '}
-                      <FormattedMessage {...crumb.text} />
+                      { crumb.text ? typeof crumb.text === 'string' ? crumb.text : <FormattedMessage {...crumb.text} /> : '-' }
                     </Link>
                   </li>
               } else {
@@ -29,7 +29,7 @@ const Breadcrumbs = props => {
                   <li key={index} className="active">
                     <strong>
                       <i className={`fa ${crumb.icon}`} aria-hidden="true"></i>{' '}
-                      <FormattedMessage {...crumb.text} />
+                      { crumb.text ? typeof crumb.text === 'string' ? crumb.text : <FormattedMessage {...crumb.text} /> : '-' }
                     </strong>
                   </li>
               }

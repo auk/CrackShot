@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 
-import { InputText } from '@startext/react-components';
+import { InputText, InputTextarea } from '@startext/react-components';
 // import Validate from './validate';
 
 let OrganizationForm = React.memo(props => {
@@ -17,6 +17,18 @@ let OrganizationForm = React.memo(props => {
             label="Name"
             placeholder='Organization name'
             icon='glyphicon glyphicon-home'
+            required={true}
+          />
+        </div>
+      </div>  
+      <div className="row">
+        <div className="col-md-12">
+          <Field name="address"
+            component={InputTextarea}
+            label="Address"
+            placeholder='Address'
+            icon='glyphicon glyphicon-home'
+            rows='3'
             required={true}
           />
         </div>

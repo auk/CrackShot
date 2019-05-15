@@ -35,7 +35,7 @@
       }
     },
     "organization": {
-      "url": "/organization/:oid",
+      "url": "/organization/:oid/view",
       "api": {
         "get": "{REST_URL}/organization/:oid",
         "create": "{REST_URL}/organization",

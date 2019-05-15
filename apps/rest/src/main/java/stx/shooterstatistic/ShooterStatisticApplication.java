@@ -77,9 +77,11 @@ public class ShooterStatisticApplication {
       User user = userRepository.findByEmail(adminEmail).orElseGet(() -> userService.createUser(adminUsername, adminEmail));
       if (organizationRepository.count() == 0) {
         Organization org = organizationService.createOrganization(user, "Initial organization");
+        org.setAddress("Russia, Tomsk, 63400\r\nLenina av. 201");
         org.setEmail("org@ipsc.ru");
         org.setPhone("+7 (495) 111-2222");
         org.setWeb("http://ipsc.ru");
+
         organizationRepository.save(org);
       }
     };

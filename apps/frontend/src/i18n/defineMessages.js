@@ -180,6 +180,10 @@ export const defaultMessage = defineMessages({
         id: 'navigation.navItem.organizations',
         defaultMessage: 'Organizations'
       },
+      organization: {
+        id: 'navigation.navItem.organization',
+        defaultMessage: 'Organization'
+      },
       users: {
         id: 'navigation.navItem.users',
         defaultMessage: 'Users'
@@ -315,6 +319,12 @@ export const defaultMessage = defineMessages({
         id: 'pages.organizations.header',
         defaultMessage: 'Organizations'
       }
+    },
+    organization: {
+      title: {
+        id: 'pages.organization.title',
+        defaultMessage: 'Crack shot | Organization'
+      },
     },
     users: {
       title: {

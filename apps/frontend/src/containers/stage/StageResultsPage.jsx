@@ -1,6 +1,7 @@
 import React from 'react';
-// import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { injectIntl, intlShape/*, FormattedMessage*/ } from 'react-intl';
+import PropTypes from 'prop-types';
 
 import WithLayout from 'containers/layouts/WithLayout';
 import Page from 'components/common/pageTemplate/Page';
@@ -8,6 +9,7 @@ import SmartStageResultForm from 'components/stage/SmartStageResultForm';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
 import { Enums } from '@startext/ipsc';
+import { getLinksSelector } from 'selectors';
 
 const common = defaultMessage.common;
 const pageMessages = defaultMessage.pages.calculator;
@@ -28,15 +30,16 @@ class StageResultsPage extends React.Component {
   }
 
   render() {
-    const { intl: { formatMessage } } = this.props;
+    const { links, intl: { formatMessage } } = this.props;
+
     const crumbs = [
       {
-        url: 'fake url',
+        url: links.home.url,
         icon: 'fa-home',
         text: common.breadcrumb.home,
       },
       {
-        url: 'fake yrl 2',
+        url: '',
         icon: 'fa-calculator',
         text: navigationMessages.navItem.calculator,
       },
@@ -64,6 +67,13 @@ class StageResultsPage extends React.Component {
 
 StageResultsPage.propTypes = {
   intl: intlShape.isRequired,
+  links: PropTypes.object.isRequired,
 }
 
-export default WithLayout(injectIntl(StageResultsPage));
+const mapStateToProps = state => {
+  return {
+    links: getLinksSelector(state),
+  };
+}
+
+export default WithLayout(connect(mapStateToProps)(injectIntl(StageResultsPage)));

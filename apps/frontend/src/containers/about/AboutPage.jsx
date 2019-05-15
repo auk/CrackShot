@@ -1,21 +1,33 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import PropTypes from 'prop-types';
+
 import { defaultMessage } from '../../i18n/defineMessages';
 
 import WithLayout from 'containers/layouts/WithLayout';
 import Page from 'components/common/pageTemplate/Page';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
+import { getLinksSelector } from 'selectors';
 
 const messages = defaultMessage.about;
-const common = defaultMessage.common;
+const commonMessages = defaultMessage.common;
 
 const AboutPage = (props) => {
-  const { formatMessage } = props.intl;
-  const crumbs = [{
-    url: '',
-    icon: 'fa-folder-open',
-    text: common.breadcrumb.about
-  }];
+  const { links, intl: { formatMessage } } = props;
+
+  const crumbs = [
+    {
+      url: links.home.url,
+      icon: 'fa-home',
+      text: commonMessages.breadcrumb.home,
+    },
+    {
+      url: '',
+      icon: 'fa-folder-open',
+      text: commonMessages.breadcrumb.about
+    }
+  ];
 
   return (
     <React.Fragment>
@@ -41,6 +53,13 @@ const AboutPage = (props) => {
 
 AboutPage.propTypes = {
   intl: intlShape.isRequired,
+  links: PropTypes.object.isRequired,
 }
 
-export default WithLayout(injectIntl(AboutPage));
+const mapStateToProps = state => {
+  return {
+    links: getLinksSelector(state),
+  };
+}
+
+export default WithLayout(connect(mapStateToProps)(injectIntl(AboutPage)));
