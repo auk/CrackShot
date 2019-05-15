@@ -61,14 +61,10 @@ export function* fetchOrganization({payload}) {
   const oid = payload;
   try {
     const url = yield select(selectors.getOrganizationUrl);
-    console.log('fetchOrganization id:', oid);
-
     const config = { params: { id: oid } };
     const response = yield call(callApi, { url: url.replace(/:oid/i, oid), config, });
-    console.log('fetchOrganization: response=', response.data);
     
     const action = actions.fetchOrganizationSuccess({ ...response.data });
-    console.log("Fetch organization success action:", action);
     yield put(action);
   } catch (error) {
     console.error("Fetch organization error: ", error)

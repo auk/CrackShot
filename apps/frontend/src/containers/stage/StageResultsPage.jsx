@@ -26,7 +26,7 @@ class StageResultsPage extends React.Component {
   }
 
   handleSubmit = data => {
-    console.log('handleSubmit', data);
+    // console.log('handleSubmit', data);
   }
 
   render() {

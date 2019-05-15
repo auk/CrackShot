@@ -5,7 +5,7 @@ const Validate = (values, props) => {
     errors.name = 'Name required!'
   }
 
-  console.log("values:", values, ", errors:", errors);
+  // console.log("values:", values, ", errors:", errors);
 
   return errors;
 }

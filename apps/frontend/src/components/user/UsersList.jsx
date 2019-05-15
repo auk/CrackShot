@@ -11,7 +11,6 @@ import ActionMenu from 'components/actionMenu/ActionMenu';
 import Table, { HeadItem } from 'components/common/table/Table';
 
 const common = defaultMessage.common;
-const userMessage = defaultMessage.user;
 
 const UsersList = props => {
   const { data, links, onSizeChange, onPageChange, intl: { formatMessage } } = props;

@@ -49,7 +49,7 @@ Breadcrumbs.propTypes = {
   crumbs: PropTypes.arrayOf(PropTypes.shape({
     url: PropTypes.string.isRequired,
     icon: PropTypes.string,
-    text: PropTypes.object.isRequired,
+    text: PropTypes.oneOfType([PropTypes.object, PropTypes.string]).isRequired
   })),
 }
 

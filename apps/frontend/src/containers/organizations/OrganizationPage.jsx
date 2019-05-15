@@ -8,8 +8,8 @@ import WithLayout from 'containers/layouts/WithLayout';
 import Page from 'components/common/pageTemplate/Page';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
-import { fetchOrganizations, fetchOrganization } from 'actions/organizationActions';
-import { getLinksSelector, getOrganizationsSelector, getOrganizationSelector } from 'selectors';
+import { fetchOrganization } from 'actions/organizationActions';
+import { getLinksSelector, getOrganizationSelector } from 'selectors';
 import { showModal } from 'actions/modalActions';
 
 const commonMessages = defaultMessage.common;
@@ -52,7 +52,7 @@ class OrganizationPage extends React.Component {
       {
         url: 'fake yrl 2',
         icon: 'fa-bank',
-        text: organization.name,
+        text: organization.name || 'Current organization',
       },
     ];
 
@@ -115,21 +115,18 @@ class OrganizationPage extends React.Component {
 OrganizationPage.propTypes = {
   intl: intlShape.isRequired,
   links: PropTypes.object.isRequired,
-  organizations: PropTypes.array.isRequired,
   organization: PropTypes.object.isRequired,
-  fetchOrganizations: PropTypes.func.isRequired
+  fetchOrganization: PropTypes.func.isRequired
 }
 
 function mapStateToProps(state) {
   return {
     links: getLinksSelector(state),
-    organizations: getOrganizationsSelector(state),
     organization: getOrganizationSelector(state),
   };
 }
 
 const mapDispatchToProps = {
-  fetchOrganizations,
   fetchOrganization,
   showModal,
 }
