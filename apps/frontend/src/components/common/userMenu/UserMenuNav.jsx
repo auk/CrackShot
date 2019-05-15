@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
-import userAuthIcon from 'assets/img/female.svg';
+import userAuthIcon from 'assets/img/profile.jpg';
 import userUnknownIcon from 'assets/img/unknown.svg';
 import { defaultMessage } from 'i18n/defineMessages';
 

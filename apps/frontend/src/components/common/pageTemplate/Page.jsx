@@ -26,6 +26,8 @@ const ContainerWrap = (props) => {
   )
 }
 
+const ContainerRow = ContainerWrap;
+
 const Container = (props) => {
   return (
     <div className={props.size}>
@@ -116,6 +118,7 @@ Error.propTypes = {
   error: PropTypes.object.isRequired,
 }
 
+Page.ContainerRow = ContainerRow;
 Page.ContainerWrap = ContainerWrap;
 Page.Container = Container;
 Page.Header = Header;

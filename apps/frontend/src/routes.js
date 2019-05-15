@@ -15,7 +15,7 @@ export const createRoutes = (history, links, AdminPermission, UserPermission) =>
   <Router history={history}>
   <Switch>
     <Route exact path="/" render={() => <Redirect to={links.calculator.url} />} />
-    <Route exact path={links.home.url} component={HomePage} />
+    <Route exact path={links.home.url} component={UserPermission(HomePage)} />
     <Route exact path={links.about.url} component={AboutPage} />
     <Route exact path={links.calculator.url} component={StageResultsPage} />
     <Route exact path={links.login.url} component={LoginPage} />

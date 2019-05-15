@@ -33,7 +33,7 @@ const AboutPage = (props) => {
     <React.Fragment>
       <Breadcrumbs header={messages.title} crumbs={crumbs} />
       <Page title={formatMessage(messages.title)}>
-        <Page.ContainerWrap>
+        <Page.ContainerRow>
           <Page.Container size="col-md-12">
           <Page.Header>
               <h5><FormattedMessage {...messages.h2} /></h5>
@@ -45,7 +45,7 @@ const AboutPage = (props) => {
               </div>
             </Page.Content>
           </Page.Container>
-        </Page.ContainerWrap>
+        </Page.ContainerRow>
       </Page>
     </React.Fragment>
   )

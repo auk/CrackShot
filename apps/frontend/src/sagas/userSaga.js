@@ -4,24 +4,35 @@ import { callApi } from 'utils/ApiUtils';
 
 import * as actions from "../actions/userActions";
 import * as selectors from '../selectors';
+import { objectStore } from 'utils/utils';
+import { CURRENT_USER } from 'constants/utils';
 
 export const userWatcherSaga = [
   takeLatest(actions.fetchUsers.toString(), fetchUsers),
+  takeLatest(actions.fetchCurrentUser.toString(), fetchCurrentUser),
 ];
 
 export function* fetchUsers({requestParams}) {
   try {
     const url = yield select(selectors.getUsersUrl);
-    // console.log('fetchOrganizations requestParams:', requestParams);
-
     const config = { params: { ...requestParams } };
-    const response = yield call(callApi, { url, config, });
-    // console.log('fetchOrganizations: response=', response.data);
-    
-    const action = actions.fetchUsersSuccess({ ...response.data, requestParams: requestParams });
-    // console.log("Fetch organization success action:", action);
-    yield put(action);
+    const response = yield call(callApi, { url, config, });    
+    yield put(actions.fetchUsersSuccess({ ...response.data, requestParams: requestParams }));
   } catch (error) {
     yield put(actions.fetchUsersError(error.response ? error.response.data : error));
+  }
+}
+
+export function* fetchCurrentUser() {
+  try {
+    const url = yield select(selectors.getCurrentUserUrl);
+    console.log("fetchCurrentUser url:", url);
+    const response = yield call(callApi, { url, });
+    console.log("fetchCurrentUser response data:", response.data);
+    yield put(actions.fetchCurrentUserSuccess(response.data));
+    objectStore.set(CURRENT_USER, response.data);
+  } catch (error) {
+    console.log("fetchCurrentUser response error:", error);
+    yield put(actions.fetchCurrentUserError(error.response ? error.response.data : error));
   }
 }

@@ -7,6 +7,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,7 +20,7 @@ import stx.shooterstatistic.services.SecurityService;
 import stx.shooterstatistic.services.UserService;
 
 import java.security.Principal;
-import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -39,5 +41,13 @@ public class UserController {
     SecurityContext context = securityService.createContext(user);
 
     return userService.getUsers(context, userSearchCriteria, pageable);
+  }
+
+  @GetMapping(value = "/user")
+  public ResponseEntity<User> getUser(Principal principal) {
+    Optional<User> opUser = userService.findUser(principal);
+    if (!opUser.isPresent())
+      throw new ResourceNotFoundException("User", principal.getName());
+    return new ResponseEntity<>(opUser.get(), HttpStatus.OK);
   }
 }

@@ -4,7 +4,7 @@ import { Dropdown } from 'react-bootstrap';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 
 import { defaultMessage } from 'i18n/defineMessages';
-import userAuthIcon from 'assets/img/female.svg';
+import userAuthIcon from 'assets/img/profile.jpg';
 import userUnknownIcon from 'assets/img/unknown.svg';
 import LoginButton from 'components/login/LoginButton';
 

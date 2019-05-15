@@ -49,7 +49,7 @@ class StageResultsPage extends React.Component {
       <React.Fragment>
         <Breadcrumbs header={pageMessages.title} crumbs={crumbs} />
         <Page title={formatMessage(pageMessages.title)}>
-          <Page.ContainerWrap>
+          <Page.ContainerRow>
             <Page.Container size="col-md-6">
               <Page.Header><h5>Minor</h5></Page.Header>
               <Page.Content>
@@ -58,7 +58,7 @@ class StageResultsPage extends React.Component {
                 />
               </Page.Content>
             </Page.Container>
-          </Page.ContainerWrap>
+          </Page.ContainerRow>
         </Page>
       </React.Fragment>
     )

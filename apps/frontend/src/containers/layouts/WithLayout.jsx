@@ -10,6 +10,7 @@ import Progress from 'components/common/progress/Progress';
 import Header from 'components/common/header/Header';
 import Footer from 'components/common/footer/Footer';
 import ModalRoot from 'components/modal/ModalRoot';
+import { fetchCurrentUser } from 'actions/userActions';
 import { logout } from 'actions/authActions';
 import * as selectors from 'selectors';
 
@@ -22,6 +23,7 @@ const WithLayout = WrappedComponent => {
       }).isRequired,
       location: PropTypes.object.isRequired,
       links: PropTypes.object.isRequired,
+      fetchCurrentUser: PropTypes.func.isRequired,
       logout: PropTypes.func.isRequired,
       version: PropTypes.any,
     }
@@ -43,6 +45,8 @@ const WithLayout = WrappedComponent => {
     }
 
     componentDidMount() {
+      const { /*auth: { user_name, isAdmin },*/ fetchCurrentUser } = this.props;
+
       $("body").addClass("dark-bg");
       correctHeight();
       detectBody();
@@ -59,6 +63,8 @@ const WithLayout = WrappedComponent => {
           correctHeight();
         }, 300)
       });
+
+      fetchCurrentUser();
     }
 
     render() {
@@ -85,16 +91,22 @@ const WithLayout = WrappedComponent => {
     }
   }
 
-  return withRouter(connect(mapStateToProps, { logout })(Layout));
+  return withRouter(connect(mapStateToProps, mapDispatchToProps)(Layout));
 }
 
 const mapStateToProps = (state) => {
   const { config } = state;
   return {
     auth: selectors.getAuthSelector(state),
+    currentUser: selectors.getCurrentUserSelector(state),
     links: selectors.getLinksSelector(state),
     version: config && config.webapp.version ? config.webapp.version : '1.0.0',
   };
 };
+
+const mapDispatchToProps = {
+  logout,
+  fetchCurrentUser,
+}
 
 export default WithLayout;

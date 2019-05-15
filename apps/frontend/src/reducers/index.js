@@ -7,11 +7,12 @@ import { configReducer } from 'reducers/configReducer';
 import { localeReducer } from 'reducers/localeReducer';
 import { reducer as modalReducer } from 'reducers/modalReducer';
 import { organizationReducer, organizationsReducer } from 'reducers/organizationReducer';
-import { usersReducer } from 'reducers/userReducers';
+import { currentUserReducer, usersReducer } from 'reducers/userReducers';
 
 const rootReducer = combineReducers({
   auth: authReducer,
   config: configReducer,
+  currentUser: currentUserReducer,
   form: reduxFormReducer,
   locale: localeReducer,
   modal: modalReducer,

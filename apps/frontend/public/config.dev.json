@@ -50,7 +50,10 @@
       }
     },
     "user": {
-      "url": "/user/:uid"
+      "url": "/user/:uid",
+      "api": {
+        "get": "{REST_URL}/user"
+      }
     }
   }
 }

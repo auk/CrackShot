@@ -1,4 +1,4 @@
-import { loadUserProfile, loadLocale, getBrowserLocale } from 'utils/utils';
+import { loadUserProfile, loadLocale, getBrowserLocale, loadCurrentUser } from 'utils/utils';
 
 const initialState = {
   auth: {
@@ -10,7 +10,10 @@ const initialState = {
     loggingOut: false,
     permissionChecked: false,
   },
-  locale: getBrowserLocale()
+  locale: getBrowserLocale(),
+  currentUser: {
+    content: {},
+  }
 };
 
 const initAuth = () => {
@@ -28,6 +31,11 @@ function initializeLocale() {
   return locale ? locale : initialState.locale;
 }
 
+function initialCurrentUser() {
+  const currentUser = loadCurrentUser();
+  return currentUser ? currentUser : initialState.currentUser.content;
+}
+
 export default {
   auth: initAuth(),
   config: {
@@ -35,6 +43,11 @@ export default {
     isConfigLoaded: false,
     error: null,
     json: {}
+  },
+  currentUser: {
+    isFetching: false,
+    error: null,
+    content: initialCurrentUser(),
   },
   modal: {
     modalType: null,

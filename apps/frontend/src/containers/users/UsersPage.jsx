@@ -81,7 +81,7 @@ class UsersPage extends React.Component {
       <React.Fragment>
         <Breadcrumbs header={pageMessages.title} crumbs={crumbs} />
         <Page title={formatMessage(pageMessages.title)}>
-          <Page.ContainerWrap>
+          <Page.ContainerRow>
             <Page.Container size="col-md-12">
               <Page.Header>
                 <h5>{formatMessage(pageMessages.header)}</h5>
@@ -102,7 +102,7 @@ class UsersPage extends React.Component {
                   onSortChange={this.onSortChange}/>}
               </Page.Content>
             </Page.Container>
-          </Page.ContainerWrap>
+          </Page.ContainerRow>
         </Page>
       </React.Fragment>
     )

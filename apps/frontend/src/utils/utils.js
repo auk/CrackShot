@@ -13,6 +13,15 @@ export function decodeUserProfile(idToken) {
   }
 }
 
+export function loadCurrentUser() {
+  try {
+    return objectStore.get(CONST.CURRENT_USER);
+  } catch (error) {
+    console.error('Cannot get current user');
+    return null;
+  }
+}
+
 export function loadUserProfile() {
   try {
     const idToken = localStorage.getItem(CONST.ID_TOKEN);

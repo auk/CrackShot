@@ -9,10 +9,11 @@ import Page from 'components/common/pageTemplate/Page';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
 import { Enums } from '@startext/ipsc';
-import { getLinksSelector } from 'selectors';
+import { getCurrentUserSelector, getLinksSelector } from 'selectors';
 
 import OrganizationForm from 'components/organization/OrganizationForm';
 import UserForm from 'components/user/UserForm';
+import userAuthIcon from 'assets/img/profile.jpg';
 
 const messages = defaultMessage.home;
 const common = defaultMessage.common;
@@ -28,7 +29,7 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { links, intl: { formatMessage } } = this.props;
+    const { currentUser, links, intl: { formatMessage } } = this.props;
     const crumbs = [
       {
         url: links.home.url,
@@ -46,7 +47,68 @@ class HomePage extends React.Component {
       <React.Fragment>
         <Breadcrumbs header={messages.title} crumbs={crumbs} />
         <Page title={formatMessage(messages.title)}>
-          <Page.ContainerWrap>
+          
+          <div className="row m-b-lg m-t-lg">
+            <div className="col-md-6">
+
+                <div className="profile-image">
+                    <img src={userAuthIcon} className="rounded-circle circle-border m-b-md" alt="profile"/>
+                </div>
+                <div className="profile-info">
+                    <div className="">
+                        <div>
+                            <h2 className="no-margins">
+                                {currentUser.name}
+                            </h2>
+                            <h4>Founder of Groupeq</h4>
+                            <small>
+                                There are many variations of passages of Lorem Ipsum available, but the majority
+                                have suffered alteration in some form Ipsum available.
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="col-md-3">
+                <table className="table small m-b-xs">
+                    <tbody>
+                    <tr>
+                        <td>
+                            <strong>142</strong> Projects
+                        </td>
+                        <td>
+                            <strong>22</strong> Followers
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>61</strong> Comments
+                        </td>
+                        <td>
+                            <strong>54</strong> Articles
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>154</strong> Tags
+                        </td>
+                        <td>
+                            <strong>32</strong> Friends
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div className="col-md-3">
+                <small>Sales in last 24h</small>
+                <h2 className="no-margins">206 480</h2>
+                {/* <div id="sparkline1"><canvas style="display: inline-block; width: 385.75px; height: 50px; vertical-align: top;" width="385" height="50"></canvas></div> */}
+            </div>
+          </div>
+
+
+          <Page.ContainerRow>
             <Page.Container size="col-md-6">
               <Page.Header><h5>Major</h5></Page.Header>
               <Page.Content>
@@ -82,7 +144,7 @@ class HomePage extends React.Component {
                 </Page.Content>
               </Page.Container>
             </div>
-          </Page.ContainerWrap>
+          </Page.ContainerRow>
         </Page>
       </React.Fragment>
     )
@@ -90,12 +152,14 @@ class HomePage extends React.Component {
 }
 
 HomePage.propTypes = {
+  currentUser: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   links: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => {
   return {
+    currentUser: getCurrentUserSelector(state),
     links: getLinksSelector(state),
   };
 }

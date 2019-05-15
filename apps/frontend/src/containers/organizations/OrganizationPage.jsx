@@ -60,7 +60,7 @@ class OrganizationPage extends React.Component {
       <React.Fragment>
         <Breadcrumbs header={pageMessages.title} crumbs={crumbs} />
         <Page title={formatMessage(pageMessages.title)}>
-          <Page.ContainerWrap>
+          <Page.ContainerRow>
             <Page.Container size="col-md-12">
               <Page.Header>
                 <h5>{organization.name}</h5>
@@ -105,7 +105,33 @@ class OrganizationPage extends React.Component {
                 </div>
               </Page.Content>
             </Page.Container>
-          </Page.ContainerWrap>
+            </Page.ContainerRow>
+            <Page.ContainerRow>
+              <Page.Container size="col-lg-4">
+                <Page.Header>
+                  <h5>Members</h5>
+                </Page.Header>
+                <Page.Content>
+                  No data
+                </Page.Content>
+              </Page.Container>
+              <Page.Container size="col-lg-4">
+                <Page.Header>
+                  <h5>Last trainings</h5>
+                </Page.Header>
+                <Page.Content>
+                  No data
+                </Page.Content>
+              </Page.Container>
+              <Page.Container size="col-lg-4">
+                <Page.Header>
+                  <h5>{organization.name}</h5>
+                </Page.Header>
+                <Page.Content>
+                  No data
+                </Page.Content>
+              </Page.Container>
+            </Page.ContainerRow>
         </Page>
       </React.Fragment>
     )

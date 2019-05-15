@@ -3,6 +3,7 @@
  */
 export const getRolesSelector = state => state.config.roles;
 export const getAdminRolesSelector = state => state.config.roles.admin;
+export const getCurrentUserSelector = state => state.currentUser.content;
 export const getLocaleSelector = state => state.locale;
 export const getLinksSelector = state => state.config.links;
 export const getHomeUrlSelector = state => state.config.links.home.url;
@@ -27,5 +28,6 @@ export const getOrganizationSelector = state => state.organization.content;
 // Users
 
 export const getUsersUrl = state => state.config.links.users.api.get;
+export const getCurrentUserUrl = state => state.config.links.user.api.get;
 
 export const getUsersSelector = state => state.users;
