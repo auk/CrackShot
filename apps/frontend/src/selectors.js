@@ -23,3 +23,9 @@ export const deleteOrganizationUrl = state => state.config.links.organization.ap
 export const updateOrganizationUrl = state => state.config.links.organization.api.update;
 
 export const getOrganizationsSelector = state => state.organizations;
+
+// Users
+
+export const getUsersUrl = state => state.config.links.users.api.get;
+
+export const getUsersSelector = state => state.users;

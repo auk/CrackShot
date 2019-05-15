@@ -57,5 +57,17 @@ export default {
     isFetching: false,
     error: null,
     content: {},
-  }
+  },
+  users: {
+    isFetching: false,
+    error: null,
+    content: [],
+    requestParams: {
+      page: 0,
+      size: 20,
+      filter: { }
+    },
+    totalPages: 0,
+    sizePerPageList: [10, 20, 50, 100],
+  },
 }

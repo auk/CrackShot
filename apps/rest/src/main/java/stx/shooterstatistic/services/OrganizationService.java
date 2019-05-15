@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import stx.shooterstatistic.exceptions.ResourceAlreadyExists;
 import stx.shooterstatistic.exceptions.ResourceNotFoundException;
 import stx.shooterstatistic.jpa.OrganizationRepository;
-import stx.shooterstatistic.jpa.OrganizationSeachCriteria;
+import stx.shooterstatistic.jpa.OrganizationSearchCriteria;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.Permission;
 import stx.shooterstatistic.model.SecurityContext;
@@ -56,7 +56,7 @@ public class OrganizationService {
     return workspace;
   }
 
-  public Page<Organization> getOrganizations(SecurityContext context, OrganizationSeachCriteria criteris, Pageable pageable) {
+  public Page<Organization> getOrganizations(SecurityContext context, OrganizationSearchCriteria criteris, Pageable pageable) {
     return organizationRepository.findAll(pageable);
   }
 

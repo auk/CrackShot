@@ -48,6 +48,12 @@ class Navigation extends Component {
               <FormattedMessage {...messages.navItem.organizations} />
             </NavItem>
           </LinkContainer>
+          <LinkContainer exact to={links.users.url}>
+            <NavItem>
+              <i className="fa fa-users" aria-hidden="true"></i>{' '}
+              <FormattedMessage {...messages.navItem.users} />
+            </NavItem>
+          </LinkContainer>
           <LinkContainer exact to={links.about.url}>
             <NavItem>
               <i className="fa fa-file-text" aria-hidden="true"></i>{' '}

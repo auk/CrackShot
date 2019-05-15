@@ -3,12 +3,14 @@ import { authWatcherSaga } from './authSaga';
 import { configWatcherSaga } from './configSaga';
 import { localeWatcherSaga } from './localeSaga';
 import { organizationWatcherSaga } from './organizationSaga';
+import { userWatcherSaga } from './userSaga';
 
 export default function* rootSaga() {
   yield all([
     ...authWatcherSaga,
     ...configWatcherSaga,
     ...localeWatcherSaga,
-    ...organizationWatcherSaga
+    ...organizationWatcherSaga,
+    ...userWatcherSaga
   ])
 }

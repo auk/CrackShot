@@ -42,6 +42,15 @@
         "update": "{REST_URL}/organization/:oid",
         "delete": "{REST_URL}/organization/:oid"
       }
+    },
+    "users": {
+      "url": "/users",
+      "api": {
+        "get": "{REST_URL}/users"
+      }
+    },
+    "user": {
+      "url": "/user/:uid"
     }
   }
 }

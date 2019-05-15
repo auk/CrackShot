@@ -123,6 +123,12 @@ export const defaultMessage = defineMessages({
       defaultMessage: 'Name'
     },
   },
+  user: {
+    create: {
+      id: 'user.create',
+      defaultMessage: 'Create user'
+    }
+  },
   footer: {
     version: {
       id: 'footer.version',
@@ -173,6 +179,10 @@ export const defaultMessage = defineMessages({
       organizations: {
         id: 'navigation.navItem.organizations',
         defaultMessage: 'Organizations'
+      },
+      users: {
+        id: 'navigation.navItem.users',
+        defaultMessage: 'Users'
       },
     }
   },
@@ -304,6 +314,16 @@ export const defaultMessage = defineMessages({
       header: {
         id: 'pages.organizations.header',
         defaultMessage: 'Organizations'
+      }
+    },
+    users: {
+      title: {
+        id: 'pages.users.title',
+        defaultMessage: 'Crack shot | Users'
+      },
+      header: {
+        id: 'pages.users.header',
+        defaultMessage: 'Users'
       }
     }  
   }

@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import stx.shooterstatistic.exceptions.ResourceNotFoundException;
-import stx.shooterstatistic.jpa.OrganizationSeachCriteria;
+import stx.shooterstatistic.jpa.OrganizationSearchCriteria;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
@@ -37,13 +37,13 @@ public class OrganizationController {
 
   @GetMapping(value = "/organizations")
   public Page<Organization> getOrganizations(Principal principal,
-    @RequestParam(required = false) OrganizationSeachCriteria organizationSeachCriteria,
+    @RequestParam(required = false) OrganizationSearchCriteria organizationSearchCriteria,
     @PageableDefault(sort = {"name"}, direction = Sort.Direction.DESC) Pageable pageable)
   {
     User user = userService.findUser(principal).orElseThrow(() -> new ResourceNotFoundException("User", principal.getName()));
     SecurityContext context = securityService.createContext(user);
 
-    return organizationService.getOrganizations(context, organizationSeachCriteria, pageable);
+    return organizationService.getOrganizations(context, organizationSearchCriteria, pageable);
   }
 
   @PostMapping(value = "/organization")

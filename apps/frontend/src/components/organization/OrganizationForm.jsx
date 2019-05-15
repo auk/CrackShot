@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Field, reduxForm } from 'redux-form';
 
 import { InputText } from '@startext/react-components';
-import Validate from './validate';
+// import Validate from './validate';
 
 let OrganizationForm = React.memo(props => {
   const { handleReset, handleSubmit, resetBtnText, submitBtnText } = props;

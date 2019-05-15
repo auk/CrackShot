@@ -7,6 +7,7 @@ import { configReducer } from 'reducers/configReducer';
 import { localeReducer } from 'reducers/localeReducer';
 import { reducer as modalReducer } from 'reducers/modalReducer';
 import { organizationReducer, organizationsReducer } from 'reducers/organizationReducer';
+import { usersReducer } from 'reducers/userReducers';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   organizations: organizationsReducer,
   organization: organizationReducer,
   toastr: toastrReducer,
+  users: usersReducer,
 });
 
 export default rootReducer;

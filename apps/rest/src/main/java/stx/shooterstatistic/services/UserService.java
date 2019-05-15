@@ -1,8 +1,11 @@
 package stx.shooterstatistic.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import stx.shooterstatistic.jpa.UserRepository;
+import stx.shooterstatistic.jpa.UserSearchCriteria;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
 
@@ -62,7 +65,7 @@ public class UserService {
     return userRepository.findByUsername(username);
   }
 
-  public List<User> getUsers() {
-    return userRepository.findAll();
+  public Page<User> getUsers(SecurityContext context, UserSearchCriteria userSearchCriteria, Pageable pageable) {
+    return userRepository.findAll(pageable);
   }
 }
