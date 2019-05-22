@@ -90,3 +90,14 @@ function getBrowserLanguage() {
     return navigator.language;
   }
 }
+
+export const createError = (ex) => {
+  if (ex && ex instanceof TypeError) {
+    return { message: ex.message };
+  }
+  if (ex && ex.response && ex.response.data) {
+    return {...ex.response.data};
+  }
+  console.log("Create error:", ex, ", json:", JSON.stringify(ex));
+  return ex;
+}

@@ -36,6 +36,25 @@ function initialCurrentUser() {
   return currentUser ? currentUser : initialState.currentUser.content;
 }
 
+const defaultObjectState = {
+  isFetching: false,
+  error: null,
+  content: {},
+}
+
+const defaultPageableState = {
+  isFetching: false,
+  error: null,
+  content: [],
+  requestParams: {
+    page: 0,
+    size: 25,
+    filter: { }
+  },
+  totalPages: 0,
+  sizePerPageList: [10, 20, 50, 100]
+}
+
 export default {
   auth: initAuth(),
   config: {
@@ -54,33 +73,9 @@ export default {
     modalProps: {},
   },
   locale: initializeLocale(),
-  organizations: {
-    isFetching: false,
-    error: null,
-    content: [],
-    requestParams: {
-      page: 0,
-      size: 20,
-      filter: { }
-    },
-    totalPages: 0,
-    sizePerPageList: [10, 20, 50, 100],
-  },
-  organization: {
-    isFetching: false,
-    error: null,
-    content: {},
-  },
-  users: {
-    isFetching: false,
-    error: null,
-    content: [],
-    requestParams: {
-      page: 0,
-      size: 20,
-      filter: { }
-    },
-    totalPages: 0,
-    sizePerPageList: [10, 20, 50, 100],
-  },
+  organizations: defaultPageableState, 
+  organization: defaultObjectState,
+  trainings: defaultPageableState,
+  training: defaultObjectState,
+  users: defaultPageableState,
 }

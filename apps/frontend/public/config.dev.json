@@ -54,6 +54,16 @@
       "api": {
         "get": "{REST_URL}/user"
       }
+    },
+    "training": {
+      "url": "/training/:tid",
+      "api": {
+        "create": "{REST_URL}/training",
+        "get": "{REST_URL}/training/:tid"
+      }
+    },
+    "trainings": {
+      "url": "/trainings"
     }
   }
 }

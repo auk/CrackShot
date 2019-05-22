@@ -60,6 +60,9 @@ class OrganizationPage extends React.Component {
       <React.Fragment>
         <Breadcrumbs header={pageMessages.title} crumbs={crumbs} />
         <Page title={formatMessage(pageMessages.title)}>
+
+          {organization.error && <Page.Error error={organization.error} />}
+
           <Page.ContainerRow>
             <Page.Container size="col-md-12">
               <Page.Header>

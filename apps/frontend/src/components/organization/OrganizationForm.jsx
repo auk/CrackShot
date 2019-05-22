@@ -1,12 +1,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
 
 import { InputText, InputTextarea } from '@startext/react-components';
 // import Validate from './validate';
+import { defaultMessage } from 'i18n/defineMessages';
+
+const common = defaultMessage.common;
 
 let OrganizationForm = React.memo(props => {
-  const { handleReset, handleSubmit, resetBtnText, submitBtnText } = props;
+  const { handleReset, handleSubmit, resetBtnText, submitBtnText, intl: { formatMessage } } = props;
 
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
@@ -71,8 +75,8 @@ let OrganizationForm = React.memo(props => {
 
       <div className="form-group">
         <div className="col-sm-10">
-          <button type="submit" className="btn btn-primary" onClick={handleSubmit}>{submitBtnText}</button>
-          <button type="button" className="btn btn-white" onClick={handleReset}>{resetBtnText}</button>
+          <button type="submit" className="btn btn-primary" onClick={handleSubmit}>{submitBtnText || formatMessage(common.save)}</button>
+          <button type="button" className="btn btn-white" onClick={handleReset}>{resetBtnText || formatMessage(common.reset)} </button>
         </div>
       </div>
 
@@ -91,4 +95,4 @@ OrganizationForm = reduxForm({
   touchOnBlur: false,
 })(OrganizationForm);
 
-export default OrganizationForm;
+export default injectIntl(OrganizationForm);

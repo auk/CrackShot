@@ -1,5 +1,8 @@
 import axios from 'axios';
+
 import { ID_TOKEN } from '../constants/utils';
+
+var qs = require('qs');
 
 //Rest calls
 export const callApi = ({ url, config }) => {
@@ -9,6 +12,9 @@ export const callApi = ({ url, config }) => {
     headers: {
       'Authorization': 'Bearer ' + localStorage.getItem(ID_TOKEN),
       'Content-Type': 'application/json; charset=utf-8',
+    },
+    paramsSerializer: params => {
+      return qs.stringify(params, { arrayFormat: 'repeat' })
     },
     ...config
   })

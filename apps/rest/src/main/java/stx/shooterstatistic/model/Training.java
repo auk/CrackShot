@@ -12,17 +12,19 @@ import java.util.List;
 
 @Entity
 public class Training extends AbstractEntity {
+
+  private String organizationId;
+
   LocalDate date;
 
 //  @Column(name = "ORGANIZATION_ID")
-  private String organizationId;
 
   @JsonIgnore
   @OneToMany(mappedBy = "trainingId", fetch = FetchType.LAZY)
   private List<Stage> stages = new ArrayList<>(0);
 
   @ManyToMany
-  List<User> shooters;
+  List<User> users;
 
   List<Stage> getStages() {
     return stages;

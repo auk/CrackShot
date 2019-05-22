@@ -81,6 +81,9 @@ class UsersPage extends React.Component {
       <React.Fragment>
         <Breadcrumbs header={pageMessages.title} crumbs={crumbs} />
         <Page title={formatMessage(pageMessages.title)}>
+
+          {users.error && <Page.Error error={users.error} />}
+
           <Page.ContainerRow>
             <Page.Container size="col-md-12">
               <Page.Header>

@@ -1,3 +1,5 @@
+import { createSelector } from 'reselect';
+
 /**
  * Common selectors
  */
@@ -21,13 +23,24 @@ export const getOrganizationUrl = state => state.config.links.organization.api.g
 export const createOrganizationUrl = state => state.config.links.organization.api.create;
 export const deleteOrganizationUrl = state => state.config.links.organization.api.delete;
 export const updateOrganizationUrl = state => state.config.links.organization.api.update;
-
 export const getOrganizationsSelector = state => state.organizations;
 export const getOrganizationSelector = state => state.organization.content;
+export const getOrganizationsOptionsSelector = createSelector(
+  getOrganizationsSelector,
+  organizations => organizations.content.map(organization => ({ label: organization.name, value: organization.id })));
+
+// Training
+
+export const createTrainingUrl = state => state.config.links.training.api.create;
+export const getTrainingsUrl = state => state.config.links.trainings.api.get;
+export const getTrainingUrl = state => state.config.links.training.api.get;
 
 // Users
 
 export const getUsersUrl = state => state.config.links.users.api.get;
 export const getCurrentUserUrl = state => state.config.links.user.api.get;
-
 export const getUsersSelector = state => state.users;
+export const userToOptionSelector = user => ({ label: user.name || user.username || user.email, value: user.id });
+export const getUsersOptionsSelector = createSelector(
+  getUsersSelector,
+  organizations => organizations.content.map(user => userToOptionSelector(user)));

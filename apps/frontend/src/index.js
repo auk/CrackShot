@@ -13,6 +13,7 @@ import App from './containers/app/App';
 
 import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.min.css';
+import 'react-datetime/css/react-datetime.css';
 import 'animate.css/animate.min.css';
 import './assets/styles/inspinia/style.css';
 import './assets/styles/fonts.css';

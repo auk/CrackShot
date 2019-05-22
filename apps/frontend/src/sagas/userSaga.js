@@ -26,13 +26,10 @@ export function* fetchUsers({requestParams}) {
 export function* fetchCurrentUser() {
   try {
     const url = yield select(selectors.getCurrentUserUrl);
-    console.log("fetchCurrentUser url:", url);
     const response = yield call(callApi, { url, });
-    console.log("fetchCurrentUser response data:", response.data);
     yield put(actions.fetchCurrentUserSuccess(response.data));
     objectStore.set(CURRENT_USER, response.data);
   } catch (error) {
-    console.log("fetchCurrentUser response error:", error);
     yield put(actions.fetchCurrentUserError(error.response ? error.response.data : error));
   }
 }

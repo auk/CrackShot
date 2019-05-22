@@ -3,6 +3,7 @@ import { authWatcherSaga } from './authSaga';
 import { configWatcherSaga } from './configSaga';
 import { localeWatcherSaga } from './localeSaga';
 import { organizationWatcherSaga } from './organizationSaga';
+import { trainingWatcherSaga } from './trainingSaga';
 import { userWatcherSaga } from './userSaga';
 
 export default function* rootSaga() {
@@ -11,6 +12,7 @@ export default function* rootSaga() {
     ...configWatcherSaga,
     ...localeWatcherSaga,
     ...organizationWatcherSaga,
+    ...trainingWatcherSaga,
     ...userWatcherSaga
   ])
 }

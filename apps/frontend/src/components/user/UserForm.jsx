@@ -1,11 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { Field, reduxForm } from 'redux-form';
-
 import { InputText } from '@startext/react-components';
+import { defaultMessage } from 'i18n/defineMessages';
+
+const common = defaultMessage.common;
 
 let UserForm = React.memo(props => {
-  const { handleSubmit } = props;
+  const { handleReset, handleSubmit, resetBtnText, submitBtnText, intl: { formatMessage } } = props;
 
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
@@ -56,6 +59,16 @@ let UserForm = React.memo(props => {
           />
         </div>
       </div>
+
+      <div className="hr-line-dashed"></div>
+
+      <div className="form-group">
+        <div className="col-sm-10">
+          <button type="submit" className="btn btn-primary" onClick={handleSubmit}>{submitBtnText || formatMessage(common.save)}</button>
+          <button type="button" className="btn btn-white" onClick={handleReset}>{resetBtnText || formatMessage(common.reset)} </button>
+        </div>
+      </div>
+
     </form>
   )
 })
@@ -71,4 +84,4 @@ UserForm = reduxForm({
   touchOnBlur: false,
 })(UserForm);
 
-export default UserForm;
+export default injectIntl(UserForm);
