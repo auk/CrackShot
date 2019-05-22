@@ -1,35 +1,28 @@
 package stx.shooterstatistic.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
 public class Organization extends AbstractEntity {
-  String owner; // user id
+
+  @ManyToOne
+  User owner; // user id
+
   String name;
   String web;
   String email;
   String phone;
   String address;
 
-  @OneToMany
-  List<OrganizationMembership> organizationMemberships;
-
-  @OneToMany(mappedBy = "organizationId", fetch = FetchType.LAZY)
-  @JsonIgnore
-  private Collection<Training> trainings = new ArrayList<>(0);
-
   private Organization() {
   }
 
-  public Organization(String owner, String name) {
+  public Organization(User owner, String name) {
     this.owner = Objects.requireNonNull(owner);
     this.name = Objects.requireNonNull(name);
   }
@@ -42,11 +35,11 @@ public class Organization extends AbstractEntity {
     this.address = address;
   }
 
-  public String getOwner() {
+  public User getOwner() {
     return owner;
   }
 
-  public void setOwner(String owner) {
+  public void setOwner(User owner) {
     this.owner = owner;
   }
 
@@ -82,19 +75,9 @@ public class Organization extends AbstractEntity {
     this.web = web;
   }
 
-  public Collection<Training> getTrainings() {
-    return trainings;
-  }
-
-  public void setTrainings(Collection<Training> trainings) {
-    this.trainings = trainings;
-  }
-
-  public List<OrganizationMembership> getOrganizationMemberships() {
-    return organizationMemberships;
-  }
-
-  public void setOrganizationMemberships(List<OrganizationMembership> organizationMemberships) {
-    this.organizationMemberships = organizationMemberships;
+  @Override
+  public String toString() {
+    return MessageFormat.format("'{' class: {0}, id: ''{1}'', name: ''{2}'', owner: ''{3}'', super: {4} '}'",
+      getClass().getName(), getId(), getName(), getOwner(), super.toString());
   }
 }

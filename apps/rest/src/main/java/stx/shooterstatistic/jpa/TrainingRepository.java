@@ -11,5 +11,4 @@ import stx.shooterstatistic.model.User;
 @RepositoryRestResource(exported = false)
 public interface TrainingRepository extends JpaRepository<Training, String> {
   Page<Training> findByOrganization(Organization organization, Pageable pageable);
-  Page<Training> findByUser(User user, Pageable pageable);
 }

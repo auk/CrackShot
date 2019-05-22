@@ -26,9 +26,6 @@ public class OrganizationServiceTest {
 
   User adminUser;
 
-//  final String user1Username = "user1@startext.tomsk.ru";
-//  final String user2Username = "user2@startext.tomsk.ru";
-
   @Autowired
   OrganizationService organizationService;
 
@@ -59,7 +56,7 @@ public class OrganizationServiceTest {
   }
 
   @Test(expected = ResourceNotFoundException.class)
-  public void testGetNonexistingOrganization() {
+  public void testGetNonExistingOrganization() {
     SecurityContext context = securityService.createContext(adminUser);
     organizationService.deleteOrganization(context, UUID.randomUUID().toString());
   }

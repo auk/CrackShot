@@ -50,7 +50,7 @@ public class OrganizationService {
     Objects.requireNonNull(user);
     Objects.requireNonNull(name);
 
-    Organization workspace = new Organization(user.getId(), name);
+    Organization workspace = new Organization(user, name);
     workspace = organizationRepository.save(workspace);
     organizationMembershipService.register(SecurityContext.create(user), workspace, user, true);
     return workspace;

@@ -3,6 +3,7 @@ package stx.shooterstatistic.model;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
+import java.text.MessageFormat;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,9 +27,6 @@ public class User extends AbstractEntity {
     Objects.requireNonNull(username);
     this.username = username;
   }
-
-  @OneToMany
-  List<OrganizationMembership> organizationMemberships;
 
   public String getEmail() {
     return email;
@@ -70,11 +68,9 @@ public class User extends AbstractEntity {
     this.username = username;
   }
 
-  public List<OrganizationMembership> getOrganizationMemberships() {
-    return organizationMemberships;
-  }
-
-  public void setOrganizationMemberships(List<OrganizationMembership> organizationMemberships) {
-    this.organizationMemberships = organizationMemberships;
+  @Override
+  public String toString() {
+    return MessageFormat.format("'{' class: {0}, id: ''{1}'', username: ''{2}'', email: ''{3}'', name: ''{4}'', super: {5} '}'",
+      getClass().getName(), getId(), getUsername(), getEmail(), getName(), super.toString());
   }
 }
