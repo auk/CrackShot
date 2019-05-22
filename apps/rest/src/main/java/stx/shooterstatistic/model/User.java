@@ -28,7 +28,7 @@ public class User extends AbstractEntity {
   }
 
   @OneToMany
-  List<UserMembership> userMemberships;
+  List<OrganizationMembership> organizationMemberships;
 
   public String getEmail() {
     return email;
@@ -70,11 +70,11 @@ public class User extends AbstractEntity {
     this.username = username;
   }
 
-  public List<UserMembership> getUserMemberships() {
-    return userMemberships;
+  public List<OrganizationMembership> getOrganizationMemberships() {
+    return organizationMemberships;
   }
 
-  public void setUserMemberships(List<UserMembership> userMemberships) {
-    this.userMemberships = userMemberships;
+  public void setOrganizationMemberships(List<OrganizationMembership> organizationMemberships) {
+    this.organizationMemberships = organizationMemberships;
   }
 }

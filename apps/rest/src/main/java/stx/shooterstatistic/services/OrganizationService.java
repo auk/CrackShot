@@ -31,7 +31,7 @@ public class OrganizationService {
   UserService userService;
 
   @Autowired
-  UserMembershipService userMembershipService;
+  OrganizationMembershipService organizationMembershipService;
 
   @NotNull
   public Organization createOrganization(Principal principal, String name) {
@@ -52,7 +52,7 @@ public class OrganizationService {
 
     Organization workspace = new Organization(user.getId(), name);
     workspace = organizationRepository.save(workspace);
-    userMembershipService.register(SecurityContext.create(user), workspace, user, true);
+    organizationMembershipService.register(SecurityContext.create(user), workspace, user, true);
     return workspace;
   }
 
@@ -63,7 +63,7 @@ public class OrganizationService {
   public void deleteOrganization(SecurityContext context, String id) {
     Organization org = organizationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Organization", id));
     securityService.checkHasAccess(context, org, Permission.WRITE);
-    userMembershipService.unregisterAll(context, org);
+    organizationMembershipService.unregisterAll(context, org);
     organizationRepository.delete(org);
   }
 

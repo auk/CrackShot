@@ -20,7 +20,7 @@ public class Organization extends AbstractEntity {
   String address;
 
   @OneToMany
-  List<UserMembership> userMemberships;
+  List<OrganizationMembership> organizationMemberships;
 
   @OneToMany(mappedBy = "organizationId", fetch = FetchType.LAZY)
   @JsonIgnore
@@ -90,11 +90,11 @@ public class Organization extends AbstractEntity {
     this.trainings = trainings;
   }
 
-  public List<UserMembership> getUserMemberships() {
-    return userMemberships;
+  public List<OrganizationMembership> getOrganizationMemberships() {
+    return organizationMemberships;
   }
 
-  public void setUserMemberships(List<UserMembership> userMemberships) {
-    this.userMemberships = userMemberships;
+  public void setOrganizationMemberships(List<OrganizationMembership> organizationMemberships) {
+    this.organizationMemberships = organizationMemberships;
   }
 }
