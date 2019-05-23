@@ -113,6 +113,11 @@ public class TrainingParticipantRepositoryTest {
       trainingParticipants = trainingParticipantRepository.findByOrganization(null, Pageable.unpaged());
       Assert.assertEquals(1, trainingParticipants.getTotalElements());
 
+      // 4: search by training and user
+      Assert.assertTrue(trainingParticipantRepository.findByTrainingAndUser(training1, user1).isPresent());
+      Assert.assertTrue(trainingParticipantRepository.findByTrainingAndUser(training1, user2).isPresent());
+      Assert.assertFalse(trainingParticipantRepository.findByTrainingAndUser(training1, user3).isPresent());
+
     } finally {
       trainingParticipantRepository.deleteAll();
       trainingRepository.deleteAll();

@@ -11,7 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import stx.shooterstatistic.exceptions.ResourceNotFoundException;
-import stx.shooterstatistic.jpa.OrganizationSearchCriteria;
+import stx.shooterstatistic.model.OrganizationSearchCriteria;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
@@ -82,7 +82,8 @@ public class OrganizationController {
     User user = userService.findUser(principal).orElseThrow(() -> new ResourceNotFoundException("User", principal.getName()));
     SecurityContext context = securityService.createContext(user);
 
-    organizationService.deleteOrganization(context, id);
+    Organization organization = organizationService.getOrganization(context, id);
+    organizationService.deleteOrganization(context, organization);
     return ResponseEntity.ok().build();
   }
 }

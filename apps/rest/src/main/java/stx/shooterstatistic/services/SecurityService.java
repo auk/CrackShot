@@ -27,7 +27,7 @@ public class SecurityService {
 
   public boolean hasAccess(@NotNull SecurityContext context, @NotNull Organization organization, Permission permission) {
     Objects.requireNonNull(context);
-    Objects.requireNonNull(organization);
+//    Objects.requireNonNull(organization);
 
     // auk: TODO
     return true;

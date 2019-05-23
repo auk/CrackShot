@@ -57,7 +57,7 @@ public class UserService {
     return userRepository.findByEmail(email);
   }
 
-  public Optional<User> findUserByID(@NotNull String id) {
+  public Optional<User> findUserById(SecurityContext context, @NotNull String id) {
     return userRepository.findById(id);
   }
 

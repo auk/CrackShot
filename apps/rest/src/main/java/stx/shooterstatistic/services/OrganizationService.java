@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import stx.shooterstatistic.exceptions.ResourceAlreadyExists;
+import stx.shooterstatistic.exceptions.ResourceAlreadyExistsException;
 import stx.shooterstatistic.exceptions.ResourceNotFoundException;
 import stx.shooterstatistic.jpa.OrganizationRepository;
-import stx.shooterstatistic.jpa.OrganizationSearchCriteria;
+import stx.shooterstatistic.model.OrganizationSearchCriteria;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.Permission;
 import stx.shooterstatistic.model.SecurityContext;
@@ -39,7 +39,7 @@ public class OrganizationService {
     Objects.requireNonNull(name);
 
     if (organizationRepository.findByName(name).isPresent())
-      throw new ResourceAlreadyExists("Organization", name);
+      throw new ResourceAlreadyExistsException("Organization", name);
 
     User user = userService.findUser(principal).orElseThrow(() -> new ResourceNotFoundException("User", principal.getName()));
     return createOrganization(user, name);
@@ -60,11 +60,12 @@ public class OrganizationService {
     return organizationRepository.findAll(pageable);
   }
 
-  public void deleteOrganization(SecurityContext context, String id) {
-    Organization org = organizationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Organization", id));
-    securityService.checkHasAccess(context, org, Permission.WRITE);
-    organizationMembershipService.unregisterAll(context, org);
-    organizationRepository.delete(org);
+  public void deleteOrganization(SecurityContext context, Organization organization) {
+    Objects.requireNonNull(organization);
+
+    securityService.checkHasAccess(context, organization, Permission.WRITE);
+    organizationMembershipService.unregisterAll(context, organization);
+    organizationRepository.delete(organization);
   }
 
   @NotNull

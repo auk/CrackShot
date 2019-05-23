@@ -52,12 +52,6 @@ public class OrganizationServiceTest {
     SecurityContext context = securityService.createContext(adminUser);
     Assert.assertNotNull(organizationService.getOrganization(context, org.getId()));
 
-    organizationService.deleteOrganization(context, org.getId());
-  }
-
-  @Test(expected = ResourceNotFoundException.class)
-  public void testGetNonExistingOrganization() {
-    SecurityContext context = securityService.createContext(adminUser);
-    organizationService.deleteOrganization(context, UUID.randomUUID().toString());
+    organizationService.deleteOrganization(context, org);
   }
 }

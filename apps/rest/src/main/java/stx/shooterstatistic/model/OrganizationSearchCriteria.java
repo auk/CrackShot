@@ -1,9 +1,9 @@
-package stx.shooterstatistic.jpa;
+package stx.shooterstatistic.model;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.List;
 
 public class OrganizationSearchCriteria implements Serializable {
   String term;
-  Collection<String> users; // users id
+  List<String> users; // users id
 }

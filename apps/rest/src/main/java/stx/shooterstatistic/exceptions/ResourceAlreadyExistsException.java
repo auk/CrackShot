@@ -9,11 +9,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.text.MessageFormat;
 
-public class ResourceAlreadyExists extends RuntimeException {
-  public ResourceAlreadyExists(String id) {
+public class ResourceAlreadyExistsException extends RuntimeException {
+  public ResourceAlreadyExistsException(String id) {
     super(MessageFormat.format("Resource with id=''{0}'' was not found.", id));
   }
-  public ResourceAlreadyExists(String type, String id) {
+  public ResourceAlreadyExistsException(String type, String id) {
     super(MessageFormat.format("{0} with id=''{1}'' was not found.", type, id));
   }
 }
@@ -21,9 +21,9 @@ public class ResourceAlreadyExists extends RuntimeException {
 @ControllerAdvice
 class ResourceAlreadyExistsControllerAdvice {
   @ResponseBody
-  @ExceptionHandler(ResourceAlreadyExists.class)
+  @ExceptionHandler(ResourceAlreadyExistsException.class)
   @ResponseStatus(HttpStatus.FORBIDDEN)
-  VndErrors userAlreadyExistsExceptionHandler(ResourceAlreadyExists ex) {
+  VndErrors userAlreadyExistsExceptionHandler(ResourceAlreadyExistsException ex) {
     return new VndErrors("error", ex.getMessage());
   }
 }
