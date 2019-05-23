@@ -4,8 +4,8 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 public class Organization extends AbstractEntity {

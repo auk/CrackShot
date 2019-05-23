@@ -72,7 +72,7 @@ public class ShooterStatisticApplication {
   UserService userService;
 
   @Bean
-  public InitializingBean insertDefaultUsers() {
+  public synchronized InitializingBean insertDefaultUsers() {
     return () -> {
       User user = userRepository.findByEmail(adminEmail).orElseGet(() -> userService.createUser(adminUsername, adminEmail));
       if (organizationRepository.count() == 0) {

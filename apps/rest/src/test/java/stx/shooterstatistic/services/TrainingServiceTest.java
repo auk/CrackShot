@@ -17,12 +17,11 @@ import stx.shooterstatistic.jpa.OrganizationRepository;
 import stx.shooterstatistic.jpa.TrainingParticipantRepository;
 import stx.shooterstatistic.jpa.TrainingRepository;
 import stx.shooterstatistic.model.*;
+import stx.shooterstatistic.util.Definable;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -120,14 +119,53 @@ public class TrainingServiceTest {
     trainingService.createTraining(context, today, organization2, Collections.singletonList(users.get(2)));
     trainingService.createTraining(context, tommorow, organization2, Arrays.asList(users.get(0), users.get(1)));
 
+    // stage 1: check by organization
     TrainingSearchCriteria searchCriteria = new TrainingSearchCriteria();
-    searchCriteria.setOrganization(organization1.getId());
-
     Page<Training> trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
-    Assert.assertNotNull(trainings);
+    Assert.assertEquals(9, trainings.getTotalElements());
 
-    log.info("trainings: {}", trainings.getContent());
+    searchCriteria = new TrainingSearchCriteria();
+    searchCriteria.setOrganization(Definable.of(organization1.getId()));
+    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
+    Assert.assertEquals(3, trainings.getTotalElements());
 
-    Assert.assertEquals(1, trainings.getTotalElements());
+    searchCriteria.setOrganization(Definable.of(organization2.getId()));
+    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
+    Assert.assertEquals(3, trainings.getTotalElements());
+
+    searchCriteria.setOrganization(Definable.empty());
+    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
+    Assert.assertEquals(3, trainings.getTotalElements());
+
+    // stage 2: check by date
+    searchCriteria = new TrainingSearchCriteria();
+    searchCriteria.setDateFrom(today);
+    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
+    Assert.assertEquals(6, trainings.getTotalElements());
+
+    searchCriteria.setDateTo(today);
+    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
+    Assert.assertEquals(3, trainings.getTotalElements());
+
+    // stage 3: check by users
+    searchCriteria = new TrainingSearchCriteria();
+    searchCriteria.setUsers(Collections.singletonList(users.get(0).getId()));
+    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
+    Assert.assertEquals(5, trainings.getTotalElements());
+
+    searchCriteria.setUsers(Collections.singletonList(users.get(1).getId()));
+    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
+    Assert.assertEquals(4, trainings.getTotalElements());
+
+    searchCriteria.setUsers(Arrays.asList(users.get(1).getId(), users.get(2).getId()));
+    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
+    Assert.assertEquals(8, trainings.getTotalElements());
+  }
+
+  @Test
+  public void testOptional() {
+    Optional<String> o1 = Optional.ofNullable(null);
+    Optional<String> o2 = Optional.empty();
+    Assert.assertEquals(o1, o2);
   }
 }

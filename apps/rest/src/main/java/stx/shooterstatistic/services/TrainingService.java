@@ -1,5 +1,7 @@
 package stx.shooterstatistic.services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import stx.shooterstatistic.jpa.TrainingParticipantRepository;
 import stx.shooterstatistic.jpa.TrainingRepository;
 import stx.shooterstatistic.model.*;
+import stx.shooterstatistic.util.Definable;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -20,6 +23,8 @@ import java.util.*;
 
 @Service
 public class TrainingService {
+
+  private final static Logger log = LoggerFactory.getLogger(TrainingService.class);
 
   @Autowired
   SecurityService securityService;
@@ -53,11 +58,15 @@ public class TrainingService {
     List<Predicate> params = new ArrayList<>();
     if (criteria != null) {
 
-      if (criteria.getOrganization() == null) {
-        params.add(builder.isNull(rootTraining.get("organization")));
-      } else {
-        Join<Training, Organization> joinOrganization = rootTraining.join("organization", JoinType.INNER);
-        params.add(builder.equal(joinOrganization.get("id"), criteria.getOrganization()));
+      Definable<String> defOrg = Objects.requireNonNull(criteria.getOrganization());
+      if (defOrg.isDefined()) {
+        Optional<String> opOrg = defOrg.optional();
+        if (opOrg.isPresent()) {
+          Join<Training, Organization> joinOrganization = rootTraining.join("organization", JoinType.INNER);
+          params.add(builder.equal(joinOrganization.get("id"), opOrg.get()));
+        } else {
+          params.add(builder.isNull(rootTraining.get("organization")));
+        }
       }
 
       if (criteria.getDateFrom() != null) {
@@ -65,6 +74,13 @@ public class TrainingService {
       }
       if (criteria.getDateTo() != null) {
         params.add(builder.lessThanOrEqualTo(rootTraining.get("date"), criteria.getDateTo()));
+      }
+
+      List<String> users = criteria.getUsers();
+      if (users != null && !users.isEmpty()) {
+        Join<Training, TrainingParticipant> joinParticipant = rootTraining.join("participants", JoinType.LEFT);
+        Join<TrainingParticipant, User> joinUser = joinParticipant.join("user", JoinType.LEFT);
+        params.add(joinUser.get("id").in(users));
       }
     }
     return params;
@@ -93,14 +109,16 @@ public class TrainingService {
     CriteriaQuery<Training> criteriaQuery = builder.createQuery(Training.class);
     Root<Training> rootTimeEntry = criteriaQuery.from(Training.class);
 
-    List<Predicate> params = new ArrayList<>();
-    params.addAll(buildSearchParameters(builder, rootTimeEntry, searchCriteria));
+    List<Predicate> params = buildSearchParameters(builder, rootTimeEntry, searchCriteria);
+    criteriaQuery.where(params.toArray(new Predicate[0]));
 
     if (pageable != null && pageable.getSort() != null && !pageable.isUnpaged()) {
       criteriaQuery.orderBy(createOrders(builder, rootTimeEntry, pageable.getSort()));
     } else {
       criteriaQuery.orderBy(createDefaultOrders(builder, rootTimeEntry));
     }
+
+    criteriaQuery.distinct(true);
 
     TypedQuery<Training> q = entityManager.createQuery(criteriaQuery);
     if (pageable != null && !pageable.isUnpaged()) {
@@ -128,6 +146,8 @@ public class TrainingService {
 
     Organization organization = training.getOrganization();
     securityService.checkHasAccess(context, organization, Permission.READ);
+
+    log.info("- participating training: {}, user: {}, organization: {}", training.getId(), user.getId(), organization);
 
     return trainingParticipantRepository
       .findByTrainingAndUser(training, user)

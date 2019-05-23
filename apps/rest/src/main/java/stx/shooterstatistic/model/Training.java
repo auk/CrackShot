@@ -1,8 +1,6 @@
 package stx.shooterstatistic.model;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
 import java.time.LocalDate;
@@ -17,6 +15,9 @@ public class Training extends AbstractEntity {
   private Organization organization;
 
   LocalDate date;
+
+  @OneToMany(mappedBy = "training")
+  List<TrainingParticipant> participants;
 
   private Training() {} // jpa
 
@@ -43,7 +44,7 @@ public class Training extends AbstractEntity {
 
   @Override
   public String toString() {
-    return MessageFormat.format("'{' class: {0}, id: ''{1}'', date: ''{2}'', organization: ''{3}'', super: {4} '}'",
-       getClass().getName(), getId(), getDate(), getOrganization(), super.toString());
+    return MessageFormat.format("'{' class: {0}, id: ''{1}'', date: ''{2}'', super: {3} '}'",
+       getClass().getName(), getId(), getDate(), super.toString());
   }
 }

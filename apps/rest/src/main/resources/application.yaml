@@ -7,8 +7,8 @@
 #    key-alias: ${SSL_KEY_ALIAS:tomcat}
 #    key-password: ${SSL_KEY_PASSWORD:tomcat-password-not-specified}
 
-logging.level.org.hibernate.SQL: DEBUG
-logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+#logging.level.org.hibernate.SQL: DEBUG
+#logging.level.org.hibernate.type.descriptor.sql.BasicBinder: TRACE
 
 spring:
   jackson:
