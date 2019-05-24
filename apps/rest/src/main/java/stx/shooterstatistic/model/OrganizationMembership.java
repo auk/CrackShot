@@ -15,20 +15,24 @@ public class OrganizationMembership extends AbstractEntity {
 
   LocalDate registerDate;
 
-  boolean isAdmin;
+  boolean admin;
 
   private OrganizationMembership() {
 
   }
 
-  public OrganizationMembership(Organization organization, User user, boolean isAdmin) {
+  public OrganizationMembership(Organization organization, User user, boolean admin) {
     this.organization = Objects.requireNonNull(organization);
     this.user = Objects.requireNonNull(user);
-    this.isAdmin = isAdmin;
+    this.admin = admin;
   }
 
   public LocalDate getRegisterDate() {
     return registerDate;
+  }
+
+  public boolean isAdmin() {
+    return admin;
   }
 
   public void setRegisterDate(LocalDate registerDate) {

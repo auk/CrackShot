@@ -1,5 +1,6 @@
 package stx.shooterstatistic.services;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.Permission;
@@ -7,6 +8,7 @@ import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
 
 import javax.validation.constraints.NotNull;
+import java.security.Principal;
 import java.text.MessageFormat;
 import java.util.Objects;
 
@@ -14,9 +16,17 @@ import java.util.Objects;
 public class SecurityService {
   private final static String FORMAT_HasAccessException = "User ''{0}'' has no access to object ''{1}''";
 
+  @Autowired
+  UserService userService;
+
   public SecurityContext createContext(@NotNull User user) {
     Objects.requireNonNull(user);
     return SecurityContext.create(user);
+  }
+
+  public SecurityContext createContext(@NotNull Principal principal) {
+    Objects.requireNonNull(principal);
+    return SecurityContext.create(userService.getUser(principal));
   }
 
   void checkHasAccess(SecurityContext context, Organization organization, Permission permission) {

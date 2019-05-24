@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import stx.shooterstatistic.exceptions.ResourceNotFoundException;
 import stx.shooterstatistic.jpa.TrainingParticipantRepository;
 import stx.shooterstatistic.jpa.TrainingRepository;
 import stx.shooterstatistic.model.*;
@@ -34,6 +35,12 @@ public class TrainingService {
 
   @Autowired
   TrainingParticipantRepository trainingParticipantRepository;
+
+  @Autowired
+  OrganizationMembershipService organizationMembershipService;
+
+  @Autowired
+  OrganizationService organizationService;
 
   @Autowired
   EntityManager entityManager;
@@ -103,7 +110,25 @@ public class TrainingService {
     return Collections.singletonList(builder.asc(date));
   }
 
-  public Page<Training> findTrainings(@NotNull SecurityContext context, TrainingSearchCriteria searchCriteria, Pageable pageable) {
+  private TrainingSearchCriteria normalizeSearchCriteria(@NotNull SecurityContext context, @NotNull TrainingSearchCriteria searchCriteria) {
+    Definable<String> defOrg = searchCriteria.getOrganization();
+    if (!defOrg.isPresent()) {
+      searchCriteria.setUsers(Collections.singletonList(context.getUser().getId()));
+    } else {
+      String oid = defOrg.velue();
+      Objects.requireNonNull(oid);
+
+      Organization organization = organizationService.getOrganization(context, oid);
+      if (organizationMembershipService.isAdmin(context, organization, context.getUser())) {
+        searchCriteria.setUsers(Collections.singletonList(context.getUser().getId()));
+      }
+    }
+    return searchCriteria;
+  }
+
+  public Page<Training> findTrainings(@NotNull SecurityContext context, @NotNull TrainingSearchCriteria searchCriteria, @NotNull Pageable pageable) {
+
+    searchCriteria = normalizeSearchCriteria(context, searchCriteria);
 
     CriteriaBuilder builder = entityManager.getCriteriaBuilder();
     CriteriaQuery<Training> criteriaQuery = builder.createQuery(Training.class);
@@ -128,6 +153,19 @@ public class TrainingService {
 
     List<Training> result = q.getResultList();
     return new PageImpl<>(result, pageable, result.size());
+  }
+
+  public Optional<Training> findTraining(SecurityContext context, @NotNull String id) {
+    Objects.requireNonNull(id);
+
+    Optional<Training> training = trainingRepository.findById(id);
+    // TODO: check security
+    return training;
+  }
+
+  @NotNull
+  public Training getTraining(SecurityContext context, @NotNull String id) {
+    return findTraining(context, id).orElseThrow(() -> new ResourceNotFoundException("Training", id));
   }
 
   public boolean isParticipated(@NotNull SecurityContext context, @NotNull Training training, @NotNull User user) {

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import stx.shooterstatistic.exceptions.ResourceNotFoundException;
 import stx.shooterstatistic.jpa.OrganizationMembershipRepository;
 import stx.shooterstatistic.model.*;
 
@@ -38,10 +39,15 @@ public class OrganizationMembershipService {
     return organizationMembershipRepository.save(new OrganizationMembership(organization, user, isAsmin));
   }
 
+  public boolean isAdmin(@NotNull SecurityContext context, @NotNull Organization organization, @NotNull User user) {
+    Objects.requireNonNull(organization);
+    Optional<OrganizationMembership> opMembership = findMembership(context, organization, user);
+    return opMembership.isPresent() && opMembership.get().isAdmin();
+  }
+
   public boolean isMember(@NotNull SecurityContext context, @NotNull Organization organization, @NotNull User user) {
     Objects.requireNonNull(organization);
-    securityService.checkHasAccess(context, organization, Permission.READ);
-    return organizationMembershipRepository.findByOrganizationAndUser(organization, user).isPresent();
+    return findMembership(context, organization, user).isPresent();
   }
 
   public Page<OrganizationMembership> getMembers(@NotNull SecurityContext context, @NotNull Organization organization, Pageable pageable) {
@@ -49,6 +55,17 @@ public class OrganizationMembershipService {
     Objects.requireNonNull(organization);
     securityService.checkHasAccess(context, organization, Permission.READ);
     return organizationMembershipRepository.findByOrganization(organization, pageable);
+  }
+
+  @NotNull
+  public Optional<OrganizationMembership> findMembership(@NotNull SecurityContext context, @NotNull Organization organization, @NotNull User user) {
+    securityService.checkHasAccess(context, organization, Permission.READ);
+    return organizationMembershipRepository.findByOrganizationAndUser(organization, user);
+  }
+
+  @NotNull
+  public OrganizationMembership getMembership(@NotNull SecurityContext context, @NotNull Organization organization, @NotNull User user) {
+    return findMembership(context, organization, user).orElseThrow(() -> new ResourceNotFoundException("Membership"));
   }
 
   public void unregister(@NotNull SecurityContext context, @NotNull Organization organization, @NotNull User user) {

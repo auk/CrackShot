@@ -1,5 +1,6 @@
 package stx.shooterstatistic.util;
 
+import javax.validation.constraints.Null;
 import java.lang.reflect.Field;
 import java.util.Objects;
 import java.util.Optional;
@@ -60,8 +61,8 @@ public class Definable<T> {
     return defined;
   }
 
-  public boolean isUndefined() {
-    return !defined;
+  public boolean isPresent() {
+    return value != null;
   }
 
   public Optional<T> optional()
@@ -70,5 +71,13 @@ public class Definable<T> {
       throw new UnsupportedOperationException("Value is not defined.");
 
     return Optional.ofNullable(value);
+  }
+
+  @Null
+  public T velue() {
+    if (!defined)
+      throw new UnsupportedOperationException("Value is not defined.");
+
+    return value;
   }
 }

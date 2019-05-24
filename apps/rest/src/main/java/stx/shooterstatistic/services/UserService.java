@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import stx.shooterstatistic.exceptions.ResourceNotFoundException;
 import stx.shooterstatistic.jpa.UserRepository;
 import stx.shooterstatistic.jpa.UserSearchCriteria;
 import stx.shooterstatistic.model.SecurityContext;
@@ -63,6 +64,10 @@ public class UserService {
 
   public Optional<User> findUserByUsername(String username) {
     return userRepository.findByUsername(username);
+  }
+
+  public User getUser(@NotNull Principal principal) {
+    return findUser(principal).orElseThrow(() -> new ResourceNotFoundException("User", principal.getName()));
   }
 
   public Page<User> getUsers(SecurityContext context, UserSearchCriteria userSearchCriteria, Pageable pageable) {
