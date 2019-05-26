@@ -17,40 +17,42 @@ import stx.shooterstatistic.jpa.OrganizationRepository;
 import stx.shooterstatistic.jpa.TrainingParticipantRepository;
 import stx.shooterstatistic.jpa.TrainingRepository;
 import stx.shooterstatistic.model.*;
+import stx.shooterstatistic.tests.TestUtils;
 import stx.shooterstatistic.util.Definable;
 
+import javax.transaction.Transactional;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Transactional
 public class TrainingServiceTest {
 
   private final static Logger log = LoggerFactory.getLogger(OrganizationServiceTest.class);
 
-  @Autowired
-  OrganizationRepository organizationRepository;
+  @Autowired private OrganizationRepository organizationRepository;
+  @Autowired private OrganizationMembershipRepository organizationMembershipRepository;
+  @Autowired private TrainingRepository trainingRepository;
+  @Autowired private TrainingParticipantRepository trainingParticipantRepository;
+  @Autowired private OrganizationService organizationService;
+  @Autowired private SecurityService securityService;
+  @Autowired private TrainingService trainingService;
+  @Autowired private UserService userService;
 
-  @Autowired
-  OrganizationMembershipRepository organizationMembershipRepository;
+  @Autowired private TestUtils testUtils;
 
-  @Autowired TrainingRepository trainingRepository;
-  @Autowired
-  TrainingParticipantRepository trainingParticipantRepository;
+//  @Value(value = "${stx.crackshot.admin_role:Crackshot admin}")
+//  String globalAdminRole;
 
-  @Autowired OrganizationService organizationService;
-  @Autowired SecurityService securityService;
-  @Autowired TrainingService trainingService;
-  @Autowired UserService userService;
-
-  final String adminUsername = "admin@startext.ru", fakeUsername = "fake@startext.ru";
+  private final String adminEmail = "admin@startext.ru", fakeEmail = "fake@startext.ru";
   User adminUser, fakeUser;
   List<User> users;
 
   LocalDate today = LocalDate.now();
   LocalDate yesterday = LocalDate.now().minusDays(1);
-  LocalDate tommorow = LocalDate.now().plusDays(1);
+  LocalDate tomorrow = LocalDate.now().plusDays(1);
 
   @Before
   public void initData() {
@@ -59,8 +61,8 @@ public class TrainingServiceTest {
     organizationMembershipRepository.deleteAll();
     organizationRepository.deleteAll();
 
-    adminUser = userService.findUserByEmail(adminUsername).orElseGet(() -> userService.createUser("test-admin", adminUsername));
-    fakeUser = userService.findUserByEmail(fakeUsername).orElseGet(() -> userService.createUser("test-fake", fakeUsername));
+    adminUser = userService.findUserByEmail(adminEmail).orElseGet(() -> testUtils.createAdminUser());
+    fakeUser = userService.findUserByEmail(fakeEmail).orElseGet(() -> userService.createUser("test-fake", fakeEmail));
     users = new ArrayList<User>() {{
       add(userService.createUser("User 1"));
       add(userService.createUser("User 2"));
@@ -68,7 +70,7 @@ public class TrainingServiceTest {
     }};
   }
 
-//  @After
+  @After
   public void clean() {
     final SecurityContext context = securityService.createContext(adminUser);
 
@@ -82,7 +84,7 @@ public class TrainingServiceTest {
     userService.deleteUser(context, adminUser);
   }
 
-//  @Test
+  @Test
   public void testAddDeleteTraining() {
     SecurityContext context = securityService.createContext(adminUser);
 
@@ -100,72 +102,99 @@ public class TrainingServiceTest {
     organizationService.deleteOrganization(context, organization);
   }
 
+  private long getTrainingsCount(SecurityContext context, @NotNull TrainingSearchCriteria criteria) {
+    Page<Training> trainings = trainingService.findTrainings(context, criteria, Pageable.unpaged());
+    return trainings.getTotalElements();
+  }
+
   @Test
   public void testSearch() {
-    SecurityContext context = securityService.createContext(adminUser);
+    SecurityContext adminContext = securityService.createContext(adminUser);
 
     Organization organization1 = organizationService.createOrganization(adminUser, "TrainingServiceTest organization 1");
     Organization organization2 = organizationService.createOrganization(adminUser, "TrainingServiceTest organization 2");
 
-    trainingService.createTraining(context, yesterday, organization1, users);
-    trainingService.createTraining(context, today, organization1, Arrays.asList(users.get(0), users.get(1)));
-    trainingService.createTraining(context, tommorow, organization1, Arrays.asList(users.get(0), users.get(2)));
+    trainingService.createTraining(adminContext, yesterday, organization1, users);
+    trainingService.createTraining(adminContext, today, organization1, Arrays.asList(users.get(0), users.get(1)));
+    trainingService.createTraining(adminContext, tomorrow, organization1, Arrays.asList(users.get(0), users.get(2)));
 
-    trainingService.createTraining(context, yesterday, null, Collections.singletonList(users.get(2)));
-    trainingService.createTraining(context, today, null, Collections.singletonList(users.get(1)));
-    trainingService.createTraining(context, tommorow, null, Collections.singletonList(users.get(0)));
+    trainingService.createTraining(adminContext, yesterday, null, Collections.singletonList(users.get(2)));
+    trainingService.createTraining(adminContext, today, null, Collections.singletonList(users.get(1)));
+    trainingService.createTraining(adminContext, tomorrow, null, Collections.singletonList(users.get(0)));
 
-    trainingService.createTraining(context, yesterday, organization2, Collections.singletonList(users.get(2)));
-    trainingService.createTraining(context, today, organization2, Collections.singletonList(users.get(2)));
-    trainingService.createTraining(context, tommorow, organization2, Arrays.asList(users.get(0), users.get(1)));
+    trainingService.createTraining(adminContext, yesterday, organization2, Collections.singletonList(users.get(2)));
+    trainingService.createTraining(adminContext, today, organization2, Collections.singletonList(users.get(2)));
+    trainingService.createTraining(adminContext, tomorrow, organization2, Arrays.asList(users.get(0), users.get(1)));
 
-    // stage 1: check by organization
+    // stage 1: check by organization (admin)
     TrainingSearchCriteria searchCriteria = new TrainingSearchCriteria();
-    Page<Training> trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
-    Assert.assertEquals(9, trainings.getTotalElements());
+    Assert.assertEquals(9, getTrainingsCount(adminContext, searchCriteria));
 
     searchCriteria = new TrainingSearchCriteria();
     searchCriteria.setOrganization(Definable.of(organization1.getId()));
-    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
-    Assert.assertEquals(3, trainings.getTotalElements());
+    Assert.assertEquals(3, getTrainingsCount(adminContext, searchCriteria));
 
     searchCriteria.setOrganization(Definable.of(organization2.getId()));
-    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
-    Assert.assertEquals(3, trainings.getTotalElements());
+    Assert.assertEquals(3, getTrainingsCount(adminContext, searchCriteria));
 
     searchCriteria.setOrganization(Definable.empty());
-    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
-    Assert.assertEquals(3, trainings.getTotalElements());
+    Assert.assertEquals(3, getTrainingsCount(adminContext, searchCriteria));
 
-    // stage 2: check by date
+    // stage 2: check by date (admin)
     searchCriteria = new TrainingSearchCriteria();
     searchCriteria.setDateFrom(today);
-    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
-    Assert.assertEquals(6, trainings.getTotalElements());
+    Assert.assertEquals(6, getTrainingsCount(adminContext, searchCriteria));
 
     searchCriteria.setDateTo(today);
-    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
-    Assert.assertEquals(3, trainings.getTotalElements());
+    Assert.assertEquals(3, getTrainingsCount(adminContext, searchCriteria));
 
-    // stage 3: check by users
+    // stage 3: check by users (admin)
     searchCriteria = new TrainingSearchCriteria();
     searchCriteria.setUsers(Collections.singletonList(users.get(0).getId()));
-    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
-    Assert.assertEquals(5, trainings.getTotalElements());
+    Assert.assertEquals(5, getTrainingsCount(adminContext, searchCriteria));
 
     searchCriteria.setUsers(Collections.singletonList(users.get(1).getId()));
-    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
-    Assert.assertEquals(4, trainings.getTotalElements());
+    Assert.assertEquals(4, getTrainingsCount(adminContext, searchCriteria));
 
     searchCriteria.setUsers(Arrays.asList(users.get(1).getId(), users.get(2).getId()));
-    trainings = trainingService.findTrainings(context, searchCriteria, Pageable.unpaged());
-    Assert.assertEquals(8, trainings.getTotalElements());
-  }
+    Assert.assertEquals(8, getTrainingsCount(adminContext, searchCriteria));
 
-  @Test
-  public void testOptional() {
-    Optional<String> o1 = Optional.ofNullable(null);
-    Optional<String> o2 = Optional.empty();
-    Assert.assertEquals(o1, o2);
+    SecurityContext userContext1 = securityService.createContext(users.get(0));
+    SecurityContext userContext2 = securityService.createContext(users.get(1));
+    SecurityContext userContext3 = securityService.createContext(users.get(2));
+    SecurityContext userContextFake = securityService.createContext(fakeUser);
+
+    // stage 4: check by organizations (user)
+    searchCriteria = new TrainingSearchCriteria();
+    searchCriteria.setOrganization(Definable.of(organization1.getId()));
+    Assert.assertEquals(3, getTrainingsCount(userContext1, searchCriteria));
+    Assert.assertEquals(2, getTrainingsCount(userContext2, searchCriteria));
+    Assert.assertEquals(2, getTrainingsCount(userContext3, searchCriteria));
+    Assert.assertEquals(0, getTrainingsCount(userContextFake, searchCriteria));
+
+    searchCriteria.setOrganization(Definable.of(organization2.getId()));
+    Assert.assertEquals(1, getTrainingsCount(userContext1, searchCriteria));
+    Assert.assertEquals(1, getTrainingsCount(userContext2, searchCriteria));
+    Assert.assertEquals(2, getTrainingsCount(userContext3, searchCriteria));
+    Assert.assertEquals(0, getTrainingsCount(userContextFake, searchCriteria));
+
+    searchCriteria.setOrganization(Definable.empty());
+    Assert.assertEquals(1, getTrainingsCount(userContext1, searchCriteria));
+    Assert.assertEquals(1, getTrainingsCount(userContext2, searchCriteria));
+    Assert.assertEquals(1, getTrainingsCount(userContext3, searchCriteria));
+    Assert.assertEquals(0, getTrainingsCount(userContextFake, searchCriteria));
+
+    // stage 5: search by user globally
+    searchCriteria = new TrainingSearchCriteria();
+    Assert.assertEquals(5, getTrainingsCount(userContext1, searchCriteria));
+    Assert.assertEquals(4, getTrainingsCount(userContext2, searchCriteria));
+    Assert.assertEquals(5, getTrainingsCount(userContext3, searchCriteria));
+    Assert.assertEquals(0, getTrainingsCount(userContextFake, searchCriteria));
+    Assert.assertEquals(9, getTrainingsCount(adminContext, searchCriteria));
+
+    Assert.assertEquals(5, getTrainingsCount(userContext1, null));
+    Assert.assertEquals(4, getTrainingsCount(userContext2, null));
+    Assert.assertEquals(5, getTrainingsCount(userContext3, null));
+    Assert.assertEquals(9, getTrainingsCount(adminContext, null));
   }
 }

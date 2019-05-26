@@ -19,6 +19,7 @@ import stx.shooterstatistic.services.OrganizationService;
 import stx.shooterstatistic.services.SecurityService;
 import stx.shooterstatistic.services.UserService;
 
+import javax.validation.constraints.NotNull;
 import java.security.Principal;
 
 @RestController
@@ -40,9 +41,7 @@ public class OrganizationController {
     @RequestParam(required = false) OrganizationSearchCriteria organizationSearchCriteria,
     @PageableDefault(sort = {"name"}, direction = Sort.Direction.DESC) Pageable pageable)
   {
-    User user = userService.findUser(principal).orElseThrow(() -> new ResourceNotFoundException("User", principal.getName()));
-    SecurityContext context = securityService.createContext(user);
-
+    SecurityContext context = securityService.createContext(principal);
     return organizationService.getOrganizations(context, organizationSearchCriteria, pageable);
   }
 
@@ -63,25 +62,19 @@ public class OrganizationController {
     if (phone != null && !phone.isEmpty())
       org.setPhone(phone);
 
-    User user = userService.findUser(principal).orElseThrow(() -> new ResourceNotFoundException("User", principal.getName()));
-    SecurityContext context = securityService.createContext(user);
-
+    SecurityContext context = securityService.createContext(principal);
     return new ResponseEntity<>(organizationService.save(context, org), HttpStatus.CREATED);
   }
 
   @GetMapping(value = "/organization/{id}")
-  public ResponseEntity<Organization> getOrganization(Principal principal, @PathVariable String id) {
-    User user = userService.findUser(principal).orElseThrow(() -> new ResourceNotFoundException("User", principal.getName()));
-    SecurityContext context = securityService.createContext(user);
-
+  public ResponseEntity<Organization> getOrganization(@NotNull Principal principal, @PathVariable String id) {
+    SecurityContext context = securityService.createContext(principal);
     return ResponseEntity.ok(organizationService.getOrganization(context, id));
   }
 
   @DeleteMapping(value = "/organization/{id}")
-  public ResponseEntity<Void> deleteOrganization(Principal principal, @PathVariable String id) {
-    User user = userService.findUser(principal).orElseThrow(() -> new ResourceNotFoundException("User", principal.getName()));
-    SecurityContext context = securityService.createContext(user);
-
+  public ResponseEntity<Void> deleteOrganization(@NotNull Principal principal, @PathVariable String id) {
+    SecurityContext context = securityService.createContext(principal);
     Organization organization = organizationService.getOrganization(context, id);
     organizationService.deleteOrganization(context, organization);
     return ResponseEntity.ok().build();

@@ -18,6 +18,7 @@ import stx.shooterstatistic.services.OrganizationService;
 import stx.shooterstatistic.services.UserService;
 
 import javax.annotation.PostConstruct;
+import java.util.Collections;
 
 @SpringBootApplication
 @EnableOAuth2Sso
@@ -54,10 +55,13 @@ public class ShooterStatisticApplication {
   }
 
   @Value("${stx.rest.admin.email:admin@startext.ru}")
-  String adminEmail = "auk@startext.ru";
+  String adminEmail = "admin@startext.ru";
 
   @Value("${stx.rest.admin.username:admin}")
   String adminUsername = "admin";
+
+  @Value(value = "${stx.crackshot.admin_role:Crackshot admin}")
+  String globalAdminRole;
 
   @Autowired
   OrganizationService organizationService;
@@ -74,9 +78,15 @@ public class ShooterStatisticApplication {
   @Bean
   public synchronized InitializingBean insertDefaultUsers() {
     return () -> {
-      User user = userRepository.findByEmail(adminEmail).orElseGet(() -> userService.createUser(adminUsername, adminEmail));
+      User adminUser = userService.findUserByEmail(adminEmail).orElseGet(() -> {
+        User user = userService.createUser("admin", adminUsername);
+        user.setRoles(Collections.singletonList(globalAdminRole));
+        userRepository.save(user);
+        return user;
+      });
+
       if (organizationRepository.count() == 0) {
-        Organization org = organizationService.createOrganization(user, "Initial organization");
+        Organization org = organizationService.createOrganization(adminUser, "Initial organization");
         org.setAddress("Russia, Tomsk, 63400\r\nLenina av. 111");
         org.setEmail("org@ipsc.ru");
         org.setPhone("+7 (495) 111-2222");

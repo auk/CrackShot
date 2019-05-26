@@ -46,6 +46,8 @@ security:
           -----END PUBLIC KEY-----
 
 stx:
+  crackshot:
+    admin_role: ${CRACKSHOT_ADMIN_ROLE:Crackshot admin}
   rest:
     admin:
       username: ${REST_ADMIN_USERNAME:admin}

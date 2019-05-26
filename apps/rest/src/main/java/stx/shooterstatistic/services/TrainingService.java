@@ -43,6 +43,9 @@ public class TrainingService {
   OrganizationService organizationService;
 
   @Autowired
+  UserService userService;
+
+  @Autowired
   EntityManager entityManager;
 
   @NotNull
@@ -111,16 +114,22 @@ public class TrainingService {
   }
 
   private TrainingSearchCriteria normalizeSearchCriteria(@NotNull SecurityContext context, @NotNull TrainingSearchCriteria searchCriteria) {
-    Definable<String> defOrg = searchCriteria.getOrganization();
-    if (!defOrg.isPresent()) {
-      searchCriteria.setUsers(Collections.singletonList(context.getUser().getId()));
-    } else {
-      String oid = defOrg.velue();
-      Objects.requireNonNull(oid);
+    if (searchCriteria == null)
+      searchCriteria = new TrainingSearchCriteria();
 
-      Organization organization = organizationService.getOrganization(context, oid);
-      if (organizationMembershipService.isAdmin(context, organization, context.getUser())) {
-        searchCriteria.setUsers(Collections.singletonList(context.getUser().getId()));
+    Definable<String> defOrg = searchCriteria.getOrganization();
+
+    if (!userService.isGlobalAdmin(context.getUser())) {
+      if (!defOrg.isPresent()) {
+        searchCriteria = new TrainingSearchCriteria(searchCriteria).setUsers(Collections.singletonList(context.getUser().getId()));
+      } else {
+        String oid = defOrg.velue();
+        Objects.requireNonNull(oid);
+
+        Organization organization = organizationService.getOrganization(context, oid);
+        if (!organizationService.isOwner(context, organization, context.getUser()) && !organizationMembershipService.isAdmin(context, organization, context.getUser())) {
+          searchCriteria = new TrainingSearchCriteria(searchCriteria).setUsers(Collections.singletonList(context.getUser().getId()));
+        }
       }
     }
     return searchCriteria;
@@ -185,7 +194,7 @@ public class TrainingService {
     Organization organization = training.getOrganization();
     securityService.checkHasAccess(context, organization, Permission.READ);
 
-    log.info("- participating training: {}, user: {}, organization: {}", training.getId(), user.getId(), organization);
+//    log.info("- participating training: {}, user: {}, organization: {}", training.getId(), user.getId(), organization);
 
     return trainingParticipantRepository
       .findByTrainingAndUser(training, user)

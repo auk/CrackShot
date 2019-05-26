@@ -1,6 +1,8 @@
 package stx.shooterstatistic.model;
 
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
@@ -19,6 +21,9 @@ public class User extends AbstractEntity {
   private String phone;
 
   private String source;
+
+  @ElementCollection(fetch = FetchType.EAGER)
+  private List<String> roles;
 
   protected User() {
   }
@@ -50,6 +55,14 @@ public class User extends AbstractEntity {
 
   public void setPhone(String phone) {
     this.phone = phone;
+  }
+
+  public List<String> getRoles() {
+    return roles;
+  }
+
+  public void setRoles(List<String> roles) {
+    this.roles = roles;
   }
 
   public String getSource() {

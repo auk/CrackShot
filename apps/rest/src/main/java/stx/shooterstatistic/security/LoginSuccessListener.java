@@ -11,8 +11,10 @@ import org.springframework.util.StringUtils;
 import stx.shooterstatistic.model.User;
 import stx.shooterstatistic.services.UserService;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Component
 public class LoginSuccessListener implements ApplicationListener<AuthenticationSuccessEvent> {
@@ -49,6 +51,10 @@ public class LoginSuccessListener implements ApplicationListener<AuthenticationS
     });
   }
 
+  private static String substringAfter(String str, String term) {
+    return str.substring(str.indexOf(term) + term.length());
+  }
+
   private Optional<User> mapper(Map<String, Object> map, String externalUsername) {
     String email = (String) map.get("email");
     String name = (String) map.get("name");
@@ -70,6 +76,10 @@ public class LoginSuccessListener implements ApplicationListener<AuthenticationS
       userName = email;
     }
 
+    List<String> roles = (List<String>) map.get("authorities");
+    if (roles != null)
+      roles = roles.stream().map(r -> substringAfter(r, "ROLE_")).collect(Collectors.toList());
+
     User user = new User(userName);
 
     if (!StringUtils.isEmpty(email)) {
@@ -83,6 +93,8 @@ public class LoginSuccessListener implements ApplicationListener<AuthenticationS
     if (!StringUtils.isEmpty(source)) {
       user.setSource(source);
     }
+
+    user.setRoles(roles);
 
     return Optional.of(user);
   }

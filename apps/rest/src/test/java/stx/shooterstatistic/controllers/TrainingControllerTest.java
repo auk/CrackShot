@@ -20,18 +20,15 @@ import stx.shooterstatistic.model.User;
 import stx.shooterstatistic.services.UserService;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.empty;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.Is.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringRunner.class)
@@ -71,14 +68,11 @@ public class TrainingControllerTest {
 
   @Test
   public void testCreateDeleteTraining() throws Exception {
-    LocalDate today = LocalDate.now();
-    LocalDateTime ldt = LocalDateTime.now();
-    ZonedDateTime zdt = ldt.atZone(ZoneId.systemDefault());
-    long millis = zdt.toInstant().toEpochMilli();
+    String today = LocalDate.now().format(DateTimeFormatter.ISO_DATE);
 
     // 1: create
     MvcResult mvcResult = mockMvc.perform(post("/training").principal(adminPrincipal)
-       .param("date", today.format(DateTimeFormatter.ISO_DATE))
+       .param("date", today)
       )
        .andDo(print())
        .andExpect(status().isCreated())
@@ -94,7 +88,8 @@ public class TrainingControllerTest {
        .andExpect(status().isOk())
        .andExpect(jsonPath("$", is(not(empty()))))
        .andExpect(jsonPath("id", is(not(empty()))))
-       .andExpect(jsonPath("id", is(tr.getId())));
+       .andExpect(jsonPath("id", is(tr.getId())))
+       .andExpect(jsonPath("date", is(today)));
 
     mockMvc.perform(delete("/training/{tid}", tr.getId()).principal(adminPrincipal))
        .andDo(print())

@@ -37,9 +37,7 @@ public class UserController {
     @RequestParam(required = false) UserSearchCriteria userSearchCriteria,
     @PageableDefault(sort = {"name"}, direction = Sort.Direction.DESC) Pageable pageable
   ) {
-    User user = userService.findUser(principal).orElseThrow(() -> new ResourceNotFoundException("User", principal.getName()));
-    SecurityContext context = securityService.createContext(user);
-
+    SecurityContext context = securityService.createContext(principal);
     return userService.getUsers(context, userSearchCriteria, pageable);
   }
 

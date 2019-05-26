@@ -75,8 +75,14 @@ public class OrganizationService {
     return org;
   }
 
+  public boolean isOwner(@NotNull SecurityContext context, @NotNull Organization organization, @NotNull User user) {
+    Objects.requireNonNull(organization);
+    Objects.requireNonNull(user);
+    return organization.getOwner().getId().equals(user.getId());
+  }
+
   @NotNull
-  public Organization save(SecurityContext context, @NotNull Organization org) {
+  public Organization save(@NotNull SecurityContext context, @NotNull Organization org) {
     Objects.requireNonNull(context);
     Objects.requireNonNull(org);
 

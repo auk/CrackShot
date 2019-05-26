@@ -47,7 +47,7 @@ public class TrainingController {
      @RequestParam(required = false) String oid,
      @RequestParam(required = false) List<String> users) {
 
-    SecurityContext context = securityService.createContext(userService.getUser(principal));
+    SecurityContext context = securityService.createContext(principal);
 
     Organization organization = null;
     if (oid != null) {

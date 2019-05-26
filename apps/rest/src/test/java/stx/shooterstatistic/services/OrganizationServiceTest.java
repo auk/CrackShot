@@ -1,5 +1,6 @@
 package stx.shooterstatistic.services;
 
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -9,12 +10,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import stx.shooterstatistic.exceptions.ResourceNotFoundException;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
-
-import java.util.UUID;
+import stx.shooterstatistic.tests.TestUtils;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -22,7 +21,7 @@ public class OrganizationServiceTest {
 
   private final static Logger log = LoggerFactory.getLogger(OrganizationServiceTest.class);
 
-  final String adminUsername = "admin@startext.ru";
+  final String adminEmail = "admin@startext.ru";
 
   User adminUser;
 
@@ -35,13 +34,18 @@ public class OrganizationServiceTest {
   @Autowired
   UserService userService;
 
+  @Autowired
+  TestUtils testUtils;
+
   @Before
   public void initData() {
-    adminUser = userService.findUserByEmail(adminUsername).orElseGet(() -> {
-      User u =userService.createUser("test-admin", adminUsername);
-      log.info("Created test user: {}", u);
-      return u;
-    });
+    adminUser = userService.findUserByEmail(adminEmail).orElseGet(() -> testUtils.createAdminUser());
+  }
+
+  @After
+  public void clean() {
+    SecurityContext context = securityService.createContext(adminUser);
+    userService.deleteUser(context, adminUser);
   }
 
   @Test

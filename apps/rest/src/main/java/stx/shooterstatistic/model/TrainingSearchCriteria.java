@@ -5,45 +5,62 @@ import stx.shooterstatistic.util.Definable;
 import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 public class TrainingSearchCriteria {
   Definable<String> organization = Definable.undefined();
   LocalDate dateFrom, dateTo;
-  List<String> users;
+  List<String> users = new ArrayList<>();
+
+  public TrainingSearchCriteria() {
+  }
+
+  public TrainingSearchCriteria(TrainingSearchCriteria criteria) {
+    if (criteria != null) {
+      this.organization = criteria.getOrganization();
+      this.dateFrom = criteria.getDateFrom();
+      this.dateTo = criteria.getDateTo();
+      users = new ArrayList<>(criteria.getUsers());
+    }
+  }
 
   @NotNull
   public Definable<String> getOrganization() {
     return organization;
   }
 
-  public void setOrganization(@NotNull Definable<String> organization) {
+  public TrainingSearchCriteria setOrganization(@NotNull Definable<String> organization) {
     this.organization = Objects.requireNonNull(organization);
+    return this;
   }
 
   public LocalDate getDateFrom() {
     return dateFrom;
   }
 
-  public void setDateFrom(LocalDate dateFrom) {
+  public TrainingSearchCriteria setDateFrom(LocalDate dateFrom) {
     this.dateFrom = dateFrom;
+    return this;
   }
 
   public LocalDate getDateTo() {
     return dateTo;
   }
 
-  public void setDateTo(LocalDate dateTo) {
+  public TrainingSearchCriteria setDateTo(LocalDate dateTo) {
     this.dateTo = dateTo;
+    return this;
   }
 
   public List<String> getUsers() {
     return users;
   }
 
-  public void setUsers(List<String> users) {
+  public TrainingSearchCriteria setUsers(List<String> users) {
     this.users = users;
+    return this;
   }
 
   @Override
