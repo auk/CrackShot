@@ -32,6 +32,7 @@ export const getOrganizationsOptionsSelector = createSelector(
 // Training
 
 export const createTrainingUrl = state => state.config.links.training.api.create;
+export const getTrainingsSelector = state => state.trainings;
 export const getTrainingsUrl = state => state.config.links.trainings.api.get;
 export const getTrainingUrl = state => state.config.links.training.api.get;
 

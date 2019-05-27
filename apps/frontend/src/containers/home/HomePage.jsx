@@ -12,9 +12,10 @@ import { defaultMessage } from 'i18n/defineMessages';
 // import { Enums } from '@startext/ipsc';
 import { getCurrentUserSelector, getLinksSelector, userToOptionSelector,
   getOrganizationsSelector, getOrganizationsOptionsSelector,
+  getTrainingsSelector,
   getUsersSelector, getUsersOptionsSelector } from 'selectors';
-import { createTraining } from 'actions/trainingActions';
 import { fetchOrganizations } from 'actions/organizationActions';
+import { createTraining, fetchTrainings } from 'actions/trainingActions';
 import { fetchUsers } from 'actions/userActions';
 import OrganizationForm from 'components/organization/OrganizationForm';
 import TrainingForm from 'components/training/TrainingForm';
@@ -28,8 +29,9 @@ const common = defaultMessage.common;
 class HomePage extends React.Component {
 
   componentDidMount() {
-    const { fetchOrganizations, fetchUsers, organizations, users } = this.props;
+    const { fetchOrganizations, fetchTrainings, fetchUsers, organizations, trainings, users } = this.props;
     fetchOrganizations(organizations.requestParams);
+    fetchTrainings(trainings.requestParams);
     fetchUsers(users.requestParams);
   }
 
@@ -191,12 +193,12 @@ HomePage.propTypes = {
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   })),
+  trainings: PropTypes.object.isRequired,
   users: PropTypes.object.isRequired,
   usersOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   })),
-  createWorkspace: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = state => {
@@ -205,6 +207,7 @@ const mapStateToProps = state => {
     links: getLinksSelector(state),
     organizations: getOrganizationsSelector(state),
     organizationsOptions: getOrganizationsOptionsSelector(state),
+    trainings: getTrainingsSelector(state),
     users: getUsersSelector(state),
     usersOptions: getUsersOptionsSelector(state),
   };
@@ -212,6 +215,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   fetchOrganizations,
+  fetchTrainings,
   fetchUsers,
   createTraining
 }

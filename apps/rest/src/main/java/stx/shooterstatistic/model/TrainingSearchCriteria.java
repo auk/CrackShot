@@ -22,7 +22,7 @@ public class TrainingSearchCriteria {
       this.organization = criteria.getOrganization();
       this.dateFrom = criteria.getDateFrom();
       this.dateTo = criteria.getDateTo();
-      users = new ArrayList<>(criteria.getUsers());
+      users = criteria.getUsers() == null ? new ArrayList<>() : new ArrayList<>(criteria.getUsers());
     }
   }
 
