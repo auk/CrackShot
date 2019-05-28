@@ -14,6 +14,10 @@ export const defaultMessage = defineMessages({
       id: 'common.create',
       defaultMessage: 'Create'
     },
+    date: {
+      id: 'common.date',
+      defaultMessage: 'Date'
+    },
     delete: {
       id: 'common.delete',
       defaultMessage: 'Delete'
@@ -34,6 +38,10 @@ export const defaultMessage = defineMessages({
       id: 'common.name',
       defaultMessage: 'Name'
     },
+    organization: {
+      id: 'common.organization',
+      defaultMessage: 'Organization'
+    },
     phone: {
       id: 'common.phone',
       defaultMessage: 'Phone'
@@ -41,6 +49,10 @@ export const defaultMessage = defineMessages({
     status: {
       id: 'common.status',
       defaultMessage: 'Status'
+    },
+    time: {
+      id: 'common.time',
+      defaultMessage: 'Time'
     },
     view: {
       id: 'common.view',

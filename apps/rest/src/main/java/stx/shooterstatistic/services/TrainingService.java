@@ -20,6 +20,7 @@ import javax.persistence.criteria.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 @Service
@@ -49,13 +50,22 @@ public class TrainingService {
   EntityManager entityManager;
 
   @NotNull
-  public Training createTraining(@NotNull SecurityContext context, @NotNull LocalDate date, @Null Organization organization, @Null List<User> users) {
+  public Training createTraining(
+     @NotNull SecurityContext context,
+     @NotNull LocalDate date,
+     @NotNull LocalTime time,
+     @Null Organization organization,
+     @Null List<User> users)
+  {
     securityService.checkHasAccess(context, organization, Permission.READ);
 
-    Training training = trainingRepository.save(new Training(date, organization));
+    Training training = new Training(date, organization);
+    training.setTime(time);
+
+    final Training tr = trainingRepository.save(training);
     if (users != null)
-      users.forEach(u -> participate(context, training, u));
-    return training;
+      users.forEach(u -> participate(context, tr, u));
+    return tr;
   }
 
   public void deleteTraining(@NotNull SecurityContext context, @NotNull Training training) {

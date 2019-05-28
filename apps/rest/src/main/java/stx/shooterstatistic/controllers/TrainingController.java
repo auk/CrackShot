@@ -20,6 +20,7 @@ import stx.shooterstatistic.util.Definable;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,14 +44,15 @@ public class TrainingController {
   @PostMapping(value = "/training")
   public ResponseEntity<Training> createTraining(
      Principal principal,
-     @RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
      @RequestParam(required = false) String oid,
      @RequestParam(required = false) List<String> users) {
 
     SecurityContext context = securityService.createContext(principal);
 
     Organization organization = null;
-    if (oid != null) {
+    if (oid != null && !oid.isEmpty()) {
       organization = organizationService.getOrganization(context, oid);
     }
 
@@ -59,7 +61,7 @@ public class TrainingController {
       users.forEach(uid -> userService.findUserById(context, uid).ifPresent(participants::add));
     }
 
-    Training training = trainingService.createTraining(context, date, organization, participants);
+    Training training = trainingService.createTraining(context, date, time, organization, participants);
     return new ResponseEntity<>(training, HttpStatus.CREATED);
   }
 
@@ -84,7 +86,7 @@ public class TrainingController {
      @RequestParam(required = false) LocalDate from,
      @RequestParam(required = false) LocalDate to,
      @RequestParam(required = false) List<String> users,
-     @PageableDefault(size = 50, sort = { "date" }, direction = Sort.Direction.DESC) Pageable pageable)
+     @PageableDefault(size = 50, sort = { "date", "time" }, direction = Sort.Direction.DESC) Pageable pageable)
   {
     SecurityContext context = securityService.createContext(principal);
 

@@ -11,28 +11,25 @@ import ActionMenu from 'components/actionMenu/ActionMenu';
 import Table, { HeadItem } from 'components/common/table/Table';
 
 const common = defaultMessage.common;
-const organizationMessage = defaultMessage.organization;
+const trainingMessage = defaultMessage.training;
 
-const OrganizationsList = props => {
+const TrainingsList = props => {
   const { data, links, onSizeChange, onPageChange, intl: { formatMessage } } = props;
 
-  // console.log("OrganizationsList data:", JSON.stringify(data));
+  // console.log("TrainingsList data:", JSON.stringify(data));
 
   return (
     <React.Fragment>
       <Table addClass="table-hover table-striped table-big">
         <Table.Head>
-          <HeadItem noSort name="name">
-            {formatMessage(organizationMessage.name)}
+          <HeadItem noSort name="organization">
+            {formatMessage(common.organization)}
           </HeadItem>
-          <HeadItem noSort name="web">
-            {formatMessage(common.web)}
+          <HeadItem noSort name="date">
+            {formatMessage(common.date)}
           </HeadItem>
-          <HeadItem noSort name="email">
-            {formatMessage(common.email)}
-          </HeadItem>
-          <HeadItem noSort name="phone">
-            {formatMessage(common.phone)}
+          <HeadItem noSort name="time">
+            {formatMessage(common.time)}
           </HeadItem>
           <HeadItem noSort className="pull-right">
             {formatMessage(common.actions)}
@@ -41,19 +38,28 @@ const OrganizationsList = props => {
         <Table.Body>
           {data.content && data.content.map((workspace) =>
             <tr key={workspace.id} className={workspace.id === 'wid' ? "active" : ""}>
-              <td className="col-md-6 col-sm-6">
-                <Link to={links.organization.url.replace(/:oid/i, workspace.id)}>
-                  {workspace.name}
-                </Link>
+              <td className="col-md-5 col-sm-5">
+              { workspace.organization && 
+                <div>
+                  {workspace.organization.name}
+                  &nbsp;
+                  <Link to={links.organization.url.replace(/:oid/i, workspace.organization.id)}>
+                    <i className="fa fa-external-link" aria-hidden="true"></i>
+                  </Link>
+                </div>
+              }
+              { !workspace.organization && 
+                <div>--</div>
+              }
+              </td>
+              <td className="col-md-1 col-sm-1">
+                {workspace.date}
+                {/* <span className={"label " + (workspace.ownerID === currentUser.id ? "label-info" : "label-default")}>
+                  {workspace.ownerID === currentUser.id ? formatMessage(messages.own) : formatMessage(messages.invited)}
+                </span> */}
               </td>
               <td className="col-md-2 col-sm-2">
-                {workspace.web}
-              </td>
-              <td className="col-md-2 col-sm-2">
-                {workspace.email}
-              </td>
-              <td className="col-md-2 col-sm-2">
-                {workspace.phone}
+                {workspace.time}
               </td>
               <td className="col-md-1 col-sm-1">
                 <ActionMenu>
@@ -65,7 +71,7 @@ const OrganizationsList = props => {
                       </MenuItem>
                     </LinkContainer>
                   */}
-                  <LinkContainer to={links.organization.url.replace(/:oid/i, workspace.id)}>
+                  <LinkContainer to={links.training.url.replace(/:oid/i, workspace.id)}>
                     <MenuItem eventKey="view">
                       <i className="fa fa-eye"></i>
                       <span><FormattedMessage {...common.view} /></span>
@@ -107,7 +113,7 @@ const OrganizationsList = props => {
   )
 }
 
-OrganizationsList.propTypes = {
+TrainingsList.propTypes = {
   intl: intlShape.isRequired,
   wid: PropTypes.string,
   onPageChange: PropTypes.func.isRequired,
@@ -119,4 +125,4 @@ OrganizationsList.propTypes = {
   }),
 }
 
-export default injectIntl(OrganizationsList);
+export default injectIntl(TrainingsList);

@@ -9,7 +9,6 @@ import WithLayout from 'containers/layouts/WithLayout';
 import Page from 'components/common/pageTemplate/Page';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
-// import { Enums } from '@startext/ipsc';
 import { getCurrentUserSelector, getLinksSelector, userToOptionSelector,
   getOrganizationsSelector, getOrganizationsOptionsSelector,
   getTrainingsSelector,
@@ -19,6 +18,7 @@ import { createTraining, fetchTrainings } from 'actions/trainingActions';
 import { fetchUsers } from 'actions/userActions';
 import OrganizationForm from 'components/organization/OrganizationForm';
 import TrainingForm from 'components/training/TrainingForm';
+import TrainingsList from 'components/training/TrainingsList';
 import UserForm from 'components/user/UserForm';
 import userAuthIcon from 'assets/img/profile.jpg';
 import moment from 'moment';
@@ -27,6 +27,10 @@ const messages = defaultMessage.home;
 const common = defaultMessage.common;
 
 class HomePage extends React.Component {
+
+  constructor(props) {
+    super(props);
+  }
 
   componentDidMount() {
     const { fetchOrganizations, fetchTrainings, fetchUsers, organizations, trainings, users } = this.props;
@@ -46,7 +50,7 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { currentUser, links, organizationsOptions, selectedOrganizationsOptions, usersOptions, intl: { formatMessage } } = this.props;
+    const { currentUser, links, organizationsOptions, selectedOrganizationsOptions, usersOptions, trainings, intl: { formatMessage } } = this.props;
     const crumbs = [
       {
         url: links.home.url,
@@ -66,7 +70,8 @@ class HomePage extends React.Component {
       organization: organizationsOptions ? organizationsOptions[0]: null,
       phone: "+7-55-555",
       users: selectedUsersOptions,
-      date: moment()
+      date: moment(),
+      time: moment('09:00', 'HH:mm'),
     }
 
     // console.log("user options: ", values);
@@ -141,10 +146,7 @@ class HomePage extends React.Component {
               <Page.Container>
                 <Page.Header><h5>Last trainings</h5></Page.Header>
                 <Page.Content>
-                  No data
-                </Page.Content>
-                <Page.Content>
-                  No data
+                  <TrainingsList data={trainings} links={links}/>
                 </Page.Content>
               </Page.Container>
               <Page.Container>

@@ -5,6 +5,7 @@ import { Field, reduxForm } from 'redux-form';
 
 import { InputText, InputSelect } from '@startext/react-components';
 import renderInputDatepicker from 'components/common/renderInputDatepicker';
+import renderInputTimepicker from 'components/common/renderInputTimepicker';
 import { defaultMessage } from 'i18n/defineMessages';
 
 import Validate from './validate';
@@ -30,7 +31,7 @@ let TrainingForm = React.memo(props => {
             label="Organization"
             placeholder='Organization'
             icon='glyphicon glyphicon-home'
-            required={true}
+            // required={true}
           />
         </div>
       </div>  
@@ -43,7 +44,20 @@ let TrainingForm = React.memo(props => {
               // features={features}
               locale={locale}
               // isAdmin={isAdmin}
-              required
+              required={true}
+              />
+        </div>
+      </div>  
+      <div className="row">
+        <div className="col-md-12">
+        <Field name="time"
+              component={renderInputTimepicker}
+              onChange={handleChange}
+              label="Time"
+              // features={features}
+              locale={locale}
+              // isAdmin={isAdmin}
+              // required
             />
         </div>
       </div>  

@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -15,6 +16,8 @@ public class Training extends AbstractEntity {
   private Organization organization;
 
   LocalDate date;
+
+  LocalTime time;
 
   @OneToMany(mappedBy = "training")
   List<TrainingParticipant> participants;
@@ -32,6 +35,18 @@ public class Training extends AbstractEntity {
 
   public LocalDate getDate() {
     return date;
+  }
+
+  public void setDate(LocalDate date) {
+    this.date = date;
+  }
+
+  public LocalTime getTime() {
+    return time;
+  }
+
+  public void setTime(LocalTime time) {
+    this.time = time;
   }
 
   public Organization getOrganization() {

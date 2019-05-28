@@ -89,7 +89,7 @@ public class TrainingServiceTest {
     SecurityContext context = securityService.createContext(adminUser);
 
     Organization organization = organizationService.createOrganization(adminUser, "TrainingServiceTest organization");
-    Training training = trainingService.createTraining(context, LocalDate.now(), organization, users);
+    Training training = trainingService.createTraining(context, LocalDate.now(), null, organization, users);
 
     users.forEach(u -> Assert.assertTrue(trainingService.isParticipated(context, training, u)));
     Assert.assertFalse(trainingService.isParticipated(context, training, adminUser));
@@ -114,17 +114,17 @@ public class TrainingServiceTest {
     Organization organization1 = organizationService.createOrganization(adminUser, "TrainingServiceTest organization 1");
     Organization organization2 = organizationService.createOrganization(adminUser, "TrainingServiceTest organization 2");
 
-    trainingService.createTraining(adminContext, yesterday, organization1, users);
-    trainingService.createTraining(adminContext, today, organization1, Arrays.asList(users.get(0), users.get(1)));
-    trainingService.createTraining(adminContext, tomorrow, organization1, Arrays.asList(users.get(0), users.get(2)));
+    trainingService.createTraining(adminContext, yesterday, null, organization1, users);
+    trainingService.createTraining(adminContext, today, null, organization1, Arrays.asList(users.get(0), users.get(1)));
+    trainingService.createTraining(adminContext, tomorrow, null, organization1, Arrays.asList(users.get(0), users.get(2)));
 
-    trainingService.createTraining(adminContext, yesterday, null, Collections.singletonList(users.get(2)));
-    trainingService.createTraining(adminContext, today, null, Collections.singletonList(users.get(1)));
-    trainingService.createTraining(adminContext, tomorrow, null, Collections.singletonList(users.get(0)));
+    trainingService.createTraining(adminContext, yesterday, null, null, Collections.singletonList(users.get(2)));
+    trainingService.createTraining(adminContext, today, null, null, Collections.singletonList(users.get(1)));
+    trainingService.createTraining(adminContext, tomorrow, null, null, Collections.singletonList(users.get(0)));
 
-    trainingService.createTraining(adminContext, yesterday, organization2, Collections.singletonList(users.get(2)));
-    trainingService.createTraining(adminContext, today, organization2, Collections.singletonList(users.get(2)));
-    trainingService.createTraining(adminContext, tomorrow, organization2, Arrays.asList(users.get(0), users.get(1)));
+    trainingService.createTraining(adminContext, yesterday, null, organization2, Collections.singletonList(users.get(2)));
+    trainingService.createTraining(adminContext, today, null, organization2, Collections.singletonList(users.get(2)));
+    trainingService.createTraining(adminContext, tomorrow, null, organization2, Arrays.asList(users.get(0), users.get(1)));
 
     // stage 1: check by organization (admin)
     TrainingSearchCriteria searchCriteria = new TrainingSearchCriteria();
