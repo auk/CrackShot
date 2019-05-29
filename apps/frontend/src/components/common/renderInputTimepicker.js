@@ -7,13 +7,13 @@ import './react-datetime.css';
 
 class renderInputTimepicker extends React.Component {
   constructor(props) {
-      super(props);
-      this.getValidTimes = this.getValidTimes.bind(this);
+    super(props);
+    this.getValidTimes = this.getValidTimes.bind(this);
   }
 
   getValidTimes(isAdmin) {
-    var features = this.props.features;
-    console.assert(features);
+    // var features = this.props.features;
+    // console.assert(features);
 
     const maxHours = 23; // FeaturesService.getMaxHours(features, isAdmin)
     // date is in the future, so allow all times

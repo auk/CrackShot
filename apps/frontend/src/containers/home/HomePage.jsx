@@ -49,6 +49,14 @@ class HomePage extends React.Component {
     this.props.createTraining(data)
   }
 
+  onPageChange = (page) => {
+    console.log(page);
+  }
+
+  onSizeChange = (size) => {
+    console.log(size);
+  }
+
   render() {
     const { currentUser, links, organizationsOptions, selectedOrganizationsOptions, usersOptions, trainings, intl: { formatMessage } } = this.props;
     const crumbs = [
@@ -56,12 +64,7 @@ class HomePage extends React.Component {
         url: links.home.url,
         icon: 'fa-bank',
         text: common.breadcrumb.home,
-      },
-      {
-        url: 'fake yrl 2',
-        icon: 'fa-pencil',
-        text: common.breadcrumb.about,
-      },
+      }
     ];
 
     const selectedUsersOptions = [ userToOptionSelector(currentUser) ];
@@ -146,7 +149,11 @@ class HomePage extends React.Component {
               <Page.Container>
                 <Page.Header><h5>Last trainings</h5></Page.Header>
                 <Page.Content>
-                  <TrainingsList data={trainings} links={links}/>
+                  <TrainingsList
+                    data={trainings}
+                    links={links}
+                    onPageChange={this.onPageChange}
+                    onSizeChange={this.onSizeChange}/>
                 </Page.Content>
               </Page.Container>
               <Page.Container>

@@ -1,5 +1,7 @@
 package stx.shooterstatistic.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
@@ -20,6 +22,7 @@ public class Training extends AbstractEntity {
   LocalTime time;
 
   @OneToMany(mappedBy = "training")
+  @JsonIgnore
   List<TrainingParticipant> participants;
 
   private Training() {} // jpa
@@ -55,6 +58,14 @@ public class Training extends AbstractEntity {
 
   public void setOrganization(Organization organization) {
     this.organization = organization;
+  }
+
+  public List<TrainingParticipant> getParticipants() {
+    return participants;
+  }
+
+  public void setParticipants(List<TrainingParticipant> participants) {
+    this.participants = participants;
   }
 
   @Override

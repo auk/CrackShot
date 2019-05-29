@@ -15,6 +15,7 @@ const trainingMessage = defaultMessage.training;
 
 const TrainingsList = props => {
   const { data, links, onSizeChange, onPageChange, intl: { formatMessage } } = props;
+  const { showActions = true, showOrganizationLink = true, showPaging = true } = props;
 
   // console.log("TrainingsList data:", JSON.stringify(data));
 
@@ -31,9 +32,11 @@ const TrainingsList = props => {
           <HeadItem noSort name="time">
             {formatMessage(common.time)}
           </HeadItem>
-          <HeadItem noSort className="pull-right">
-            {formatMessage(common.actions)}
-          </HeadItem>
+          { showActions &&
+            <HeadItem noSort className="pull-right">
+              {formatMessage(common.actions)}
+            </HeadItem>
+          }
         </Table.Head>
         <Table.Body>
           {data.content && data.content.map((workspace) =>
@@ -43,9 +46,11 @@ const TrainingsList = props => {
                 <div>
                   {workspace.organization.name}
                   &nbsp;
-                  <Link to={links.organization.url.replace(/:oid/i, workspace.organization.id)}>
-                    <i className="fa fa-external-link" aria-hidden="true"></i>
-                  </Link>
+                  { showOrganizationLink &&
+                    <Link to={links.organization.url.replace(/:oid/i, workspace.organization.id)}>
+                      <i className="fa fa-external-link" aria-hidden="true"></i>
+                    </Link>
+                  }
                 </div>
               }
               { !workspace.organization && 
@@ -61,39 +66,41 @@ const TrainingsList = props => {
               <td className="col-md-2 col-sm-2">
                 {workspace.time}
               </td>
-              <td className="col-md-1 col-sm-1">
-                <ActionMenu>
-                  {/* workspace.ownerID === currentUser.id &&
-                    <LinkContainer to={links.workspaceUser.url.invite.replace(/:wid/i, workspace.id)}>
-                      <MenuItem eventKey="invite">
-                        <i className="fa fa-plus"></i>
-                        <span><FormattedMessage {...common.invite} /></span>
+              { showActions &&
+                <td className="col-md-1 col-sm-1">
+                  <ActionMenu>
+                    {/* workspace.ownerID === currentUser.id &&
+                      <LinkContainer to={links.workspaceUser.url.invite.replace(/:wid/i, workspace.id)}>
+                        <MenuItem eventKey="invite">
+                          <i className="fa fa-plus"></i>
+                          <span><FormattedMessage {...common.invite} /></span>
+                        </MenuItem>
+                      </LinkContainer>
+                    */}
+                    <LinkContainer to={links.training.url.replace(/:oid/i, workspace.id)}>
+                      <MenuItem eventKey="view">
+                        <i className="fa fa-eye"></i>
+                        <span><FormattedMessage {...common.view} /></span>
                       </MenuItem>
                     </LinkContainer>
-                  */}
-                  <LinkContainer to={links.training.url.replace(/:oid/i, workspace.id)}>
-                    <MenuItem eventKey="view">
-                      <i className="fa fa-eye"></i>
-                      <span><FormattedMessage {...common.view} /></span>
-                    </MenuItem>
-                  </LinkContainer>
-                  {/*workspace.ownerID === currentUser.id &&
-                    <LinkContainer to={links.workspace.url.edit.replace(/:wid/i, workspace.id)}>
-                      <MenuItem eventKey="edit">
-                        <i className="fa fa-pencil"></i>
-                        <span><FormattedMessage {...common.edit} /></span>
-                      </MenuItem>
-                    </LinkContainer>
-                    
-                  */}
-                </ActionMenu>
-              </td>
+                    {/*workspace.ownerID === currentUser.id &&
+                      <LinkContainer to={links.workspace.url.edit.replace(/:wid/i, workspace.id)}>
+                        <MenuItem eventKey="edit">
+                          <i className="fa fa-pencil"></i>
+                          <span><FormattedMessage {...common.edit} /></span>
+                        </MenuItem>
+                      </LinkContainer>
+                      
+                    */}
+                  </ActionMenu>
+                </td>
+              }
             </tr>
           )}
         </Table.Body>
       </Table>
 
-      {data.content.length > 0 &&
+      { data.content.length > 0 &&
         <Paginate
           pageCount={data.totalPages}
           sizePerPageList={data.sizePerPageList}
@@ -104,7 +111,7 @@ const TrainingsList = props => {
         />
       }
 
-      {data.content.length === 0 && !data.isFetching &&
+      { (data.content.length === 0 && !data.isFetching) &&
         <p>
           TODO: Empty{/* <FormattedMessage {...messages.empty} /> */}
         </p>

@@ -47,7 +47,7 @@ export function* createTraining({payload}) {
   }
 }
 
-export function* fetchTrainings({requestParams}) {
+export function* fetchTrainings({ payload: { requestParams } }) {
   try {
     const url = yield select(selectors.getTrainingsUrl);
     console.log('fetchTrainings requestParams:', requestParams);

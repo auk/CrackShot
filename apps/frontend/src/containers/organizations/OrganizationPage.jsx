@@ -202,6 +202,9 @@ class OrganizationPage extends React.Component {
                     links={links}
                     onPageChange={this.onPageChange}
                     onSizeChange={this.onSizeChange}
+                    showActions={false}
+                    showOrganizationLink={false}
+                    showPaging={false}
                   />
                 </Page.Content>
               </Page.Container>

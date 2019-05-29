@@ -16,7 +16,7 @@ spring:
       WRITE_DATES_AS_TIMESTAMPS: false
   datasource:
     driverClassName: ${REST_DB_DRIVER:org.h2.Driver}
-    url: ${REST_DB_URL:jdbc:h2:mem:~/auk-crackshot}
+    url: ${REST_DB_URL:jdbc:h2:file:~/auk-crackshot}
     username: ${REST_DB_USERNAME:sa}
     password: ${REST_DB_PASSWORD:}
   jpa:
