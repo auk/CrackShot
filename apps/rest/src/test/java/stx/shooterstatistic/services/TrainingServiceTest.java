@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import stx.shooterstatistic.jpa.OrganizationMembershipRepository;
 import stx.shooterstatistic.jpa.OrganizationRepository;
@@ -28,6 +29,7 @@ import java.util.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
+@ActiveProfiles("test")
 public class TrainingServiceTest {
 
   private final static Logger log = LoggerFactory.getLogger(OrganizationServiceTest.class);

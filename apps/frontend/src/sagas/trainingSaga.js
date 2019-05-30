@@ -25,7 +25,7 @@ export function* createTraining({payload}) {
     if (payload.requestParams.time)
       Object.assign(params, { time: payload.requestParams.time.format('HH:mm') });
     if (payload.requestParams.users)
-    Object.assign(params, { users: payload.requestParams.users.map(u => u.value) });
+      Object.assign(params, { users: payload.requestParams.users.map(u => u.value) });
 
     const config = {
       method: 'POST',
@@ -41,6 +41,11 @@ export function* createTraining({payload}) {
 
     yield put(actions.createTrainingSuccess(response.data));
     toastr.success('Success', 'Training has been created');
+
+    // refetch data for list
+    const requestParams = yield select(selectors.getTrainingsParams);
+    yield put(actions.fetchTrainings( requestParams));
+    
   } catch (error) {
     console.error("Create training error:", error);
     yield put(actions.createTrainingError(createError(error)));

@@ -14,20 +14,8 @@ spring:
   jackson:
     serialization:
       WRITE_DATES_AS_TIMESTAMPS: false
-  datasource:
-    driverClassName: ${REST_DB_DRIVER:org.h2.Driver}
-    url: ${REST_DB_URL:jdbc:h2:file:~/auk-crackshot}
-    username: ${REST_DB_USERNAME:sa}
-    password: ${REST_DB_PASSWORD:}
-  jpa:
-    database-platform: ${REST_DB_PLATFORM:org.hibernate.dialect.H2Dialect}
-    hibernate:
-      ddl-auto: ${REST_DB_DDL_AUTO:update}
-#    properties:
-#      show_sql: true
-#      use_sql_comments: true
-#      format_sql: true
-#      type: trace
+  profiles:
+    active: ${CRACKSHOT_SPRING_PROFILE:production}
 
 security:
   cors.origin: '*'
@@ -52,3 +40,31 @@ stx:
     admin:
       username: ${REST_ADMIN_USERNAME:admin}
       email: ${REST_ADMIN_EMAIL:admin@startext.ru}
+
+---
+spring:
+  profiles: production
+
+  datasource:
+    driverClassName: ${REST_DB_DRIVER:org.h2.Driver}
+    url: ${REST_DB_URL:jdbc:h2:file:~/auk-crackshot}
+    username: ${REST_DB_USERNAME:sa}
+    password: ${REST_DB_PASSWORD:}
+  jpa:
+    database-platform: ${REST_DB_PLATFORM:org.hibernate.dialect.H2Dialect}
+    hibernate:
+      ddl-auto: ${REST_DB_DDL_AUTO:update}
+
+---
+spring:
+  profiles: test
+
+  datasource:
+    driverClassName: org.h2.Driver
+    url: jdbc:h2:mem:~/auk-crackshot
+    username: sa
+    password:
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop

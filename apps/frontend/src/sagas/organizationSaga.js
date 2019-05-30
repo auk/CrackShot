@@ -34,6 +34,11 @@ export function* createOrganization({payload}) {
 
     yield put(actions.createOrganizationSuccess(response.data));
     toastr.success('Success', 'Timeentry has been created');
+
+    // refetch data for list
+    const requestParams = yield select(selectors.getOrganizationsParams);
+    yield put(actions.fetchOrganizations(requestParams));
+    
   } catch (error) {
     console.error("Create organization error:", error);
     yield put(actions.createOrganizationError(error));

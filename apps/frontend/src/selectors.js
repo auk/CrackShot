@@ -23,6 +23,7 @@ export const getOrganizationUrl = state => state.config.links.organization.api.g
 export const createOrganizationUrl = state => state.config.links.organization.api.create;
 export const deleteOrganizationUrl = state => state.config.links.organization.api.delete;
 export const updateOrganizationUrl = state => state.config.links.organization.api.update;
+export const getOrganizationsParams = state => state.organizations.requestParams;
 export const getOrganizationsSelector = state => state.organizations;
 export const getOrganizationSelector = state => state.organization.content;
 export const getOrganizationsOptionsSelector = createSelector(
@@ -32,6 +33,7 @@ export const getOrganizationsOptionsSelector = createSelector(
 // Training
 
 export const createTrainingUrl = state => state.config.links.training.api.create;
+export const getTrainingsParams = state => state.trainings.requestParams;
 export const getTrainingsSelector = state => state.trainings;
 export const getTrainingsUrl = state => state.config.links.trainings.api.get;
 export const getTrainingUrl = state => state.config.links.training.api.get;

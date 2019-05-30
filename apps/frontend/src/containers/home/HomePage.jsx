@@ -85,6 +85,8 @@ class HomePage extends React.Component {
         <Breadcrumbs header={messages.title} crumbs={crumbs} />
         <Page title={formatMessage(messages.title)}>
           
+          {trainings.error && <Page.Error error={trainings.error} />}
+
           <div className="row m-b-lg m-t-lg">
             <div className="col-md-6">
 
