@@ -45,7 +45,7 @@ public class TrainingController {
   public ResponseEntity<Training> createTraining(
      Principal principal,
      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
+     @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
      @RequestParam(required = false) String oid,
      @RequestParam(required = false) List<String> users) {
 

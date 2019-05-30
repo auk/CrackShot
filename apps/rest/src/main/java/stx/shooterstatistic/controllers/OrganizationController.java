@@ -10,17 +10,16 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import stx.shooterstatistic.exceptions.ResourceNotFoundException;
-import stx.shooterstatistic.model.OrganizationSearchCriteria;
-import stx.shooterstatistic.model.Organization;
-import stx.shooterstatistic.model.SecurityContext;
-import stx.shooterstatistic.model.User;
+import stx.shooterstatistic.jpa.OrganizationMembershipInvitationRepository;
+import stx.shooterstatistic.jpa.OrganizationMembershipRequestRepository;
+import stx.shooterstatistic.model.*;
 import stx.shooterstatistic.services.OrganizationService;
 import stx.shooterstatistic.services.SecurityService;
 import stx.shooterstatistic.services.UserService;
 
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
+import java.util.Objects;
 
 @RestController
 public class OrganizationController {
@@ -35,6 +34,12 @@ public class OrganizationController {
 
   @Autowired
   UserService userService;
+
+  @Autowired
+  OrganizationMembershipInvitationRepository organizationMembershipInvitationRepository;
+
+  @Autowired
+  OrganizationMembershipRequestRepository organizationMembershipRequestRepository;
 
   @GetMapping(value = "/organizations")
   public Page<Organization> getOrganizations(Principal principal,
@@ -78,5 +83,77 @@ public class OrganizationController {
     Organization organization = organizationService.getOrganization(context, id);
     organizationService.deleteOrganization(context, organization);
     return ResponseEntity.ok().build();
+  }
+
+  @PostMapping(value = "/organization/{oid}/request")
+  public ResponseEntity<OrganizationMembershipRequest> createOrganizationMembershipRequest(
+     Principal principal,
+     @PathVariable String oid,
+     @RequestParam String uid
+  ) {
+    SecurityContext context = securityService.createContext(principal);
+    User user = userService.getUserById(context, uid);
+    Objects.requireNonNull(user);
+
+    Organization organization = organizationService.getOrganization(context, oid);
+    Objects.requireNonNull(organization);
+
+    OrganizationMembershipRequest request = new OrganizationMembershipRequest(organization, user);
+    return new ResponseEntity<>(organizationMembershipRequestRepository.save(request), HttpStatus.CREATED);
+  }
+
+  @PostMapping(value = "/organization/{oid}/invitation")
+  public ResponseEntity<OrganizationMembershipInvitation> createOrganizationMembershipInvitation(
+     Principal principal,
+     @PathVariable String oid,
+     @RequestParam String uid
+  ) {
+    SecurityContext context = securityService.createContext(principal);
+    User user = userService.getUserById(context, uid);
+    Objects.requireNonNull(user);
+
+    Organization organization = organizationService.getOrganization(context, oid);
+    Objects.requireNonNull(organization);
+
+    OrganizationMembershipInvitation request = new OrganizationMembershipInvitation(organization, user);
+    return new ResponseEntity<>(organizationMembershipInvitationRepository.save(request), HttpStatus.CREATED);
+  }
+
+  @GetMapping(value = "/organization/invitations")
+  public Page<OrganizationMembershipInvitation> findOrganizationMembershipInvitations(
+     Principal principal,
+     @RequestParam(required = false) String oid,
+     @RequestParam(required = false) String uid,
+     @PageableDefault(sort = {"name"}, direction = Sort.Direction.DESC) Pageable pageable
+  ) {
+    SecurityContext context = securityService.createContext(principal);
+
+    Organization organization = organizationService.getOrganization(context, oid);
+    Objects.requireNonNull(organization);
+
+    User user = userService.getUserById(context, uid);
+    Objects.requireNonNull(user);
+
+
+    return organizationService.searchInvitations(context, organization, user, pageable);
+  }
+
+  @GetMapping(value = "/organization/requests")
+  public Page<OrganizationMembershipRequest> findOrganizationMembershipRequests(
+     Principal principal,
+     @RequestParam(required = false) String oid,
+     @RequestParam(required = false) String uid,
+     @PageableDefault(sort = {"name"}, direction = Sort.Direction.DESC) Pageable pageable
+  ) {
+    SecurityContext context = securityService.createContext(principal);
+
+    Organization organization = organizationService.getOrganization(context, oid);
+    Objects.requireNonNull(organization);
+
+    User user = userService.getUserById(context, uid);
+    Objects.requireNonNull(user);
+
+
+    return organizationService.searchRequests(context, organization, user, pageable);
   }
 }

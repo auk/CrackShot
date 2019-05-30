@@ -1,0 +1,30 @@
+schema {
+  query: Query
+}
+
+type Query {
+  user(id: String!) : User
+  organization(id: String!) : Organization
+}
+
+type User {
+  id: ID!
+  username: String!
+  name: String!
+  email: String
+}
+
+type Organization {
+  id: ID!
+  name: String!
+  email: String
+  web: String
+  members: [ OrganizationMembership! ]
+}
+
+type OrganizationMembership {
+  id: ID!
+  organization: Organization!
+  user: User!
+  admin: Boolean
+}

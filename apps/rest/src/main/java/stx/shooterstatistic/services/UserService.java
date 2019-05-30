@@ -83,4 +83,9 @@ public class UserService {
   public Page<User> getUsers(SecurityContext context, UserSearchCriteria userSearchCriteria, Pageable pageable) {
     return userRepository.findAll(pageable);
   }
+
+  @NotNull
+  public User getUserById(@NotNull SecurityContext context, @NotNull String id) {
+    return findUserById(context, id).orElseThrow(() -> new ResourceNotFoundException("User", id));
+  }
 }

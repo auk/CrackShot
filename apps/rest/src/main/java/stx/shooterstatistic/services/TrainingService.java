@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import stx.shooterstatistic.exceptions.ResourceNotFoundException;
 import stx.shooterstatistic.jpa.TrainingParticipantRepository;
@@ -22,6 +21,9 @@ import javax.validation.constraints.Null;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+
+import static stx.shooterstatistic.jpa.CriteriaBuilderHelper.createOrders;
+import static stx.shooterstatistic.jpa.CriteriaBuilderHelper.setPagable;
 
 @Service
 public class TrainingService {
@@ -106,18 +108,6 @@ public class TrainingService {
     return params;
   }
 
-  private List<Order> createOrders(CriteriaBuilder builder, Root<Training> rootTimeEntry, Sort sort) {
-    Objects.requireNonNull(sort);
-
-    List<Order> orders = new ArrayList<>();
-    for (Sort.Order orderString : sort) {
-      Path<Training> p = rootTimeEntry.get(orderString.getProperty());
-      Order order = orderString.isAscending() ? builder.asc(p) : builder.desc(p);
-      orders.add(order);
-    }
-    return orders;
-  }
-
   private List<Order> createDefaultOrders(CriteriaBuilder builder, Root<Training> rootTimeEntry) {
     Path<Training> date = rootTimeEntry.get("date");
     return Collections.singletonList(builder.asc(date));
@@ -165,10 +155,7 @@ public class TrainingService {
     criteriaQuery.distinct(true);
 
     TypedQuery<Training> q = entityManager.createQuery(criteriaQuery);
-    if (pageable != null && !pageable.isUnpaged()) {
-      q.setFirstResult((int) pageable.getOffset());
-      q.setMaxResults(pageable.getPageSize());
-    }
+    setPagable(q, pageable);
 
     List<Training> result = q.getResultList();
     return new PageImpl<>(result, pageable, result.size());
