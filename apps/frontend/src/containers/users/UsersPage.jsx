@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
+import { showModal } from 'actions/modalActions';
 import WithLayout from 'containers/layouts/WithLayout';
 import Page from 'components/common/pageTemplate/Page';
 import UsersList from 'components/user/UsersList';
@@ -11,7 +12,6 @@ import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
 import { fetchUsers } from 'actions/userActions';
 import { getLinksSelector, getUsersSelector } from 'selectors';
-import { showModal } from 'actions/modalActions';
 
 const common = defaultMessage.common;
 const userMessages = defaultMessage.user;
@@ -21,6 +21,10 @@ const pageMessages = defaultMessage.pages.users;
 class UsersPage extends React.Component {
 
   componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData() {
     const { fetchUsers, users: { requestParams } } = this.props;
     fetchUsers(requestParams);
   }
@@ -39,6 +43,22 @@ class UsersPage extends React.Component {
 
     this.props.fetchUsers(this.props.users.requestParams);
   }*/
+
+  onDelete = (uid, name) => {
+    const { showModal, users: { requestParams }, numberOfElements, match: { params } } = this.props;
+    console.log("Deleting user: ", uid, ", name:", name);
+
+    const modal = {
+      modalType: 'DELETE_USER',
+      modalProps: {
+        uid: uid,
+        name: name,
+        // requestParams: requestParamsNew
+      }
+    };
+
+    showModal(modal);
+  }
 
   onSizeChange = (size) => {
     // const { clients: { requestParams } } = this.props;
@@ -100,6 +120,7 @@ class UsersPage extends React.Component {
                 {<UsersList
                   data={users}
                   links={links}
+                  onDelete={this.onDelete}
                   onSizeChange={this.onSizeChange}
                   onPageChange={this.onPageChange}
                   onSortChange={this.onSortChange}/>}

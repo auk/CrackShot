@@ -14,10 +14,12 @@ const common = defaultMessage.common;
 const trainingMessage = defaultMessage.training;
 
 const TrainingsList = props => {
-  const { data, links, onSizeChange, onPageChange, intl: { formatMessage } } = props;
+  const { data, links, onSizeChange, onPageChange, onClick, intl: { formatMessage } } = props;
   const { showActions = true, showOrganizationLink = true, showPaging = true } = props;
 
   // console.log("TrainingsList data:", JSON.stringify(data));
+
+  const stringConcat = (acc, value) => acc + "\r\n" + value.username;
 
   return (
     <React.Fragment>
@@ -32,6 +34,9 @@ const TrainingsList = props => {
           <HeadItem noSort name="time">
             {formatMessage(common.time)}
           </HeadItem>
+          <HeadItem noSort name="participants">
+            {formatMessage(common.participants)}
+          </HeadItem>
           { showActions &&
             <HeadItem noSort className="pull-right">
               {formatMessage(common.actions)}
@@ -39,35 +44,38 @@ const TrainingsList = props => {
           }
         </Table.Head>
         <Table.Body>
-          {data.content && data.content.map((workspace) =>
-            <tr key={workspace.id} className={workspace.id === 'wid' ? "active" : ""}>
+          {data.content && data.content.map((tr) =>
+            <tr key={tr.id} className={tr.id === 'wid' ? "active" : ""} onClick={() => onClick(tr)}>
               <td className="col-md-5 col-sm-5">
-              { workspace.organization && 
+              { tr.organization && 
                 <div>
-                  {workspace.organization.name}
+                  {tr.organization.name}
                   &nbsp;
                   { showOrganizationLink &&
-                    <Link to={links.organization.url.replace(/:oid/i, workspace.organization.id)}>
+                    <Link to={links.organization.url.replace(/:oid/i, tr.organization.id)}>
                       <i className="fa fa-external-link" aria-hidden="true"></i>
                     </Link>
                   }
                 </div>
               }
-              { !workspace.organization && 
+              { !tr.organization && 
                 <div>--</div>
               }
               </td>
               <td className="col-md-1 col-sm-1">
-                {workspace.date}
+                {tr.date}
                 {/* <span className={"label " + (workspace.ownerID === currentUser.id ? "label-info" : "label-default")}>
                   {workspace.ownerID === currentUser.id ? formatMessage(messages.own) : formatMessage(messages.invited)}
                 </span> */}
               </td>
               <td className="col-md-2 col-sm-2">
-                {workspace.time}
+                {tr.time}
+              </td>
+              <td className="col-md-2 col-sm-2 text-center">
+                <div title={tr.users.map(u => u.name ? u.name : u.username).join("\r\n")}>{tr.users.length}</div>
               </td>
               { showActions &&
-                <td className="col-md-1 col-sm-1">
+                <td className="col-md-1 col-sm-1 text-center">
                   <ActionMenu>
                     {/* workspace.ownerID === currentUser.id &&
                       <LinkContainer to={links.workspaceUser.url.invite.replace(/:wid/i, workspace.id)}>
@@ -77,7 +85,7 @@ const TrainingsList = props => {
                         </MenuItem>
                       </LinkContainer>
                     */}
-                    <LinkContainer to={links.training.url.replace(/:oid/i, workspace.id)}>
+                    <LinkContainer to={links.training.url.replace(/:tid/i, tr.id)}>
                       <MenuItem eventKey="view">
                         <i className="fa fa-eye"></i>
                         <span><FormattedMessage {...common.view} /></span>

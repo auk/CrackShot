@@ -4,9 +4,10 @@ import * as actions from '../actions/userActions';
 import initialState from '../reducers/initialState';
 
 export const usersReducer = handleActions({
-  [ combineActions(actions.fetchUsers) ]: handleRequest,
+  [ combineActions(actions.deleteUser, actions.fetchUsers) ]: handleRequest,
   [ combineActions(actions.fetchUsersSuccess) ]: handlePageableRequestSuccess,
-  [ combineActions(actions.fetchUsersError) ]: handleRequestError
+  [ combineActions(actions.deleteUserSuccess) ]: handleRequestSuccess,
+  [ combineActions(actions.deleteUserError, actions.fetchUsersError) ]: handleRequestError
 }, initialState.users);
 
 export const currentUserReducer = handleActions({

@@ -9,9 +9,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import stx.shooterstatistic.exceptions.ResourceNotFoundException;
 import stx.shooterstatistic.jpa.UserSearchCriteria;
 import stx.shooterstatistic.model.SecurityContext;
@@ -41,11 +39,18 @@ public class UserController {
     return userService.getUsers(context, userSearchCriteria, pageable);
   }
 
+  // return current user
   @GetMapping(value = "/user")
   public ResponseEntity<User> getUser(Principal principal) {
-    Optional<User> opUser = userService.findUser(principal);
-    if (!opUser.isPresent())
-      throw new ResourceNotFoundException("User", principal.getName());
-    return new ResponseEntity<>(opUser.get(), HttpStatus.OK);
+    return new ResponseEntity<>(userService.getUser(principal), HttpStatus.OK);
+  }
+
+  @DeleteMapping(value = "/user/{uid}")
+  public void deleteUser(
+     Principal principal,
+     @PathVariable String uid) {
+    SecurityContext context = securityService.createContext(principal);
+    User user = userService.getUserById(context, uid);
+    userService.deleteUser(context, user);
   }
 }

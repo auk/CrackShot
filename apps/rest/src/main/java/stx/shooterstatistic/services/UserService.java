@@ -48,6 +48,10 @@ public class UserService {
   public void deleteUser(@NotNull SecurityContext context, User user) {
     Objects.requireNonNull(context);
     Objects.requireNonNull(user);
+
+    if (!isGlobalAdmin(user))
+      throw new SecurityException("User deleting is not allowed.");
+
     userRepository.delete(user);
   }
 

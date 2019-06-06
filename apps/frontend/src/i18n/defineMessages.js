@@ -42,6 +42,14 @@ export const defaultMessage = defineMessages({
       id: 'common.organization',
       defaultMessage: 'Organization'
     },
+    participant: {
+      id: 'common.participant',
+      defaultMessage: 'Participant'
+    },
+    participants: {
+      id: 'common.participants',
+      defaultMessage: 'Participants'
+    },
     phone: {
       id: 'common.phone',
       defaultMessage: 'Phone'
@@ -133,6 +141,16 @@ export const defaultMessage = defineMessages({
     name: {
       id: 'organization.name',
       defaultMessage: 'Name'
+    },
+  },
+  training: {
+    create: {
+      id: 'training.create',
+      defaultMessage: 'Create training'
+    },
+    join: {
+      id: 'training.join',
+      defaultMessage: 'Join training'
     },
   },
   user: {
@@ -300,18 +318,30 @@ export const defaultMessage = defineMessages({
       defaultMessage: 'Crack shot | Home'
     }
   },
-  about: {
-    title: {
-      id: 'about.title',
-      defaultMessage: 'Crack shot | About'
-    },
-    h2: {
-      id: 'about.h2',
-      description: 'Content header (h2)',
-      defaultMessage: 'About'
+  modal: {
+    delete_user: {
+      confirm: {
+        id: 'modal.delete_user.confirm',
+        defaultMessage: 'Are you sure you want to delete user {name}?'
+      },
+      title: {
+        id: 'modal.delete_user.title',
+        defaultMessage: 'Delete user'
+      },
     }
   },
   pages: {
+    about: {
+      title: {
+        id: 'pages.about.title',
+        defaultMessage: 'Crack shot | About'
+      },
+      h2: {
+        id: 'pages.about.h2',
+        description: 'Content header (h2)',
+        defaultMessage: 'About'
+      }
+    },
     calculator: {
       title: {
         id: 'pages.calculator.title',

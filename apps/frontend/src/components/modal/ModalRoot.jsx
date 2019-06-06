@@ -2,9 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import CreateOrganizationModal from './CreateOrganizationModal';
+import CreateTrainingModal from './CreateTrainingModal';
+import DeleteUserModal from './DeleteUserModal';
 
 const MODAL_COMPONENTS = {
   'CREATE_ORGANIZATION': CreateOrganizationModal,
+  'CREATE_TRAINING': CreateTrainingModal,
+  'DELETE_USER': DeleteUserModal,
 }
 
 const ModalRoot = ({ modalType, modalProps }) => {

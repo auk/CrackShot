@@ -10,7 +10,7 @@ import Page from 'components/common/pageTemplate/Page';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { getLinksSelector } from 'selectors';
 
-const messages = defaultMessage.about;
+const messages = defaultMessage.pages.about;
 const commonMessages = defaultMessage.common;
 
 const AboutPage = (props) => {

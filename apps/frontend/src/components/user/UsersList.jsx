@@ -9,11 +9,12 @@ import { defaultMessage } from 'i18n/defineMessages';
 import Paginate from 'components/common/paginate/Paginate';
 import ActionMenu from 'components/actionMenu/ActionMenu';
 import Table, { HeadItem } from 'components/common/table/Table';
+import { getUserDisplayNameSelector } from 'selectors';
 
 const common = defaultMessage.common;
 
 const UsersList = props => {
-  const { data, links, onSizeChange, onPageChange, intl: { formatMessage } } = props;
+  const { data, links, onDelete, onSizeChange, onPageChange, intl: { formatMessage } } = props;
 
   // console.log("UsersList data:", JSON.stringify(data));
 
@@ -32,20 +33,20 @@ const UsersList = props => {
           </HeadItem>
         </Table.Head>
         <Table.Body>
-          {data.content && data.content.map((workspace) =>
-            <tr key={workspace.id} className={workspace.id === 'wid' ? "active" : ""}>
+          {data.content && data.content.map((user) =>
+            <tr key={user.id} className={user.id === 'wid' ? "active" : ""}>
               <td className="col-md-6 col-sm-6">
-                {workspace.name ? `${workspace.name} (${workspace.username})` : workspace.username}
+                { getUserDisplayNameSelector(user) }
                 {/* <Link to={links.workspace.url.view.replace(/:wid/i, workspace.id)}>
                   name_todo{workspace.name}
                 </Link> */}
                 <br />
                 <small>
-                  <FormattedMessage {...common.id_fmt} values={{ id: workspace.id }} />
+                  <FormattedMessage {...common.id_fmt} values={{ id: user.id }} />
                 </small>
               </td>
               <td className="col-md-5 col-sm-5">
-                {workspace.email}
+                {user.email}
               </td>
               <td className="col-md-1 col-sm-1">
                 <ActionMenu>
@@ -57,12 +58,16 @@ const UsersList = props => {
                       </MenuItem>
                     </LinkContainer>
                   */}
-                  <LinkContainer to={links.user.url.replace(/:uid/i, workspace.id)}>
+                  <LinkContainer to={links.user.url.replace(/:uid/i, user.id)}>
                     <MenuItem eventKey="view">
                       <i className="fa fa-eye"></i>
                       <span><FormattedMessage {...common.view} /></span>
                     </MenuItem>
                   </LinkContainer>
+                  <MenuItem eventKey="delete" onClick={onDelete.bind(null, user.id, getUserDisplayNameSelector(user))}>
+                    <i className="fa fa-times"></i>
+                    <span><FormattedMessage {...common.delete}/></span>
+                  </MenuItem>
                   {/*workspace.ownerID === currentUser.id &&
                     <LinkContainer to={links.workspace.url.edit.replace(/:wid/i, workspace.id)}>
                       <MenuItem eventKey="edit">
@@ -102,6 +107,7 @@ const UsersList = props => {
 UsersList.propTypes = {
   intl: intlShape.isRequired,
   wid: PropTypes.string,
+  onDelete: PropTypes.func.isRequired,
   onPageChange: PropTypes.func.isRequired,
   onSizeChange: PropTypes.func.isRequired,
   links: PropTypes.object.isRequired,

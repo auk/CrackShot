@@ -1,9 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import Datetime from 'react-datetime';
 // import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
 import WithLayout from 'containers/layouts/WithLayout';
 import Page from 'components/common/pageTemplate/Page';
@@ -13,6 +12,7 @@ import { getCurrentUserSelector, getLinksSelector, userToOptionSelector,
   getOrganizationsSelector, getOrganizationsOptionsSelector,
   getTrainingsSelector,
   getUsersSelector, getUsersOptionsSelector } from 'selectors';
+import { showModal } from 'actions/modalActions';
 import { fetchOrganizations } from 'actions/organizationActions';
 import { createTraining, fetchTrainings } from 'actions/trainingActions';
 import { fetchUsers } from 'actions/userActions';
@@ -24,6 +24,7 @@ import userAuthIcon from 'assets/img/profile.jpg';
 import moment from 'moment';
 
 const messages = defaultMessage.home;
+const trainingMessages = defaultMessage.training;
 const common = defaultMessage.common;
 
 class HomePage extends React.Component {
@@ -45,8 +46,26 @@ class HomePage extends React.Component {
   }
 
   handleCreateTraining = data => {
-    console.log('handleCreateTraining:', data)
     this.props.createTraining(data)
+  }
+
+  handleCreateTrainingModal = e => {
+    e.preventDefault();
+
+    const modal = {
+      modalType: 'CREATE_TRAINING',
+      modalProps: {
+        resetText: this.props.intl.formatMessage(common.reset),
+        submitText: this.props.intl.formatMessage(common.create)
+      }
+    };
+    this.props.showModal(modal);
+
+    this.props.fetchTrainings(this.props.trainings.requestParams);
+  }
+
+  onClickTraining = (tr) => {
+    console.log(tr);
   }
 
   onPageChange = (page) => {
@@ -149,11 +168,21 @@ class HomePage extends React.Component {
           <Page.ContainerRow>
             <div className="col-md-6">
               <Page.Container>
-                <Page.Header><h5>Last trainings</h5></Page.Header>
+                <Page.Header>
+                  <h5>Last trainings</h5>
+                  <Page.Tools>
+                    <span className="input-group-btn">
+                      <button type="button" className='btn btn-primary btn-xs active' onClick={this.handleCreateTrainingModal}>
+                        <FormattedMessage {...trainingMessages.create} />
+                      </button>
+                    </span>
+                  </Page.Tools>
+                </Page.Header>
                 <Page.Content>
                   <TrainingsList
                     data={trainings}
                     links={links}
+                    onClick={this.onClickTraining}
                     onPageChange={this.onPageChange}
                     onSizeChange={this.onSizeChange}/>
                 </Page.Content>
@@ -228,7 +257,8 @@ const mapDispatchToProps = {
   fetchOrganizations,
   fetchTrainings,
   fetchUsers,
-  createTraining
+  createTraining,
+  showModal
 }
 
 export default WithLayout(connect(mapStateToProps, mapDispatchToProps)(injectIntl(HomePage)));

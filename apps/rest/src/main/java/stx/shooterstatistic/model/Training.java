@@ -1,15 +1,15 @@
 package stx.shooterstatistic.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Entity
 public class Training extends AbstractEntity {
@@ -23,7 +23,7 @@ public class Training extends AbstractEntity {
 
   @OneToMany(mappedBy = "training")
   @JsonIgnore
-  List<TrainingParticipant> participants;
+  List<TrainingParticipant> participants = new ArrayList<>();
 
   private Training() {} // jpa
 
@@ -66,6 +66,13 @@ public class Training extends AbstractEntity {
 
   public void setParticipants(List<TrainingParticipant> participants) {
     this.participants = participants;
+  }
+
+  @JsonProperty(value = "users")
+  public List<User> getParticipantUsers() {
+    if (participants == null)
+      return Collections.emptyList();
+    return participants.stream().map(TrainingParticipant::getUser).collect(Collectors.toList());
   }
 
   @Override
