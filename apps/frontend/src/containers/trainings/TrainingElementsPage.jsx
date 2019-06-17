@@ -25,7 +25,9 @@ class TrainingElementsPage extends React.Component   {
   handleCreateElement = e => {
     e.preventDefault();
 
-    const { commonMessages, showModal, intl: { formatMessage } } = this.props;
+    // console.log('*****');
+
+    const { showModal, intl: { formatMessage } } = this.props;
     const { fetchTrainingElements, trainingElements: { requestParams } } = this.props;
 
     const modal = {
@@ -41,6 +43,10 @@ class TrainingElementsPage extends React.Component   {
     showModal(modal);
 
     fetchTrainingElements(requestParams);
+  }
+
+  onElementClick = e => {
+    console.log("Click: ", e);
   }
 
   onSizeChange = (size) => {
@@ -84,7 +90,7 @@ class TrainingElementsPage extends React.Component   {
                 <h5>{formatMessage(pageMessages.header)}</h5>
                 <Page.Tools>
                   <span className="input-group-btn">
-                    <button type="button" className='btn btn-primary btn-xs active' onClick={handleCreateElement}>
+                    <button type="button" className='btn btn-primary btn-xs active' onClick={this.handleCreateElement}>
                       <FormattedMessage {...commonMessages.create} />
                     </button>
                   </span>
@@ -94,6 +100,7 @@ class TrainingElementsPage extends React.Component   {
                 <TrainingElementsList
                   data={trainingElements}
                   links={links}
+                  onClick={this.onElementClick}
                   onSizeChange={this.onSizeChange}
                   onPageChange={this.onPageChange}
                   onSortChange={this.onSortChange}/>
