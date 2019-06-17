@@ -21,9 +21,9 @@ import java.util.Collections;
 
 @SpringBootApplication
 @EnableOAuth2Sso
-public class ShooterStatisticApplication {
+public class CrackShotApplication {
   
-  private static final Logger log = LoggerFactory.getLogger(ShooterStatisticApplication.class);
+  private static final Logger log = LoggerFactory.getLogger(CrackShotApplication.class);
 
   @Value("${spring.datasource.driverClassName:JDBC driver is not specified.}")
   String jdbcDriver;
@@ -41,7 +41,7 @@ public class ShooterStatisticApplication {
   String jdbcUsername;
 
   public static void main(String[] args) {
-    SpringApplication.run(ShooterStatisticApplication.class, args);
+    SpringApplication.run(CrackShotApplication.class, args);
   }
 
   @PostConstruct

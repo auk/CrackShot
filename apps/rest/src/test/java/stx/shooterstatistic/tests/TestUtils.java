@@ -10,7 +10,7 @@ import java.util.Collections;
 
 @Component
 public class TestUtils {
-  @Value(value = "${stx.crackshot.admin_role:Crackshot admin}")
+  @Value(value = "${stx.crackshot.admin_role:Undefined role}")
   String globalAdminRole;
 
   @Autowired

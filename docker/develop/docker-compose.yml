@@ -1,7 +1,7 @@
 version: "3.5"
 services:
-  auk-shooter-statistic:
-    container_name: auk-shooter-statistic
+  rest:
+    container_name: crackshot
     image: auk/shooter-statistic
     build:
       context: ../..
@@ -16,10 +16,8 @@ services:
     ports:
       - "8000:8000"
       - "8080:8080"
-#    env_file:
-#      - .env_https
-#      - .env_configservice
-#      - .env_db.h2
+        #    env_file:
+            #      - .env_rest
 #    volumes:
 #      - ../secrets:/etc/secrets:ro
     networks:

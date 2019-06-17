@@ -53,7 +53,7 @@ public class SecurityService {
 
   public void checkGlobalAdmin(@NotNull SecurityContext context) {
     if (!isGlobalAdmin(context))
-      throw new SecurityException(MessageFormat.format("Access denied. User is not in global admin role ''{0}''.\r\nUser roles:\r\n{1}", globalAdminRole, context.getUser().getRoles()));
+      throw new SecurityException(MessageFormat.format("Access denied. User is not in global admin role ''{0}''. User roles:\r\n{1}", globalAdminRole, context.getUser().getRoles()));
   }
 
   public boolean isGlobalAdmin(@NotNull SecurityContext context) {

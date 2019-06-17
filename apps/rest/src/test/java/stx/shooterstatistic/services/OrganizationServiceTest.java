@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import stx.shooterstatistic.jpa.OrganizationMembershipRepository;
+import stx.shooterstatistic.jpa.OrganizationRepository;
+import stx.shooterstatistic.jpa.UserRepository;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
@@ -39,15 +42,20 @@ public class OrganizationServiceTest {
   @Autowired
   TestUtils testUtils;
 
+  @Autowired OrganizationMembershipRepository organizationMembershipRepository;
+  @Autowired OrganizationRepository organizationRepository;
+  @Autowired UserRepository userRepository;
+
   @Before
   public void initData() {
     adminUser = userService.findUserByEmail(adminEmail).orElseGet(() -> testUtils.createAdminUser());
   }
 
   @After
-  public void clean() {
-    SecurityContext context = securityService.createContext(adminUser);
-    userService.deleteUser(context, adminUser);
+  public void cleanAll() {
+    organizationMembershipRepository.deleteAll();
+    organizationRepository.deleteAll();
+    userRepository.deleteAll();
   }
 
   @Test

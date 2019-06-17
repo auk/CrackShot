@@ -81,6 +81,7 @@ public class OrganizationService {
     Objects.requireNonNull(organization);
 
     securityService.checkHasAccess(context, organization, Permission.WRITE);
+
     organizationMembershipService.unregisterAll(context, organization);
     organizationRepository.delete(organization);
   }

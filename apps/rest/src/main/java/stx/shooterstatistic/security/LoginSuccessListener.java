@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 import stx.shooterstatistic.model.User;
 import stx.shooterstatistic.services.UserService;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -48,8 +49,10 @@ public class LoginSuccessListener implements ApplicationListener<AuthenticationS
           log.error(e.getMessage());
         }
       } else {
+        List<String> requestUserRoles = opRequestUser.get().getRoles();
         User dbUser = opDbUser.get();
-        if (!dbUser.getRoles().equals(opRequestUser.get().getRoles())) {
+        List<String> dbUserRoles = dbUser.getRoles();
+        if (!new HashSet<>(dbUserRoles).equals(new HashSet<>(requestUserRoles))) {
           dbUser.setRoles(opRequestUser.get().getRoles());
           userService.saveUser(user);
           log.info("user: {} groups were updated to {}", dbUser.getUsername(), dbUser.getRoles());

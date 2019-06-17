@@ -13,8 +13,8 @@ const messages = defaultMessage.training;
 
 const CreateTrainingModal = (props) => {
   const { submitText, resetText, dispatch } = props;
-  const { users, organizations, initialValues } = props;
-  const { user } = props;
+  const { elements, organizations, users, initialValues } = props;
+  // const { user } = props;
 
   const handleSubmit = data => {
     console.log("CreateTrainingModal - data:", data);
@@ -35,6 +35,7 @@ const CreateTrainingModal = (props) => {
           onSubmit={handleSubmit} 
           resetBtnText={resetText}
           submitBtnText={submitText}
+          elements={elements}
           organizations={organizations}
           users={users}
           initialValues={initialValues}
@@ -46,7 +47,7 @@ const CreateTrainingModal = (props) => {
 
 export default connect(
   (state, ownProps) => ({
-    user: ownProps.initialValues.user,
+    // user: ownProps.initialValues.user,
     // validate: (values, props) => {
     //   console.log("values: ", values, ", props:", props)
     //   return { name: "required" };

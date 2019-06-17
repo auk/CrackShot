@@ -74,7 +74,7 @@ class HomePage extends React.Component {
   handleCreateTrainingModal = e => {
     e.preventDefault();
 
-    const { organizationsOptions, usersOptions, currentUser } = this.props;
+    const { organizationsOptions, trainingElementsOptions, usersOptions, currentUser } = this.props;
     const selectedUsersOptions = [ userToOptionSelector(currentUser) ];
 
     const modal = {
@@ -82,6 +82,7 @@ class HomePage extends React.Component {
       modalProps: {
         resetText: this.props.intl.formatMessage(common.reset),
         submitText: this.props.intl.formatMessage(common.create),
+        elements: trainingElementsOptions,
         organizations: organizationsOptions,
         users: usersOptions,
         initialValues: {

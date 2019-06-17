@@ -13,10 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
-import stx.shooterstatistic.jpa.OrganizationMembershipRepository;
-import stx.shooterstatistic.jpa.OrganizationRepository;
-import stx.shooterstatistic.jpa.TrainingParticipantRepository;
-import stx.shooterstatistic.jpa.TrainingRepository;
+import stx.shooterstatistic.jpa.*;
 import stx.shooterstatistic.model.*;
 import stx.shooterstatistic.tests.TestUtils;
 import stx.shooterstatistic.util.Definable;
@@ -42,11 +39,9 @@ public class TrainingServiceTest {
   @Autowired private SecurityService securityService;
   @Autowired private TrainingService trainingService;
   @Autowired private UserService userService;
+  @Autowired private UserRepository userRepository;
 
   @Autowired private TestUtils testUtils;
-
-//  @Value(value = "${stx.crackshot.admin_role:Crackshot admin}")
-//  String globalAdminRole;
 
   private final String adminEmail = "admin@startext.ru", fakeEmail = "fake@startext.ru";
   User adminUser, fakeUser;
@@ -62,6 +57,7 @@ public class TrainingServiceTest {
     trainingRepository.deleteAll();
     organizationMembershipRepository.deleteAll();
     organizationRepository.deleteAll();
+    userRepository.deleteAll();
 
     adminUser = userService.findUserByEmail(adminEmail).orElseGet(() -> testUtils.createAdminUser());
     fakeUser = userService.findUserByEmail(fakeEmail).orElseGet(() -> userService.saveUser("test-fake", fakeEmail));
@@ -80,10 +76,7 @@ public class TrainingServiceTest {
     trainingRepository.deleteAll();
     organizationMembershipRepository.deleteAll();
     organizationRepository.deleteAll();
-
-    users.forEach(u -> userService.deleteUser(context, u));
-    userService.deleteUser(context, fakeUser);
-    userService.deleteUser(context, adminUser);
+    userRepository.deleteAll();
   }
 
   @Test
