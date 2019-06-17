@@ -6,6 +6,7 @@ var qs = require('qs');
 
 //Rest calls
 export const callApi = ({ url, config }) => {
+  // console.log("JWT token: ", localStorage.getItem(ID_TOKEN));
   return axios({
     url,
     mode: 'cors',

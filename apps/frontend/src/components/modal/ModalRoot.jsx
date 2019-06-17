@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 
 import CreateOrganizationModal from './CreateOrganizationModal';
 import CreateTrainingModal from './CreateTrainingModal';
+import CreateTrainingElementModal from './CreateTrainingElementModal';
 import DeleteUserModal from './DeleteUserModal';
 
 const MODAL_COMPONENTS = {
   'CREATE_ORGANIZATION': CreateOrganizationModal,
   'CREATE_TRAINING': CreateTrainingModal,
+  'CREATE_TRAINING_ELEMENT': CreateTrainingElementModal,
   'DELETE_USER': DeleteUserModal,
 }
 

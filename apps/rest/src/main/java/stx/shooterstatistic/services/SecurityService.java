@@ -1,6 +1,7 @@
 package stx.shooterstatistic.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.Permission;
@@ -19,6 +20,9 @@ public class SecurityService {
   @Autowired
   UserService userService;
 
+  @Value(value = "${stx.crackshot.admin_role:Crackshot admin}")
+  String globalAdminRole;
+
   public SecurityContext createContext(@NotNull User user) {
     Objects.requireNonNull(user);
     return SecurityContext.create(user);
@@ -35,6 +39,10 @@ public class SecurityService {
       throw new SecurityException(MessageFormat.format(FORMAT_HasAccessException, context.getUser(), organization));
   }
 
+  public String getGlobalAdminRole() {
+    return globalAdminRole;
+  }
+
   public boolean hasAccess(@NotNull SecurityContext context, @NotNull Organization organization, Permission permission) {
     Objects.requireNonNull(context);
 //    Objects.requireNonNull(organization);
@@ -42,4 +50,19 @@ public class SecurityService {
     // auk: TODO
     return true;
   }
+
+  public void checkGlobalAdmin(@NotNull SecurityContext context) {
+    if (!isGlobalAdmin(context))
+      throw new SecurityException(MessageFormat.format("Access denied. User is not in global admin role ''{0}''. User roles: {1}", globalAdminRole, context.getUser().getRoles()));
+  }
+
+  public boolean isGlobalAdmin(@NotNull SecurityContext context) {
+    return globalAdminRole != null && context.getUser().getRoles() != null && context.getUser().getRoles().contains(globalAdminRole);
+  }
+
+  public boolean isGlobalAdmin(@NotNull User user) {
+    return globalAdminRole != null && user.getRoles() != null && user.getRoles().contains(globalAdminRole);
+  }
+
+
 }

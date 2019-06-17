@@ -30,16 +30,16 @@ public class TrainingController {
   private final static Logger log = LoggerFactory.getLogger(TrainingController.class);
 
   @Autowired
-  OrganizationService organizationService;
+  private OrganizationService organizationService;
 
   @Autowired
-  SecurityService securityService;
+  private SecurityService securityService;
 
   @Autowired
-  TrainingService trainingService;
+  private TrainingService trainingService;
 
   @Autowired
-  UserService userService;
+  private UserService userService;
 
   @PostMapping(value = "/training")
   public ResponseEntity<Training> createTraining(

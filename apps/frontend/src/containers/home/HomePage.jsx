@@ -11,13 +11,15 @@ import { defaultMessage } from 'i18n/defineMessages';
 import { getCurrentUserSelector, getLinksSelector, userToOptionSelector,
   getOrganizationsSelector, getOrganizationsOptionsSelector,
   getTrainingsSelector,
+  getTrainingElementsSelector, getTrainingElementsOptionsSelector,
   getUsersSelector, getUsersOptionsSelector } from 'selectors';
 import { showModal } from 'actions/modalActions';
 import { fetchOrganizations } from 'actions/organizationActions';
-import { createTraining, fetchTrainings } from 'actions/trainingActions';
+import { createTraining, createTrainingElement, fetchTrainings, fetchTrainingElements } from 'actions/trainingActions';
 import { fetchUsers } from 'actions/userActions';
 import OrganizationForm from 'components/organization/OrganizationForm';
 import TrainingForm from 'components/training/TrainingForm';
+import TrainingElementForm from 'components/training/TrainingElementForm';
 import TrainingsList from 'components/training/TrainingsList';
 import UserForm from 'components/user/UserForm';
 import userAuthIcon from 'assets/img/profile.jpg';
@@ -34,9 +36,10 @@ class HomePage extends React.Component {
   }
 
   componentDidMount() {
-    const { fetchOrganizations, fetchTrainings, fetchUsers, organizations, trainings, users } = this.props;
+    const { fetchOrganizations, fetchTrainings, fetchTrainingElements, fetchUsers, organizations, trainings, trainingElements, users } = this.props;
     fetchOrganizations(organizations.requestParams);
     fetchTrainings(trainings.requestParams);
+    fetchTrainingElements(trainingElements.requestParams);
     fetchUsers(users.requestParams);
   }
 
@@ -46,22 +49,14 @@ class HomePage extends React.Component {
   }
 
   handleCreateTraining = data => {
+    console.log("HomePage - data:", data);
+    console.log("HomePage - time: ", data.time, ', time parsed: ', data.time.format('HH:mm'))
     this.props.createTraining(data)
   }
 
-  handleCreateTrainingModal = e => {
-    e.preventDefault();
-
-    const modal = {
-      modalType: 'CREATE_TRAINING',
-      modalProps: {
-        resetText: this.props.intl.formatMessage(common.reset),
-        submitText: this.props.intl.formatMessage(common.create)
-      }
-    };
-    this.props.showModal(modal);
-
-    this.props.fetchTrainings(this.props.trainings.requestParams);
+  handleCreateTrainingElement = data => {
+    console.log("HomePage - data:", data);
+    this.props.createTrainingElement(data)
   }
 
   onClickTraining = (tr) => {
@@ -76,8 +71,34 @@ class HomePage extends React.Component {
     console.log(size);
   }
 
+  handleCreateTrainingModal = e => {
+    e.preventDefault();
+
+    const { organizationsOptions, usersOptions, currentUser } = this.props;
+    const selectedUsersOptions = [ userToOptionSelector(currentUser) ];
+
+    const modal = {
+      modalType: 'CREATE_TRAINING',
+      modalProps: {
+        resetText: this.props.intl.formatMessage(common.reset),
+        submitText: this.props.intl.formatMessage(common.create),
+        organizations: organizationsOptions,
+        users: usersOptions,
+        initialValues: {
+          user: selectedUsersOptions,
+          organization: organizationsOptions ? organizationsOptions[0] : null,
+          date: moment(),
+          time: moment('09:00', 'HH:mm'),
+        }
+      }
+    };
+    this.props.showModal(modal);
+
+    this.props.fetchTrainings(this.props.trainings.requestParams);
+  }
+
   render() {
-    const { currentUser, links, organizationsOptions, selectedOrganizationsOptions, usersOptions, trainings, intl: { formatMessage } } = this.props;
+    const { currentUser, links, organizationsOptions, selectedOrganizationsOptions, usersOptions, trainings, trainingElementsOptions, intl: { formatMessage } } = this.props;
     const crumbs = [
       {
         url: links.home.url,
@@ -90,8 +111,8 @@ class HomePage extends React.Component {
 
     const values = {
       organization: organizationsOptions ? organizationsOptions[0]: null,
-      phone: "+7-55-555",
-      users: selectedUsersOptions,
+      phone: "+7-555-5555",
+      user: selectedUsersOptions,
       date: moment(),
       time: moment('09:00', 'HH:mm'),
     }
@@ -187,22 +208,38 @@ class HomePage extends React.Component {
                     onSizeChange={this.onSizeChange}/>
                 </Page.Content>
               </Page.Container>
-              <Page.Container>
-              <Page.Header><h5>Training</h5></Page.Header>
-              <Page.Content>
-                <TrainingForm
-                  organizationsOptions={organizationsOptions}
-                  selectedOrganizationsOptions={selectedOrganizationsOptions}
-                  usersOptions={usersOptions}
-                  users={selectedUsersOptions}
-                  initialValues={values}
-                  submitBtnText={formatMessage(common.create)}
-                  onSubmit={this.handleCreateTraining}/>
-              </Page.Content>
-            </Page.Container>
             </div>
             
             <div className="col-md-6">
+            <Page.Container>
+              <Page.Header><h5>Training</h5></Page.Header>
+                <Page.Content>
+                  <TrainingForm
+                    organizations={organizationsOptions}
+                    selectedOrganizationsOptions={selectedOrganizationsOptions}
+                    usersOptions={usersOptions}
+                    elements={trainingElementsOptions}
+                    users={selectedUsersOptions}
+                    initialValues={values}
+                    submitBtnText={formatMessage(common.create)}
+                    onSubmit={this.handleCreateTraining}/>
+              </Page.Content>
+            </Page.Container>
+
+            <Page.Container>
+              <Page.Header><h5>Training element</h5></Page.Header>
+                <Page.Content>
+                  <TrainingElementForm
+                    organizations={organizationsOptions}
+                    selectedOrganizationsOptions={selectedOrganizationsOptions}
+                    usersOptions={usersOptions}
+                    users={selectedUsersOptions}
+                    initialValues={values}
+                    submitBtnText={formatMessage(common.create)}
+                    onSubmit={this.handleCreateTrainingElement}/>
+              </Page.Content>
+            </Page.Container>
+
             <Page.Container>
                 <Page.Header><h5>User</h5></Page.Header>
                 <Page.Content>
@@ -234,6 +271,11 @@ HomePage.propTypes = {
     value: PropTypes.string.isRequired,
   })),
   trainings: PropTypes.object.isRequired,
+  trainingElements: PropTypes.object.isRequired,
+  trainingElementsOptions: PropTypes.arrayOf(PropTypes.shape({
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+  })),
   users: PropTypes.object.isRequired,
   usersOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
@@ -248,6 +290,8 @@ const mapStateToProps = state => {
     organizations: getOrganizationsSelector(state),
     organizationsOptions: getOrganizationsOptionsSelector(state),
     trainings: getTrainingsSelector(state),
+    trainingElements: getTrainingElementsSelector(state),
+    trainingElementsOptions: getTrainingElementsOptionsSelector(state),
     users: getUsersSelector(state),
     usersOptions: getUsersOptionsSelector(state),
   };
@@ -256,8 +300,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   fetchOrganizations,
   fetchTrainings,
+  fetchTrainingElements,
   fetchUsers,
   createTraining,
+  createTrainingElement,
   showModal
 }
 

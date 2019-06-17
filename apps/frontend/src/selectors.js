@@ -9,7 +9,7 @@ export const getCurrentUserSelector = state => state.currentUser.content;
 export const getLocaleSelector = state => state.locale;
 export const getLinksSelector = state => state.config.links;
 export const getHomeUrlSelector = state => state.config.links.home.url;
-
+export const authorityToRole = a => a.startsWith('ROLE_') ? a.substring(5) : a;
 /**
  * Auth selectors
  */
@@ -33,10 +33,23 @@ export const getOrganizationsOptionsSelector = createSelector(
 // Training
 
 export const createTrainingUrl = state => state.config.links.training.api.create;
+export const getTrainingUrl = state => state.config.links.training.api.get;
 export const getTrainingsParams = state => state.trainings.requestParams;
 export const getTrainingsSelector = state => state.trainings;
 export const getTrainingsUrl = state => state.config.links.trainings.api.get;
-export const getTrainingUrl = state => state.config.links.training.api.get;
+
+export const getTrainingElementSelector = state => state.trainingElement;
+export const createTrainingElementUrl = state => state.config.links.trainingElement.api.create;
+export const deleteTrainingElementUrl = state => state.config.links.trainingElement.api.delete;
+export const getTrainingElementUrl = state => state.config.links.trainingElement.api.get;
+export const updateTrainingElementUrl = state => state.config.links.trainingElement.api.update;
+export const trainingElementToOptionSelector = element => ({ label: element.name, value: element.id });
+export const getTrainingElementsRequestParams = state => state.trainingElements.requestParams;
+export const getTrainingElementsSelector = state => state.trainingElements;
+export const getTrainingElementsOptionsSelector = createSelector(
+  getTrainingElementsSelector,
+  elements => elements.content.map(element => trainingElementToOptionSelector(element)));
+export const getTrainingElementsUrl = state => state.config.links.trainingElements.api.get;
 
 // Users
 

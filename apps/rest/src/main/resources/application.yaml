@@ -35,7 +35,7 @@ security:
 
 stx:
   crackshot:
-    admin_role: ${CRACKSHOT_ADMIN_ROLE:Crackshot admin}
+    admin_role: ${CRACKSHOT_ADMIN_ROLE:Crackshot admins}
   rest:
     admin:
       username: ${REST_ADMIN_USERNAME:admin}

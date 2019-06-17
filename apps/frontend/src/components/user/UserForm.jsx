@@ -14,7 +14,7 @@ let UserForm = React.memo(props => {
     <form className="form-horizontal" onSubmit={handleSubmit}>
       <div className="row">
         <div className="col-md-12">
-          <Field name="texticon"
+          <Field name="name"
             component={InputText}
             label="Full name"
             placeholder='Full name'
@@ -26,7 +26,7 @@ let UserForm = React.memo(props => {
 
       <div className="row">
         <div className="col-md-12">
-          <Field name="texticon"
+          <Field name="login"
             component={InputText}
             label="Login"
             placeholder='login'
@@ -38,7 +38,7 @@ let UserForm = React.memo(props => {
 
       <div className="row">
         <div className="col-md-12">
-          <Field name="texticon"
+          <Field name="email"
             component={InputText}
             label="E-mail"
             placeholder='email'
@@ -50,13 +50,42 @@ let UserForm = React.memo(props => {
 
       <div className="row">
         <div className="col-md-12">
-          <Field name="texticon"
+          <Field name="phone"
             component={InputText}
             label="Phone"
             placeholder='phone'
             icon='glyphicon glyphicon-phone'
             required={true}
           />
+        </div>
+      </div>
+
+      <div className="hr-line-dashed"></div>
+
+      <div>
+        <div className="row">
+          <div className="col-md-12">
+            <Field name="password"
+              autocomplete="off"
+              component={InputText}
+              label="Password"
+              placeholder='password'
+              required={true}
+              type="password"
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
+            <Field name="password_confirg"
+              autocomplete="off"
+              component={InputText}
+              label="Confirmation"
+              placeholder='password'
+              required={true}
+              type="password"
+            />
+          </div>
         </div>
       </div>
 

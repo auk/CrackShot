@@ -27,19 +27,19 @@ public class OrganizationController {
   private final static Logger log = LoggerFactory.getLogger(OrganizationController.class);
 
   @Autowired
-  OrganizationService organizationService;
+  private OrganizationService organizationService;
 
   @Autowired
-  SecurityService securityService;
+  private SecurityService securityService;
 
   @Autowired
-  UserService userService;
+  private UserService userService;
 
   @Autowired
-  OrganizationMembershipInvitationRepository organizationMembershipInvitationRepository;
+  private OrganizationMembershipInvitationRepository organizationMembershipInvitationRepository;
 
   @Autowired
-  OrganizationMembershipRequestRepository organizationMembershipRequestRepository;
+  private OrganizationMembershipRequestRepository organizationMembershipRequestRepository;
 
   @GetMapping(value = "/organizations")
   public Page<Organization> getOrganizations(Principal principal,

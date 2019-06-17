@@ -1,9 +1,10 @@
 import { loadUserProfile, loadLocale, getBrowserLocale, loadCurrentUser } from 'utils/utils';
+import { authorityToRole } from 'selectors';
 
 const initialState = {
   auth: {
     user_name: null,
-    role: [],
+    roles: [],
     exp: null,
     isAdmin: false,
     loggingIn: false,
@@ -21,7 +22,7 @@ const initAuth = () => {
   return {
     ...initialState.auth,
     user_name: userProfile ? userProfile.user_name : null,
-    role: userProfile ? userProfile.authorities : null,
+    roles: userProfile ? userProfile.authorities.map(authorityToRole) : null,
     exp: userProfile ? userProfile.exp : null,
   }
 }
@@ -75,7 +76,10 @@ export default {
   locale: initializeLocale(),
   organizations: defaultPageableState, 
   organization: defaultObjectState,
+  training: defaultObjectState,
   trainings: defaultPageableState,
+  trainingElement: defaultObjectState,
+  trainingElements: defaultPageableState,
   training: defaultObjectState,
   users: defaultPageableState,
 }

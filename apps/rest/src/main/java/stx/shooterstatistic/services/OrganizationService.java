@@ -128,7 +128,7 @@ public class OrganizationService {
       if (user == null || !organizationMembershipService.isAdmin(context, organization, context.getUser()))
         user = context.getUser();
     } else {
-      if (!userService.isGlobalAdmin(context.getUser()))
+      if (!securityService.isGlobalAdmin(context))
         user = context.getUser();
     }
 
@@ -167,7 +167,7 @@ public class OrganizationService {
       if (user == null || !organizationMembershipService.isAdmin(context, organization, context.getUser()))
         user = context.getUser();
     } else {
-      if (!userService.isGlobalAdmin(context.getUser()))
+      if (!securityService.isGlobalAdmin(context))
         user = context.getUser();
     }
 

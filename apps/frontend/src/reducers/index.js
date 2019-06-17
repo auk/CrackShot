@@ -8,6 +8,7 @@ import { localeReducer } from 'reducers/localeReducer';
 import { reducer as modalReducer } from 'reducers/modalReducer';
 import { organizationReducer, organizationsReducer } from 'reducers/organizationReducer';
 import { trainingReducer, trainingsReducer } from 'reducers/trainingReducers';
+import { trainingElementReducer, trainingElementsReducer } from 'reducers/trainingReducers';
 import { currentUserReducer, usersReducer } from 'reducers/userReducers';
 
 const rootReducer = combineReducers({
@@ -20,8 +21,10 @@ const rootReducer = combineReducers({
   organizations: organizationsReducer,
   organization: organizationReducer,
   toastr: toastrReducer,
-  trainings: trainingsReducer,
   training: trainingReducer,
+  trainings: trainingsReducer,
+  trainingElement: trainingElementReducer,
+  trainingElements: trainingElementsReducer,
   users: usersReducer,
 });
 

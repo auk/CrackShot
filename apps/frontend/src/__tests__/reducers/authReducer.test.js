@@ -33,7 +33,7 @@ describe('Auth reducer', () => {
       error: null,
       exp: 'exp',
       user_name: 'user_name',
-      role: 'authorities',
+      roles: 'authorities',
     })
   })
 
@@ -43,7 +43,7 @@ describe('Auth reducer', () => {
         loggingIn: true,
         error: null,
         user_name: '123123',
-        role: ['capitan'],
+        roles: ['capitan'],
         exp: 15461494984984,
       }, {
         type: ACTIONS.LOGIN_FAILURE,
@@ -53,7 +53,7 @@ describe('Auth reducer', () => {
       loggingIn: false,
       error: new Error('some error'),
       user_name: null,
-      role: null,
+      roles: null,
       exp: null,
     })
   })
@@ -78,7 +78,7 @@ describe('Auth reducer', () => {
     )).toEqual({
       loggingOut: false,
       user_name: null,
-      role: null,
+      roles: null,
       exp: null,
     })
   })

@@ -13,7 +13,7 @@ const Authorization = allowedRoles => WrappedComponent => {
         user_name: PropTypes.string,
         isAdmin: PropTypes.bool,
         permissionChecked: PropTypes.bool,
-        role: PropTypes.array,
+        roles: PropTypes.array,
         exp: PropTypes.number,
       }).isRequired,
       logout: PropTypes.func.isRequired,
@@ -22,9 +22,9 @@ const Authorization = allowedRoles => WrappedComponent => {
     }
 
     componentDidMount() {
-      const { auth: { role }, adminRoles, checkPermission } = this.props;
+      const { auth: { roles }, adminRoles, checkPermission } = this.props;
       this.checkAuth();
-      checkPermission(role, adminRoles);
+      checkPermission(roles, adminRoles);
     }
 
     componentDidUpdate() {
@@ -53,14 +53,14 @@ const Authorization = allowedRoles => WrappedComponent => {
      * @param {array} userRoles 
      */
     isAllowed() {
-      const { auth: { role }  } = this.props;
+      const { auth: { roles }  } = this.props;
 
       let hasRole = false;
       if (allowedRoles.length === 0) {
         hasRole = true;
       } else {
         for (let i = 0; i < allowedRoles.length; i++) {
-          if (role.includes(allowedRoles[i])) {
+          if (roles.includes(allowedRoles[i])) {
             hasRole = true;
             break;
           }

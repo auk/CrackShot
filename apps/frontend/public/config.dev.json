@@ -8,7 +8,7 @@
   },
   "roles": {
     "admin": [
-      "ROLE_TimeTracker"
+      "Crackshot admins"
     ],
     "user": []
   },
@@ -69,6 +69,21 @@
       "url": "/trainings",
       "api": {
         "get": "{REST_URL}/trainings/search"
+      }
+    },
+    "trainingElement": {
+      "url": "/trainingElement/:tid",
+      "api": {
+        "create": "{REST_URL}/trainingElement",
+        "delete": "{REST_URL}/trainingElement/:tid",
+        "get": "{REST_URL}/trainingElement/:tid",
+        "update": "{REST_URL}/trainingElement/:tid"
+      }
+    },
+    "trainingElements": {
+      "url": "/trainingElements",
+      "api": {
+        "get": "{REST_URL}/trainingElements"
       }
     }
   }

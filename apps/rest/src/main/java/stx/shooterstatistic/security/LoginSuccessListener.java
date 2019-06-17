@@ -31,7 +31,6 @@ public class LoginSuccessListener implements ApplicationListener<AuthenticationS
   @Override
   public synchronized void onApplicationEvent(AuthenticationSuccessEvent event) {
     Object dd = ((OAuth2AuthenticationDetails) event.getAuthentication().getDetails()).getDecodedDetails();
-    log.info("Auth details: {}", dd);
     String authUsername = event.getAuthentication().getName();
     if (dd == null) {
       return;

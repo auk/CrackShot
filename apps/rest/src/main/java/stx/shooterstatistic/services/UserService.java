@@ -19,8 +19,8 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-  @Value(value = "${stx.crackshot.admin_role:Crackshot admin}")
-  String globalAdminRole;
+  @Autowired
+  SecurityService securityService;
 
   @Autowired
   UserRepository userRepository;
@@ -49,9 +49,7 @@ public class UserService {
     Objects.requireNonNull(context);
     Objects.requireNonNull(user);
 
-    if (!isGlobalAdmin(user))
-      throw new SecurityException("User deleting is not allowed.");
-
+    securityService.checkGlobalAdmin(context);
     userRepository.delete(user);
   }
 
@@ -70,14 +68,6 @@ public class UserService {
 
   public Optional<User> findUserByUsername(String username) {
     return userRepository.findByUsername(username);
-  }
-
-  public String getGlobalAdminRole() {
-    return globalAdminRole;
-  }
-
-  public boolean isGlobalAdmin(@NotNull User user) {
-    return globalAdminRole != null && user.getRoles() != null && user.getRoles().contains(globalAdminRole);
   }
 
   public User getUser(@NotNull Principal principal) {

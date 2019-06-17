@@ -38,6 +38,10 @@ export const defaultMessage = defineMessages({
       id: 'common.name',
       defaultMessage: 'Name'
     },
+    no_data: {
+      id: 'common.no_data',
+      defaultMessage: 'No data'
+    },
     organization: {
       id: 'common.organization',
       defaultMessage: 'Organization'
@@ -202,6 +206,10 @@ export const defaultMessage = defineMessages({
         id: 'navigation.navItem.about',
         defaultMessage: 'About'
       },
+      admin: {
+        id: 'navigation.navItem.admin',
+        defaultMessage: 'Global admin'
+      },
       calculator: {
         id: 'navigation.navItem.calculator',
         defaultMessage: 'Calculator'
@@ -213,6 +221,10 @@ export const defaultMessage = defineMessages({
       organization: {
         id: 'navigation.navItem.organization',
         defaultMessage: 'Organization'
+      },
+      trainingElements: {
+        id: 'navigation.navItem.trainingElements',
+        defaultMessage: 'Training elements'
       },
       users: {
         id: 'navigation.navItem.users',
@@ -352,6 +364,12 @@ export const defaultMessage = defineMessages({
         defaultMessage: 'Calculator'
       }
     },
+    organization: {
+      title: {
+        id: 'pages.organization.title',
+        defaultMessage: 'Crack shot | Organization'
+      },
+    },
     organizations: {
       title: {
         id: 'pages.organizations.title',
@@ -362,10 +380,14 @@ export const defaultMessage = defineMessages({
         defaultMessage: 'Organizations'
       }
     },
-    organization: {
+    trainingElements: {
+      header: {
+        id: 'pages.trainingElements.header',
+        defaultMessage: 'Training elements'
+      },
       title: {
-        id: 'pages.organization.title',
-        defaultMessage: 'Crack shot | Organization'
+        id: 'pages.trainingElements.title',
+        defaultMessage: 'Crack shot | Training elements'
       },
     },
     users: {

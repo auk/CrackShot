@@ -1,5 +1,6 @@
 import * as ACTIONS from 'constants/actions';
 import initialState from './initialState';
+import { authorityToRole } from 'selectors';
 
 export function authReducer(state = initialState.auth, action = {}) {
   switch (action.type) {
@@ -15,14 +16,14 @@ export function authReducer(state = initialState.auth, action = {}) {
         error: null,
         exp: action.payload.exp,
         user_name: action.payload.user_name,
-        role: action.payload.authorities,
+        roles: action.payload.authorities.map(authorityToRole),
       };
     case ACTIONS.LOGIN_FAILURE:
       return {
         ...state,
         loggingIn: false,
         user_name: null,
-        role: null,
+        roles: null,
         exp: null,
         error: action.error,
       };
@@ -36,7 +37,7 @@ export function authReducer(state = initialState.auth, action = {}) {
         ...state,
         loggingOut: false,
         user_name: null,
-        role: null,
+        roles: null,
         exp: null
       };
     case ACTIONS.LOGOUT_FAILURE:

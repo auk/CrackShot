@@ -42,24 +42,36 @@ class Navigation extends Component {
               <FormattedMessage {...messages.navItem.calculator} />
             </NavItem>
           </LinkContainer>
-          <LinkContainer exact to={links.organizations.url}>
-            <NavItem>
-              <i className="fa fa-globe" aria-hidden="true"></i>{' '}
-              <FormattedMessage {...messages.navItem.organizations} />
-            </NavItem>
-          </LinkContainer>
-          <LinkContainer exact to={links.users.url}>
-            <NavItem>
-              <i className="fa fa-users" aria-hidden="true"></i>{' '}
-              <FormattedMessage {...messages.navItem.users} />
-            </NavItem>
-          </LinkContainer>
           <LinkContainer exact to={links.about.url}>
             <NavItem>
               <i className="fa fa-file-text" aria-hidden="true"></i>{' '}
               <FormattedMessage {...messages.navItem.about} />
             </NavItem>
           </LinkContainer>
+
+          <li className="header hide-mobile"><FormattedMessage {...messages.navItem.admin} /></li>
+
+          <LinkContainer exact to={links.organizations.url}>
+            <NavItem>
+              <i className="fa fa-globe" aria-hidden="true"></i>{' '}
+              <FormattedMessage {...messages.navItem.organizations} />
+            </NavItem>
+          </LinkContainer>
+
+          <LinkContainer exact to={links.users.url}>
+            <NavItem>
+              <i className="fa fa-users" aria-hidden="true"></i>{' '}
+              <FormattedMessage {...messages.navItem.users} />
+            </NavItem>
+          </LinkContainer>
+
+          <LinkContainer exact to={links.trainingElements.url}>
+            <NavItem>
+              <i className="fa fa-check-square-o" aria-hidden="true"></i>{' '}
+              <FormattedMessage {...messages.navItem.trainingElements} />
+            </NavItem>
+          </LinkContainer>
+
         </ul>
       </nav>
     )

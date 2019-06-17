@@ -9,6 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
+import stx.shooterstatistic.tests.TestUtils;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,6 +25,9 @@ public class UserServiceTest {
   @Autowired
   SecurityService securityService;
 
+  @Autowired
+  TestUtils testUtils;
+
   @Test
   public void createAndDeleteUser() {
     // given
@@ -31,7 +35,8 @@ public class UserServiceTest {
     Assert.assertNotNull(user);
     Assert.assertTrue(userService.findUserByEmail(EMAIL).isPresent());
 
-    SecurityContext securityContext = securityService.createContext(user);
+    User adminUser = testUtils.createAdminUser();
+    SecurityContext securityContext = securityService.createContext(adminUser);
 
     // when
     userService.deleteUser(securityContext, user);

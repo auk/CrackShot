@@ -16,10 +16,17 @@ const handleChange = (selectedOption) => {
   // this.setState({ selectedOption });
   console.log(`Option selected:`, selectedOption);
 }
+const handleChangeTime = (selectedOption) => {
+  // this.setState({ selectedOption });
+  console.log(`Time selected:`, selectedOption, ', as string: ', selectedOption.format('HH:mm'));
+}
 
 let TrainingForm = React.memo(props => {
-  const { handleReset, handleSubmit, locale, resetBtnText, submitBtnText, organizationsOptions, intl: { formatMessage } } = props;
-  const { users, usersOptions } = props;
+  const { handleReset, handleSubmit, locale, resetBtnText, submitBtnText, intl: { formatMessage } } = props;
+  const { organizations, users, elements } = props;
+
+  // console.log("* organizations: ", organizations);
+  // console.log("* users: ", users);
 
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
@@ -27,7 +34,7 @@ let TrainingForm = React.memo(props => {
         <div className="col-md-12">
           <Field name="organization"
             component={InputSelect}
-            options={organizationsOptions}
+            options={organizations}
             label="Organization"
             placeholder='Organization'
             icon='glyphicon glyphicon-home'
@@ -52,7 +59,7 @@ let TrainingForm = React.memo(props => {
         <div className="col-md-12">
         <Field name="time"
               component={renderInputTimepicker}
-              onChange={handleChange}
+              onChange={handleChangeTime}
               label="Time"
               // features={features}
               locale={locale}
@@ -63,16 +70,31 @@ let TrainingForm = React.memo(props => {
       </div>  
       <div className="row">
         <div className="col-md-12">
-          <Field name="users"
+          <Field name="user"
             component={InputSelect}
             onChange={handleChange}
-            options={usersOptions}
+            options={users}
             label="Users"
             placeholder='Users'
             icon='glyphicon glyphicon-user'
             required={true}
             isMulti={true}
             isSearchable={true}
+          />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-12">
+          <Field name="element"
+            component={InputSelect}
+            onChange={handleChange}
+            options={elements}
+            label="Elements"
+            placeholder='Elements'
+            icon='glyphicon glyphicon-check'
+            // required={true}
+            isMulti={true}
+            // isSearchable={true}
           />
         </div>
       </div>
@@ -92,11 +114,11 @@ let TrainingForm = React.memo(props => {
 
 TrainingForm.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
-  organizationsOptions: PropTypes.arrayOf(PropTypes.shape({
+  organizations: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   })),
-  usersOptions: PropTypes.arrayOf(PropTypes.shape({
+  users: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   })),

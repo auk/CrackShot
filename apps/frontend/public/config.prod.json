@@ -8,7 +8,7 @@
   },
   "roles": {
     "admin": [
-      "ROLE_TimeTracker"
+      "Crackshot admins"
     ],
     "user": []
   },
@@ -35,12 +35,55 @@
       }
     },
     "organization": {
-      "url": "/organization/:oid",
+      "url": "/organization/:oid/view",
       "api": {
         "get": "{REST_URL}/organization/:oid",
         "create": "{REST_URL}/organization",
         "update": "{REST_URL}/organization/:oid",
         "delete": "{REST_URL}/organization/:oid"
+      }
+    },
+    "users": {
+      "url": "/users",
+      "api": {
+        "get": "{REST_URL}/users"
+      }
+    },
+    "user": {
+      "url": "/user/:uid",
+      "api": {
+        "create": "{REST_URL}/user",
+        "current": "{REST_URL}/user",
+        "delete": "{REST_URL}/user/:uid",
+        "get": "{REST_URL}/user/:uid"
+      }
+    },
+    "training": {
+      "url": "/training/:tid",
+      "api": {
+        "create": "{REST_URL}/training",
+        "get": "{REST_URL}/training/:tid"
+      }
+    },
+    "trainings": {
+      "url": "/trainings",
+      "api": {
+        "get": "{REST_URL}/trainings/search"
+      }
+    },
+    "trainingElement": {
+      "url": "/trainingElement/:tid",
+      "api": {
+        "create": "{REST_URL}/trainingElement",
+        "delete": "{REST_URL}/trainingElement/:tid",
+        "get": "{REST_URL}/trainingElement/:tid",
+        "update": "{REST_URL}/trainingElement/:tid"
+      }
+    },
+    "trainingElements": {
+      "url": "/trainingElements",
+      "api": {
+        "get": "{REST_URL}/trainingElements"
       }
     }
   }

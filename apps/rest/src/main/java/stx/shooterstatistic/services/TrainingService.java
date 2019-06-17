@@ -119,7 +119,7 @@ public class TrainingService {
 
     Definable<String> defOrg = searchCriteria.getOrganization();
 
-    if (!userService.isGlobalAdmin(context.getUser())) {
+    if (!securityService.isGlobalAdmin(context)) {
       if (!defOrg.isPresent()) {
         searchCriteria = new TrainingSearchCriteria(searchCriteria).setUsers(Collections.singletonList(context.getUser().getId()));
       } else {

@@ -3,23 +3,23 @@ import { connect } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import { FormattedMessage} from 'react-intl';
 
-import TrainingForm from 'components/training/TrainingForm';
+import TrainingElementForm from 'components/training/TrainingElementForm';
 
 import { hideModal } from 'actions/modalActions';
-import { createTraining } from 'actions/trainingActions';
+import { createTrainingElement } from 'actions/trainingActions';
 import { defaultMessage } from 'i18n/defineMessages';
 
 const messages = defaultMessage.training;
 
-const CreateTrainingModal = (props) => {
+const CreateTrainingElementModal = (props) => {
   const { submitText, resetText, dispatch } = props;
   const { users, organizations, initialValues } = props;
   const { user } = props;
 
   const handleSubmit = data => {
-    console.log("CreateTrainingModal - data:", data);
-    console.log("CreateTrainingModal - time: ", data.time, ', time parsed: ', data.time.format('HH:mm'))
-    dispatch(createTraining(data));
+    console.log("CreateTrainingElementModal - data:", data);
+    // console.log("CreateTrainingElementModal - time: ", data.time, ', time parsed: ', data.time.format('HH:mm'))
+    dispatch(createTrainingElement(data));
     dispatch(hideModal());
   }
 
@@ -31,13 +31,11 @@ const CreateTrainingModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <TrainingForm
+        <TrainingElementForm
           onSubmit={handleSubmit} 
           resetBtnText={resetText}
           submitBtnText={submitText}
-          organizations={organizations}
-          users={users}
-          initialValues={initialValues}
+          // initialValues={initialValues}
           />
       </Modal.Body>
     </Modal>
@@ -46,10 +44,10 @@ const CreateTrainingModal = (props) => {
 
 export default connect(
   (state, ownProps) => ({
-    user: ownProps.initialValues.user,
+    // user: ownProps.initialValues.user,
     // validate: (values, props) => {
     //   console.log("values: ", values, ", props:", props)
     //   return { name: "required" };
     // }
   })
-)(CreateTrainingModal)
+)(CreateTrainingElementModal)

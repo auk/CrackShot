@@ -12,7 +12,6 @@ import org.springframework.context.annotation.Bean;
 import stx.shooterstatistic.jpa.OrganizationRepository;
 import stx.shooterstatistic.jpa.UserRepository;
 import stx.shooterstatistic.model.Organization;
-import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
 import stx.shooterstatistic.services.OrganizationService;
 import stx.shooterstatistic.services.UserService;
@@ -47,11 +46,11 @@ public class ShooterStatisticApplication {
 
   @PostConstruct
   public void dumpConfig() {
-    log.info("* Config service - JDBC driver: {}", jdbcDriver);
-    log.info("* Config service - JDBC URL: {}", jdbcUrl);
-    log.info("* Config service - JDBC platform: {}", jdbcPlatform);
-    log.info("* Config service - JDBC DDL-auto: {}", jdbcDDLAuto);
-    log.info("* Config service - JDBC username: {}", jdbcUsername);
+    log.info("* Crack shot application - JDBC driver: {}", jdbcDriver);
+    log.info("* Crack shot application - JDBC URL: {}", jdbcUrl);
+    log.info("* Crack shot application - JDBC platform: {}", jdbcPlatform);
+    log.info("* Crack shot application - JDBC DDL-auto: {}", jdbcDDLAuto);
+    log.info("* Crack shot application - JDBC username: {}", jdbcUsername);
   }
 
   @Value("${stx.rest.admin.email:admin@startext.ru}")
@@ -79,7 +78,7 @@ public class ShooterStatisticApplication {
   public synchronized InitializingBean insertDefaultUsers() {
     return () -> {
       User adminUser = userService.findUserByEmail(adminEmail).orElseGet(() -> {
-        User user = userService.createUser("admin", adminUsername);
+        User user = userService.createUser("admin", adminEmail);
         user.setRoles(Collections.singletonList(globalAdminRole));
         userRepository.save(user);
         return user;

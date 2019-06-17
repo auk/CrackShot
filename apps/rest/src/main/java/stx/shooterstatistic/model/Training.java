@@ -25,6 +25,9 @@ public class Training extends AbstractEntity {
   @JsonIgnore
   List<TrainingParticipant> participants = new ArrayList<>();
 
+  @ElementCollection
+  List<TrainingElement> trainingElements = new ArrayList<>();
+
   private Training() {} // jpa
 
   public Training(@NotNull LocalDate date) {
@@ -66,6 +69,14 @@ public class Training extends AbstractEntity {
 
   public void setParticipants(List<TrainingParticipant> participants) {
     this.participants = participants;
+  }
+
+  public List<TrainingElement> getTrainingElements() {
+    return trainingElements;
+  }
+
+  public void setTrainingElements(List<TrainingElement> trainingElements) {
+    this.trainingElements = trainingElements;
   }
 
   @JsonProperty(value = "users")
