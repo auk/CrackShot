@@ -13,7 +13,7 @@ import Table, { HeadItem } from 'components/common/table/Table';
 const commonMessages = defaultMessage.common;
 
 const TrainingElementsList = (props) => {
-  const { data, links, onSizeChange, onPageChange, onClick, intl: { formatMessage } } = props;
+  const { data, links, onSizeChange, onPageChange, onClick, onDelete, intl: { formatMessage } } = props;
   const { showActions = true, showPaging = true } = props;
 
   // console.log("TrainingElementsList - data:", data);
@@ -47,12 +47,10 @@ const TrainingElementsList = (props) => {
                         <span><FormattedMessage {...commonMessages.edit} /></span>
                       </MenuItem>
                     </LinkContainer>
-                    <LinkContainer to={links.trainingElement.url.replace(/:tid/i, tr.id)}>
-                      <MenuItem eventKey="delete">
-                        <i className="fa fa-times"></i>
-                        <span><FormattedMessage {...commonMessages.delete} /></span>
-                      </MenuItem>
-                    </LinkContainer>
+                    <MenuItem eventKey="delete" onClick={onDelete.bind(this, tr.id, tr.name)}>
+                      <i className="fa fa-times"></i>
+                      <span><FormattedMessage {...commonMessages.delete} /></span>
+                    </MenuItem>
                   </ActionMenu>
                 </td>
               }

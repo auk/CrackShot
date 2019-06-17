@@ -64,11 +64,11 @@ public class TrainingServiceTest {
     organizationRepository.deleteAll();
 
     adminUser = userService.findUserByEmail(adminEmail).orElseGet(() -> testUtils.createAdminUser());
-    fakeUser = userService.findUserByEmail(fakeEmail).orElseGet(() -> userService.createUser("test-fake", fakeEmail));
+    fakeUser = userService.findUserByEmail(fakeEmail).orElseGet(() -> userService.saveUser("test-fake", fakeEmail));
     users = new ArrayList<User>() {{
-      add(userService.createUser("User 1"));
-      add(userService.createUser("User 2"));
-      add(userService.createUser("User 3"));
+      add(userService.saveUser("User 1"));
+      add(userService.saveUser("User 2"));
+      add(userService.saveUser("User 3"));
     }};
   }
 

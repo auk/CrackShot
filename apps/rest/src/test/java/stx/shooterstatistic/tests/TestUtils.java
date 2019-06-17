@@ -19,7 +19,7 @@ public class TestUtils {
   final String adminUsername = "admin@startext.ru", fakeUsername = "fake@startext.ru";
 
   public User createAdminUser() {
-    User user = userService.createUser("test-admin", adminUsername);
+    User user = userService.saveUser("test-admin", adminUsername);
     user.setRoles(Collections.singletonList(globalAdminRole));
     return user;
   }

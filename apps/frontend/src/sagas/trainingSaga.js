@@ -9,6 +9,7 @@ import * as selectors from '../selectors';
 export const trainingWatcherSaga = [
   takeLatest(actions.createTraining.toString(), createTraining),
   takeLatest(actions.createTrainingElement.toString(), createTrainingElement),
+  takeLatest(actions.deleteTrainingElement.toString(), deleteTrainingElement),
   takeLatest(actions.fetchTrainings.toString(), fetchTrainings),
   takeLatest(actions.fetchTrainingElements.toString(), fetchTrainingElements),
   // takeLatest(actions.fetchTraining.toString(), fetchTraining),
@@ -87,6 +88,30 @@ export function* createTrainingElementRequest({payload}) {
     toastr.success('Success', 'Training element has been created');
   } catch (error) {
     yield put(actions.createTrainingElementError(createError(error)));
+  }
+}
+
+export function* deleteTrainingElement({ payload }) {
+  try {
+    const url = yield select(selectors.deleteTrainingElementUrl);
+    const config = {
+      method: 'DELETE',
+    }
+
+    console.log("Deleting training element with uid:", payload);
+    const response = yield call(callApi, {
+      url: url.replace(/:tid/i, payload),
+      config
+    });
+
+    yield put(actions.deleteTrainingElementSuccess(response.data));
+
+    //refetch users after delete
+    // const requestParams = yield select(selectors.getTrainingElementsParams);
+    // yield put(actions.fetchTrainingElements(requestParams));
+  } catch (error) {
+    const e = createError(error);
+    yield put(actions.deleteTrainingElementError(e));
   }
 }
 

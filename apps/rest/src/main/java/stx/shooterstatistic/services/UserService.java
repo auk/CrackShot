@@ -26,20 +26,20 @@ public class UserService {
   UserRepository userRepository;
 
   @NotNull
-  public User createUser(@NotNull String login) {
+  public User saveUser(@NotNull String login) {
     User user = new User(login);
     return userRepository.save(user);
   }
 
   @NotNull
-  public User createUser(@NotNull String login, @NotNull String email) {
+  public User saveUser(@NotNull String login, @NotNull String email) {
     User user = new User(login);
     user.setEmail(email);
     return userRepository.save(user);
   }
 
   @NotNull
-  public User createUser(User user) {
+  public User saveUser(User user) {
     Objects.requireNonNull(user);
 //    checkUserExist(user.getUsername());
     return userRepository.save(user);

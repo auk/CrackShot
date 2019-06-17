@@ -331,6 +331,16 @@ export const defaultMessage = defineMessages({
     }
   },
   modal: {
+    delete_trainingElement: {
+      confirm: {
+        id: 'modal.delete_trainingElement.confirm',
+        defaultMessage: "Are you sure you want to delete training element '{name}'?"
+      },
+      title: {
+        id: 'modal.delete_trainingElement.title',
+        defaultMessage: 'Delete training element'
+      },
+    },
     delete_user: {
       confirm: {
         id: 'modal.delete_user.confirm',

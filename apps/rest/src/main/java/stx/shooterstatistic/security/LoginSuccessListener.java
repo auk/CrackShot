@@ -36,15 +36,23 @@ public class LoginSuccessListener implements ApplicationListener<AuthenticationS
       return;
     }
 
-    Optional<User> opNewUser = mapper(((Map<String, Object>) dd), authUsername);
-    opNewUser.ifPresent(user -> {
-      if (!userService.findUserByUsername(user.getUsername()).isPresent()) {
+    Optional<User> opRequestUser = mapper(((Map<String, Object>) dd), authUsername);
+    opRequestUser.ifPresent(user -> {
+      Optional<User> opDbUser = userService.findUserByUsername(user.getUsername());
+      if (!opDbUser.isPresent()) {
         try {
-          userService.createUser(user);
+          userService.saveUser(user);
           log.info("user: " + user.toString() + " was created successfully");
         } catch (Exception e) {
           e.printStackTrace();
           log.error(e.getMessage());
+        }
+      } else {
+        User dbUser = opDbUser.get();
+        if (!dbUser.getRoles().equals(opRequestUser.get().getRoles())) {
+          dbUser.setRoles(opRequestUser.get().getRoles());
+          userService.saveUser(user);
+          log.info("user: {} groups were updated to {}", dbUser.getUsername(), dbUser.getRoles());
         }
       }
     });

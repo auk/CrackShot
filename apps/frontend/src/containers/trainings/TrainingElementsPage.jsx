@@ -45,6 +45,23 @@ class TrainingElementsPage extends React.Component   {
     fetchTrainingElements(requestParams);
   }
 
+  handleDeleteElement = (id, name) => {
+    const { showModal } = this.props;
+    
+    console.log("Deleting training element: ", id, ", name:", name);
+
+    const modal = {
+      modalType: 'DELETE_TRAINING_ELEMENT',
+      modalProps: {
+        id: id,
+        name: name,
+        // requestParams: requestParamsNew
+      }
+    };
+
+    showModal(modal);
+  }
+
   onElementClick = e => {
     console.log("Click: ", e);
   }
@@ -101,6 +118,7 @@ class TrainingElementsPage extends React.Component   {
                   data={trainingElements}
                   links={links}
                   onClick={this.onElementClick}
+                  onDelete={this.handleDeleteElement}
                   onSizeChange={this.onSizeChange}
                   onPageChange={this.onPageChange}
                   onSortChange={this.onSortChange}/>

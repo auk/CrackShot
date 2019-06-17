@@ -16,9 +16,9 @@ export const trainingsReducer = handleActions({
 }, initialState.trainings);
 
 export const trainingElementReducer = handleActions({
-  [ combineActions(actions.createTrainingElement, actions.fetchTrainingElement) ]: handleRequest,
-  [ combineActions(actions.createTrainingElementSuccess, actions.fetchTrainingElementSuccess) ]: handleRequestSuccess,
-  [ combineActions(actions.createTrainingElementError, actions.fetchTrainingElementError) ]: handleRequestError
+  [ combineActions(actions.createTrainingElement, actions.fetchTrainingElement, actions.deleteTrainingElement) ]: handleRequest,
+  [ combineActions(actions.createTrainingElementSuccess, actions.fetchTrainingElementSuccess, actions.deleteTrainingElementSuccess) ]: handleRequestSuccess,
+  [ combineActions(actions.createTrainingElementError, actions.fetchTrainingElementError, actions.deleteTrainingElementError) ]: handleRequestError
 }, initialState.trainingElement);
 
 export const trainingElementsReducer = handleActions({
