@@ -42,9 +42,8 @@ public class TrainingElementController {
   }
 
   @GetMapping(value = "/trainingElement/{id}")
-  public ResponseEntity<TrainingElement> getTrainingElement(Principal principal, @PathVariable String id) {
-    SecurityContext context = securityService.createContext(principal);
-    TrainingElement el = trainingElementService.get(context, id);
+  public ResponseEntity<TrainingElement> getTrainingElement(@PathVariable String id) {
+    TrainingElement el = trainingElementService.get(id);
     return ResponseEntity.ok(el);
   }
 

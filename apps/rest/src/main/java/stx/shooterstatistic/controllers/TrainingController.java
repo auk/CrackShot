@@ -12,10 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import stx.shooterstatistic.model.*;
-import stx.shooterstatistic.services.OrganizationService;
-import stx.shooterstatistic.services.SecurityService;
-import stx.shooterstatistic.services.TrainingService;
-import stx.shooterstatistic.services.UserService;
+import stx.shooterstatistic.services.*;
 import stx.shooterstatistic.util.Definable;
 
 import java.security.Principal;
@@ -39,6 +36,9 @@ public class TrainingController {
   private TrainingService trainingService;
 
   @Autowired
+  TrainingElementService trainingElementService;
+
+  @Autowired
   private UserService userService;
 
   @PostMapping(value = "/training")
@@ -47,7 +47,8 @@ public class TrainingController {
      @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
      @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
      @RequestParam(required = false) String oid,
-     @RequestParam(required = false) List<String> users) {
+     @RequestParam(required = false) List<String> users,
+     @RequestParam(required = false) List<String> elems) {
 
     SecurityContext context = securityService.createContext(principal);
 
@@ -61,7 +62,12 @@ public class TrainingController {
       users.forEach(uid -> userService.findUserById(context, uid).ifPresent(participants::add));
     }
 
-    Training training = trainingService.createTraining(context, date, time, organization, participants);
+    List<TrainingElement> elements = new ArrayList<>();
+    if (elems != null) {
+      elems.forEach(id -> trainingElementService.find(id).ifPresent(elements::add));
+    }
+
+    Training training = trainingService.createTraining(context, date, time, organization, participants, elements);
     return new ResponseEntity<>(training, HttpStatus.CREATED);
   }
 

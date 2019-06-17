@@ -11,6 +11,7 @@ import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.TrainingElement;
 
 import javax.validation.constraints.NotNull;
+import java.util.Optional;
 
 @Service
 public class TrainingElementService {
@@ -22,7 +23,7 @@ public class TrainingElementService {
 
   @NotNull
   public TrainingElement create(@NotNull SecurityContext context, @NotNull String name) {
-//    securityService.checkGlobalAdmin(context);
+    securityService.checkGlobalAdmin(context);
 
     trainingElementRepository.findByName(name).ifPresent(el -> {
       throw new ResourceAlreadyExistsException(TrainingElement.class.getName(), name);
@@ -34,13 +35,16 @@ public class TrainingElementService {
 
   public void delete(@NotNull SecurityContext context, @NotNull String id) {
     securityService.checkGlobalAdmin(context);
-    TrainingElement el = get(context, id);
+    TrainingElement el = get(id);
     trainingElementRepository.delete(el);
   }
 
+  public Optional<TrainingElement> find(@NotNull String id) {
+    return trainingElementRepository.findById(id);
+  }
+
   @NotNull
-  public TrainingElement get(@NotNull SecurityContext context, @NotNull String id) {
-    securityService.checkGlobalAdmin(context);
+  public TrainingElement get(@NotNull String id) {
     return trainingElementRepository
        .findById(id)
        .orElseThrow(() -> new ResourceNotFoundException(TrainingElement.class.getName(), id));

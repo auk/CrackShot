@@ -57,12 +57,14 @@ public class TrainingService {
      @NotNull LocalDate date,
      @NotNull LocalTime time,
      @Null Organization organization,
-     @Null List<User> users)
+     @Null List<User> users,
+     @NotNull List<TrainingElement> elements)
   {
     securityService.checkHasAccess(context, organization, Permission.READ);
 
     Training training = new Training(date, organization);
     training.setTime(time);
+    training.setTrainingElements(elements);
 
     final Training tr = trainingRepository.save(training);
     if (users != null)

@@ -37,6 +37,8 @@ export function* createTrainingRequest({payload}) {
       Object.assign(params, { time: payload.requestParams.time.format('HH:mm') });
     if (payload.requestParams.user)
       Object.assign(params, { users: payload.requestParams.user.map(u => u.value) });
+      if (payload.requestParams.element)
+      Object.assign(params, { elems: payload.requestParams.element.map(u => u.value) });
 
     const config = {
       method: 'POST',
