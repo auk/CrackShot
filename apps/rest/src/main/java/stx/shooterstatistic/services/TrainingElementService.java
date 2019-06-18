@@ -11,6 +11,7 @@ import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.TrainingElement;
 
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -51,7 +52,16 @@ public class TrainingElementService {
   }
 
   @NotNull
-  public Page<TrainingElement> all(SecurityContext context, @NotNull Pageable pageable) {
+  public Page<TrainingElement> all(@NotNull Pageable pageable) {
     return trainingElementRepository.findAll(pageable);
+  }
+
+  public TrainingElement save(@NotNull SecurityContext context, @NotNull TrainingElement trainingElement) {
+    Objects.requireNonNull(context);
+
+    securityService.checkGlobalAdmin(context);
+
+    Objects.requireNonNull(trainingElement);
+    return trainingElementRepository.save(trainingElement);
   }
 }

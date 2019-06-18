@@ -10,6 +10,7 @@ import { defaultMessage } from 'i18n/defineMessages';
 import { getLinksSelector, getTrainingElementSelector, getTrainingElementsSelector } from 'selectors';
 import { createTrainingElement, fetchTrainingElements } from 'actions/trainingActions';
 import { showModal } from 'actions/modalActions';
+import { fetchTrainingElement } from '../../actions/trainingActions';
 
 const commonMessages = defaultMessage.common;
 const navigationMessages = defaultMessage.navigation;
@@ -42,12 +43,33 @@ class TrainingElementsPage extends React.Component   {
 
     showModal(modal);
 
-    fetchTrainingElements(requestParams);
+    // fetchTrainingElements(requestParams);
+  }
+
+  handleEditElement = (element) => {
+    // e.preventDefault();
+
+    console.log("handleEditElement: ", element);
+
+    const { showModal, intl: { formatMessage } } = this.props;
+
+    const modal = {
+      modalType: 'EDIT_TRAINING_ELEMENT',
+      modalProps: {
+        resetText: formatMessage(commonMessages.reset),
+        submitText: formatMessage(commonMessages.save),
+        element: element
+      }
+    };
+    
+    // console.log("Create modal form: ", modal);
+
+    showModal(modal);
   }
 
   handleDeleteElement = (id, name) => {
     const { showModal } = this.props;
-    
+
     console.log("Deleting training element: ", id, ", name:", name);
 
     const modal = {
@@ -119,6 +141,7 @@ class TrainingElementsPage extends React.Component   {
                   links={links}
                   onClick={this.onElementClick}
                   onDelete={this.handleDeleteElement}
+                  onEdit = {this.handleEditElement}
                   onSizeChange={this.onSizeChange}
                   onPageChange={this.onPageChange}
                   onSortChange={this.onSortChange}/>

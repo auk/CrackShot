@@ -15,7 +15,9 @@ import stx.shooterstatistic.model.TrainingElement;
 import stx.shooterstatistic.services.SecurityService;
 import stx.shooterstatistic.services.TrainingElementService;
 
+import javax.validation.constraints.NotNull;
 import java.security.Principal;
+import java.util.Objects;
 
 @RestController
 public class TrainingElementController {
@@ -47,11 +49,21 @@ public class TrainingElementController {
     return ResponseEntity.ok(el);
   }
 
+  @PutMapping(value = "/trainingElement/{id}")
+  public ResponseEntity<TrainingElement> updateTrainingElement(Principal principal, @PathVariable String id, @NotNull @RequestParam String name) {
+    Objects.requireNonNull(name);
+
+    TrainingElement el = trainingElementService.get(id);
+    el.setName(name);
+
+    SecurityContext context = securityService.createContext(principal);
+    el = trainingElementService.save(context, el);
+    return ResponseEntity.ok(el);
+  }
+
   @GetMapping(value = "/trainingElements")
   public Page<TrainingElement> getAllTrainingElements(
-     Principal principal,
      @PageableDefault(size = 50, sort = { "name" }, direction = Sort.Direction.ASC) Pageable pageable) {
-    SecurityContext context = securityService.createContext(principal);
-    return trainingElementService.all(context, pageable);
+    return trainingElementService.all(pageable);
   }
 }

@@ -9,18 +9,22 @@ const commonMessages = defaultMessage.common;
 
 let TrainingElementForm = React.memo(props => {
   const { handleReset, handleSubmit, locale, resetBtnText, submitBtnText, intl: { formatMessage } } = props;
-  const { elements } = props;
+  const { element } = props;
+
+  console.log("TrainingElementForm - element:", element);
 
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
       <div className="row">
         <div className="col-md-12">
+          <Field name="id" component="input" type="hidden" />
           <Field name="name"
             component={InputText}
             // options={organizations}
             label={formatMessage(commonMessages.name)}
             placeholder={formatMessage(commonMessages.name)}
             icon='glyphicon glyphicon-edit'
+            autoFocus={true}
             required={true}
           />
         </div>

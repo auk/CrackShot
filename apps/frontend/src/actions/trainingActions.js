@@ -7,3 +7,5 @@ export const { fetchTraining, fetchTrainingSuccess, fetchTrainingError } = creat
 export const { fetchTrainingElement, fetchTrainingElementSuccess, fetchTrainingElementError } = createSimpleActions('FETCH_TRAINING_ELEMENT');
 export const { fetchTrainings, fetchTrainingsSuccess, fetchTrainingsError } = createRequestParamsActions('FETCH_TRAININGS');
 export const { fetchTrainingElements, fetchTrainingElementsSuccess, fetchTrainingElementsError } = createRequestParamsActions('FETCH_TRAINING_ELEMENTS');
+export const { updateTraining, updateTrainingSuccess, updateTrainingError } = createRequestParamsActions('UPDATE_TRAINING');
+export const { updateTrainingElement, updateTrainingElementSuccess, updateTrainingElementError } = createRequestParamsActions('UPDATE_TRAINING_ELEMENT');

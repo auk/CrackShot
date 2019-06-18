@@ -4,9 +4,9 @@ import * as actions from '../actions/trainingActions';
 import initialState from './initialState';
 
 export const trainingReducer = handleActions({
-  [ combineActions(actions.createTraining, actions.fetchTraining) ]: handleRequest,
-  [ combineActions(actions.createTrainingSuccess, actions.fetchTrainingSuccess) ]: handleRequestSuccess,
-  [ combineActions(actions.createTrainingError, actions.fetchTrainingError) ]: handleRequestError
+  [ combineActions(actions.createTraining, actions.fetchTraining, actions.updateTraining) ]: handleRequest,
+  [ combineActions(actions.createTrainingSuccess, actions.fetchTrainingSuccess, actions.updateTrainingSuccess) ]: handleRequestSuccess,
+  [ combineActions(actions.createTrainingError, actions.fetchTrainingError, actions.updateTrainingError) ]: handleRequestError
 }, initialState.training);
 
 export const trainingsReducer = handleActions({
@@ -16,9 +16,9 @@ export const trainingsReducer = handleActions({
 }, initialState.trainings);
 
 export const trainingElementReducer = handleActions({
-  [ combineActions(actions.createTrainingElement, actions.fetchTrainingElement, actions.deleteTrainingElement) ]: handleRequest,
-  [ combineActions(actions.createTrainingElementSuccess, actions.fetchTrainingElementSuccess, actions.deleteTrainingElementSuccess) ]: handleRequestSuccess,
-  [ combineActions(actions.createTrainingElementError, actions.fetchTrainingElementError, actions.deleteTrainingElementError) ]: handleRequestError
+  [ combineActions(actions.createTrainingElement, actions.fetchTrainingElement, actions.deleteTrainingElement, actions.fetchTrainingElement) ]: handleRequest,
+  [ combineActions(actions.createTrainingElementSuccess, actions.fetchTrainingElementSuccess, actions.deleteTrainingElementSuccess, actions.fetchTrainingElementSuccess) ]: handleRequestSuccess,
+  [ combineActions(actions.createTrainingElementError, actions.fetchTrainingElementError, actions.deleteTrainingElementError, actions.fetchTrainingElementError) ]: handleRequestError
 }, initialState.trainingElement);
 
 export const trainingElementsReducer = handleActions({

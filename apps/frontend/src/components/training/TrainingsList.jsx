@@ -37,6 +37,9 @@ const TrainingsList = props => {
           <HeadItem noSort name="participants">
             {formatMessage(common.participants)}
           </HeadItem>
+          <HeadItem noSort name="elements">
+            {formatMessage(common.elements)}
+          </HeadItem>
           { showActions &&
             <HeadItem noSort className="pull-right">
               {formatMessage(common.actions)}
@@ -64,15 +67,15 @@ const TrainingsList = props => {
               </td>
               <td className="col-md-1 col-sm-1">
                 {tr.date}
-                {/* <span className={"label " + (workspace.ownerID === currentUser.id ? "label-info" : "label-default")}>
-                  {workspace.ownerID === currentUser.id ? formatMessage(messages.own) : formatMessage(messages.invited)}
-                </span> */}
               </td>
               <td className="col-md-2 col-sm-2">
                 {tr.time}
               </td>
               <td className="col-md-2 col-sm-2 text-center">
                 <div title={tr.users.map(u => u.name ? u.name : u.username).join("\r\n")}>{tr.users.length}</div>
+              </td>
+              <td className="col-md-2 col-sm-2 text-center">
+                <div title={tr.trainingElements.map(u => u.name ? u.name : u.username).join("\r\n")}>{tr.trainingElements.length}</div>
               </td>
               { showActions &&
                 <td className="col-md-1 col-sm-1 text-center">

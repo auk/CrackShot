@@ -57,6 +57,7 @@ public class SecurityService {
   }
 
   public boolean isGlobalAdmin(@NotNull SecurityContext context) {
+    Objects.requireNonNull(context);
     return globalAdminRole != null && context.getUser().getRoles() != null && context.getUser().getRoles().contains(globalAdminRole);
   }
 
