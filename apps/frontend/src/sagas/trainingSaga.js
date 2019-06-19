@@ -26,16 +26,16 @@ export function* createTrainingRequest({payload}) {
     console.log("createTraining - url:", url, ", values: ", payload);
 
     let params = {
-      date: payload.requestParams.date.format('YYYY-MM-DD'),
+      date: payload.date.format('YYYY-MM-DD'),
     };
-    if (payload.requestParams.organization)
-      Object.assign(params, { oid: payload.requestParams.organization.value });
-    if (payload.requestParams.time)
-      Object.assign(params, { time: payload.requestParams.time.format('HH:mm') });
-    if (payload.requestParams.user)
-      Object.assign(params, { users: payload.requestParams.user.map(u => u.value) });
-      if (payload.requestParams.element)
-      Object.assign(params, { elems: payload.requestParams.element.map(u => u.value) });
+    if (payload.organization)
+      Object.assign(params, { oid: payload.organization.value });
+    if (payload.time)
+      Object.assign(params, { time: payload.time.format('HH:mm') });
+    if (payload.user)
+      Object.assign(params, { users: payload.user.map(u => u.value) });
+      if (payload.element)
+      Object.assign(params, { elems: payload.element.map(u => u.value) });
 
     const config = {
       method: 'POST',

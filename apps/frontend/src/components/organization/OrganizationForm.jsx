@@ -14,6 +14,7 @@ let OrganizationForm = React.memo(props => {
 
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
+      <Field name="id" component="input" type="hidden" />
       <div className="row">
         <div className="col-md-12">
           <Field name="name"

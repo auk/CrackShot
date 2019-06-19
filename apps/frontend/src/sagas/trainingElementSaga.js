@@ -29,7 +29,7 @@ export function* createTrainingElementRequest({payload}) {
     const config = {
       method: 'POST',
       params: {
-        name: payload.requestParams.name
+        name: payload.name
       }
     }
     console.log("config:", config);
@@ -124,14 +124,14 @@ export function* updateTrainingElementRequest({payload}) {
     const config = {
       method: 'PUT',
       params: {
-        id: payload.requestParams.id,
-        name: payload.requestParams.name
+        id: payload.id,
+        name: payload.name
       }
     }
     console.log("config:", config);
 
     const response = yield call(callApi, {
-      url: url.replace(/:tid/i, payload.requestParams.id),
+      url: url.replace(/:tid/i, payload.id),
       config,
     });
     // console.log("createOrganization - response:", response);

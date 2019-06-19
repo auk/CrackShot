@@ -31,13 +31,18 @@ class OrganizationPage extends React.Component {
   }
 
   handleEditOrganization = e => {
+    const { organization } = this.props;
+
+    console.log("handleEditOrganization - organization:", organization);
+
     e.preventDefault();
 
     const modal = {
-      modalType: 'CREATE_ORGANIZATION',
+      modalType: 'EDIT_ORGANIZATION',
       modalProps: {
+        organization: organization,
         resetText: this.props.intl.formatMessage(commonMessages.reset),
-        submitText: this.props.intl.formatMessage(commonMessages.create)
+        submitText: this.props.intl.formatMessage(commonMessages.save)
       }
     };
     this.props.showModal(modal);

@@ -9,6 +9,7 @@ export const organizationWatcherSaga = [
   takeLatest(actions.createOrganization.toString(), createOrganization),
   takeLatest(actions.fetchOrganizations.toString(), fetchOrganizations),
   takeLatest(actions.fetchOrganization.toString(), fetchOrganization),
+  takeLatest(actions.updateOrganization.toString(), updateOrganization),
 ];
 
 export function* createOrganization({payload}) {
@@ -75,4 +76,8 @@ export function* fetchOrganization({payload}) {
     console.error("Fetch organization error: ", error)
     yield put(actions.fetchOrganizationError(error.response ? error.response.data : error));
   }
+}
+
+export function* updateOrganization({payload}) {
+
 }
