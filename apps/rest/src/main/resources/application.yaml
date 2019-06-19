@@ -57,6 +57,25 @@ spring:
 
 ---
 spring:
+  profiles: postgresql
+
+  datasource:
+    driverClassName: ${REST_DB_DRIVER:org.postgresql.Driver}
+    url: ${REST_DB_URL:jdbc:postgresql://10.10.1.2:5432/crackshot}
+    username: ${REST_DB_USERNAME:crackshot}
+    password: ${REST_DB_PASSWORD:crackshot}
+  jpa:
+    database-platform: ${REST_DB_PLATFORM:org.hibernate.dialect.PostgreSQL9Dialect}
+    hibernate:
+      ddl-auto: ${REST_DB_DDL_AUTO:update}
+    properties:
+      hibernate.jdbc.lob.non_contextual_creation: true
+#      temp.use_jdbc_metadata_defaults: false
+
+
+
+---
+spring:
   profiles: test
 
   datasource:

@@ -1,0 +1,16 @@
+databaseChangeLog:
+  - includeAll:
+      path: scripts/
+      relativeToChangelogFile: true      
+        #  - include:
+        #      file: 001-create_training_element_table.yaml
+        #      relativeToChangelogFile: true        
+      #  - changeSet:
+      #      id: 001_initial_training_elements
+      #      author: Alexey Ukhov <auk@startext.ru>
+      #      changes:
+      #      - loadUpdateData:
+      #          encoding: UTF-8
+      #          file: /db/changelog/data/001_initial_training_elements.csv
+      #          primaryKey: id
+      #          tableName: training_element

@@ -1,0 +1,21 @@
+databaseChangeLog:
+- changeSet:
+    id: 001-create_training_element_table.yaml
+    author: Alexey Ukhov <auk@startext.ru>
+    changes:
+    - createTable:
+        columns:
+        - column:
+            constraints:
+              primaryKey: true
+            name: ID
+            type: VARCHAR(36)
+        - column:
+            name: NAME
+            type: VARCHAR(255)
+        tableName: TRAINING_ELEMENT
+    - loadUpdateData:
+        encoding: UTF-8
+        file: /db/changelog/data/001_initial_training_elements.csv
+        primaryKey: id
+        tableName: training_element

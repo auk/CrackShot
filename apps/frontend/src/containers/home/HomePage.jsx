@@ -8,7 +8,7 @@ import WithLayout from 'containers/layouts/WithLayout';
 import Page from 'components/common/pageTemplate/Page';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
-import { getCurrentUserSelector, getLinksSelector, userToOptionSelector,
+import { getAuthSelector, getCurrentUserSelector, getLinksSelector, userToOptionSelector,
   getOrganizationsSelector, getOrganizationsOptionsSelector,
   getTrainingsSelector,
   getTrainingElementsSelector, getTrainingElementsOptionsSelector,
@@ -99,7 +99,7 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { currentUser, links, organizationsOptions, selectedOrganizationsOptions, usersOptions, trainings, trainingElementsOptions, intl: { formatMessage } } = this.props;
+    const { auth, currentUser, links, organizationsOptions, selectedOrganizationsOptions, usersOptions, trainings, trainingElementsOptions, intl: { formatMessage } } = this.props;
     const crumbs = [
       {
         url: links.home.url,
@@ -118,8 +118,8 @@ class HomePage extends React.Component {
       time: moment('09:00', 'HH:mm'),
     }
 
-    // console.log("user options: ", values);
-    // console.log("current user options: ", selectedUsersOptions);
+    console.log("auth:", auth);
+    console.log("current user:", currentUser);
 
     return (
       <React.Fragment>
@@ -286,6 +286,7 @@ HomePage.propTypes = {
 
 const mapStateToProps = state => {
   return {
+    auth: getAuthSelector(state),
     currentUser: getCurrentUserSelector(state),
     links: getLinksSelector(state),
     organizations: getOrganizationsSelector(state),

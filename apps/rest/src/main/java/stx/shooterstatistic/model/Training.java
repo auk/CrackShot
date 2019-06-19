@@ -25,7 +25,7 @@ public class Training extends AbstractEntity {
   @JsonIgnore
   List<TrainingParticipant> participants = new ArrayList<>();
 
-  @ElementCollection
+//  @ElementCollection
   List<TrainingElement> trainingElements = new ArrayList<>();
 
   private Training() {} // jpa
