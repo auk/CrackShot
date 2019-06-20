@@ -1,5 +1,6 @@
 package stx.shooterstatistic.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
@@ -18,9 +19,9 @@ public class TrainingParticipant extends AbstractEntity {
   @ManyToOne
   User user;
 
-  int shots;
+  int shots = 0;
 
-  BigDecimal cost;
+  BigDecimal cost = BigDecimal.ZERO;
 
   private TrainingParticipant() {} // for JPA
 

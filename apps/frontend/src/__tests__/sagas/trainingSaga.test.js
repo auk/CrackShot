@@ -16,7 +16,7 @@ describe('Create training', () => {
   const gen = cloneableGenerator(sagas.createTraining)({ requestParams: data });
 
   it('should get resource URL', () => {
-    expect(gen.next().value).toEqual(select(selectors.createTrainingUrl));
+    expect(gen.next().value).toEqual(call(sagas.createTrainingRequest, {}));
   })
 
 })

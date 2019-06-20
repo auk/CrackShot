@@ -33,7 +33,7 @@ describe('Auth reducer', () => {
       error: null,
       exp: 'exp',
       user_name: 'user_name',
-      roles: 'authorities',
+      roles: [ 'authorities' ],
     })
   })
 

@@ -5,9 +5,7 @@ describe('Training actions', () => {
   test('create training', () => {
     expect(actions.createTraining('some params')).toEqual({
       type: actions.createTraining.toString(),
-      payload: {
-        requestParams: 'some params',
-      }
+      payload: 'some params'
     })
   })
 
@@ -18,9 +16,7 @@ describe('Training actions', () => {
     expect(isFSA(action)).toBeTruthy()
     expect(action).toEqual({
       type: actions.createTraining.toString(),
-      payload: {
-        requestParams: params,
-      }
+      payload: { ...params }
     })
   })
 })

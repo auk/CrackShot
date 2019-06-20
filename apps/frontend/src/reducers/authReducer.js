@@ -16,7 +16,9 @@ export function authReducer(state = initialState.auth, action = {}) {
         error: null,
         exp: action.payload.exp,
         user_name: action.payload.user_name,
-        roles: action.payload.authorities.map(authorityToRole),
+        roles: action.payload.authorities ?
+          Array.isArray(action.payload.authorities) ? action.payload.authorities.map(authorityToRole) : [ authorityToRole(action.payload.authorities) ]
+          : [],
       };
     case ACTIONS.LOGIN_FAILURE:
       return {
