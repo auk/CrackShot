@@ -45,7 +45,7 @@ class UsersPage extends React.Component {
   }*/
 
   onDelete = (uid, name) => {
-    const { showModal, users: { requestParams }, numberOfElements, match: { params } } = this.props;
+    const { showModal } = this.props;
     console.log("Deleting user: ", uid, ", name:", name);
 
     const modal = {

@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 import { hideModal } from 'actions/modalActions';
 import { deleteUser } from 'actions/userActions';
 import { defaultMessage } from 'i18n/defineMessages';
-import { getUserDisplayNameSelector } from 'selectors';
 
 const messages = defaultMessage.modal.delete_user;
 const common = defaultMessage.common;

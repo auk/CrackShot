@@ -13,8 +13,8 @@ const messages = defaultMessage.training;
 
 const CreateTrainingElementModal = (props) => {
   const { submitText, resetText, dispatch } = props;
-  const { users, organizations, initialValues } = props;
-  const { user } = props;
+  // const { users, organizations, initialValues } = props;
+  // const { user } = props;
 
   const handleSubmit = data => {
     console.log("CreateTrainingElementModal - data:", data);

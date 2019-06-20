@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-import { LinkContainer } from 'react-router-bootstrap';
+// import { LinkContainer } from 'react-router-bootstrap';
 import { MenuItem } from 'react-bootstrap';
 
 import { defaultMessage } from 'i18n/defineMessages';
@@ -13,7 +13,7 @@ import Table, { HeadItem } from 'components/common/table/Table';
 const commonMessages = defaultMessage.common;
 
 const TrainingElementsList = (props) => {
-  const { data, links, onSizeChange, onPageChange, onClick, onEdit, onDelete, intl: { formatMessage } } = props;
+  const { data, /*links,*/ onSizeChange, onPageChange, onClick, onEdit, onDelete, intl: { formatMessage } } = props;
   const { showActions = true, showPaging = true } = props;
 
   // console.log("TrainingElementsList - data:", data);
@@ -62,7 +62,7 @@ const TrainingElementsList = (props) => {
         </Table.Body>
       </Table>
 
-      { data.content.length > 0 &&
+      { showPaging && data.content.length > 0 &&
         <Paginate
           pageCount={data.totalPages}
           sizePerPageList={data.sizePerPageList}

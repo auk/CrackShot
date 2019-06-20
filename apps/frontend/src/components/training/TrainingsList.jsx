@@ -11,7 +11,7 @@ import ActionMenu from 'components/actionMenu/ActionMenu';
 import Table, { HeadItem } from 'components/common/table/Table';
 
 const common = defaultMessage.common;
-const trainingMessage = defaultMessage.training;
+// const trainingMessage = defaultMessage.training;
 
 const TrainingsList = props => {
   const { data, links, onSizeChange, onPageChange, onClick, intl: { formatMessage } } = props;
@@ -19,7 +19,7 @@ const TrainingsList = props => {
 
   // console.log("TrainingsList data:", JSON.stringify(data));
 
-  const stringConcat = (acc, value) => acc + "\r\n" + value.username;
+  // const stringConcat = (acc, value) => acc + "\r\n" + value.username;
 
   return (
     <React.Fragment>
@@ -111,7 +111,7 @@ const TrainingsList = props => {
         </Table.Body>
       </Table>
 
-      { data.content.length > 0 &&
+      { showPaging && data.content.length > 0 &&
         <Paginate
           pageCount={data.totalPages}
           sizePerPageList={data.sizePerPageList}

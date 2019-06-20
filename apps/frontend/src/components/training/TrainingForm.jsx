@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl } from 'react-intl';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 
 import { InputText, InputSelect, InputCheckbox } from '@startext/react-components';

@@ -10,7 +10,6 @@ import { defaultMessage } from 'i18n/defineMessages';
 import { getLinksSelector, getTrainingElementSelector, getTrainingElementsSelector } from 'selectors';
 import { createTrainingElement, fetchTrainingElements } from 'actions/trainingActions';
 import { showModal } from 'actions/modalActions';
-import { fetchTrainingElement } from '../../actions/trainingActions';
 
 const commonMessages = defaultMessage.common;
 const navigationMessages = defaultMessage.navigation;
@@ -26,10 +25,7 @@ class TrainingElementsPage extends React.Component   {
   handleCreateElement = e => {
     e.preventDefault();
 
-    // console.log('*****');
-
     const { showModal, intl: { formatMessage } } = this.props;
-    const { fetchTrainingElements, trainingElements: { requestParams } } = this.props;
 
     const modal = {
       modalType: 'CREATE_TRAINING_ELEMENT',
@@ -39,16 +35,10 @@ class TrainingElementsPage extends React.Component   {
       }
     };
     
-    // console.log("Create modal form: ", modal);
-
     showModal(modal);
-
-    // fetchTrainingElements(requestParams);
   }
 
   handleEditElement = (element) => {
-    // e.preventDefault();
-
     console.log("handleEditElement: ", element);
 
     const { showModal, intl: { formatMessage } } = this.props;
@@ -99,7 +89,7 @@ class TrainingElementsPage extends React.Component   {
 
   render() {
     const { trainingElement, trainingElements, links, intl: { formatMessage } } = this.props;
-    const { handleCreateElement, onSizeChange, onSortChange, onPageChange } = this.props;
+    // const { handleCreateElement, onSizeChange, onSortChange, onPageChange } = this.props;
 
     const crumbs = [
       {
