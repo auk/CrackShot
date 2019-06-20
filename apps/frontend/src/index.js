@@ -15,6 +15,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.min.css';
 import 'react-datetime/css/react-datetime.css';
 import 'animate.css/animate.min.css';
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
 import './assets/styles/inspinia/style.css';
 import './assets/styles/fonts.css';
 import './index.css';
@@ -42,6 +43,8 @@ ReactDOM.render(
         transitionIn="fadeIn"
         transitionOut="fadeOut"
         className='inspinia'
+        progressBar
+        closeOnToastrClick
       />
   </Provider>,
   document.getElementById('root')
