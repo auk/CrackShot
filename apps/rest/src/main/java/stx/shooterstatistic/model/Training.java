@@ -25,8 +25,8 @@ public class Training extends AbstractEntity {
   @JsonIgnore
   List<TrainingParticipant> participants = new ArrayList<>();
 
-//  @ElementCollection
-  List<TrainingElement> trainingElements = new ArrayList<>();
+  @ElementCollection
+  List<String> trainingElements = new ArrayList<>();
 
   private Training() {} // jpa
 
@@ -71,11 +71,11 @@ public class Training extends AbstractEntity {
     this.participants = participants;
   }
 
-  public List<TrainingElement> getTrainingElements() {
+  public List<String> getTrainingElements() {
     return trainingElements;
   }
 
-  public void setTrainingElements(List<TrainingElement> trainingElements) {
+  public void setTrainingElements(List<String> trainingElements) {
     this.trainingElements = trainingElements;
   }
 

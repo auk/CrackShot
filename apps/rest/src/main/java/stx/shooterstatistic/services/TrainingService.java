@@ -21,6 +21,7 @@ import javax.validation.constraints.Null;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static stx.shooterstatistic.jpa.CriteriaBuilderHelper.createOrders;
 import static stx.shooterstatistic.jpa.CriteriaBuilderHelper.setPagable;
@@ -64,7 +65,8 @@ public class TrainingService {
 
     Training training = new Training(date, organization);
     training.setTime(time);
-    training.setTrainingElements(elements);
+    if (elements != null)
+      training.setTrainingElements(elements.stream().map(AbstractEntity::getId).collect(Collectors.toList()));
 
     final Training tr = trainingRepository.save(training);
     if (users != null)

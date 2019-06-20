@@ -124,10 +124,6 @@ export const defaultMessage = defineMessages({
       description: 'Cancel button',
       defaultMessage: 'Cancel'
     },
-    save: {
-      id: 'common.save',
-      defaultMessage: 'Save'
-    },
     web: {
       id: 'common.web',
       defaultMessage: 'Web'

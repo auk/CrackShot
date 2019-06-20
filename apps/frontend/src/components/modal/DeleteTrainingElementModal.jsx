@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl';
 import { hideModal } from 'actions/modalActions';
 import { deleteTrainingElement } from 'actions/trainingActions';
 import { defaultMessage } from 'i18n/defineMessages';
-import { getTrainingElementDisplayNameSelector } from 'selectors';
 
 const messages = defaultMessage.modal.delete_trainingElement;
 const common = defaultMessage.common;

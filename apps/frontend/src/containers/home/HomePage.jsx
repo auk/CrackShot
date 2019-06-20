@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-// import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 
@@ -17,11 +16,8 @@ import { showModal } from 'actions/modalActions';
 import { fetchOrganizations } from 'actions/organizationActions';
 import { createTraining, createTrainingElement, fetchTrainings, fetchTrainingElements } from 'actions/trainingActions';
 import { fetchUsers } from 'actions/userActions';
-import OrganizationForm from 'components/organization/OrganizationForm';
 import TrainingForm from 'components/training/TrainingForm';
-import TrainingElementForm from 'components/training/TrainingElementForm';
 import TrainingsList from 'components/training/TrainingsList';
-import UserForm from 'components/user/UserForm';
 import userAuthIcon from 'assets/img/profile.jpg';
 import moment from 'moment';
 
@@ -30,10 +26,6 @@ const trainingMessages = defaultMessage.training;
 const common = defaultMessage.common;
 
 class HomePage extends React.Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     const { fetchOrganizations, fetchTrainings, fetchTrainingElements, fetchUsers, organizations, trainings, trainingElements, users } = this.props;
@@ -212,46 +204,18 @@ class HomePage extends React.Component {
             </div>
             
             <div className="col-md-6">
-            <Page.Container>
-              <Page.Header><h5>Training</h5></Page.Header>
-                <Page.Content>
-                  <TrainingForm
-                    organizations={organizationsOptions}
-                    selectedOrganizationsOptions={selectedOrganizationsOptions}
-                    usersOptions={usersOptions}
-                    elements={trainingElementsOptions}
-                    users={selectedUsersOptions}
-                    initialValues={values}
-                    submitBtnText={formatMessage(common.create)}
-                    onSubmit={this.handleCreateTraining}/>
-              </Page.Content>
-            </Page.Container>
-
-            <Page.Container>
-              <Page.Header><h5>Training element</h5></Page.Header>
-                <Page.Content>
-                  <TrainingElementForm
-                    organizations={organizationsOptions}
-                    selectedOrganizationsOptions={selectedOrganizationsOptions}
-                    usersOptions={usersOptions}
-                    users={selectedUsersOptions}
-                    initialValues={values}
-                    submitBtnText={formatMessage(common.create)}
-                    onSubmit={this.handleCreateTrainingElement}/>
-              </Page.Content>
-            </Page.Container>
-
-            <Page.Container>
-                <Page.Header><h5>User</h5></Page.Header>
-                <Page.Content>
-                  <UserForm submitBtnText={formatMessage(common.create)}/>
-                </Page.Content>
-              </Page.Container>
-
               <Page.Container>
-                <Page.Header><h5>Organization</h5></Page.Header>
-                <Page.Content>
-                  <OrganizationForm submitBtnText={formatMessage(common.create)}/>
+                <Page.Header><h5>Training</h5></Page.Header>
+                  <Page.Content>
+                    <TrainingForm
+                      organizations={organizationsOptions}
+                      selectedOrganizationsOptions={selectedOrganizationsOptions}
+                      usersOptions={usersOptions}
+                      elements={trainingElementsOptions}
+                      users={selectedUsersOptions}
+                      initialValues={values}
+                      submitBtnText={formatMessage(common.create)}
+                      onSubmit={this.handleCreateTraining}/>
                 </Page.Content>
               </Page.Container>
             </div>
