@@ -53,6 +53,7 @@ public class OrganizationController {
   @PostMapping(value = "/organization")
   public ResponseEntity<Organization> createOrganization(Principal principal,
     @RequestParam String name,
+    @RequestParam(required = false) String address,
     @RequestParam(required = false) String web,
     @RequestParam(required = false) String email,
     @RequestParam(required = false) String phone
@@ -60,12 +61,10 @@ public class OrganizationController {
     log.debug("POST /ws, principal: {}, name: {}", principal, name);
 
     Organization org = organizationService.createOrganization(principal, name);
-    if (email != null && !email.isEmpty())
-      org.setEmail(email);
-    if (web != null && !web.isEmpty())
-      org.setWeb(web);
-    if (phone != null && !phone.isEmpty())
-      org.setPhone(phone);
+    org.setAddress(address);
+    org.setEmail(email);
+    org.setWeb(web);
+    org.setPhone(phone);
 
     SecurityContext context = securityService.createContext(principal);
     return new ResponseEntity<>(organizationService.save(context, org), HttpStatus.CREATED);
@@ -75,6 +74,27 @@ public class OrganizationController {
   public ResponseEntity<Organization> getOrganization(@NotNull Principal principal, @PathVariable String id) {
     SecurityContext context = securityService.createContext(principal);
     return ResponseEntity.ok(organizationService.getOrganization(context, id));
+  }
+
+  @PutMapping(value = "/organization/{id}")
+  public ResponseEntity<Organization> updateOrganization(
+     @NotNull Principal principal,
+     @PathVariable String id,
+     @RequestParam String name,
+     @RequestParam(required = false) String address,
+     @RequestParam(required = false) String web,
+     @RequestParam(required = false) String email,
+     @RequestParam(required = false) String phone
+  ) {
+    SecurityContext context = securityService.createContext(principal);
+    Organization org = organizationService.getOrganization(context, id);
+    org.setAddress(address);
+    org.setName(name);
+    org.setPhone(phone);
+    org.setWeb(web);
+    org.setEmail(email);
+    org = organizationService.save(context, org);
+    return ResponseEntity.ok(org);
   }
 
   @DeleteMapping(value = "/organization/{id}")

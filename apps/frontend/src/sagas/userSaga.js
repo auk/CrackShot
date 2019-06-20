@@ -54,7 +54,6 @@ export function* deleteUser({payload}) {
     const requestParams = yield select(selectors.getUsersParams);
     yield put(actions.fetchUsers(requestParams));
   } catch (error) {
-    const e = createError(error);
-    yield put(actions.deleteUserError(e));
+    yield put(actions.deleteUserError(createError(error)));
   }
 }

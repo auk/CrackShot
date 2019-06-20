@@ -14,10 +14,15 @@ const common = defaultMessage.common;
 // const trainingMessage = defaultMessage.training;
 
 const TrainingsList = props => {
-  const { data, links, onSizeChange, onPageChange, onClick, intl: { formatMessage } } = props;
+  const { data, links, trainingElements, onSizeChange, onPageChange, onClick, intl: { formatMessage } } = props;
   const { showActions = true, showOrganizationLink = true, showPaging = true } = props;
 
-  // console.log("TrainingsList data:", JSON.stringify(data));
+  console.log("TrainingsList elements:", trainingElements);
+
+  const getTrainingElementById = (id) => {
+    console.assert(trainingElements);
+    return trainingElements ? trainingElements.find(te => te.id === id) : undefined;
+  } 
 
   // const stringConcat = (acc, value) => acc + "\r\n" + value.username;
 
@@ -75,7 +80,7 @@ const TrainingsList = props => {
                 <div title={tr.users.map(u => u.name ? u.name : u.username).join("\r\n")}>{tr.users.length}</div>
               </td>
               <td className="col-md-2 col-sm-2 text-center">
-                <div title={tr.trainingElements.map(u => u.name ? u.name : u.username).join("\r\n")}>{tr.trainingElements.length}</div>
+                <div title={tr.trainingElements.map(id => getTrainingElementById(id).name).join("\r\n")}>{tr.trainingElements.length}</div>
               </td>
               { showActions &&
                 <td className="col-md-1 col-sm-1 text-center">
@@ -141,6 +146,7 @@ TrainingsList.propTypes = {
   currentUser: PropTypes.shape({
     id: PropTypes.string.isRequired,
   }),
+  trainingElements: PropTypes.object.isRequired,
 }
 
 export default injectIntl(TrainingsList);

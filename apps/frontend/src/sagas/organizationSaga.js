@@ -1,6 +1,7 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import { callApi } from 'utils/ApiUtils';
+import { createError } from 'utils/utils';
 
 import * as actions from "../actions/organizationActions";
 import * as selectors from '../selectors';
@@ -19,6 +20,7 @@ export function* createOrganization({payload}) {
     const config = {
       method: 'POST',
       params: {
+        address: payload.address,
         name: payload.name,
         web: payload.web,
         email: payload.email,
@@ -42,7 +44,7 @@ export function* createOrganization({payload}) {
     
   } catch (error) {
     console.error("Create organization error:", error);
-    yield put(actions.createOrganizationError(error));
+    yield put(actions.createOrganizationError(createError(error)));
   }
 }
 
@@ -59,7 +61,7 @@ export function* fetchOrganizations({requestParams}) {
     // console.log("Fetch organization success action:", action);
     yield put(action);
   } catch (error) {
-    yield put(actions.fetchOrganizationsError(error.response ? error.response.data : error));
+    yield put(actions.fetchOrganizationsError(createError(error)));
   }
 }
 
@@ -74,10 +76,43 @@ export function* fetchOrganization({payload}) {
     yield put(action);
   } catch (error) {
     console.error("Fetch organization error: ", error)
-    yield put(actions.fetchOrganizationError(error.response ? error.response.data : error));
+    yield put(actions.fetchOrganizationError(createError(error)));
   }
 }
 
 export function* updateOrganization({payload}) {
+  yield call(updateOrganizationRequest, { payload });
 
+  const requestParams = yield select(selectors.getOrganizationsParams);
+  yield call(fetchOrganizations, { payload: requestParams });
+}
+
+export function* updateOrganizationRequest({payload}) {
+  try {
+    const url = yield select(selectors.updateOrganizationUrl);
+    console.log("updateOrganizationRequest - url:", url, ", values: ", payload);
+
+    const config = {
+      method: 'PUT',
+      params: {
+        address: payload.address,
+        name: payload.name,
+        web: payload.web,
+        email: payload.email,
+        phone: payload.phone,
+      }
+    }
+    console.log("config:", config);
+
+    const response = yield call(callApi, {
+      url: url.replace(/:oid/i, payload.id),
+      config,
+    });
+    // console.log("createOrganization - response:", response);
+
+    yield put(actions.updateOrganizationSuccess(response.data));
+    toastr.success('Success', 'Organization has been updated');
+  } catch (error) {
+    yield put(actions.updateOrganizationError(createError(error)));
+  }
 }

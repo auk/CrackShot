@@ -10,11 +10,11 @@ import Paginate from 'components/common/paginate/Paginate';
 import ActionMenu from 'components/actionMenu/ActionMenu';
 import Table, { HeadItem } from 'components/common/table/Table';
 
-const common = defaultMessage.common;
+const commonMessages = defaultMessage.common;
 const organizationMessage = defaultMessage.organization;
 
 const OrganizationsList = props => {
-  const { data, links, onSizeChange, onPageChange, intl: { formatMessage } } = props;
+  const { data, links, onSizeChange, onPageChange, onEdit, onDelete, intl: { formatMessage } } = props;
 
   // console.log("OrganizationsList data:", JSON.stringify(data));
 
@@ -26,34 +26,34 @@ const OrganizationsList = props => {
             {formatMessage(organizationMessage.name)}
           </HeadItem>
           <HeadItem noSort name="web">
-            {formatMessage(common.web)}
+            {formatMessage(commonMessages.web)}
           </HeadItem>
           <HeadItem noSort name="email">
-            {formatMessage(common.email)}
+            {formatMessage(commonMessages.email)}
           </HeadItem>
           <HeadItem noSort name="phone">
-            {formatMessage(common.phone)}
+            {formatMessage(commonMessages.phone)}
           </HeadItem>
           <HeadItem noSort className="pull-right">
-            {formatMessage(common.actions)}
+            {formatMessage(commonMessages.actions)}
           </HeadItem>
         </Table.Head>
         <Table.Body>
-          {data.content && data.content.map((workspace) =>
-            <tr key={workspace.id} className={workspace.id === 'wid' ? "active" : ""}>
+          {data.content && data.content.map((org) =>
+            <tr key={org.id} className={org.id === 'wid' ? "active" : ""}>
               <td className="col-md-6 col-sm-6">
-                <Link to={links.organization.url.replace(/:oid/i, workspace.id)}>
-                  {workspace.name}
+                <Link to={links.organization.url.replace(/:oid/i, org.id)}>
+                  {org.name}
                 </Link>
               </td>
               <td className="col-md-2 col-sm-2">
-                {workspace.web}
+                {org.web}
               </td>
               <td className="col-md-2 col-sm-2">
-                {workspace.email}
+                {org.email}
               </td>
               <td className="col-md-2 col-sm-2">
-                {workspace.phone}
+                {org.phone}
               </td>
               <td className="col-md-1 col-sm-1">
                 <ActionMenu>
@@ -65,21 +65,24 @@ const OrganizationsList = props => {
                       </MenuItem>
                     </LinkContainer>
                   */}
-                  <LinkContainer to={links.organization.url.replace(/:oid/i, workspace.id)}>
+                  <LinkContainer to={links.organization.url.replace(/:oid/i, org.id)}>
                     <MenuItem eventKey="view">
                       <i className="fa fa-eye"></i>
-                      <span><FormattedMessage {...common.view} /></span>
+                      <span><FormattedMessage {...commonMessages.view} /></span>
                     </MenuItem>
                   </LinkContainer>
-                  {/*workspace.ownerID === currentUser.id &&
-                    <LinkContainer to={links.workspace.url.edit.replace(/:wid/i, workspace.id)}>
-                      <MenuItem eventKey="edit">
-                        <i className="fa fa-pencil"></i>
-                        <span><FormattedMessage {...common.edit} /></span>
-                      </MenuItem>
-                    </LinkContainer>
-                    
-                  */}
+                  { onEdit && 
+                    <MenuItem eventKey="edit" onClick={onEdit.bind(this, org)}>
+                      <i className="fa fa-pencil"></i>
+                      <span><FormattedMessage {...commonMessages.edit} /></span>
+                    </MenuItem>
+                  }
+                  { onDelete &&
+                    <MenuItem eventKey="delete" onClick={onDelete.bind(this, org)}>
+                      <i className="fa fa-times"></i>
+                      <span><FormattedMessage {...commonMessages.delete} /></span>
+                    </MenuItem>
+                  }
                 </ActionMenu>
               </td>
             </tr>

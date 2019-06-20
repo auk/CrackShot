@@ -7,7 +7,7 @@ import WithLayout from 'containers/layouts/WithLayout';
 import Page from 'components/common/pageTemplate/Page';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
-import { getAuthSelector, getCurrentUserSelector, getLinksSelector, userToOptionSelector,
+import { getCurrentUserSelector, getLinksSelector, userToOptionSelector,
   getOrganizationsSelector, getOrganizationsOptionsSelector,
   getTrainingsSelector,
   getTrainingElementsSelector, getTrainingElementsOptionsSelector,
@@ -28,10 +28,10 @@ const common = defaultMessage.common;
 class HomePage extends React.Component {
 
   componentDidMount() {
-    const { fetchOrganizations, fetchTrainings, fetchTrainingElements, fetchUsers, organizations, trainings, trainingElements, users } = this.props;
+    const { fetchOrganizations, fetchTrainings, fetchTrainingElements, fetchUsers, organizations, trainings, trainingElementsState, users } = this.props;
     fetchOrganizations(organizations.requestParams);
     fetchTrainings(trainings.requestParams);
-    fetchTrainingElements(trainingElements.requestParams);
+    fetchTrainingElements(trainingElementsState.requestParams);
     fetchUsers(users.requestParams);
   }
 
@@ -91,7 +91,7 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { auth, currentUser, links, organizationsOptions, selectedOrganizationsOptions, usersOptions, trainings, trainingElementsOptions, intl: { formatMessage } } = this.props;
+    const { currentUser, links, organizationsOptions, selectedOrganizationsOptions, usersOptions, trainings, trainingElementsState, trainingElementsOptions, intl: { formatMessage } } = this.props;
     const crumbs = [
       {
         url: links.home.url,
@@ -109,9 +109,6 @@ class HomePage extends React.Component {
       date: moment(),
       time: moment('09:00', 'HH:mm'),
     }
-
-    console.log("auth:", auth);
-    console.log("current user:", currentUser);
 
     return (
       <React.Fragment>
@@ -196,6 +193,7 @@ class HomePage extends React.Component {
                   <TrainingsList
                     data={trainings}
                     links={links}
+                    trainingElements={trainingElementsState.content}
                     onClick={this.onClickTraining}
                     onPageChange={this.onPageChange}
                     onSizeChange={this.onSizeChange}/>
@@ -217,7 +215,7 @@ class HomePage extends React.Component {
                       submitBtnText={formatMessage(common.create)}
                       onSubmit={this.handleCreateTraining}/>
                 </Page.Content>
-              </Page.Container>
+              </Page.Container> */}
             </div>
           </Page.ContainerRow>
         </Page>
@@ -236,7 +234,7 @@ HomePage.propTypes = {
     value: PropTypes.string.isRequired,
   })),
   trainings: PropTypes.object.isRequired,
-  trainingElements: PropTypes.object.isRequired,
+  trainingElementsState: PropTypes.object.isRequired,
   trainingElementsOptions: PropTypes.arrayOf(PropTypes.shape({
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
@@ -250,13 +248,13 @@ HomePage.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    auth: getAuthSelector(state),
+    // auth: getAuthSelector(state),
     currentUser: getCurrentUserSelector(state),
     links: getLinksSelector(state),
     organizations: getOrganizationsSelector(state),
     organizationsOptions: getOrganizationsOptionsSelector(state),
     trainings: getTrainingsSelector(state),
-    trainingElements: getTrainingElementsSelector(state),
+    trainingElementsState: getTrainingElementsSelector(state),
     trainingElementsOptions: getTrainingElementsOptionsSelector(state),
     users: getUsersSelector(state),
     usersOptions: getUsersOptionsSelector(state),

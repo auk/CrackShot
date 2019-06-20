@@ -13,7 +13,7 @@ import { fetchOrganizations } from 'actions/organizationActions';
 import { getLinksSelector, getOrganizationsSelector } from 'selectors';
 import { showModal } from 'actions/modalActions';
 
-const common = defaultMessage.common;
+const commonMessages = defaultMessage.common;
 const organizationMessages = defaultMessage.organization;
 const navigationMessages = defaultMessage.navigation;
 const pageMessages = defaultMessage.pages.organizations;
@@ -31,13 +31,47 @@ class OrganizationsPage extends React.Component {
     const modal = {
       modalType: 'CREATE_ORGANIZATION',
       modalProps: {
-        resetText: this.props.intl.formatMessage(common.reset),
-        submitText: this.props.intl.formatMessage(common.create)
+        resetText: this.props.intl.formatMessage(commonMessages.reset),
+        submitText: this.props.intl.formatMessage(commonMessages.create)
       }
     };
     this.props.showModal(modal);
 
     this.props.fetchOrganizations(this.props.organizations.requestParams);
+  }
+
+  handleEditOrganization = (organization) => {
+    const { showModal, intl: { formatMessage } } = this.props;
+
+    const modal = {
+      modalType: 'EDIT_ORGANIZATION',
+      modalProps: {
+        resetText: formatMessage(commonMessages.reset),
+        submitText: formatMessage(commonMessages.save),
+        organization
+      }
+    };
+    
+    // console.log("Create modal form: ", modal);
+
+    showModal(modal);
+  }
+
+  handleDeleteOrganization = (id, name) => {
+    const { showModal } = this.props;
+
+    console.log("Deleting organization: ", id, ", name:", name);
+
+    const modal = {
+      modalType: 'DELETE_ORGANIZATION',
+      modalProps: {
+        id: id,
+        name: name,
+        // requestParams: requestParamsNew
+      }
+    };
+
+    showModal(modal);
   }
 
   onSizeChange = (size) => {
@@ -68,7 +102,7 @@ class OrganizationsPage extends React.Component {
       {
         url: links.home.url,
         icon: 'fa-home',
-        text: common.breadcrumb.home,
+        text: commonMessages.breadcrumb.home,
       },
       {
         url: '',
@@ -99,6 +133,8 @@ class OrganizationsPage extends React.Component {
                 <OrganizationsList
                   data={organizations}
                   links={links}
+                  onEdit={this.handleEditOrganization}
+                  onDelete={this.handleDeleteOrganization}
                   onSizeChange={this.onSizeChange}
                   onPageChange={this.onPageChange}
                   onSortChange={this.onSortChange}/>

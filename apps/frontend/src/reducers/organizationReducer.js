@@ -10,7 +10,7 @@ export const organizationsReducer = handleActions({
 }, initialState.organizations);
 
 export const organizationReducer = handleActions({
-  [ combineActions(actions.createOrganization, actions.fetchOrganization) ]: handleRequest,
-  [ combineActions(actions.createOrganizationSuccess, actions.fetchOrganizationSuccess) ]: handleRequestSuccess,
-  [ combineActions(actions.createOrganizationError, actions.fetchOrganizationError) ]: handleRequestError
+  [ combineActions(actions.createOrganization, actions.fetchOrganization, actions.updateOrganization) ]: handleRequest,
+  [ combineActions(actions.createOrganizationSuccess, actions.fetchOrganizationSuccess, actions.updateOrganizationSuccess) ]: handleRequestSuccess,
+  [ combineActions(actions.createOrganizationError, actions.fetchOrganizationError, actions.updateOrganizationError) ]: handleRequestError
 }, initialState.organization);
