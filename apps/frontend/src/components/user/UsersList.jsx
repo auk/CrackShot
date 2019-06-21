@@ -11,25 +11,23 @@ import ActionMenu from 'components/actionMenu/ActionMenu';
 import Table, { HeadItem } from 'components/common/table/Table';
 import { getUserDisplayNameSelector } from 'selectors';
 
-const common = defaultMessage.common;
+const commonMessages = defaultMessage.common;
 
 const UsersList = props => {
-  const { data, links, onDelete, onSizeChange, onPageChange, intl: { formatMessage } } = props;
-
-  // console.log("UsersList data:", JSON.stringify(data));
+  const { data, links, onEdit, onDelete, onSizeChange, onPageChange, intl: { formatMessage } } = props;
 
   return (
     <React.Fragment>
       <Table addClass="table-hover table-striped table-big">
         <Table.Head>
           <HeadItem noSort name="name">
-            {formatMessage(common.name)}
+            {formatMessage(commonMessages.name)}
           </HeadItem>
           <HeadItem noSort name="email">
-            {formatMessage(common.email)}
+            {formatMessage(commonMessages.email)}
           </HeadItem>
           <HeadItem noSort className="pull-right">
-            {formatMessage(common.actions)}
+            {formatMessage(commonMessages.actions)}
           </HeadItem>
         </Table.Head>
         <Table.Body>
@@ -42,7 +40,7 @@ const UsersList = props => {
                 </Link> */}
                 <br />
                 <small>
-                  <FormattedMessage {...common.id_fmt} values={{ id: user.id }} />
+                  <FormattedMessage {...commonMessages.id_fmt} values={{ id: user.id }} />
                 </small>
               </td>
               <td className="col-md-5 col-sm-5">
@@ -50,33 +48,24 @@ const UsersList = props => {
               </td>
               <td className="col-md-1 col-sm-1">
                 <ActionMenu>
-                  {/* workspace.ownerID === currentUser.id &&
-                    <LinkContainer to={links.workspaceUser.url.invite.replace(/:wid/i, workspace.id)}>
-                      <MenuItem eventKey="invite">
-                        <i className="fa fa-plus"></i>
-                        <span><FormattedMessage {...common.invite} /></span>
-                      </MenuItem>
-                    </LinkContainer>
-                  */}
                   <LinkContainer to={links.user.url.replace(/:uid/i, user.id)}>
                     <MenuItem eventKey="view">
                       <i className="fa fa-eye"></i>
-                      <span><FormattedMessage {...common.view} /></span>
+                      <span><FormattedMessage {...commonMessages.view} /></span>
                     </MenuItem>
                   </LinkContainer>
-                  <MenuItem eventKey="delete" onClick={onDelete.bind(null, user.id, getUserDisplayNameSelector(user))}>
-                    <i className="fa fa-times"></i>
-                    <span><FormattedMessage {...common.delete}/></span>
-                  </MenuItem>
-                  {/*workspace.ownerID === currentUser.id &&
-                    <LinkContainer to={links.workspace.url.edit.replace(/:wid/i, workspace.id)}>
-                      <MenuItem eventKey="edit">
-                        <i className="fa fa-pencil"></i>
-                        <span><FormattedMessage {...common.edit} /></span>
-                      </MenuItem>
-                    </LinkContainer>
-                    
-                  */}
+                  { onEdit && 
+                    <MenuItem eventKey="edit" onClick={onEdit.bind(this, user)}>
+                      <i className="fa fa-pencil"></i>
+                      <span><FormattedMessage {...commonMessages.edit} /></span>
+                    </MenuItem>
+                  }
+                  { onDelete &&
+                    <MenuItem eventKey="delete" onClick={onDelete.bind(this, user)}>
+                      <i className="fa fa-times"></i>
+                      <span><FormattedMessage {...commonMessages.delete} /></span>
+                    </MenuItem>
+                  }
                 </ActionMenu>
               </td>
             </tr>
@@ -97,7 +86,7 @@ const UsersList = props => {
 
       {data.content.length === 0 && !data.isFetching &&
         <p>
-          TODO: Empty{/* <FormattedMessage {...messages.empty} /> */}
+          <FormattedMessage {...commonMessages.no_data} />
         </p>
       }
     </React.Fragment>
@@ -108,6 +97,7 @@ UsersList.propTypes = {
   intl: intlShape.isRequired,
   wid: PropTypes.string,
   onDelete: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
   onPageChange: PropTypes.func.isRequired,
   onSizeChange: PropTypes.func.isRequired,
   links: PropTypes.object.isRequired,

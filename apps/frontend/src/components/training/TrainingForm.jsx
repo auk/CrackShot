@@ -17,6 +17,8 @@ let TrainingForm = React.memo(props => {
   const { handleReset, handleSubmit, locale, resetBtnText, submitBtnText, intl: { formatMessage } } = props;
   const { organizations, users, elements, participate } = props;
 
+  console.log("Users element:", users);
+  
   const handleChange = (selectedOption) => {
     // this.setState({ selectedOption });
     console.log('Option selected:', selectedOption);

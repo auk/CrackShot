@@ -1,5 +1,5 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
-// import { toastr } from 'react-redux-toastr';
+import { toastr } from 'react-redux-toastr';
 import { callApi } from 'utils/ApiUtils';
 
 import * as actions from "../actions/userActions";
@@ -9,6 +9,7 @@ import { CURRENT_USER } from 'constants/utils';
 
 export const userWatcherSaga = [
   takeLatest(actions.deleteUser.toString(), deleteUser),
+  takeLatest(actions.updateUser.toString(), updateUser),
   takeLatest(actions.fetchUsers.toString(), fetchUsers),
   takeLatest(actions.fetchCurrentUser.toString(), fetchCurrentUser),
 ];
@@ -36,6 +37,13 @@ export function* fetchCurrentUser() {
 }
 
 export function* deleteUser({payload}) {
+  yield call(deleteUserRequest, { payload });
+
+  const requestParams = yield select(selectors.getUsersParams);
+  yield put(actions.fetchUsers(requestParams));
+}
+
+export function* deleteUserRequest({payload}) {
   try {
     const url = yield select(selectors.getDeleteUserUrl);
     const config = {
@@ -49,11 +57,43 @@ export function* deleteUser({payload}) {
     });
 
     yield put(actions.deleteUserSuccess(response.data));
-
-    //refetch users after delete
-    const requestParams = yield select(selectors.getUsersParams);
-    yield put(actions.fetchUsers(requestParams));
   } catch (error) {
     yield put(actions.deleteUserError(createError(error)));
+  }
+}
+
+export function* updateUser({payload}) {
+  yield call(updateUserRequest, { payload });
+
+  const requestParams = yield select(selectors.getUsersParams);
+  yield call(fetchUsers, { payload: requestParams });
+}
+
+export function* updateUserRequest({payload}) {
+  try {
+    const url = yield select(selectors.updateUserUrl);
+    console.log("updateUserRequest - url:", url, ", values: ", payload);
+
+    const config = {
+      method: 'PUT',
+      params: {
+        name: payload.name,
+        username: payload.username,
+        email: payload.email,
+        phone: payload.phone,
+      }
+    }
+    console.log("config:", config);
+
+    const response = yield call(callApi, {
+      url: url.replace(/:uid/i, payload.id),
+      config,
+    });
+    // console.log("createOrganization - response:", response);
+
+    yield put(actions.updateUserSuccess(response.data));
+    toastr.success('Success', 'User information has been updated');
+  } catch (error) {
+    yield put(actions.updateUserError(createError(error)));
   }
 }

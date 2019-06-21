@@ -11,7 +11,7 @@ import UsersList from 'components/user/UsersList';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
 import { fetchUsers } from 'actions/userActions';
-import { getLinksSelector, getUsersSelector } from 'selectors';
+import { getLinksSelector, getUsersSelector, getUserDisplayNameSelector } from 'selectors';
 
 const common = defaultMessage.common;
 const userMessages = defaultMessage.user;
@@ -29,11 +29,11 @@ class UsersPage extends React.Component {
     fetchUsers(requestParams);
   }
 
-  /*handleCreateUser = e => {
+  handleCreateUser = e => {
     e.preventDefault();
 
     const modal = {
-      modalType: 'CREATE_ORGANIZATION',
+      modalType: 'CREATE_USER',
       modalProps: {
         resetText: this.props.intl.formatMessage(common.reset),
         submitText: this.props.intl.formatMessage(common.create)
@@ -42,18 +42,33 @@ class UsersPage extends React.Component {
     this.props.showModal(modal);
 
     this.props.fetchUsers(this.props.users.requestParams);
-  }*/
+  }
 
-  onDelete = (uid, name) => {
+  handleDeleteUser = (user) => {
     const { showModal } = this.props;
-    console.log("Deleting user: ", uid, ", name:", name);
+    console.assert(user);
+
+    console.log("Deleting user: ", user);
 
     const modal = {
       modalType: 'DELETE_USER',
       modalProps: {
-        uid: uid,
-        name: name,
-        // requestParams: requestParamsNew
+        uid: user.id,
+        name: getUserDisplayNameSelector(user),
+      }
+    };
+
+    showModal(modal);
+  }
+
+  handleEditUser = (user) => {
+    const { showModal } = this.props;
+    console.log("Edit user:", user);
+
+    const modal = {
+      modalType: 'EDIT_USER',
+      modalProps: {
+        user: user,
       }
     };
 
@@ -120,7 +135,8 @@ class UsersPage extends React.Component {
                 {<UsersList
                   data={users}
                   links={links}
-                  onDelete={this.onDelete}
+                  onDelete={this.handleDeleteUser}
+                  onEdit={this.handleEditUser}
                   onSizeChange={this.onSizeChange}
                   onPageChange={this.onPageChange}
                   onSortChange={this.onSortChange}/>}

@@ -17,12 +17,16 @@ const TrainingsList = props => {
   const { data, links, trainingElements, onSizeChange, onPageChange, onClick, intl: { formatMessage } } = props;
   const { showActions = true, showOrganizationLink = true, showPaging = true } = props;
 
-  console.log("TrainingsList elements:", trainingElements);
-
-  const getTrainingElementById = (id) => {
-    console.assert(trainingElements);
+  const getTrainingElementById = id => {
     return trainingElements ? trainingElements.find(te => te.id === id) : undefined;
   } 
+  
+  const getTrainingElementName = id => {
+    const trainingElement = getTrainingElementById(id);
+    return trainingElement ? trainingElement.name : undefined;
+  }
+  
+  // console.log("TrainingsList elements:", trainingElements);
 
   // const stringConcat = (acc, value) => acc + "\r\n" + value.username;
 
@@ -71,43 +75,30 @@ const TrainingsList = props => {
               }
               </td>
               <td className="col-md-1 col-sm-1">
-                {tr.date}
-              </td>
+                <Link to={links.training.url.replace(/:tid/i, tr.id)}>
+                  {tr.date}
+                </Link>
+              </td> 
               <td className="col-md-2 col-sm-2">
-                {tr.time}
+                <Link to={links.training.url.replace(/:tid/i, tr.id)}>
+                  {tr.time}
+                </Link>
               </td>
               <td className="col-md-2 col-sm-2 text-center">
                 <div title={tr.users.map(u => u.name ? u.name : u.username).join("\r\n")}>{tr.users.length}</div>
               </td>
               <td className="col-md-2 col-sm-2 text-center">
-                <div title={tr.trainingElements.map(id => getTrainingElementById(id).name).join("\r\n")}>{tr.trainingElements.length}</div>
+                <div title={tr.trainingElements.map(id => getTrainingElementName(id)).join("\r\n")}>{tr.trainingElements.length}</div>
               </td>
               { showActions &&
                 <td className="col-md-1 col-sm-1 text-center">
                   <ActionMenu>
-                    {/* workspace.ownerID === currentUser.id &&
-                      <LinkContainer to={links.workspaceUser.url.invite.replace(/:wid/i, workspace.id)}>
-                        <MenuItem eventKey="invite">
-                          <i className="fa fa-plus"></i>
-                          <span><FormattedMessage {...common.invite} /></span>
-                        </MenuItem>
-                      </LinkContainer>
-                    */}
                     <LinkContainer to={links.training.url.replace(/:tid/i, tr.id)}>
                       <MenuItem eventKey="view">
                         <i className="fa fa-eye"></i>
                         <span><FormattedMessage {...common.view} /></span>
                       </MenuItem>
                     </LinkContainer>
-                    {/*workspace.ownerID === currentUser.id &&
-                      <LinkContainer to={links.workspace.url.edit.replace(/:wid/i, workspace.id)}>
-                        <MenuItem eventKey="edit">
-                          <i className="fa fa-pencil"></i>
-                          <span><FormattedMessage {...common.edit} /></span>
-                        </MenuItem>
-                      </LinkContainer>
-                      
-                    */}
                   </ActionMenu>
                 </td>
               }
@@ -129,7 +120,7 @@ const TrainingsList = props => {
 
       { (data.content.length === 0 && !data.isFetching) &&
         <p>
-          TODO: Empty{/* <FormattedMessage {...messages.empty} /> */}
+          <FormattedMessage {...common.no_data} />
         </p>
       }
     </React.Fragment>

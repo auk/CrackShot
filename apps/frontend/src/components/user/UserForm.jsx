@@ -26,7 +26,7 @@ let UserForm = React.memo(props => {
 
       <div className="row">
         <div className="col-md-12">
-          <Field name="login"
+          <Field name="username"
             component={InputText}
             label="Login"
             placeholder='login'

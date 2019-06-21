@@ -57,6 +57,7 @@ export const getUsersUrl = state => state.config.links.users.api.get;
 export const getUsersParams = state => state.users.requestParams;
 export const getCurrentUserUrl = state => state.config.links.user.api.current;
 export const getDeleteUserUrl = state => state.config.links.user.api.delete;
+export const updateUserUrl = state => state.config.links.user.api.update;
 export const getUserDisplayNameSelector = user => user.name ? user.name : user.username;
 export const getUsersSelector = state => state.users;
 export const userToOptionSelector = user => ({ label: user.name || user.username || user.email, value: user.id });

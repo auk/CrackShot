@@ -57,14 +57,6 @@ const OrganizationsList = props => {
               </td>
               <td className="col-md-1 col-sm-1">
                 <ActionMenu>
-                  {/* workspace.ownerID === currentUser.id &&
-                    <LinkContainer to={links.workspaceUser.url.invite.replace(/:wid/i, workspace.id)}>
-                      <MenuItem eventKey="invite">
-                        <i className="fa fa-plus"></i>
-                        <span><FormattedMessage {...common.invite} /></span>
-                      </MenuItem>
-                    </LinkContainer>
-                  */}
                   <LinkContainer to={links.organization.url.replace(/:oid/i, org.id)}>
                     <MenuItem eventKey="view">
                       <i className="fa fa-eye"></i>

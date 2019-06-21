@@ -18,6 +18,7 @@ import stx.shooterstatistic.services.SecurityService;
 import stx.shooterstatistic.services.UserService;
 
 import java.security.Principal;
+import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -52,5 +53,28 @@ public class UserController {
     SecurityContext context = securityService.createContext(principal);
     User user = userService.getUserById(context, uid);
     userService.deleteUser(context, user);
+  }
+
+  @PutMapping(value = "/user/{uid}")
+  public ResponseEntity<User> updateUser(
+     Principal principal,
+     @PathVariable String uid,
+     @RequestParam String name,
+     @RequestParam String username,
+     @RequestParam String email,
+     @RequestParam String phone
+     )
+  {
+    Objects.requireNonNull(name);
+    Objects.requireNonNull(username);
+
+    SecurityContext context = securityService.createContext(principal);
+    User user = userService.getUserById(context, uid);
+    user.setName(name);
+    user.setUsername(username);
+    user.setEmail(email);
+    user.setPhone(phone);
+    user = userService.saveUser(user);
+    return ResponseEntity.ok(user);
   }
 }

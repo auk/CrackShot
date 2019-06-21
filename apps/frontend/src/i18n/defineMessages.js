@@ -165,6 +165,10 @@ export const defaultMessage = defineMessages({
     create: {
       id: 'user.create',
       defaultMessage: 'Create user'
+    },
+    edit: {
+      id: 'user.edit',
+      defaultMessage: 'Edit user'
     }
   },
   footer: {

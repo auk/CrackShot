@@ -55,7 +55,8 @@
         "create": "{REST_URL}/user",
         "current": "{REST_URL}/user",
         "delete": "{REST_URL}/user/:uid",
-        "get": "{REST_URL}/user/:uid"
+        "get": "{REST_URL}/user/:uid",
+        "update": "{REST_URL}/user/:uid"
       }
     },
     "training": {

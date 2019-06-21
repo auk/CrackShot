@@ -92,6 +92,7 @@ class HomePage extends React.Component {
 
   render() {
     const { currentUser, links, organizationsOptions, selectedOrganizationsOptions, usersOptions, trainings, trainingElementsState, trainingElementsOptions, intl: { formatMessage } } = this.props;
+
     const crumbs = [
       {
         url: links.home.url,
@@ -101,6 +102,9 @@ class HomePage extends React.Component {
     ];
 
     const selectedUsersOptions = [ userToOptionSelector(currentUser) ];
+
+    console.log("users options:", usersOptions);
+    console.log("selected users options:", selectedUsersOptions);
 
     const values = {
       organization: organizationsOptions ? organizationsOptions[0]: null,
@@ -208,14 +212,14 @@ class HomePage extends React.Component {
                     <TrainingForm
                       organizations={organizationsOptions}
                       selectedOrganizationsOptions={selectedOrganizationsOptions}
-                      usersOptions={usersOptions}
+                      users={usersOptions}
                       elements={trainingElementsOptions}
-                      users={selectedUsersOptions}
+                      user={selectedUsersOptions}
                       initialValues={values}
                       submitBtnText={formatMessage(common.create)}
                       onSubmit={this.handleCreateTraining}/>
                 </Page.Content>
-              </Page.Container> */}
+              </Page.Container>
             </div>
           </Page.ContainerRow>
         </Page>
