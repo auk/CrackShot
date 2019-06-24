@@ -30,6 +30,18 @@ public final class CriteriaBuilderHelper {
     return orders;
   }
 
+  public static List<Order> createOrders(CriteriaBuilder builder, FromSource<?> fromSource, Sort sort) {
+    Objects.requireNonNull(sort);
+
+    List<Order> orders = new ArrayList<>();
+    for (Sort.Order orderString : sort) {
+      Path<Training> p = fromSource.getPath(orderString.getProperty());
+      Order order = orderString.isAscending() ? builder.asc(p) : builder.desc(p);
+      orders.add(order);
+    }
+    return orders;
+  }
+
   public static void setPagable(@NotNull TypedQuery<?> query, Pageable pageable) {
     if (pageable != null && !pageable.isUnpaged()) {
       query.setFirstResult((int) pageable.getOffset());

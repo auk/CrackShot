@@ -4,16 +4,23 @@ import * as actions from '../actions/userActions';
 import initialState from '../reducers/initialState';
 
 export const currentUserReducer = handleActions({
-  [ combineActions(actions.fetchCurrentUser) ]: handleRequest,
+  [ combineActions(actions.fetchCurrentUser, actions.fetchCurrentUserTrainings) ]: handleRequest,
   [ combineActions(actions.fetchCurrentUserSuccess) ]: handleRequestSuccess,
-  [ combineActions(actions.fetchCurrentUserError) ]: handleRequestError
+  [ combineActions(actions.fetchCurrentUserTrainingsSuccess) ]: handlePageableRequestSuccess,
+  [ combineActions(actions.fetchCurrentUserError, actions.fetchCurrentUserTrainingsError) ]: handleRequestError
 }, initialState.currentUser);
 
 export const userReducer = handleActions({
-  [ combineActions(actions.deleteUser, actions.updateUser) ]: handleRequest,
-  [ combineActions(actions.deleteUserSuccess, actions.updateUserSuccess) ]: handleRequestSuccess,
-  [ combineActions(actions.deleteUserError, actions.updateUserError) ]: handleRequestError
+  [ combineActions(actions.fetchUser, actions.deleteUser, actions.updateUser) ]: handleRequest,
+  [ combineActions(actions.fetchUserSuccess, actions.deleteUserSuccess, actions.updateUserSuccess) ]: handleRequestSuccess,
+  [ combineActions(actions.fetchUserError, actions.deleteUserError, actions.updateUserError) ]: handleRequestError
 }, initialState.user);
+
+export const userTrainingsReducer = handleActions({
+  [ combineActions(actions.fetchUserTrainings) ]: handleRequest,
+  [ combineActions(actions.fetchUserTrainingsSuccess) ]: handlePageableRequestSuccess,
+  [ combineActions(actions.fetchUserTrainingsError) ]: handleRequestError
+}, initialState.userTrainings);
 
 export const usersReducer = handleActions({
   [ combineActions(actions.fetchUsers) ]: handleRequest,

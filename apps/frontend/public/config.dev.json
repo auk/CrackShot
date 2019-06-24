@@ -28,6 +28,16 @@
     "calculator": {
       "url": "/calculator"
     },
+    "currentUser": {
+      "api": {
+        "get": "{REST_URL}/user"
+      }
+    },
+    "currentUserTrainings": {
+      "api": {
+        "get": "{REST_URL}/user/trainings"
+      }
+    },
     "organizations": {
       "url": "/organizations",
       "api": {
@@ -53,10 +63,14 @@
       "url": "/user/:uid",
       "api": {
         "create": "{REST_URL}/user",
-        "current": "{REST_URL}/user",
         "delete": "{REST_URL}/user/:uid",
         "get": "{REST_URL}/user/:uid",
         "update": "{REST_URL}/user/:uid"
+      }
+    },
+    "userTrainings": {
+      "api": {
+        "get": "{REST_URL}/user/:uid/trainings"
       }
     },
     "training": {

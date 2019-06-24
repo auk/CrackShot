@@ -15,6 +15,7 @@ import stx.shooterstatistic.model.*;
 import stx.shooterstatistic.services.*;
 import stx.shooterstatistic.util.Definable;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -39,6 +40,9 @@ public class TrainingController {
   TrainingElementService trainingElementService;
 
   @Autowired
+  private TrainingParticipantService trainingParticipantService;
+
+  @Autowired
   private UserService userService;
 
   @PostMapping(value = "/training")
@@ -48,8 +52,12 @@ public class TrainingController {
      @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
      @RequestParam(required = false) String oid,
      @RequestParam(required = false) List<String> users,
-     @RequestParam(required = false) List<String> elems) {
+     @RequestParam(required = false) List<String> elems,
+     @RequestParam(required = false) Boolean participate,
+     @RequestParam(required = false) Integer shots,
+     @RequestParam(required = false) Integer cost) {
 
+    User currentUser = userService.getUser(principal);
     SecurityContext context = securityService.createContext(principal);
 
     Organization organization = null;
@@ -68,6 +76,13 @@ public class TrainingController {
     }
 
     Training training = trainingService.createTraining(context, date, time, organization, participants, elements);
+    if (cost != null || shots != null) {
+      trainingParticipantService.findTrainingParticipant(context, training, currentUser).ifPresent(tp -> {
+        tp.setShots(shots);
+        tp.setCost(BigDecimal.valueOf(cost));
+        trainingParticipantService.save(context, tp);
+      });
+    }
     return new ResponseEntity<>(training, HttpStatus.CREATED);
   }
 

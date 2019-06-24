@@ -6,6 +6,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.text.MessageFormat;
+import java.time.LocalDate;
 import java.util.Objects;
 
 @Entity
@@ -23,12 +24,20 @@ public class TrainingParticipant extends AbstractEntity {
 
   BigDecimal cost = BigDecimal.ZERO;
 
+  @Column(name = "training_date")
+  LocalDate date;
+
   private TrainingParticipant() {} // for JPA
 
   public TrainingParticipant(@NotNull Training training, @NotNull User user) {
     this.organization = Objects.requireNonNull(training).getOrganization();
     this.training = Objects.requireNonNull(training);
     this.user = Objects.requireNonNull(user);
+    this.date = Objects.requireNonNull(training.getDate());
+  }
+
+  public TrainingParticipant(@NotNull Training training, @NotNull User user, LocalDate date) {
+    this(training, user);
   }
 
   public BigDecimal getCost() {
@@ -37,6 +46,14 @@ public class TrainingParticipant extends AbstractEntity {
 
   public void setCost(BigDecimal cost) {
     this.cost = cost;
+  }
+
+  public LocalDate getDate() {
+    return date;
+  }
+
+  public void setDate(LocalDate date) {
+    this.date = date;
   }
 
   Organization getOrganization() {

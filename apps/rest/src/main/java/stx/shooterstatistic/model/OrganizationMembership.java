@@ -27,6 +27,10 @@ public class OrganizationMembership extends AbstractEntity {
     this.admin = admin;
   }
 
+  public Organization getOrganization() {
+    return organization;
+  }
+
   public LocalDate getRegisterDate() {
     return registerDate;
   }

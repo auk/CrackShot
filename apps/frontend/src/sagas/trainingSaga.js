@@ -34,9 +34,13 @@ export function* createTrainingRequest({payload}) {
       Object.assign(params, { time: payload.time.format('HH:mm') });
     if (payload.user)
       Object.assign(params, { users: payload.user.map(u => u.value) });
-      if (payload.element)
+    if (payload.element)
       Object.assign(params, { elems: payload.element.map(u => u.value) });
-
+    if (payload.participate) {
+      Object.assign(params, { shots: payload.shots });
+      Object.assign(params, { cost: payload.cost });
+    }
+    
     const config = {
       method: 'POST',
       params: params

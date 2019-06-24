@@ -8,11 +8,31 @@ import { createError, objectStore } from 'utils/utils';
 import { CURRENT_USER } from 'constants/utils';
 
 export const userWatcherSaga = [
+  takeLatest(actions.fetchCurrentUser.toString(), fetchCurrentUser),
+  takeLatest(actions.fetchCurrentUserTrainings.toString(), fetchCurrentUserTrainings),
+
+  takeLatest(actions.fetchUser.toString(), fetchUser),
   takeLatest(actions.deleteUser.toString(), deleteUser),
   takeLatest(actions.updateUser.toString(), updateUser),
+  takeLatest(actions.fetchUserTrainings.toString(), fetchUserTrainings),
+
   takeLatest(actions.fetchUsers.toString(), fetchUsers),
-  takeLatest(actions.fetchCurrentUser.toString(), fetchCurrentUser),
 ];
+
+export function* fetchUser({payload}) {
+  try {
+    const url = yield select(selectors.getUserUrl);
+    const config = { params: { uid: payload } };
+    // console.log("fetchUser - url:", url, ", config: ", config)
+    const response = yield call(callApi, { 
+      url: url.replace(/:uid/i, payload),
+      config
+    });
+    yield put(actions.fetchUserSuccess(response.data));
+  } catch(error) {
+    yield put(actions.fetchUserError(createError(error)));
+  }
+}
 
 export function* fetchUsers({requestParams}) {
   try {
@@ -50,7 +70,7 @@ export function* deleteUserRequest({payload}) {
       method: 'DELETE',
     }
 
-    console.log("Deleting user with uid:", payload);
+    // console.log("Deleting user with uid:", payload);
     const response = yield call(callApi, {
       url: url.replace(/:uid/i, payload),
       config
@@ -72,7 +92,7 @@ export function* updateUser({payload}) {
 export function* updateUserRequest({payload}) {
   try {
     const url = yield select(selectors.updateUserUrl);
-    console.log("updateUserRequest - url:", url, ", values: ", payload);
+    // console.log("updateUserRequest - url:", url, ", values: ", payload);
 
     const config = {
       method: 'PUT',
@@ -83,7 +103,7 @@ export function* updateUserRequest({payload}) {
         phone: payload.phone,
       }
     }
-    console.log("config:", config);
+    // console.log("config:", config);
 
     const response = yield call(callApi, {
       url: url.replace(/:uid/i, payload.id),
@@ -95,5 +115,37 @@ export function* updateUserRequest({payload}) {
     toastr.success('Success', 'User information has been updated');
   } catch (error) {
     yield put(actions.updateUserError(createError(error)));
+  }
+}
+
+export function* fetchCurrentUserTrainings({ requestParams }) {
+  try {
+    const url = yield select(selectors.getCurrentUserTrainingsUrl);
+    const config = { params: { ...requestParams } };
+    const response = yield call(callApi, { url, config, });    
+    yield put(actions.fetchCurrentUserTrainingsSuccess({ ...response.data, requestParams: requestParams }));
+  } catch (error) {
+    yield put(actions.fetchCurrentUserTrainingsError(createError(error)));
+  }
+}
+
+export function* fetchUserTrainings( { payload: { requestParams }}) {
+  try {
+    const uid = requestParams.uid;
+    console.assert(uid);
+
+    const url = yield select(selectors.getUserTrainingsUrl);
+    const config = { 
+      method: 'POST',
+      params: { ...requestParams }
+    };
+
+    const response = yield call(callApi, { 
+      url: url.replace(/:uid/i, uid),
+      config
+    });    
+    yield put(actions.fetchUserTrainingsSuccess({ ...response.data, requestParams: requestParams }));
+  } catch (error) {
+    yield put(actions.fetchUserTrainingsError(createError(error)));
   }
 }

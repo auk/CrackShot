@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { LinkContainer } from 'react-router-bootstrap';
 import { MenuItem } from 'react-bootstrap';
@@ -34,18 +34,11 @@ const UsersList = props => {
           {data.content && data.content.map((user) =>
             <tr key={user.id} className={user.id === 'wid' ? "active" : ""}>
               <td className="col-md-6 col-sm-6">
-                { getUserDisplayNameSelector(user) }
-                {/* <Link to={links.workspace.url.view.replace(/:wid/i, workspace.id)}>
-                  name_todo{workspace.name}
-                </Link> */}
-                <br />
-                <small>
-                  <FormattedMessage {...commonMessages.id_fmt} values={{ id: user.id }} />
-                </small>
+                <Link to={links.user.url.replace(/:uid/i, user.id)}>
+                  { getUserDisplayNameSelector(user) }
+                </Link>
               </td>
-              <td className="col-md-5 col-sm-5">
-                {user.email}
-              </td>
+              <td className="col-md-5 col-sm-5">{ user.email }</td>
               <td className="col-md-1 col-sm-1">
                 <ActionMenu>
                   <LinkContainer to={links.user.url.replace(/:uid/i, user.id)}>

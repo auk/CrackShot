@@ -1,7 +1,6 @@
 package stx.shooterstatistic.jpa;
 
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -107,13 +106,13 @@ public class TrainingParticipantRepositoryTest {
 
       // 3: search by organization
 
-      trainingParticipants = trainingParticipantRepository.findByOrganization(organization1, Pageable.unpaged());
+      trainingParticipants = trainingParticipantRepository.findByOrganizationId(organization1.getId(), Pageable.unpaged());
       Assert.assertEquals(6, trainingParticipants.getTotalElements());
 
-      trainingParticipants = trainingParticipantRepository.findByOrganization(organization2, Pageable.unpaged());
+      trainingParticipants = trainingParticipantRepository.findByOrganizationId(organization2.getId(), Pageable.unpaged());
       Assert.assertEquals(3, trainingParticipants.getTotalElements());
 
-      trainingParticipants = trainingParticipantRepository.findByOrganization(null, Pageable.unpaged());
+      trainingParticipants = trainingParticipantRepository.findByOrganizationId(null, Pageable.unpaged());
       Assert.assertEquals(1, trainingParticipants.getTotalElements());
 
       // 4: search by training and user

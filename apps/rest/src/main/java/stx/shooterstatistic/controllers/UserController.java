@@ -42,8 +42,14 @@ public class UserController {
 
   // return current user
   @GetMapping(value = "/user")
-  public ResponseEntity<User> getUser(Principal principal) {
+  public ResponseEntity<User> getCurrentUser(Principal principal) {
     return new ResponseEntity<>(userService.getUser(principal), HttpStatus.OK);
+  }
+
+  @GetMapping(value = "/user/{uid}")
+  public ResponseEntity<User> getUser(Principal principal, @PathVariable String uid) {
+    SecurityContext context = securityService.createContext(principal);
+    return ResponseEntity.ok(userService.getUserById(context, uid));
   }
 
   @DeleteMapping(value = "/user/{uid}")

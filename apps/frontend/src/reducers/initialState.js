@@ -81,5 +81,6 @@ export default {
   trainingElement: defaultObjectState,
   trainingElements: defaultPageableState,
   user: defaultObjectState,
+  userTrainings: defaultPageableState,
   users: defaultPageableState,
 }

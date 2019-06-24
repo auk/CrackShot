@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @RepositoryRestResource(exported = false)
 public interface TrainingParticipantRepository extends JpaRepository<TrainingParticipant, String> {
-  Page<TrainingParticipant> findByOrganization(Organization organization, Pageable pageable);
+  Page<TrainingParticipant> findByOrganizationId(String organizationId, Pageable pageable);
   Page<TrainingParticipant> findByTraining(Training training, Pageable pageable);
   Page<TrainingParticipant> findByUser(User user, Pageable pageable);
   Optional<TrainingParticipant> findByTrainingAndUser(Training training, User user);

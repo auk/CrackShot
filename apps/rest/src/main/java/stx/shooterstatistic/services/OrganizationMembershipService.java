@@ -10,6 +10,7 @@ import stx.shooterstatistic.model.*;
 
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -50,11 +51,17 @@ public class OrganizationMembershipService {
     return findMembership(context, organization, user).isPresent();
   }
 
-  public Page<OrganizationMembership> getMembers(@NotNull SecurityContext context, @NotNull Organization organization, Pageable pageable) {
+  public Page<OrganizationMembership> getOrganizationMembers(@NotNull SecurityContext context, @NotNull Organization organization, Pageable pageable) {
     Objects.requireNonNull(context);
     Objects.requireNonNull(organization);
     securityService.checkHasAccess(context, organization, Permission.READ);
     return organizationMembershipRepository.findByOrganization(organization, pageable);
+  }
+
+  public Page<OrganizationMembership> getUserOrganizations(@NotNull SecurityContext context, @NotNull User user, Pageable pageable) {
+    Objects.requireNonNull(context);
+    Objects.requireNonNull(user);
+    return organizationMembershipRepository.findByUser(user, pageable);
   }
 
   @NotNull

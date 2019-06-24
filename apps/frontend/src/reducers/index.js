@@ -9,7 +9,7 @@ import { reducer as modalReducer } from 'reducers/modalReducer';
 import { organizationReducer, organizationsReducer } from 'reducers/organizationReducer';
 import { trainingReducer, trainingsReducer } from 'reducers/trainingReducers';
 import { trainingElementReducer, trainingElementsReducer } from 'reducers/trainingReducers';
-import { currentUserReducer, userReducer, usersReducer } from 'reducers/userReducers';
+import { currentUserReducer, userReducer, userTrainingsReducer, usersReducer } from 'reducers/userReducers';
 
 const rootReducer = combineReducers({
   auth: authReducer,
@@ -26,6 +26,7 @@ const rootReducer = combineReducers({
   trainingElement: trainingElementReducer,
   trainingElements: trainingElementsReducer,
   user: userReducer,
+  userTrainings: userTrainingsReducer,
   users: usersReducer,
 });
 

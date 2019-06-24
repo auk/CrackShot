@@ -73,10 +73,6 @@ public class OrganizationService {
     return workspace;
   }
 
-  public Page<Organization> getOrganizations(SecurityContext context, OrganizationSearchCriteria criteris, Pageable pageable) {
-    return organizationRepository.findAll(pageable);
-  }
-
   public void deleteOrganization(SecurityContext context, Organization organization) {
     Objects.requireNonNull(organization);
 
@@ -91,6 +87,10 @@ public class OrganizationService {
     Organization org = organizationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Organization", id));
     securityService.checkHasAccess(context, org, Permission.READ);
     return org;
+  }
+
+  public Page<Organization> getOrganizations(SecurityContext context, OrganizationSearchCriteria criteris, Pageable pageable) {
+    return organizationRepository.findAll(pageable);
   }
 
   public boolean isOwner(@NotNull SecurityContext context, @NotNull Organization organization, @NotNull User user) {

@@ -8,6 +8,7 @@ import OrganizationsPage from 'containers/organizations/OrganizationsPage';
 import StageResultsPage from 'containers/stage/StageResultsPage';
 import TrainingPage from 'containers/trainings/TrainingPage';
 import TrainingElementsPage from 'containers/trainings/TrainingElementsPage';
+import UserPage from 'containers/users/UserPage';
 import UsersPage from 'containers/users/UsersPage';
 import NotFound from 'containers/notFound/NotFound';
 
@@ -25,6 +26,7 @@ export const createRoutes = (history, links, AdminPermission, UserPermission) =>
     <Route exact path={links.organizations.url} component={AdminPermission(OrganizationsPage)} />
     <Route exact path={links.training.url} component={AdminPermission(TrainingPage)} />
     <Route exact path={links.trainingElements.url} component={AdminPermission(TrainingElementsPage)} />
+    <Route exact path={links.user.url} component={AdminPermission(UserPage)} />
     <Route exact path={links.users.url} component={AdminPermission(UsersPage)} />
     <Route path='*' component={NotFound} />
   </Switch>
