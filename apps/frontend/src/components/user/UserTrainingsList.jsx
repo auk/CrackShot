@@ -56,7 +56,7 @@ const UserTrainingsList = props => {
           }
         </Table.Head>
         <Table.Body>
-          {data.content && data.content.map((tr) =>
+          { data.content && data.content.map((tr) =>
             <tr key={tr.id} className={tr.id === 'wid' ? "active" : ""} onClick={() => { if (onClick) onClick(tr); } }>
               <td className="col-md-5 col-sm-5">
               { tr.training.organization && 
@@ -85,11 +85,12 @@ const UserTrainingsList = props => {
                 </Link>
               </td>
               <td className="col-md-2 col-sm-2 text-center">
-                <div title={tr.training.users.map(u => u.name ? u.name : u.username).join("\r\n")}>{tr.training.users.length}</div>
+                { tr.training.users && tr.training.users.map((part) => <div class="badge">{part.name}</div> )
+
+                }
               </td>
               <td className="col-md-2 col-sm-2 text-center">
                 {tr.shots} / {tr.cost}
-                {/* <div title={tr.trainingElements.map(id => getTrainingElementName(id)).join("\r\n")}>{tr.trainingElements.length}</div> */}
               </td>
               { showActions &&
                 <td className="col-md-1 col-sm-1 text-center">

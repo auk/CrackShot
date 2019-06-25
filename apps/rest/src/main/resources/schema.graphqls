@@ -28,3 +28,21 @@ type OrganizationMembership {
   user: User!
   admin: Boolean
 }
+
+type Training {
+  organization: Organization
+  date: String!
+  time: String
+  trainingElements: [ String! ]
+  participants: [ TrainingParticipant! ]
+}
+
+type TrainingParticipant {
+  organization: Organization
+  training: Training!
+  user: User!
+  shots: Int
+  cost: Int
+  date: String!
+  time: String!
+}

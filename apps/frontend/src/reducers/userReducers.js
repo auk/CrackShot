@@ -20,7 +20,7 @@ export const userTrainingsReducer = handleActions({
   [ combineActions(actions.fetchUserTrainings) ]: handleRequest,
   [ combineActions(actions.fetchUserTrainingsSuccess) ]: handlePageableRequestSuccess,
   [ combineActions(actions.fetchUserTrainingsError) ]: handleRequestError
-}, initialState.userTrainings);
+}, initialState.user.trainings);
 
 export const usersReducer = handleActions({
   [ combineActions(actions.fetchUsers) ]: handleRequest,

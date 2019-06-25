@@ -59,7 +59,7 @@ export const getUserSelector = state => state.user.content;
 export const getUserUrl = state => state.config.links.user.api.get;
 export const getDeleteUserUrl = state => state.config.links.user.api.delete;
 export const getUserTrainingsUrl = state => state.config.links.userTrainings.api.get;
-export const getUserTrainingsSelector = state => state.userTrainings;
+export const getUserTrainingsSelector = state => state.user.trainings;
 export const updateUserUrl = state => state.config.links.user.api.update;
 export const getUserDisplayNameSelector = user => user.name ? user.name : user.username;
 export const userToOptionSelector = user => ({ label: user.name || user.username || user.email, value: user.id });
