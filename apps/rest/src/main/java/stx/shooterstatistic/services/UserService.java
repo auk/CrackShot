@@ -26,13 +26,13 @@ public class UserService {
   UserRepository userRepository;
 
   @NotNull
-  public User saveUser(@NotNull String login) {
+  public User createUser(@NotNull String login) {
     User user = new User(login);
     return userRepository.save(user);
   }
 
   @NotNull
-  public User saveUser(@NotNull String login, @NotNull String email) {
+  public User createUser(@NotNull String login, @NotNull String email) {
     User user = new User(login);
     user.setEmail(email);
     return userRepository.save(user);

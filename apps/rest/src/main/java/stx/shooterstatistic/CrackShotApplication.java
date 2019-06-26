@@ -78,7 +78,7 @@ public class CrackShotApplication {
   public synchronized InitializingBean insertDefaultUsers() {
     return () -> {
       User adminUser = userService.findUserByEmail(adminEmail).orElseGet(() -> {
-        User user = userService.saveUser("admin", adminEmail);
+        User user = userService.createUser("admin", adminEmail);
         user.setRoles(Collections.singletonList(globalAdminRole));
         userRepository.save(user);
         return user;

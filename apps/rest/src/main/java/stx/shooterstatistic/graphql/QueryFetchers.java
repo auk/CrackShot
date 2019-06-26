@@ -1,17 +1,32 @@
 package stx.shooterstatistic.graphql;
 
 import graphql.schema.DataFetcher;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.SecurityContext;
+import stx.shooterstatistic.model.User;
 import stx.shooterstatistic.services.OrganizationService;
+import stx.shooterstatistic.services.SecurityService;
+import stx.shooterstatistic.services.UserService;
 
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+@Component
 public class QueryFetchers {
 
   private static OrganizationService organizationService;
+  private static SecurityService securityService;
+  private static UserService userService;
+
+  @Autowired
+  public QueryFetchers(OrganizationService organizationService, SecurityService securityService, UserService userService) {
+    QueryFetchers.organizationService = Objects.requireNonNull(organizationService);
+    QueryFetchers.securityService = Objects.requireNonNull(securityService);
+    QueryFetchers.userService = Objects.requireNonNull(userService);
+  }
 
   private static Map getGraphQLContext(Object context) {
     if (context instanceof Map)
@@ -43,4 +58,14 @@ public class QueryFetchers {
     return organizationService.getOrganization(securityContext, id);
   };
 
+  public static DataFetcher<User> userFetcher = env -> {
+    SecurityContext securityContext = (SecurityContext) getGraphQLContext(env.getContext()).get("securityContext");
+    Objects.requireNonNull(securityContext);
+
+    String id = env.getArgument("id");
+    if (id == null || id.isEmpty())
+      return securityContext.getUser();
+
+    return userService.getUserById(securityContext, id);
+  };
 }

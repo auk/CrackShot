@@ -31,7 +31,7 @@ public class UserServiceTest {
   @Test
   public void createAndDeleteUser() {
     // given
-    User user = userService.saveUser(NAME, EMAIL);
+    User user = userService.createUser(NAME, EMAIL);
     Assert.assertNotNull(user);
     Assert.assertTrue(userService.findUserByEmail(EMAIL).isPresent());
 

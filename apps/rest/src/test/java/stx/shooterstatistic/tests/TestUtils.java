@@ -16,11 +16,15 @@ public class TestUtils {
   @Autowired
   UserService userService;
 
-  final String adminUsername = "admin@startext.ru", fakeUsername = "fake@startext.ru";
+  final String adminEmail = "admin@startext.ru", fakeUsername = "fake@startext.ru";
 
   public User createAdminUser() {
-    User user = userService.saveUser("test-admin", adminUsername);
+    User user = userService.createUser("test-admin", adminEmail);
     user.setRoles(Collections.singletonList(globalAdminRole));
     return user;
+  }
+
+  public String getGlobalAdminEmail() {
+    return adminEmail;
   }
 }

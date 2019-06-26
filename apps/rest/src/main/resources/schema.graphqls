@@ -12,6 +12,7 @@ type User {
   username: String!
   name: String!
   email: String
+  roles: [ String! ]
 }
 
 type Organization {

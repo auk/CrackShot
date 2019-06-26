@@ -59,7 +59,7 @@ public class OrganizationControllerTest {
   @Before
   public void init() {
     this.mockMvc = webAppContextSetup(webApplicationContext).build();
-    this.adminUser = userService.findUserByEmail(adminEmail).orElseGet(() -> userService.saveUser(adminUsername, adminEmail));
+    this.adminUser = userService.findUserByEmail(adminEmail).orElseGet(() -> userService.createUser(adminUsername, adminEmail));
   }
 
   @Test

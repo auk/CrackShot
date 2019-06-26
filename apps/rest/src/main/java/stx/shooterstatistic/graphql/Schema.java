@@ -14,8 +14,8 @@ public class Schema {
     return RuntimeWiring.newRuntimeWiring()
        .type("Query", builder -> builder
           .dataFetcher("organization", QueryFetchers.organizationFetcher)
-          /*.dataFetcher("workspaceUsers", QueryFetchers.workspaceUsersFetcher)
           .dataFetcher("user", QueryFetchers.userFetcher)
+          /*.dataFetcher("workspaceUsers", QueryFetchers.workspaceUsersFetcher)
           .dataFetcher("statistic", QueryFetchers.timeStatisticFetcher)
           .dataFetcher("timeEntries", QueryFetchers.searchTimeEntriesFetcher)*/
        )
