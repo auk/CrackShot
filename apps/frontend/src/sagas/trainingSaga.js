@@ -1,4 +1,4 @@
-import { takeLatest, call, put, select } from 'redux-saga/effects';
+import { takeLatest, call, put, select, spawn } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import { callApi } from 'utils/ApiUtils';
 import { createError } from 'utils/utils';
@@ -17,7 +17,7 @@ export function* createTraining({payload}) {
 
   // refetch data for list
   const requestParams = yield select(selectors.getTrainingsParams);
-  yield call(actions.fetchTrainings, { payload: requestParams } );
+  yield put(actions.fetchTrainings({ payload: requestParams }));
 }
 
 export function* createTrainingRequest({payload}) {
