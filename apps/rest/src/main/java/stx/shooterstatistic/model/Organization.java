@@ -19,7 +19,7 @@ public class Organization extends AbstractEntity {
   String phone;
   String address;
 
-  private Organization() {
+  public Organization() {
   }
 
   public Organization(User owner, String name) {

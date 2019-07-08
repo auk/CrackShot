@@ -25,7 +25,7 @@ public class User extends AbstractEntity {
   @ElementCollection(fetch = FetchType.EAGER)
   private List<String> roles;
 
-  protected User() {
+  public User() {
   }
 
   public User(@NotNull String username) {

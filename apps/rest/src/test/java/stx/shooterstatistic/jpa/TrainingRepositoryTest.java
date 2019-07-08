@@ -75,6 +75,7 @@ public class TrainingRepositoryTest {
       pageOrgs = trainingRepository.findByOrganization(null, Pageable.unpaged());
       Assert.assertEquals(1, pageOrgs.getTotalElements());
     } finally {
+      trainingParticipantRepository.deleteAll();
       trainingRepository.deleteAll();
       organizationMembershipRepository.deleteAll();
       organizationRepository.deleteAll();

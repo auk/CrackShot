@@ -28,7 +28,7 @@ public class Training extends AbstractEntity {
   @ElementCollection
   List<String> trainingElements = new ArrayList<>();
 
-  private Training() {} // jpa
+  public Training() {} // jpa
 
   public Training(@NotNull LocalDate date) {
     this.date = Objects.requireNonNull(date);
