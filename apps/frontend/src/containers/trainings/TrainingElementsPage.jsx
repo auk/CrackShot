@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import Page from 'components/common/pageTemplate/Page';
-import TrainingElementsList from 'components/training/TrainingElementsList';
+import TrainingElementsEditList from 'components/training/TrainingElementsEditList';
 import WithLayout from 'containers/layouts/WithLayout';
 import { defaultMessage } from 'i18n/defineMessages';
 import { getLinksSelector, getTrainingElementSelector, getTrainingElementsSelector } from 'selectors';
@@ -126,7 +126,7 @@ class TrainingElementsPage extends React.Component   {
                 </Page.Tools>
               </Page.Header>
               <Page.Content>
-                <TrainingElementsList
+                <TrainingElementsEditList
                   data={trainingElements}
                   links={links}
                   onClick={this.onElementClick}

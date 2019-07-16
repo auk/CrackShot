@@ -137,7 +137,7 @@ export function* fetchUserTrainings( { payload: { requestParams }}) {
     const url = yield select(selectors.getUserTrainingsUrl);
     const config = { 
       method: 'POST',
-      params: { ...requestParams }
+      // params: { ...requestParams }
     };
 
     const response = yield call(callApi, { 

@@ -43,8 +43,9 @@ const rootReducer = combineReducers({
   trainings: trainingsReducer,
   trainingElement: trainingElementReducer,
   trainingElements: trainingElementsReducer,
-  user: attachNestedReducers(userReducer, { trainings: userTrainingsReducer }),
-  // user: { trainings:  },
+  user: attachNestedReducers(userReducer, { 
+  	trainings: userTrainingsReducer 
+  }),
   users: usersReducer,
 });
 

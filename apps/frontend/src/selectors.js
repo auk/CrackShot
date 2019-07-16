@@ -35,6 +35,8 @@ export const getOrganizationsOptionsSelector = createSelector(
 export const createTrainingUrl = state => state.config.links.training.api.create;
 export const getTrainingUrl = state => state.config.links.training.api.get;
 export const getTrainingsParams = state => state.trainings.requestParams;
+export const getTrainingSelector = state => state.training;
+export const getTrainingContentSelector = state => state.training.content;
 export const getTrainingsSelector = state => state.trainings;
 export const getTrainingsUrl = state => state.config.links.trainings.api.get;
 
@@ -55,7 +57,8 @@ export const getTrainingElementsUrl = state => state.config.links.trainingElemen
 export const getCurrentUserUrl = state => state.config.links.currentUser.api.get;
 export const getCurrentUserTrainingsUrl = state => state.config.links.currentUserTrainings.api.get;
 
-export const getUserSelector = state => state.user.content;
+export const getUserSelector = state => state.user;
+export const getUserContentSelector = state => state.user.content;
 export const getUserUrl = state => state.config.links.user.api.get;
 export const getDeleteUserUrl = state => state.config.links.user.api.delete;
 export const getUserTrainingsUrl = state => state.config.links.userTrainings.api.get;

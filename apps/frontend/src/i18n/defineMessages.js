@@ -230,6 +230,10 @@ export const defaultMessage = defineMessages({
         id: 'navigation.navItem.organization',
         defaultMessage: 'Organization'
       },
+      training: {
+        id: 'navigation.navItem.training',
+        defaultMessage: 'Training {time}'
+      },
       trainingElements: {
         id: 'navigation.navItem.trainingElements',
         defaultMessage: 'Training elements'
@@ -397,6 +401,16 @@ export const defaultMessage = defineMessages({
         id: 'pages.organizations.header',
         defaultMessage: 'Organizations'
       }
+    },
+    training: {
+      header: {
+        id: 'pages.training.header',
+        defaultMessage: 'Training {time}'
+      },
+      title: {
+        id: 'pages.training.title',
+        defaultMessage: 'Crack shot | Training {time}'
+      },
     },
     trainingElements: {
       header: {

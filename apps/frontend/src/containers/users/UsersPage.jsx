@@ -7,7 +7,7 @@ import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import { showModal } from 'actions/modalActions';
 import WithLayout from 'containers/layouts/WithLayout';
 import Page from 'components/common/pageTemplate/Page';
-import UsersList from 'components/user/UsersList';
+import UsersEditList from 'components/user/UsersEditList';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
 import { fetchUsers } from 'actions/userActions';
@@ -132,7 +132,7 @@ class UsersPage extends React.Component {
                 </Page.Tools>
               </Page.Header>
               <Page.Content>
-                {<UsersList
+                {<UsersEditList
                   data={users}
                   links={links}
                   onDelete={this.handleDeleteUser}

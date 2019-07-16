@@ -13,7 +13,7 @@ import { getUserDisplayNameSelector } from 'selectors';
 
 const commonMessages = defaultMessage.common;
 
-const UsersList = props => {
+const UsersEditList = props => {
   const { data, links, onEdit, onDelete, onSizeChange, onPageChange, intl: { formatMessage } } = props;
 
   return (
@@ -86,7 +86,7 @@ const UsersList = props => {
   )
 }
 
-UsersList.propTypes = {
+UsersEditList.propTypes = {
   intl: intlShape.isRequired,
   wid: PropTypes.string,
   onDelete: PropTypes.func.isRequired,
@@ -100,4 +100,4 @@ UsersList.propTypes = {
   }),
 }
 
-export default injectIntl(UsersList);
+export default injectIntl(UsersEditList);

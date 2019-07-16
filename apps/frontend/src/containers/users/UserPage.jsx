@@ -8,8 +8,7 @@ import Page from 'components/common/pageTemplate/Page';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
 import { getUserDisplayNameSelector, getCurrentUserSelector,
-  getUserSelector, getUserTrainingsSelector, getUsersSelector,
-  getLinksSelector, userToOptionSelector } from 'selectors';
+  getUserSelector, getUserTrainingsSelector, getLinksSelector } from 'selectors';
 import { fetchUser, fetchUserTrainings } from 'actions/userActions';
 import userAuthIcon from 'assets/img/profile.jpg';
 import UserTrainingsList from 'components/user/UserTrainingsList'
@@ -74,7 +73,7 @@ class UserPage extends React.Component {
   }*/
 
   render() {
-    const { user, users, userTrainings, links, intl: { formatMessage } } = this.props;
+    const { userState, userTrainings, links, intl: { formatMessage } } = this.props;
 
     console.log("User trainings:", userTrainings);
 
@@ -91,29 +90,18 @@ class UserPage extends React.Component {
       },
     ];
 
-    // const selectedUsersOptions = [ userToOptionSelector(currentUser) ];
-
-    // console.log("users options:", usersOptions);
-    // console.log("selected users options:", selectedUsersOptions);
-
-    // const values = {
-    //   organization: organizationsOptions ? organizationsOptions[0]: null,
-    //   phone: "+7-555-5555",
-    //   user: selectedUsersOptions,
-    //   date: moment(),
-    //   time: moment('09:00', 'HH:mm'),
-    // }
+    const user = userState.content;
 
     return (
       <React.Fragment>
         <Breadcrumbs header={pageMessages.title} crumbs={crumbs} />
         <Page title={formatMessage(pageMessages.title)}>
           
-          {/* {trainings.error && <Page.Error error={trainings.error} />} */}
+          {userState && userState.error && <Page.Error error={userState.error} />}
 
-          <div className="row m-b-lg m-t-lg">
+          { user &&
+            <div className="row m-b-lg m-t-lg">
             <div className="col-md-6">
-
                 <div className="profile-image">
                     <img src={userAuthIcon} className="rounded-circle circle-border m-b-md" alt="profile"/>
                 </div>
@@ -142,7 +130,6 @@ class UserPage extends React.Component {
                         <td>
                             <strong>22</strong> Followers
                         </td>
-
                     </tr>
                     <tr>
                         <td>
@@ -169,8 +156,10 @@ class UserPage extends React.Component {
                 {/* <div id="sparkline1"><canvas style="display: inline-block; width: 385.75px; height: 50px; vertical-align: top;" width="385" height="50"></canvas></div> */}
             </div>
           </div>
+          }
 
-          <Page.ContainerRow>
+          { user &&
+            <Page.ContainerRow>
             <div className="col-md-6">
               <Page.Container>
                 <Page.Header>
@@ -195,6 +184,7 @@ class UserPage extends React.Component {
               </Page.Container>
             </div>            
           </Page.ContainerRow>
+          }
         </Page>
       </React.Fragment>
     )
@@ -203,26 +193,9 @@ class UserPage extends React.Component {
 
 UserPage.propTypes = {
   fetchUser: PropTypes.func.isRequired,
-  // currentUser: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   links: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
-  // organizations: PropTypes.object.isRequired,
-  // organizationsOptions: PropTypes.arrayOf(PropTypes.shape({
-  //   label: PropTypes.string.isRequired,
-  //   value: PropTypes.string.isRequired,
-  // })),
-  // trainings: PropTypes.object.isRequired,
-  // trainingElementsState: PropTypes.object.isRequired,
-  // trainingElementsOptions: PropTypes.arrayOf(PropTypes.shape({
-  //   label: PropTypes.string.isRequired,
-  //   value: PropTypes.string.isRequired,
-  // })),
-  users: PropTypes.object.isRequired,
-  // usersOptions: PropTypes.arrayOf(PropTypes.shape({
-  //   label: PropTypes.string.isRequired,
-  //   value: PropTypes.string.isRequired,
-  // })),
+  user: PropTypes.object.isRequired
 }
 
 const mapStateToProps = state => {
@@ -230,28 +203,14 @@ const mapStateToProps = state => {
     // auth: getAuthSelector(state),
     currentUser: getCurrentUserSelector(state),
     links: getLinksSelector(state),
-    user: getUserSelector(state),
-    userTrainings: getUserTrainingsSelector(state),
-    users: getUsersSelector(state),
-    // organizations: getOrganizationsSelector(state),
-    // organizationsOptions: getOrganizationsOptionsSelector(state),
-    // trainings: getTrainingsSelector(state),
-    // trainingElementsState: getTrainingElementsSelector(state),
-    // trainingElementsOptions: getTrainingElementsOptionsSelector(state),
-    // usersOptions: getUsersOptionsSelector(state),
+    userState: getUserSelector(state),
+    userTrainings: getUserTrainingsSelector(state)
   };
 }
 
 const mapDispatchToProps = {
   fetchUser,
-  fetchUserTrainings,
-  // fetchOrganizations,
-  // fetchTrainings,
-  // fetchTrainingElements,
-  // fetchUsers,
-  // createTraining,
-  // createTrainingElement,
-  // showModal
+  fetchUserTrainings
 }
 
 export default WithLayout(connect(mapStateToProps, mapDispatchToProps)(injectIntl(UserPage)));

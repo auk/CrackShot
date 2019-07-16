@@ -23,7 +23,7 @@ const TrainingsList = props => {
   
   const getTrainingElementName = id => {
     const trainingElement = getTrainingElementById(id);
-    return trainingElement ? trainingElement.name : undefined;
+    return trainingElement ? trainingElement.name : id;
   }
   
   // console.log("TrainingsList elements:", trainingElements);

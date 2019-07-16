@@ -22,5 +22,6 @@ export const handlePageableRequestSuccess = (state, action) => ({
 export const handleRequestError = (state, error) => ({
   ...state,
   isFetching: false,
+  content: null,
   error: error.payload
 });

@@ -16,7 +16,6 @@ import { showModal } from 'actions/modalActions';
 import { fetchOrganizations } from 'actions/organizationActions';
 import { createTraining, createTrainingElement, fetchTrainings, fetchTrainingElements } from 'actions/trainingActions';
 import { fetchUsers } from 'actions/userActions';
-import TrainingForm from 'components/training/TrainingForm';
 import TrainingsList from 'components/training/TrainingsList';
 import userAuthIcon from 'assets/img/profile.jpg';
 import moment from 'moment';
@@ -61,6 +60,12 @@ class HomePage extends React.Component {
 
   onSizeChange = (size) => {
     console.log(size);
+    console.log(this.props);
+    const { user: { trainings: { requestParams } } } = this.props;
+    const newRequestParams = { ...requestParams, size: size.value, page: 0 };
+    console.log("params:", requestParams, ", new params:", newRequestParams);
+    this.props.fetchTrainings(newRequestParams);
+    // this.refetchData(newRequestParams);
   }
 
   handleCreateTrainingModal = e => {
@@ -206,20 +211,6 @@ class HomePage extends React.Component {
             </div>
             
             <div className="col-md-6">
-              <Page.Container>
-                <Page.Header><h5>Training</h5></Page.Header>
-                  <Page.Content>
-                    <TrainingForm
-                      organizations={organizationsOptions}
-                      selectedOrganizationsOptions={selectedOrganizationsOptions}
-                      users={usersOptions}
-                      elements={trainingElementsOptions}
-                      user={selectedUsersOptions}
-                      initialValues={values}
-                      submitBtnText={formatMessage(common.create)}
-                      onSubmit={this.handleCreateTraining}/>
-                </Page.Content>
-              </Page.Container>
             </div>
           </Page.ContainerRow>
         </Page>

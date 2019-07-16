@@ -96,7 +96,7 @@ export const createError = (ex) => {
     return { message: ex.message };
   }
   if (ex && ex.response && ex.response.data) {
-    return {...ex.response.data};
+    return Array.isArray(ex.response.data) ? {...ex.response.data[0]} : {...ex.response.data};
   }
   console.log("Create error:", ex, ", json:", JSON.stringify(ex));
   return ex;

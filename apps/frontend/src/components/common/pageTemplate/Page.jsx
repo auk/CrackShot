@@ -118,6 +118,44 @@ Error.propTypes = {
   error: PropTypes.object.isRequired,
 }
 
+const Dl = (props) => {
+  return (
+    <dl className="row mb-0 dl-horizontal">
+      {props.children}
+    </dl>
+  );
+}
+
+const Dt = (props) => {
+  return (
+    // <dt>{props.children}</dt>
+    <div className={"text-sm-right " + props.size}><dt>{props.children}</dt></div>
+  );
+}
+
+Dt.propTypes = {
+  size: PropTypes.string,
+}
+
+Dt.defaultProps = {
+  size: 'col-sm-4',
+}
+
+const Dd = (props) => {
+  return (
+    // <dd class="mb-1">{props.children}</dd>
+    <div className={"text-sm-left" + props.size}><dd class="mb-1">{props.children}</dd></div>
+  );
+}
+
+Dt.propTypes = {
+  size: PropTypes.string,
+}
+
+Dt.defaultProps = {
+  size: 'col-sm-8',
+}
+
 Page.ContainerRow = ContainerRow;
 Page.ContainerWrap = ContainerWrap;
 Page.Container = Container;
@@ -127,5 +165,9 @@ Page.Content = Content;
 Page.Error = Error;
 Page.Footer = Footer;
 Page.Loading = Loading;
+
+Page.Dl = Dl;
+Page.Dt = Dt;
+Page.Dd = Dd;
 
 export default Page;

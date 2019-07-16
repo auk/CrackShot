@@ -13,7 +13,7 @@ import Table, { HeadItem } from 'components/common/table/Table';
 const common = defaultMessage.common;
 // const trainingMessage = defaultMessage.training;
 
-const TrainingsList = props => {
+const TrainingParticipantsEditList = props => {
   const { data, links, trainingElements, onSizeChange, onPageChange, onClick, intl: { formatMessage } } = props;
   const { showActions = true, showOrganizationLink = true, showPaging = true } = props;
 
@@ -26,10 +26,6 @@ const TrainingsList = props => {
     return trainingElement ? trainingElement.name : undefined;
   }
   
-  // console.log("TrainingsList elements:", trainingElements);
-
-  // const stringConcat = (acc, value) => acc + "\r\n" + value.username;
-
   return (
     <React.Fragment>
       <Table addClass="table-hover table-striped table-big">
@@ -85,10 +81,10 @@ const TrainingsList = props => {
                 </Link>
               </td>
               <td className="col-md-2 col-sm-2 text-center">
-                <div title={tr.users.map(u => u.name ? u.name : u.username).join("\r\n")}>{tr.users.length}</div>
+                {/* <div title={tr.users.map(u => u.name ? u.name : u.username).join("\r\n")}>{tr.users.length}</div> */}
               </td>
               <td className="col-md-2 col-sm-2 text-center">
-                <div title={tr.trainingElements.map(id => getTrainingElementName(id)).join("\r\n")}>{tr.trainingElements.length}</div>
+                {/* <div title={tr.trainingElements.map(id => getTrainingElementName(id)).join("\r\n")}>{tr.trainingElements.length}</div> */}
               </td>
               { showActions &&
                 <td className="col-md-1 col-sm-1 text-center">
@@ -127,7 +123,7 @@ const TrainingsList = props => {
   )
 }
 
-TrainingsList.propTypes = {
+TrainingParticipantsEditList.propTypes = {
   intl: intlShape.isRequired,
   wid: PropTypes.string,
   onPageChange: PropTypes.func.isRequired,
@@ -140,4 +136,4 @@ TrainingsList.propTypes = {
   trainingElements: PropTypes.object.isRequired,
 }
 
-export default injectIntl(TrainingsList);
+export default injectIntl(TrainingParticipantsEditList);

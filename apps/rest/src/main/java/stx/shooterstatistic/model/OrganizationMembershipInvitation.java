@@ -16,6 +16,8 @@ public class OrganizationMembershipInvitation extends AbstractEntity {
 
   LocalDateTime created;
 
+  LocalDateTime resolved;
+
   private OrganizationMembershipInvitation() {}
 
   public OrganizationMembershipInvitation(@NotNull Organization organization, @NotNull User user) {

@@ -1,92 +1,52 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { Link } from 'react-router-dom';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
-// import { LinkContainer } from 'react-router-bootstrap';
-import { MenuItem } from 'react-bootstrap';
+import Page from 'components/common/pageTemplate/Page';
 
 import { defaultMessage } from 'i18n/defineMessages';
-import Paginate from 'components/common/paginate/Paginate';
-import ActionMenu from 'components/actionMenu/ActionMenu';
-import Table, { HeadItem } from 'components/common/table/Table';
 
 const commonMessages = defaultMessage.common;
 
 const TrainingElementsList = (props) => {
-  const { data, /*links,*/ onSizeChange, onPageChange, onClick, onEdit, onDelete, intl: { formatMessage } } = props;
-  const { showActions = true, showPaging = true } = props;
+  const { data, trainingElements, intl: { formatMessage } } = props;
 
-  // console.log("TrainingElementsList - data:", data);
-  // console.log("TrainingElementsList - content:", data.content);
+  const getTrainingElementById = id => {
+    // console.log("Training elements:", trainingElements);
+    // return id;
+    return trainingElements ? trainingElements.find(te => te.id === id) : undefined;
+  } 
+  
+  const getTrainingElementName = id => {
+    const trainingElement = getTrainingElementById(id);
+    return trainingElement ? trainingElement.name : id;
+  }
 
   return (
     <React.Fragment>
-      <Table addClass="table-hover table-striped table-big">
-        <Table.Head>
-          <HeadItem noSort name="name" className="col-lg-10">
-            {formatMessage(commonMessages.name)}
-          </HeadItem>
-          { showActions &&
-            <HeadItem noSort className="col-lg-3 pull-right">
-              {formatMessage(commonMessages.actions)}
-            </HeadItem>
-          }
-        </Table.Head>
-        <Table.Body>
-          {data.content && data.content.map((tr) =>
-            <tr key={tr.id} onClick={() => onClick(tr)}>
-              <td className="col-lg-10">
-                {tr.name}
-              </td>
-              { showActions &&
-                <td className="col-lg-3 pull-right">
-                  <ActionMenu>
-                    { onEdit && 
-                      <MenuItem eventKey="edit" onClick={onEdit.bind(this, tr)}>
-                        <i className="fa fa-eye"></i>
-                        <span><FormattedMessage {...commonMessages.edit} /></span>
-                      </MenuItem>
-                    }
-                    { onDelete &&
-                      <MenuItem eventKey="delete" onClick={onDelete.bind(this, tr.id, tr.name)}>
-                        <i className="fa fa-times"></i>
-                        <span><FormattedMessage {...commonMessages.delete} /></span>
-                      </MenuItem>
-                    }
-                  </ActionMenu>
-                </td>
-              }
+      <Page.ContainerWrap>
+        <Page.Container>
+          <Page.Header><h5>Training elements</h5></Page.Header>
+          <Page.Content>
+            <ul>
+            { data && data.map((id) =>
+              <li key={id}>{getTrainingElementName(id)}</li>
+            )}
+            { !data && 
+              <FormattedMessage {...commonMessages.no_data} />
+            }
+            </ul>
+          </Page.Content>
+        </Page.Container>
+      </Page.ContainerWrap>
 
-            </tr>
-          )}
-        </Table.Body>
-      </Table>
-
-      { showPaging && data.content.length > 0 &&
-        <Paginate
-          pageCount={data.totalPages}
-          sizePerPageList={data.sizePerPageList}
-          pageSize={data.requestParams.size}
-          onPageChange={onPageChange}
-          onSizeChange={onSizeChange}
-          forcePage={data.requestParams.page}
-        />
-      }
-      { (data.content.length === 0 && !data.isFetching) &&
-        <p>
-          <FormattedMessage {...commonMessages.no_data} />
-        </p>
-      }
     </React.Fragment>
   )
 }
 
 TrainingElementsList.propTypes = {
   intl: intlShape.isRequired,
-  onPageChange: PropTypes.func.isRequired,
-  onSizeChange: PropTypes.func.isRequired,
-  links: PropTypes.object.isRequired,
   data: PropTypes.object.isRequired,
+  trainingElements: PropTypes.object.isRequired,
 }
 
 export default injectIntl(TrainingElementsList);

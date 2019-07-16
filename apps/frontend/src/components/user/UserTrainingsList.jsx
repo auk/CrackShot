@@ -75,12 +75,12 @@ const UserTrainingsList = props => {
               }
               </td>
               <td className="col-md-1 col-sm-1">
-                <Link to={links.training.url.replace(/:tid/i, tr.id)}>
+                <Link to={links.training.url.replace(/:tid/i, tr.training.id)}>
                   {tr.training.date}
                 </Link>
               </td> 
               <td className="col-md-2 col-sm-2">
-                <Link to={links.training.url.replace(/:tid/i, tr.id)}>
+                <Link to={links.training.url.replace(/:tid/i, tr.training.id)}>
                   {tr.training.time}
                 </Link>
               </td>

@@ -8,8 +8,8 @@ import * as selectors from '../selectors';
 
 export const trainingWatcherSaga = [
   takeLatest(actions.createTraining.toString(), createTraining),
+  takeLatest(actions.fetchTraining.toString(), fetchTraining),
   takeLatest(actions.fetchTrainings.toString(), fetchTrainings),
-  // takeLatest(actions.fetchTraining.toString(), fetchTraining),
 ];
 
 export function* createTraining({payload}) {
@@ -61,6 +61,21 @@ export function* createTrainingRequest({payload}) {
   }
 }
 
+export function* fetchTraining({payload}) {
+  const id = payload;
+  try {
+    const url = yield select(selectors.getTrainingUrl);
+    const config = { params: { id: id } };
+    const response = yield call(callApi, { url: url.replace(/:tid/i, id), config, });
+    
+    const action = actions.fetchTrainingSuccess({ ...response.data });
+    yield put(action);
+  } catch (error) {
+    console.error("Fetch training error: ", error, "action:", createError(error))
+    yield put(actions.fetchTrainingError(createError(error)));
+  }
+}
+
 export function* fetchTrainings({ payload: { requestParams } }) {
   try {
     const url = yield select(selectors.getTrainingsUrl);
@@ -74,6 +89,7 @@ export function* fetchTrainings({ payload: { requestParams } }) {
     // console.log("fetchTrainings success action:", action);
     yield put(action);
   } catch (error) {
+    // console.log("Error action:", createError(error))
     yield put(actions.fetchTrainingsError(createError(error)));
   }
 }
