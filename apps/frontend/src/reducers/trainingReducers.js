@@ -1,5 +1,5 @@
 import { handleActions, combineActions } from 'redux-actions';
-import { handleRequest, handleRequestSuccess, handlePageableRequestSuccess, handleRequestError } from './reducerFactories';
+import { handleRequest, handleRequestSuccess, handlePageableRequestSuccess, handleRequestError, handleRequestPageableError } from './reducerFactories';
 import * as actions from '../actions/trainingActions';
 import initialState from './initialState';
 
@@ -12,7 +12,7 @@ export const trainingReducer = handleActions({
 export const trainingsReducer = handleActions({
   [ combineActions(actions.fetchTrainings) ]: handleRequest,
   [ combineActions(actions.fetchTrainingsSuccess) ]: handlePageableRequestSuccess,
-  [ combineActions(actions.fetchTrainingsError) ]: handleRequestError
+  [ combineActions(actions.fetchTrainingsError) ]: handleRequestPageableError
 }, initialState.trainings);
 
 export const trainingElementReducer = handleActions({
@@ -24,5 +24,5 @@ export const trainingElementReducer = handleActions({
 export const trainingElementsReducer = handleActions({
   [ combineActions(actions.fetchTrainingElements) ]: handleRequest,
   [ combineActions(actions.fetchTrainingElementsSuccess) ]: handlePageableRequestSuccess,
-  [ combineActions(actions.fetchTrainingElementsError) ]: handleRequestError
+  [ combineActions(actions.fetchTrainingElementsError) ]: handleRequestPageableError
 }, initialState.trainingElements);

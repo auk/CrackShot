@@ -86,66 +86,85 @@ class TrainingPage extends React.Component {
               } */}
 
               <div id="vertical-timeline" class="vertical-container light-timeline no-margins">
-                        <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon navy-bg">
-                                <i class="fa fa-hand-o-right"></i>
+                          <div className="vertical-timeline-block">
+                            <div className="vertical-timeline-icon blue-bg">
+                                <i className="fa fa-plus"></i>
                             </div>
 
-                            <div class="vertical-timeline-content">
-                                <h2>Stage 4</h2>
-                                <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.
-                                </p>
-                                <a href="#" class="btn btn-sm btn-primary"> More info</a>
-                                    <span class="vertical-date">
-                                        Today <br/>
-                                        <small>Dec 24</small>
-                                    </span>
-                            </div>
-                        </div>
-
-                        <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon blue-bg">
-                                <i class="fa fa-wheelchair-alt"></i>
-                            </div>
-
-                            <div class="vertical-timeline-content">
-                                <h2>Stage 3</h2>
-                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.</p>
-                                <a href="#" class="btn btn-sm btn-success"> Download document </a>
-                                    <span class="vertical-date">
-                                        Today <br/>
-                                        <small>Dec 24</small>
-                                    </span>
-                            </div>
-                        </div>
-
-                        <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon lazur-bg">
-                                <i class="fa fa-rocket"></i>
-                            </div>
-
-                            <div class="vertical-timeline-content">
-                                <h2>Stage 2</h2>
-                                <p>Go to shop and find some products. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's. </p>
-                                <a href="#" class="btn btn-sm btn-info">Read more</a>
-                                <span class="vertical-date"> Yesterday <br/><small>Dec 23</small></span>
+                            <div className="vertical-timeline-content">
+                              <div className="row">
+                                <div className="col-xs-8 col-sm-8 col-md-8">
+                                  <h2>Create</h2>
+                                </div>
+                                <div className="col-xs-4 col-sm-4 col-md-4">
+                                  <a href="#" class="btn btn-success"><i className="fa fa-plus"></i> Create</a>
+                                </div>
+                              </div>
+                              {/* <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.</p> */}
                             </div>
                         </div>
 
                         <div class="vertical-timeline-block">
                             <div class="vertical-timeline-icon yellow-bg">
+                                <i class="fa fa-hand-o-right"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                <h2>Stage 4</h2>
+                                <span className="vertical-date">
+                                <p>Targets - 5: paper - 3, steel plates - 2 </p>
+                                  <small>Shoots: 24</small>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon gray-bg">
+                                <i class="fa fa-wheelchair-alt"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                <h2>Stage 3</h2>
+                                <p>Targets - 5: paper - 3, steel plates - 2 </p>
+                                <span className="vertical-date">
+                                  <small>Shoots: 24</small>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon white-bg">
+                                <i class="fa fa-rocket"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                <h2>Stage 2</h2>
+                                <p>Targets - 5: paper - 3, steel plates - 2 </p>
+                                <span className="vertical-date">
+                                  <small>Shoots: 24</small>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon white-bg">
                                 <i class="fa fa-phone"></i>
                             </div>
 
                             <div class="vertical-timeline-content">
                                 <h2>Stage 1</h2>
-                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui ut.</p>
-                                <span class="vertical-date">Yesterday <br/><small>Dec 23</small></span>
+                                <p>Targets - 5: paper - 3, steel plates - 2 </p>
+                                <span className="vertical-date">
+                                  <small>Shoots: 24</small>
+                                </span>
                             </div>
                         </div>
                     </div>
               </div>
               <div className="col-md-3">
+                <h2>Details</h2>
+                <br/>
+
                 <Page.ContainerWrap>
                   <Page.Container>
                     <Page.Header><h5>Training info</h5></Page.Header>

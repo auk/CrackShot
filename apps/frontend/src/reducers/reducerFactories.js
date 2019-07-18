@@ -11,6 +11,13 @@ export const handleRequestSuccess = (state, action) => ({
   error: null
 });
 
+export const handleRequestError = (state, error) => ({
+  ...state,
+  isFetching: false,
+  content: {},
+  error: error.payload
+});
+
 export const handlePageableRequestSuccess = (state, action) => ({ 
   ...state,
   isFetching: false,
@@ -19,9 +26,9 @@ export const handlePageableRequestSuccess = (state, action) => ({
   error: null
 });
 
-export const handleRequestError = (state, error) => ({
+export const handleRequestPageableError = (state, error) => ({
   ...state,
   isFetching: false,
-  content: {},
+  content: [],
   error: error.payload
 });

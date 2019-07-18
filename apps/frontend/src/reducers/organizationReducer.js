@@ -1,12 +1,12 @@
 import { handleActions, combineActions } from 'redux-actions';
-import { handleRequest, handleRequestSuccess, handlePageableRequestSuccess, handleRequestError } from './reducerFactories';
+import { handleRequest, handleRequestSuccess, handlePageableRequestSuccess, handleRequestError, handleRequestPageableError } from './reducerFactories';
 import * as actions from '../actions/organizationActions';
 import initialState from '../reducers/initialState';
 
 export const organizationsReducer = handleActions({
   [ combineActions(actions.fetchOrganizations) ]: handleRequest,
   [ combineActions(actions.fetchOrganizationsSuccess) ]: handlePageableRequestSuccess,
-  [ combineActions(actions.fetchOrganizationsError) ]: handleRequestError
+  [ combineActions(actions.fetchOrganizationsError) ]: handleRequestPageableError
 }, initialState.organizations);
 
 export const organizationReducer = handleActions({
