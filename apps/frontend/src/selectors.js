@@ -28,7 +28,7 @@ export const getOrganizationsSelector = state => state.organizations;
 export const getOrganizationSelector = state => state.organization.content;
 export const getOrganizationsOptionsSelector = createSelector(
   getOrganizationsSelector,
-  organizations => organizations.content.map(organization => ({ label: organization.name, value: organization.id })));
+  organizations => organizations.content ? organizations.content.map(organization => ({ label: organization.name, value: organization.id })): {});
 
 // Training
 
@@ -50,7 +50,7 @@ export const getTrainingElementsRequestParams = state => state.trainingElements.
 export const getTrainingElementsSelector = state => state.trainingElements;
 export const getTrainingElementsOptionsSelector = createSelector(
   getTrainingElementsSelector,
-  elements => elements.content.map(element => trainingElementToOptionSelector(element)));
+  elements => elements.content ? elements.content.map(element => trainingElementToOptionSelector(element)) : {});
 export const getTrainingElementsUrl = state => state.config.links.trainingElements.api.get;
 
 // Users
@@ -65,11 +65,11 @@ export const getUserTrainingsUrl = state => state.config.links.userTrainings.api
 export const getUserTrainingsSelector = state => state.user.trainings;
 export const updateUserUrl = state => state.config.links.user.api.update;
 export const getUserDisplayNameSelector = user => user.name ? user.name : user.username;
-export const userToOptionSelector = user => ({ label: user.name || user.username || user.email, value: user.id });
+export const userToOptionSelector = user => user ? ({ label: user.name || user.username || user.email, value: user.id }) : ({});
 
 export const getUsersUrl = state => state.config.links.users.api.get;
 export const getUsersParams = state => state.users.requestParams;
 export const getUsersSelector = state => state.users;
 export const getUsersOptionsSelector = createSelector(
   getUsersSelector,
-  organizations => organizations.content.map(user => userToOptionSelector(user)));
+  organizations => organizations.content ? organizations.content.map(user => userToOptionSelector(user)) : {});
