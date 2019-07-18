@@ -71,7 +71,7 @@ describe('Organizations reducer', () => {
     const action = actions.fetchOrganizationsError(payload);
     expect(isFSA(action)).toBeTruthy()
 
-    expect(organizationsReducer({}, action)).toEqual({ content: {}, error: payload, isFetching: false });
+    expect(organizationsReducer({}, action)).toEqual({ content: [], error: payload, isFetching: false });
   })
 
 })
