@@ -132,20 +132,22 @@ class HomePage extends React.Component {
                 <div className="profile-image">
                     <img src={userAuthIcon} className="rounded-circle circle-border m-b-md" alt="profile"/>
                 </div>
-                <div className="profile-info">
-                    <div className="">
-                        <div>
-                            <h2 className="no-margins">
-                                {currentUser.name}
-                            </h2>
-                            <h4>{currentUser.email}</h4>
-                            <small>
-                                There are many variations of passages of Lorem Ipsum available, but the majority
-                                have suffered alteration in some form Ipsum available.
-                            </small>
-                        </div>
-                    </div>
+                { currentUser && 
+                  <div className="profile-info">
+                  <div className="">
+                      <div>
+                          <h2 className="no-margins">
+                              {currentUser.name}
+                          </h2>
+                          <h4>{currentUser.email}</h4>
+                          <small>
+                              There are many variations of passages of Lorem Ipsum available, but the majority
+                              have suffered alteration in some form Ipsum available.
+                          </small>
+                      </div>
+                  </div>
                 </div>
+              }
             </div>
             <div className="col-md-3">
                 <table className="table small m-b-xs">

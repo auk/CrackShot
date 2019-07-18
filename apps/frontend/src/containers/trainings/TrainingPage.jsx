@@ -64,11 +64,13 @@ class TrainingPage extends React.Component {
           { training && 
             <div className="row m-b-lg m-t-lg">
               <div className="col-md-9">
-              { training && 
+              <h2>Stages</h2>
+              <br/>
+              {/* { training && 
                 <Page.ContainerRow>
                   <Page.Container size="col-md-12">
                     <Page.Header>
-                      <h5>{formatMessage(commonMessages.participants)}</h5>
+                      <h5>Stages</h5>
                       <Page.Tools>
                         <span className="input-group-btn">
                           <button type="button" className='btn btn-primary btn-xs active' onClick={this.handleCreateElement}>
@@ -78,19 +80,70 @@ class TrainingPage extends React.Component {
                       </Page.Tools>
                     </Page.Header>
                     <Page.Content>
-                      <TrainingParticipantsEditList
-                        data={trainingElements}
-                        links={links}
-                        onClick={this.onElementClick}
-                        onDelete={this.handleDeleteElement}
-                        onEdit = {this.handleEditElement}
-                        onSizeChange={this.onSizeChange}
-                        onPageChange={this.onPageChange}
-                        onSortChange={this.onSortChange}/>
-                    </Page.Content>
+                    </Page.Content> 
                   </Page.Container>
                 </Page.ContainerRow>
-              }
+              } */}
+
+              <div id="vertical-timeline" class="vertical-container light-timeline no-margins">
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-hand-o-right"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                <h2>Stage 4</h2>
+                                <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.
+                                </p>
+                                <a href="#" class="btn btn-sm btn-primary"> More info</a>
+                                    <span class="vertical-date">
+                                        Today <br/>
+                                        <small>Dec 24</small>
+                                    </span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon blue-bg">
+                                <i class="fa fa-wheelchair-alt"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                <h2>Stage 3</h2>
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.</p>
+                                <a href="#" class="btn btn-sm btn-success"> Download document </a>
+                                    <span class="vertical-date">
+                                        Today <br/>
+                                        <small>Dec 24</small>
+                                    </span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon lazur-bg">
+                                <i class="fa fa-rocket"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                <h2>Stage 2</h2>
+                                <p>Go to shop and find some products. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's. </p>
+                                <a href="#" class="btn btn-sm btn-info">Read more</a>
+                                <span class="vertical-date"> Yesterday <br/><small>Dec 23</small></span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon yellow-bg">
+                                <i class="fa fa-phone"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                <h2>Stage 1</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui ut.</p>
+                                <span class="vertical-date">Yesterday <br/><small>Dec 23</small></span>
+                            </div>
+                        </div>
+                    </div>
               </div>
               <div className="col-md-3">
                 <Page.ContainerWrap>
