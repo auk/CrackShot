@@ -17,6 +17,7 @@ import { fetchOrganizations } from 'actions/organizationActions';
 import { createTraining, createTrainingElement, fetchTrainings, fetchTrainingElements } from 'actions/trainingActions';
 import { fetchUsers } from 'actions/userActions';
 import TrainingsList from 'components/training/TrainingsList';
+import TrainingStageForm from 'components/training/TrainingStageForm';
 import userAuthIcon from 'assets/img/profile.jpg';
 import moment from 'moment';
 
@@ -213,6 +214,8 @@ class HomePage extends React.Component {
             </div>
             
             <div className="col-md-6">
+              <TrainingStageForm
+                trainingElements={trainingElementsOptions}/>
             </div>
           </Page.ContainerRow>
         </Page>

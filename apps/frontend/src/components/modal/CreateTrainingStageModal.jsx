@@ -3,25 +3,26 @@ import { connect } from 'react-redux';
 import { Modal } from 'react-bootstrap';
 import { FormattedMessage} from 'react-intl';
 
-import TrainingForm from 'components/training/TrainingForm';
+import TrainingStageForm from 'components/training/TrainingStageForm';
 
 import { hideModal } from 'actions/modalActions';
-import { createTraining } from 'actions/trainingActions';
+import { createTrainingElement } from 'actions/trainingActions';
 import { defaultMessage } from 'i18n/defineMessages';
 
 const messages = defaultMessage.training;
 
-const CreateTrainingModal = (props) => {
+const CreateTrainingStageModal = (props) => {
   const { submitText, resetText, dispatch } = props;
-  const { elements, organizations, users, initialValues } = props;
-  // const { user } = props;
+  const { training, trainingElements, initialValues } = props;
 
   const handleSubmit = data => {
-    // console.log("CreateTrainingModal - data:", data);
-    // console.log("CreateTrainingModal - time: ", data.time, ', time parsed: ', data.time.format('HH:mm'))
-    dispatch(createTraining(data));
+    console.log("CreateTrainingStageModal - data:", data);
+    dispatch(createTrainingElement(data));
     dispatch(hideModal());
   }
+
+  console.log("Training:", training);
+  console.log("Training elements:", trainingElements);
 
   return (
     <Modal show={true} onHide={() => dispatch(hideModal())}>
@@ -31,13 +32,12 @@ const CreateTrainingModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <TrainingForm
+        <TrainingStageForm
           onSubmit={handleSubmit} 
           resetBtnText={resetText}
           submitBtnText={submitText}
-          elements={elements}
-          organizations={organizations}
-          users={users}
+          training={training}
+          trainingElements={trainingElements}
           initialValues={initialValues}
           />
       </Modal.Body>
@@ -53,4 +53,4 @@ export default connect(
     //   return { name: "required" };
     // }
   })
-)(CreateTrainingModal)
+)(CreateTrainingStageModal)

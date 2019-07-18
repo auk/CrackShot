@@ -26,3 +26,9 @@ export const trainingElementsReducer = handleActions({
   [ combineActions(actions.fetchTrainingElementsSuccess) ]: handlePageableRequestSuccess,
   [ combineActions(actions.fetchTrainingElementsError) ]: handleRequestPageableError
 }, initialState.trainingElements);
+
+export const trainingStageReducer = handleActions({
+  [ combineActions(actions.createTrainingStage, actions.fetchTrainingStage, actions.deleteTrainingStage, actions.fetchTrainingStage) ]: handleRequest,
+  [ combineActions(actions.createTrainingStageSuccess, actions.fetchTrainingStageSuccess, actions.deleteTrainingStageSuccess, actions.fetchTrainingStageSuccess) ]: handleRequestSuccess,
+  [ combineActions(actions.createTrainingStageError, actions.fetchTrainingStageError, actions.deleteTrainingStageError, actions.fetchTrainingStageError) ]: handleRequestError
+}, initialState.training.stage);

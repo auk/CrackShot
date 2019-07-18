@@ -11,4 +11,9 @@ export const { deleteTrainingElement, deleteTrainingElementSuccess, deleteTraini
 export const { fetchTrainingElement, fetchTrainingElementSuccess, fetchTrainingElementError } = createSimpleActions('FETCH_TRAINING_ELEMENT');
 export const { updateTrainingElement, updateTrainingElementSuccess, updateTrainingElementError } = createSimpleActions('UPDATE_TRAINING_ELEMENT');
 
+export const { createTrainingStage, createTrainingStageSuccess, createTrainingStageError } = createSimpleActions('CREATE_TRAINING_STAGE');
+export const { deleteTrainingStage, deleteTrainingStageSuccess, deleteTrainingStageError } = createSimpleActions('DELETE_TRAINING_STAGE');
+export const { fetchTrainingStage, fetchTrainingStageSuccess, fetchTrainingStageError } = createSimpleActions('FETCH_TRAINING_STAGE');
+export const { updateTrainingStage, updateTrainingStageSuccess, updateTrainingStageError } = createSimpleActions('UPDATE_TRAINING_STAGE');
+
 export const { fetchTrainingElements, fetchTrainingElementsSuccess, fetchTrainingElementsError } = createRequestParamsActions('FETCH_TRAINING_ELEMENTS');

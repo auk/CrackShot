@@ -6,7 +6,7 @@ import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import Page from 'components/common/pageTemplate/Page';
 import WithLayout from 'containers/layouts/WithLayout';
 import { defaultMessage } from 'i18n/defineMessages';
-import { getLinksSelector, getTrainingSelector, getTrainingElementsSelector } from 'selectors';
+import { getLinksSelector, getTrainingSelector, getTrainingElementsSelector, getTrainingElementsOptionsSelector } from 'selectors';
 import { fetchTraining, fetchTrainingElements } from 'actions/trainingActions';
 import { showModal } from 'actions/modalActions';
 import TrainingParticipantsEditList from 'components/training/TrainingParticipantsEditList'
@@ -20,7 +20,7 @@ const pageMessages = defaultMessage.pages.training;
 class TrainingPage extends React.Component {
 
   componentDidMount() {
-    const { fetchTraining, fetchTrainingElements, trainingElements: { requestParams }, match: { params } } = this.props;
+    const { fetchTraining, fetchTrainingElements, trainingElementsState: { requestParams }, match: { params } } = this.props;
     fetchTraining(params.tid);
     fetchTrainingElements(requestParams);
   }
@@ -32,8 +32,32 @@ class TrainingPage extends React.Component {
     return ''
   }
 
+  handleCreateTrainingStageModal = e => {
+    e.preventDefault();
+
+    const { trainingState, trainingElementsOptions } = this.props;
+
+    console.log("Training:", trainingState);
+    console.log("Training elements:", trainingElementsOptions);
+
+    const modal = {
+      modalType: 'CREATE_TRAINING_STAGE',
+      modalProps: {
+        resetText: this.props.intl.formatMessage(commonMessages.reset),
+        submitText: this.props.intl.formatMessage(commonMessages.create),
+        training: trainingState.content,
+        trainingElements: trainingElementsOptions,
+        initialValues: {
+          training: this.getTrainingTime(trainingState.content)
+          // user: selectedUsersOptions,
+        }
+      }
+    };
+    this.props.showModal(modal);
+  }
+
   render() {
-    const { trainingState, trainingElements, links, intl: { formatMessage } } = this.props;
+    const { trainingState, trainingElementsState, links, intl: { formatMessage } } = this.props;
     // const { handleCreateElement, onSizeChange, onSortChange, onPageChange } = this.props;
 
     const training = trainingState.content;
@@ -59,7 +83,7 @@ class TrainingPage extends React.Component {
         <Breadcrumbs header={{ ...pageMessages.title, values: { time }}} crumbs={crumbs} values={time}/>
         <Page title={title}>
           {trainingState.error && <Page.Error error={trainingState.error} />}
-          {trainingElements.error && <Page.Error error={trainingElements.error} />}
+          {trainingElementsState.error && <Page.Error error={trainingElementsState.error} />}
 
           { training && 
             <div className="row m-b-lg m-t-lg">
@@ -97,7 +121,7 @@ class TrainingPage extends React.Component {
                                   <h2>Create</h2>
                                 </div>
                                 <div className="col-xs-4 col-sm-4 col-md-4">
-                                  <a href="#" class="btn btn-success"><i className="fa fa-plus"></i> Create</a>
+                                  <a href="#" class="btn btn-success" onClick={this.handleCreateTrainingStageModal}><i className="fa fa-plus"></i> Create</a>
                                 </div>
                               </div>
                               {/* <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.</p> */}
@@ -178,7 +202,7 @@ class TrainingPage extends React.Component {
 
                 <TrainingElementsList
                   data={training.trainingElements}
-                  trainingElements={trainingElements.content}/>
+                  trainingElements={trainingElementsState.content}/>
 
                 <TrainingParticipantsList
                   data={training.users}/>  
@@ -194,8 +218,9 @@ class TrainingPage extends React.Component {
 TrainingPage.propTypes = {
   intl: intlShape.isRequired,
   links: PropTypes.object.isRequired,
-  training: PropTypes.object.isRequired,
-  trainingElements: PropTypes.object.isRequired,
+  trainingState: PropTypes.object.isRequired,
+  trainingElementsOptions: PropTypes.array.isRequired,
+  trainingElementsState: PropTypes.object.isRequired,
   fetchTrainingElements: PropTypes.func.isRequired
 }
 
@@ -203,13 +228,14 @@ function mapStateToProps(state) {
   return {
     links: getLinksSelector(state),
     trainingState: getTrainingSelector(state),
-    trainingElements: getTrainingElementsSelector(state),
+    trainingElementsState: getTrainingElementsSelector(state),
+    trainingElementsOptions: getTrainingElementsOptionsSelector(state),
+
   };
 }
 
 const mapDispatchToProps = {
   fetchTraining,
-  // fetchTrainingElement,
   fetchTrainingElements,
   showModal
 }

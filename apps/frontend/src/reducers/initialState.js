@@ -74,9 +74,13 @@ export default {
     modalProps: {},
   },
   locale: initializeLocale(),
-  organizations: defaultPageableState, 
   organization: defaultObjectState,
-  training: defaultObjectState,
+  organizations: defaultPageableState, 
+  training: {
+    ...defaultObjectState,
+    stage: defaultObjectState,
+    stages: defaultPageableState
+  },
   trainings: defaultPageableState,
   trainingElement: defaultObjectState,
   trainingElements: defaultPageableState,
@@ -84,6 +88,5 @@ export default {
     ...defaultObjectState,
     trainings: defaultPageableState
   },
-  // userTrainings: defaultPageableState,
   users: defaultPageableState,
 }
