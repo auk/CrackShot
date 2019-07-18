@@ -24,7 +24,7 @@ export const createRoutes = (history, links, AdminPermission, UserPermission) =>
     <Route exact path={links.login.url} component={LoginPage} />
     <Route exact path={links.organization.url} component={UserPermission(OrganizationPage)} />
     <Route exact path={links.organizations.url} component={AdminPermission(OrganizationsPage)} />
-    <Route exact path={links.training.url} component={AdminPermission(TrainingPage)} />
+    <Route exact path={links.training.url} component={UserPermission(TrainingPage)} />
     <Route exact path={links.trainingElements.url} component={AdminPermission(TrainingElementsPage)} />
     <Route exact path={links.user.url} component={AdminPermission(UserPage)} />
     <Route exact path={links.users.url} component={AdminPermission(UsersPage)} />
