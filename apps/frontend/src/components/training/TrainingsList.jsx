@@ -85,7 +85,7 @@ const TrainingsList = props => {
                 </Link>
               </td>
               <td className="col-md-2 col-sm-2 text-center">
-                <div title={tr.users.map(u => u.name ? u.name : u.username).join("\r\n")}>{tr.users.length}</div>
+                <div title={tr.participants.map(u => u.user ? u.user.name : u.user.username).join("\r\n")}>{tr.participants.length}</div>
               </td>
               <td className="col-md-2 col-sm-2 text-center">
                 <div title={tr.trainingElements.map(id => getTrainingElementName(id)).join("\r\n")}>{tr.trainingElements.length}</div>
