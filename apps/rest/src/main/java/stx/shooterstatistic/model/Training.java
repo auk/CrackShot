@@ -1,14 +1,20 @@
 package stx.shooterstatistic.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.*;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Entity
@@ -22,11 +28,15 @@ public class Training extends AbstractEntity {
   LocalTime time;
 
   @OneToMany(mappedBy = "training")
-  @JsonIgnore
+  @JsonIgnoreProperties("training")
   List<TrainingParticipant> participants = new ArrayList<>();
 
   @ElementCollection
   List<String> trainingElements = new ArrayList<>();
+
+  @OneToMany(mappedBy = "training")
+  @JsonIgnoreProperties("training")
+  List<Stage> stages = new ArrayList<>();
 
   public Training() {} // jpa
 
@@ -79,11 +89,12 @@ public class Training extends AbstractEntity {
     this.trainingElements = trainingElements;
   }
 
-  @JsonProperty(value = "users")
-  public List<User> getParticipantUsers() {
-    if (participants == null)
-      return Collections.emptyList();
-    return participants.stream().map(TrainingParticipant::getUser).collect(Collectors.toList());
+  public List<Stage> getStages() {
+    return stages;
+  }
+
+  public void setStages(List<Stage> stages) {
+    this.stages = stages;
   }
 
   @Override

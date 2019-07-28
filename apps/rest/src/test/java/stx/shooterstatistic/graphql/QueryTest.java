@@ -56,7 +56,7 @@ public class QueryTest {
   public void initData() {
     user1 = user1 == null ? userService.createUser(UUID.randomUUID().toString()) : user1;
     user2 = user2 == null ? userService.createUser(UUID.randomUUID().toString()) : user2;
-    adminUser = adminUser == null ? userService.findUserByEmail(testUtils.getGlobalAdminEmail()).orElseGet(() -> testUtils.createAdminUser()) : adminUser;
+    adminUser = adminUser == null ? userService.findUserByEmail(testUtils.getGlobalAdminEmail()).orElseGet(() -> testUtils.createGlobalAdminUser()) : adminUser;
 
     org1 = organizationService.createOrganization(user1, "Org 1");
     org2 = organizationService.createOrganization(user2, "Org 2");

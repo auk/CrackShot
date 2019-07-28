@@ -35,7 +35,7 @@ public class UserServiceTest {
     Assert.assertNotNull(user);
     Assert.assertTrue(userService.findUserByEmail(EMAIL).isPresent());
 
-    User adminUser = testUtils.createAdminUser();
+    User adminUser = testUtils.createGlobalAdminUser();
     SecurityContext securityContext = securityService.createContext(adminUser);
 
     // when

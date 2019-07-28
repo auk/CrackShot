@@ -48,7 +48,7 @@ public class OrganizationServiceTest {
 
   @Before
   public void initData() {
-    adminUser = userService.findUserByEmail(adminEmail).orElseGet(() -> testUtils.createAdminUser());
+    adminUser = userService.findUserByEmail(adminEmail).orElseGet(() -> testUtils.createGlobalAdminUser());
   }
 
   @After

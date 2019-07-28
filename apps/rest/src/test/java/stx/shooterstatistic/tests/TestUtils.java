@@ -18,7 +18,7 @@ public class TestUtils {
 
   final String adminEmail = "admin@startext.ru", fakeUsername = "fake@startext.ru";
 
-  public User createAdminUser() {
+  public User createGlobalAdminUser() {
     User user = userService.createUser("test-admin", adminEmail);
     user.setRoles(Collections.singletonList(globalAdminRole));
     return user;
@@ -26,5 +26,9 @@ public class TestUtils {
 
   public String getGlobalAdminEmail() {
     return adminEmail;
+  }
+
+  public User getGlobalAdminUser() {
+    return userService.findUserByEmail(getGlobalAdminEmail()).orElseGet(() -> createGlobalAdminUser());
   }
 }

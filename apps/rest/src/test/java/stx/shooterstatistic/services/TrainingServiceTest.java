@@ -59,7 +59,7 @@ public class TrainingServiceTest {
     organizationRepository.deleteAll();
     userRepository.deleteAll();
 
-    adminUser = userService.findUserByEmail(adminEmail).orElseGet(() -> testUtils.createAdminUser());
+    adminUser = testUtils.getGlobalAdminUser();
     fakeUser = userService.findUserByEmail(fakeEmail).orElseGet(() -> userService.createUser("test-fake", fakeEmail));
     users = new ArrayList<User>() {{
       add(userService.createUser("User 1"));
