@@ -47,14 +47,13 @@ public class TrainingControllerTest {
 
   @Autowired UserService userService;
   private User adminUser;
-
-  private final static String adminUsername = "admin-" + UUID.randomUUID().toString();
-  private final static UsernamePasswordAuthenticationToken adminPrincipal = new UsernamePasswordAuthenticationToken(adminUsername, adminUsername);
+  private UsernamePasswordAuthenticationToken adminPrincipal;
 
   @Before
   public void init() {
     this.mockMvc = webAppContextSetup(webApplicationContext).build();
     this.adminUser = testUtils.getGlobalAdminUser();
+    this.adminPrincipal = new UsernamePasswordAuthenticationToken(adminUser.getUsername(), "fake-password");
   }
 
   @Test
