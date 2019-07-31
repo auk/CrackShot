@@ -10,6 +10,7 @@ export const trainingWatcherSaga = [
   takeLatest(actions.createTraining.toString(), createTraining),
   takeLatest(actions.fetchTraining.toString(), fetchTraining),
   takeLatest(actions.fetchTrainings.toString(), fetchTrainings),
+  takeLatest(actions.fetchTrainingStages.toString(), fetchTrainingStages),
 ];
 
 export function* createTraining({payload}) {
@@ -91,5 +92,27 @@ export function* fetchTrainings({ payload: { requestParams } }) {
   } catch (error) {
     // console.log("Error action:", createError(error))
     yield put(actions.fetchTrainingsError(createError(error)));
+  }
+}
+
+export function* fetchTrainingStages({ payload }) {
+  const id = payload;
+
+  console.log("fetchTrainingStages: {}", payload.requestParams);
+
+  try {
+    const url = yield select(selectors.getTrainingStagesUrl);
+    console.log('fetchTrainingStages requestParams:', payload.requestParams);
+
+    const config = { method: 'GET', params: { ...payload.requestParams } };
+    const response = yield call(callApi, { url: url.replace(/:tid/i, id), config, });
+    console.log('fetchTrainingStages: response=', response.data);
+    
+    const action = actions.fetchTrainingStagesSuccess({ ...response.data, requestParams: payload.requestParams });
+    // console.log("fetchTrainingStages success action:", action);
+    yield put(action);
+  } catch (error) {
+    // console.log("Error action:", createError(error))
+    yield put(actions.fetchTrainingStagesError(createError(error)));
   }
 }

@@ -53,6 +53,10 @@ export const getTrainingElementsOptionsSelector = createSelector(
   elements => elements.content ? elements.content.map(element => trainingElementToOptionSelector(element)) : {});
 export const getTrainingElementsUrl = state => state.config.links.trainingElements.api.get;
 
+// Training stages
+
+export const getTrainingStagesUrl = state => state.config.links.trainingStages.api.get;
+
 // Users
 export const getCurrentUserUrl = state => state.config.links.currentUser.api.get;
 export const getCurrentUserTrainingsUrl = state => state.config.links.currentUserTrainings.api.get;

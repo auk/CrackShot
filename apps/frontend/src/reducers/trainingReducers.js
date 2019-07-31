@@ -32,3 +32,9 @@ export const trainingStageReducer = handleActions({
   [ combineActions(actions.createTrainingStageSuccess, actions.fetchTrainingStageSuccess, actions.deleteTrainingStageSuccess, actions.fetchTrainingStageSuccess) ]: handleRequestSuccess,
   [ combineActions(actions.createTrainingStageError, actions.fetchTrainingStageError, actions.deleteTrainingStageError, actions.fetchTrainingStageError) ]: handleRequestError
 }, initialState.training.stage);
+
+export const trainingStagesReducer = handleActions({
+  [ combineActions(actions.fetchTrainingStages) ]: handleRequest,
+  [ combineActions(actions.fetchTrainingStagesSuccess) ]: handleRequestSuccess,
+  [ combineActions(actions.fetchTrainingStagesError) ]: handleRequestError
+}, initialState.training.stages);

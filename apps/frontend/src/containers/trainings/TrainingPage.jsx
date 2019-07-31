@@ -7,7 +7,7 @@ import Page from 'components/common/pageTemplate/Page';
 import WithLayout from 'containers/layouts/WithLayout';
 import { defaultMessage } from 'i18n/defineMessages';
 import { getLinksSelector, getTrainingSelector, getTrainingElementsSelector, getTrainingElementsOptionsSelector } from 'selectors';
-import { fetchTraining, fetchTrainingElements } from 'actions/trainingActions';
+import { fetchTraining, fetchTrainingElements, fetchTrainingStages } from 'actions/trainingActions';
 import { showModal } from 'actions/modalActions';
 import TrainingParticipantsEditList from 'components/training/TrainingParticipantsEditList'
 import TrainingElementsList from 'components/training/TrainingElementsList';
@@ -20,9 +20,10 @@ const pageMessages = defaultMessage.pages.training;
 class TrainingPage extends React.Component {
 
   componentDidMount() {
-    const { fetchTraining, fetchTrainingElements, trainingElementsState: { requestParams }, match: { params } } = this.props;
+    const { fetchTraining, fetchTrainingElements, fetchTrainingStages, trainingElementsState: { requestParams }, match: { params } } = this.props;
     fetchTraining(params.tid);
     fetchTrainingElements(requestParams);
+    fetchTrainingStages(params.tid, requestParams);
   }
 
   getTrainingTime(training) {
@@ -230,13 +231,13 @@ function mapStateToProps(state) {
     trainingState: getTrainingSelector(state),
     trainingElementsState: getTrainingElementsSelector(state),
     trainingElementsOptions: getTrainingElementsOptionsSelector(state),
-
   };
 }
 
 const mapDispatchToProps = {
   fetchTraining,
   fetchTrainingElements,
+  fetchTrainingStages,
   showModal
 }
 
