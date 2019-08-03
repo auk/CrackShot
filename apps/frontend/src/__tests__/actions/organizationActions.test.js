@@ -1,6 +1,5 @@
 import * as actions from '../../actions/organizationActions';
 import { isFSA } from 'flux-standard-action';
-// import { createAction, createActions } from 'redux-actions';
 
 describe('Organizations actions', () => {
   describe('Get organizations', () => {

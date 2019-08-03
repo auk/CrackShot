@@ -93,10 +93,10 @@ function getBrowserLanguage() {
 
 export const createError = (ex) => {
   if (ex && ex instanceof TypeError) {
-    return { message: ex.message };
+    return { message: ex.message, error: true };
   }
   if (ex && ex.response && ex.response.data) {
-    return Array.isArray(ex.response.data) ? {...ex.response.data[0]} : {...ex.response.data};
+    return Array.isArray(ex.response.data) ? { ...ex.response.data[0], error: true } : { ...ex.response.data, error: true };
   }
   // console.log("Create error:", ex, ", json:", JSON.stringify(ex));
   return ex;

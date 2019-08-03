@@ -40,12 +40,12 @@ public class TrainingControllerTest {
   private final static Logger log = LoggerFactory.getLogger(TrainingControllerTest.class);
   private final static MediaType contentType_JSON = MediaType.valueOf("application/json;charset=UTF-8");
 
-  @Autowired ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
   @Autowired private WebApplicationContext webApplicationContext;
   @Autowired private TestUtils testUtils;
-  private MockMvc mockMvc;
+  @Autowired private UserService userService;
 
-  @Autowired UserService userService;
+  private MockMvc mockMvc;
   private User adminUser;
   private UsernamePasswordAuthenticationToken adminPrincipal;
 

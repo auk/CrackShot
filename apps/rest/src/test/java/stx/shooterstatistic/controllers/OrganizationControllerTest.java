@@ -19,6 +19,7 @@ import org.springframework.web.context.WebApplicationContext;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.User;
 import stx.shooterstatistic.services.UserService;
+import stx.shooterstatistic.tests.TestUtils;
 
 import java.util.UUID;
 
@@ -35,31 +36,22 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 public class OrganizationControllerTest {
 
   private final static Logger log = LoggerFactory.getLogger(OrganizationControllerTest.class);
+  private final static MediaType contentType_JSON = MediaType.valueOf("application/json;charset=UTF-8");
 
-//  private MediaType contentType_HAL_JSON = MediaType.valueOf("application/hal+json;charset=UTF-8");
-  private MediaType contentType_JSON = MediaType.valueOf("application/json;charset=UTF-8");
-
-  @Autowired
-  ObjectMapper objectMapper;
-
-  @Autowired
-  private WebApplicationContext webApplicationContext;
-
-  @Autowired
-  UserService userService;
-
-  private final static String adminUsername = "admin-" + UUID.randomUUID().toString();
-  private final static String adminEmail = adminUsername + "@email";
-  private final static UsernamePasswordAuthenticationToken adminPrincipal = new UsernamePasswordAuthenticationToken(adminUsername, adminUsername);
+  @Autowired private ObjectMapper objectMapper;
+  @Autowired private WebApplicationContext webApplicationContext;
+  @Autowired private TestUtils testUtils;
+  @Autowired private UserService userService;
 
   private User adminUser;
-
+  private UsernamePasswordAuthenticationToken adminPrincipal;
   private MockMvc mockMvc;
 
   @Before
   public void init() {
     this.mockMvc = webAppContextSetup(webApplicationContext).build();
-    this.adminUser = userService.findUserByEmail(adminEmail).orElseGet(() -> userService.createUser(adminUsername, adminEmail));
+    this.adminUser = testUtils.getGlobalAdminUser();
+    this.adminPrincipal = new UsernamePasswordAuthenticationToken(adminUser.getUsername(), "fake-password");
   }
 
   @Test
