@@ -35,7 +35,7 @@
     "react-select": "^2.4.4",
     "redux": "^4.0.4",
     "redux-actions": "^2.6.5",
-    "redux-form": "^8.2.4",
+    "redux-form": "^8.2.5",
     "redux-saga": "^1.0.5",
     "reselect": "^4.0.0",
     "url-search-params-polyfill": "^5.1.0"
