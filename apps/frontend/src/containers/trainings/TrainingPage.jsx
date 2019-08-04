@@ -1,15 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { injectIntl, intlShape } from 'react-intl';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import Page from 'components/common/pageTemplate/Page';
 import WithLayout from 'containers/layouts/WithLayout';
 import { defaultMessage } from 'i18n/defineMessages';
-import { getLinksSelector, getTrainingSelector, getTrainingElementsSelector, getTrainingElementsOptionsSelector } from 'selectors';
+import { getLinksSelector, getTrainingSelector, getTrainingElementsSelector, getTrainingElementsOptionsSelector, getTrainingStagesSelector } from 'selectors';
 import { fetchTraining, fetchTrainingElements, fetchTrainingStages } from 'actions/trainingActions';
 import { showModal } from 'actions/modalActions';
-import TrainingParticipantsEditList from 'components/training/TrainingParticipantsEditList'
 import TrainingElementsList from 'components/training/TrainingElementsList';
 import TrainingParticipantsList from 'components/training/TrainingParticipantsList';
 
@@ -20,10 +19,10 @@ const pageMessages = defaultMessage.pages.training;
 class TrainingPage extends React.Component {
 
   componentDidMount() {
-    const { fetchTraining, fetchTrainingElements, fetchTrainingStages, trainingElementsState: { requestParams }, match: { params } } = this.props;
+    const { fetchTraining, fetchTrainingElements, fetchTrainingStages, trainingElementsState, trainingStagesState, match: { params } } = this.props;
     fetchTraining(params.tid);
-    fetchTrainingElements(requestParams);
-    fetchTrainingStages(params.tid, requestParams);
+    fetchTrainingElements(trainingElementsState.requestParams);
+    fetchTrainingStages(params.tid, trainingStagesState.requestParams);
   }
 
   getTrainingTime(training) {
@@ -49,6 +48,7 @@ class TrainingPage extends React.Component {
         training: trainingState.content,
         trainingElements: trainingElementsOptions,
         initialValues: {
+          tid: trainingState.content.id,
           training: this.getTrainingTime(trainingState.content)
           // user: selectedUsersOptions,
         }
@@ -122,7 +122,9 @@ class TrainingPage extends React.Component {
                                   <h2>Create</h2>
                                 </div>
                                 <div className="col-xs-4 col-sm-4 col-md-4">
-                                  <a href="#" class="btn btn-success" onClick={this.handleCreateTrainingStageModal}><i className="fa fa-plus"></i> Create</a>
+                                  <a href="#" className="btn btn-success" onClick={this.handleCreateTrainingStageModal}>
+                                    <i className="fa fa-plus"></i> Create
+                                  </a>
                                 </div>
                               </div>
                               {/* <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.</p> */}
@@ -231,6 +233,7 @@ function mapStateToProps(state) {
     trainingState: getTrainingSelector(state),
     trainingElementsState: getTrainingElementsSelector(state),
     trainingElementsOptions: getTrainingElementsOptionsSelector(state),
+    trainingStagesState: getTrainingStagesSelector(state)
   };
 }
 

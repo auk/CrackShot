@@ -1,4 +1,4 @@
-import { takeLatest, call, put, select, spawn } from 'redux-saga/effects';
+import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import { callApi } from 'utils/ApiUtils';
 import { createError } from 'utils/utils';
@@ -8,6 +8,7 @@ import * as selectors from '../selectors';
 
 export const trainingWatcherSaga = [
   takeLatest(actions.createTraining.toString(), createTraining),
+  takeLatest(actions.createTrainingStage.toString(), createTrainingStage),
   takeLatest(actions.fetchTraining.toString(), fetchTraining),
   takeLatest(actions.fetchTrainings.toString(), fetchTrainings),
   takeLatest(actions.fetchTrainingStages.toString(), fetchTrainingStages),
@@ -62,6 +63,37 @@ export function* createTrainingRequest({payload}) {
   }
 }
 
+export function* createTrainingStage({ payload }) {
+  console.assert(payload.tid);
+
+  try {
+    const url = yield select(selectors.createTrainingStageUrl);
+    console.log("createTrainingStage - url:", url, ", values: ", payload);
+
+    let params = {
+      tid: payload.tid,
+    };
+    if (payload.element)
+      Object.assign(params, { elems: payload.element.map(u => u.value) });
+      
+    const config = {
+      method: 'POST',
+      params: params
+    }
+    // console.log("config:", config);
+
+    const response = yield call(callApi, {
+      url: url.replace(/:tid/i, payload.tid),
+      config,
+    });
+
+    const action = actions.createTrainingStageSuccess({ ...response.data });
+    yield put(action);
+  } catch (error) {
+    yield put(actions.createTrainingStageError(createError(error)));
+  }
+}
+
 export function* fetchTraining({payload}) {
   const id = payload;
   try {
@@ -96,17 +128,18 @@ export function* fetchTrainings({ payload: { requestParams } }) {
 }
 
 export function* fetchTrainingStages({ payload }) {
-  const id = payload;
+  const id = payload.params;
+  // const pageable = payload.pageable;
 
-  console.log("fetchTrainingStages: {}", payload.requestParams);
+  console.log("fetchTrainingStages: {}", id);
 
   try {
     const url = yield select(selectors.getTrainingStagesUrl);
-    console.log('fetchTrainingStages requestParams:', payload.requestParams);
+    // console.log('fetchTrainingStages requestParams:', payload.requestParams);
 
     const config = { method: 'GET', params: { ...payload.requestParams } };
     const response = yield call(callApi, { url: url.replace(/:tid/i, id), config, });
-    console.log('fetchTrainingStages: response=', response.data);
+    // console.log('fetchTrainingStages: response=', response.data);
     
     const action = actions.fetchTrainingStagesSuccess({ ...response.data, requestParams: payload.requestParams });
     // console.log("fetchTrainingStages success action:", action);

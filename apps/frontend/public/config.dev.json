@@ -101,6 +101,14 @@
         "get": "{REST_URL}/trainingElements"
       }
     },
+    "trainingStage": {
+      "api": {
+        "create": "{REST_URL}/training/:tid/stage",
+        "delete": "{REST_URL}/training/:tid/stage",
+        "get": "{REST_URL}/training/:tid/stage/:sid",
+        "update": "{REST_URL}/training/:tid/stage"
+      }
+    },
     "trainingStages": {
       "api": {
         "get": "{REST_URL}/training/:tid/stages"

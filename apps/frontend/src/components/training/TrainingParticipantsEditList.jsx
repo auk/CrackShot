@@ -14,17 +14,17 @@ const common = defaultMessage.common;
 // const trainingMessage = defaultMessage.training;
 
 const TrainingParticipantsEditList = props => {
-  const { data, links, trainingElements, onSizeChange, onPageChange, onClick, intl: { formatMessage } } = props;
+  const { data, links, onSizeChange, onPageChange, onClick, intl: { formatMessage } } = props;
   const { showActions = true, showOrganizationLink = true, showPaging = true } = props;
 
-  const getTrainingElementById = id => {
-    return trainingElements ? trainingElements.find(te => te.id === id) : undefined;
-  } 
+  // const getTrainingElementById = id => {
+  //   return trainingElements ? trainingElements.find(te => te.id === id) : undefined;
+  // } 
   
-  const getTrainingElementName = id => {
-    const trainingElement = getTrainingElementById(id);
-    return trainingElement ? trainingElement.name : undefined;
-  }
+  // const getTrainingElementName = id => {
+  //   const trainingElement = getTrainingElementById(id);
+  //   return trainingElement ? trainingElement.name : undefined;
+  // }
   
   return (
     <React.Fragment>

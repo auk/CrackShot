@@ -55,7 +55,9 @@ export const getTrainingElementsUrl = state => state.config.links.trainingElemen
 
 // Training stages
 
+export const createTrainingStageUrl = state => state.config.links.trainingStage.api.create;
 export const getTrainingStagesUrl = state => state.config.links.trainingStages.api.get;
+export const getTrainingStagesSelector = state => state.training.stages;
 
 // Users
 export const getCurrentUserUrl = state => state.config.links.currentUser.api.get;

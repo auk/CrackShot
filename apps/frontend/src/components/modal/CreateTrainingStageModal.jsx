@@ -6,7 +6,7 @@ import { FormattedMessage} from 'react-intl';
 import TrainingStageForm from 'components/training/TrainingStageForm';
 
 import { hideModal } from 'actions/modalActions';
-import { createTrainingElement } from 'actions/trainingActions';
+import { createTrainingStage } from 'actions/trainingActions';
 import { defaultMessage } from 'i18n/defineMessages';
 
 const messages = defaultMessage.training;
@@ -17,7 +17,7 @@ const CreateTrainingStageModal = (props) => {
 
   const handleSubmit = data => {
     console.log("CreateTrainingStageModal - data:", data);
-    dispatch(createTrainingElement(data));
+    dispatch(createTrainingStage(data));
     dispatch(hideModal());
   }
 

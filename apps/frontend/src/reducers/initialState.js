@@ -78,6 +78,7 @@ export default {
   organizations: defaultPageableState, 
   training: {
     ...defaultObjectState,
+    elements: defaultPageableState,
     stage: defaultObjectState,
     stages: defaultPageableState
   },
