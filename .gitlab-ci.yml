@@ -38,7 +38,7 @@ build-docker-image:
     - echo "CI_PROJECT_NAME: $CI_PROJECT_NAME"
     - echo "CI_PROJECT_NAMESPACE: $CI_PROJECT_NAMESPACE"
     - echo "CI_PROJECT_PATH: $CI_PROJECT_PATH"
-    - echo CI_PROJECT_PATH_SLUG: $CI_PROJECT_PATH_SLUG""
+    - echo "CI_PROJECT_PATH_SLUG: $CI_PROJECT_PATH_SLUG"
 
   script:
     - gradle clean build
