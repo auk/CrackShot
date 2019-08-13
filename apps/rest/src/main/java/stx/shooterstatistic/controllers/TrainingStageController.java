@@ -1,6 +1,8 @@
 package stx.shooterstatistic.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -38,6 +40,14 @@ public class TrainingStageController {
     Training training = trainingService.getTraining(context, tid);
     Stage stage = stageService.createStage(context, training, elements);
     return new ResponseEntity<>(stage, HttpStatus.CREATED);
+  }
+
+  @GetMapping(value = "/training/{tid}/stages")
+  public Page<Stage> getTrainingStages(@NotNull Principal principal, @PathVariable String tid) {
+    SecurityContext context = securityService.createContext(principal);
+    Training training = trainingService.getTraining(context, tid);
+    Page<Stage> stages = stageService.findStages(context, training, Pageable.unpaged());
+    return stages;
   }
 
   @GetMapping(value = "/training/{tid}/stage/{sid}")

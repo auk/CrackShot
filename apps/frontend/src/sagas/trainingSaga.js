@@ -96,15 +96,16 @@ export function* fetchTrainings({ payload: { requestParams } }) {
 }
 
 export function* fetchTrainingStages({ payload }) {
-  const id = payload;
+  const id = payload.params;
+  const pageable = payload.pageable;
 
-  console.log("fetchTrainingStages: {}", payload.requestParams);
+  console.log("fetchTrainingStages: payload {}", payload);
+  console.log("fetchTrainingStages: {}", payload.pageable);
 
   try {
     const url = yield select(selectors.getTrainingStagesUrl);
-    console.log('fetchTrainingStages requestParams:', payload.requestParams);
 
-    const config = { method: 'GET', params: { ...payload.requestParams } };
+    const config = { method: 'GET', params: { ...pageable } };
     const response = yield call(callApi, { url: url.replace(/:tid/i, id), config, });
     console.log('fetchTrainingStages: response=', response.data);
     
