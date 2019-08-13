@@ -51,14 +51,14 @@ public class TrainingStageController {
   }
 
   @GetMapping(value = "/training/{tid}/stage/{sid}")
-  public ResponseEntity<Stage> getStage(@NotNull Principal principal, @PathVariable String tid, @PathVariable String sid) {
+  public ResponseEntity<Stage> getTrainingStage(@NotNull Principal principal, @PathVariable String tid, @PathVariable String sid) {
     SecurityContext context = securityService.createContext(principal);
     Stage stage = stageService.getStage(context, sid);
     return ResponseEntity.ok(stage);
   }
 
   @DeleteMapping(value = "/training/{tid}/stage/{sid}")
-  public void deleteStage(@NotNull Principal principal, @PathVariable String tid, @PathVariable String sid) {
+  public void deleteTrainingStage(@NotNull Principal principal, @PathVariable String tid, @PathVariable String sid) {
     SecurityContext context = securityService.createContext(principal);
     Stage stage = stageService.getStage(context, sid);
     stageService.deleteStage(context, stage);

@@ -5,8 +5,6 @@ import { injectIntl } from 'react-intl';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 
 import { InputText, InputSelect, InputCheckbox } from '@startext/react-components';
-import renderInputDatepicker from 'components/common/renderInputDatepicker';
-import renderInputTimepicker from 'components/common/renderInputTimepicker';
 import { defaultMessage } from 'i18n/defineMessages';
 
 import Validate from './validate';
@@ -36,7 +34,10 @@ let TrainingStageForm = React.memo(props => {
         <div className="row">
           <div className="col-md-12">
             { training &&
-              <Field name="training"
+              <Field name="trainingId" component="input" type="hidden" />
+            }
+            { training &&
+              <Field name="trainingTitle"
                 component={InputText}
                 label="Training"
                 icon='glyphicon glyphicon-home'

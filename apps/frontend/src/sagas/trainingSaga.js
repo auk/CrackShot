@@ -10,6 +10,7 @@ export const trainingWatcherSaga = [
   takeLatest(actions.createTraining.toString(), createTraining),
   takeLatest(actions.fetchTraining.toString(), fetchTraining),
   takeLatest(actions.fetchTrainings.toString(), fetchTrainings),
+  takeLatest(actions.createTrainingStage.toString(), createTrainingStage),
   takeLatest(actions.fetchTrainingStages.toString(), fetchTrainingStages),
 ];
 
@@ -92,6 +93,37 @@ export function* fetchTrainings({ payload: { requestParams } }) {
   } catch (error) {
     // console.log("Error action:", createError(error))
     yield put(actions.fetchTrainingsError(createError(error)));
+  }
+}
+
+export function* createTrainingStage({ payload }) {
+  try {
+    const tid = payload.trainingId;
+    const url = yield select(selectors.createTrainingStageUrl);
+    console.log("createTraining stage - url:", url, ", values: ", payload);
+
+    let params = {
+      // date: payload.date.format('YYYY-MM-DD'),
+    };
+    if (payload.element)
+      Object.assign(params, { elems: payload.element.map(u => u.value) });
+
+    const config = {
+      method: 'POST',
+      params: params
+    }
+    console.log("config:", config);
+
+    const response = yield call(callApi, {
+      url: url.replace(/:tid/i, tid),
+      config,
+    });
+
+    yield put(actions.createTrainingStageSuccess(response.data));
+    toastr.success('Success', 'Training stage has been created');    
+  } catch (error) {
+    console.error("Create training error:", error);
+    yield put(actions.createTrainingStageError(createError(error)));
   }
 }
 

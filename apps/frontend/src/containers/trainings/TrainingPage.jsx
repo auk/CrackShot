@@ -49,7 +49,9 @@ class TrainingPage extends React.Component {
         training: trainingState.content,
         trainingElements: trainingElementsOptions,
         initialValues: {
-          training: this.getTrainingTime(trainingState.content)
+          training: trainingState.content,
+          trainingId: trainingState.content.id,
+          trainingTitle: this.getTrainingTime(trainingState.content)
           // user: selectedUsersOptions,
         }
       }
