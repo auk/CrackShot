@@ -64,6 +64,7 @@ class TrainingPage extends React.Component {
     // const { handleCreateElement, onSizeChange, onSortChange, onPageChange } = this.props;
 
     const training = trainingState.content;
+    const stages = trainingState.stages.content;
     const time = this.getTrainingTime(training);
 
     const crumbs = [
@@ -131,7 +132,23 @@ class TrainingPage extends React.Component {
                             </div>
                         </div>
 
-                        <div class="vertical-timeline-block">
+                        { stages && stages.map(stage =>
+                          <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon white-bg">
+                                <i class="fa fa-rocket"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                <h2>Stage 4</h2>
+                                <span className="vertical-date">
+                                <p>Targets - 5: paper - 3, steel plates - 2 </p>
+                                  <small>Shoots: 24</small>
+                                </span>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* <div class="vertical-timeline-block">
                             <div class="vertical-timeline-icon yellow-bg">
                                 <i class="fa fa-hand-o-right"></i>
                             </div>
@@ -143,9 +160,9 @@ class TrainingPage extends React.Component {
                                   <small>Shoots: 24</small>
                                 </span>
                             </div>
-                        </div>
+                        </div> */}
 
-                        <div class="vertical-timeline-block">
+                        {/* <div class="vertical-timeline-block">
                             <div class="vertical-timeline-icon gray-bg">
                                 <i class="fa fa-wheelchair-alt"></i>
                             </div>
@@ -157,9 +174,9 @@ class TrainingPage extends React.Component {
                                   <small>Shoots: 24</small>
                                 </span>
                             </div>
-                        </div>
+                        </div> */}
 
-                        <div class="vertical-timeline-block">
+                        {/* <div class="vertical-timeline-block">
                             <div class="vertical-timeline-icon white-bg">
                                 <i class="fa fa-rocket"></i>
                             </div>
@@ -171,9 +188,9 @@ class TrainingPage extends React.Component {
                                   <small>Shoots: 24</small>
                                 </span>
                             </div>
-                        </div>
+                        </div> */}
 
-                        <div class="vertical-timeline-block">
+                        {/* <div class="vertical-timeline-block">
                             <div class="vertical-timeline-icon white-bg">
                                 <i class="fa fa-phone"></i>
                             </div>
@@ -185,7 +202,7 @@ class TrainingPage extends React.Component {
                                   <small>Shoots: 24</small>
                                 </span>
                             </div>
-                        </div>
+                        </div> */}
                     </div>
               </div>
               <div className="col-md-3">

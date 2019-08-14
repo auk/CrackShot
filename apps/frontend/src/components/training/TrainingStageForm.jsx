@@ -55,6 +55,15 @@ let TrainingStageForm = React.memo(props => {
               isMulti={true}
               // isSearchable={true}
             />
+            <Field name="shots"
+              component={InputText}
+              // onChange={handleChange}
+              label="Shots"
+              placeholder='25'
+              // icon='glyphicon glyphicon-check'
+              type='number'
+              min='0'
+            />
           </div>
         </div>
       </div>
