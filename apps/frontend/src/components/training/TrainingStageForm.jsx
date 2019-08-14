@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
-import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 
-import { InputText, InputSelect, InputCheckbox } from '@startext/react-components';
+import { InputText, InputSelect } from '@startext/react-components';
 import { defaultMessage } from 'i18n/defineMessages';
 
 import Validate from './validate';
@@ -12,22 +12,9 @@ import Validate from './validate';
 const common = defaultMessage.common;
 
 let TrainingStageForm = React.memo(props => {
-  const { handleReset, handleSubmit, locale, resetBtnText, submitBtnText, intl: { formatMessage } } = props;
+  const { handleReset, handleSubmit, resetBtnText, submitBtnText, intl: { formatMessage } } = props;
   const { training, trainingElements } = props;
   
-  const handleChange = (selectedOption) => {
-    // this.setState({ selectedOption });
-    console.log('Option selected:', selectedOption);
-    console.log('Users:', props.user);
-  }
-  const handleChangeTime = (selectedOption) => {
-    // this.setState({ selectedOption });
-    console.log(`Time selected:`, selectedOption, ', as string: ', selectedOption.format('HH:mm'));
-  }
-  
-  // console.log("* organizations: ", organizations);
-  // console.log("* users: ", users);
-
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
       <div className="form-group">
@@ -94,7 +81,7 @@ TrainingStageForm.propTypes = {
   // })),
 }
 
-const formSelector = formValueSelector('TrainingStageForm')
+// const formSelector = formValueSelector('TrainingStageForm')
 
 const mapStateToProps = state => ({
   // participate: formSelector(state, 'participate'),

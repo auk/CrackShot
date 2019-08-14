@@ -97,7 +97,7 @@ class HomePage extends React.Component {
   }
 
   render() {
-    const { currentUser, links, organizationsOptions, selectedOrganizationsOptions, usersOptions, trainings, trainingElementsState, trainingElementsOptions, intl: { formatMessage } } = this.props;
+    const { currentUser, links, trainings, trainingElementsState, trainingElementsOptions, intl: { formatMessage } } = this.props;
 
     const crumbs = [
       {
@@ -106,19 +106,6 @@ class HomePage extends React.Component {
         text: common.breadcrumb.home,
       }
     ];
-
-    const selectedUsersOptions = [ userToOptionSelector(currentUser) ];
-
-    console.log("users options:", usersOptions);
-    console.log("selected users options:", selectedUsersOptions);
-
-    const values = {
-      organization: organizationsOptions ? organizationsOptions[0]: null,
-      phone: "+7-555-5555",
-      user: selectedUsersOptions,
-      date: moment(),
-      time: moment('09:00', 'HH:mm'),
-    }
 
     return (
       <React.Fragment>

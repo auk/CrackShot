@@ -8,7 +8,7 @@ import { defaultMessage } from 'i18n/defineMessages';
 const commonMessages = defaultMessage.common;
 
 const TrainingElementsList = (props) => {
-  const { data, trainingElements, intl: { formatMessage } } = props;
+  const { data, trainingElements } = props;
 
   const getTrainingElementById = id => {
     // console.log("Training elements:", trainingElements);

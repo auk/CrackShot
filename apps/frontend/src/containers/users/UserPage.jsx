@@ -75,8 +75,7 @@ class UserPage extends React.Component {
   render() {
     const { userState, userTrainings, links, intl: { formatMessage } } = this.props;
 
-    console.log("User trainings:", userTrainings);
-
+    const user = userState.content;
     const crumbs = [
       {
         url: links.home.url,
@@ -89,8 +88,6 @@ class UserPage extends React.Component {
         text: user ? getUserDisplayNameSelector(user) : 'User',
       },
     ];
-
-    const user = userState.content;
 
     return (
       <React.Fragment>

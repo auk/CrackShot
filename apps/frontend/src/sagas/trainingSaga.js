@@ -1,4 +1,4 @@
-import { takeLatest, call, put, select, spawn } from 'redux-saga/effects';
+import { takeLatest, call, put, select } from 'redux-saga/effects';
 import { toastr } from 'react-redux-toastr';
 import { callApi } from 'utils/ApiUtils';
 import { createError } from 'utils/utils';
@@ -99,14 +99,16 @@ export function* fetchTrainings({ payload: { requestParams } }) {
 export function* createTrainingStage({ payload }) {
   try {
     const tid = payload.trainingId;
+    console.assert(tid);
+
     const url = yield select(selectors.createTrainingStageUrl);
     console.log("createTraining stage - url:", url, ", values: ", payload);
 
-    let params = {
-      // date: payload.date.format('YYYY-MM-DD'),
-    };
+    let params = { };
     if (payload.element)
       Object.assign(params, { elems: payload.element.map(u => u.value) });
+    if (payload.shots)
+      Object.assign(params, { shots: payload.shots });
 
     const config = {
       method: 'POST',
