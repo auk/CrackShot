@@ -104,7 +104,7 @@ export function* createTrainingStage({ payload }) {
     const url = yield select(selectors.createTrainingStageUrl);
     console.log("createTraining stage - url:", url, ", values: ", payload);
 
-    let params = { };
+    let params = { name: payload.name };
     if (payload.element)
       Object.assign(params, { elems: payload.element.map(u => u.value) });
     if (payload.shots)

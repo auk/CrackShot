@@ -19,6 +19,8 @@ public class Stage extends AbstractEntity {
   @ElementCollection
   List<String> trainingElements = new ArrayList<>();
 
+  String name;
+
   @Column(columnDefinition = "integer default 0")
   int shots;
 
@@ -42,6 +44,14 @@ public class Stage extends AbstractEntity {
 
   public void setTrainingElements(List<String> trainingElements) {
     this.trainingElements = trainingElements;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public int getShots() {

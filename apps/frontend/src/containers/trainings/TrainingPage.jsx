@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import Page from 'components/common/pageTemplate/Page';
 import WithLayout from 'containers/layouts/WithLayout';
@@ -11,6 +11,9 @@ import { fetchTraining, fetchTrainingElements, fetchTrainingStages } from 'actio
 import { showModal } from 'actions/modalActions';
 import TrainingElementsList from 'components/training/TrainingElementsList';
 import TrainingParticipantsList from 'components/training/TrainingParticipantsList';
+
+import { MenuItem } from 'react-bootstrap';
+import ActionMenu from 'components/actionMenu/ActionMenu';
 
 const commonMessages = defaultMessage.common;
 const navigationMessages = defaultMessage.navigation;
@@ -35,11 +38,11 @@ class TrainingPage extends React.Component {
   handleCreateTrainingStageModal = e => {
     e.preventDefault();
 
-    const { trainingState, trainingElementsOptions } = this.props;
+    const { trainingState, trainingElementsOptions, intl: { formatMessage } } = this.props;
+    const stages = trainingState.stages.content;
+    console.assert(stages);
 
-    console.log("Training:", trainingState);
-    console.log("Training elements:", trainingElementsOptions);
-
+    const stagesCount = stages ? stages.length + 1 : 1;
     const modal = {
       modalType: 'CREATE_TRAINING_STAGE',
       modalProps: {
@@ -48,11 +51,31 @@ class TrainingPage extends React.Component {
         training: trainingState.content,
         trainingElements: trainingElementsOptions,
         initialValues: {
+          name: formatMessage(commonMessages.stage) + " " + stagesCount,
           training: trainingState.content,
           trainingId: trainingState.content.id,
           trainingTitle: this.getTrainingTime(trainingState.content)
-          // user: selectedUsersOptions,
         }
+      }
+    };
+    this.props.showModal(modal);
+  }
+
+  handleEditTrainingStageModal = e => {
+    e.preventDefault();
+
+    const { trainingState, trainingElementsOptions } = this.props;
+    const stage = trainingState.stage.content;
+    const modal = {
+      modalType: 'EDIT_TRAINING_STAGE',
+      resetText: this.props.intl.formatMessage(commonMessages.reset),
+      submitText: this.props.intl.formatMessage(commonMessages.create),
+      training: trainingState.content,
+      trainingElements: trainingElementsOptions,
+      initialValues: {
+        training: trainingState.content,
+        trainingId: trainingState.content.id,
+        trainingTitle: this.getTrainingTime(trainingState.content)
       }
     };
     this.props.showModal(modal);
@@ -112,7 +135,7 @@ class TrainingPage extends React.Component {
                 </Page.ContainerRow>
               } */}
 
-              <div id="vertical-timeline" class="vertical-container light-timeline no-margins">
+              <div id="vertical-timeline" className="vertical-container light-timeline no-margins">
                           <div className="vertical-timeline-block">
                             <div className="vertical-timeline-icon blue-bg">
                                 <i className="fa fa-plus"></i>
@@ -124,7 +147,7 @@ class TrainingPage extends React.Component {
                                   <h2>Create</h2>
                                 </div>
                                 <div className="col-xs-4 col-sm-4 col-md-4">
-                                  <a href="#top" class="btn btn-success" onClick={this.handleCreateTrainingStageModal}><i className="fa fa-plus"></i> Create</a>
+                                  <a href="#top" className="btn btn-success" onClick={this.handleCreateTrainingStageModal}><i className="fa fa-plus"></i> Create</a>
                                 </div>
                               </div>
                               {/* <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.</p> */}
@@ -132,17 +155,34 @@ class TrainingPage extends React.Component {
                         </div>
 
                         { stages && stages.map(stage =>
-                          <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon white-bg">
-                                <i class="fa fa-rocket"></i>
+                          <div className="vertical-timeline-block" key={stage.id}>
+                            <div className="vertical-timeline-icon white-bg">
+                                <i className="fa fa-rocket"></i>
                             </div>
 
-                            <div class="vertical-timeline-content">
-                                <h2>Stage 4</h2>
-                                <span className="vertical-date">
-                                <p>Targets - 5: paper - 3, steel plates - 2 </p>
-                                  <small>Shoots: 24</small>
-                                </span>
+                            <div className="vertical-timeline-content">
+                              <div className="row">
+                                <div className="col-xs-11 col-sm-11 col-md-11">
+                                  <h2>Stage 4</h2>
+                                </div>
+                                <div className="col-xs-1 col-sm-1 col-md-1">
+                                  <ActionMenu>
+                                    <MenuItem eventKey="edit">
+                                      <i className="fa fa-pencil"></i>
+                                      <span><FormattedMessage {...commonMessages.edit} /></span>
+                                    </MenuItem>
+                                    <MenuItem eventKey="delete">
+                                      <i className="fa fa-times"></i>
+                                      <span><FormattedMessage {...commonMessages.delete} /></span>
+                                    </MenuItem>
+                                  </ActionMenu>
+                                </div>
+                            </div>
+                                  
+                              <span className="vertical-date">
+                              <p>Targets - 5: paper - 3, steel plates - 2 </p>
+                                <small>Shoots: {stage.shots}</small>
+                              </span>
                             </div>
                           </div>
                         )}

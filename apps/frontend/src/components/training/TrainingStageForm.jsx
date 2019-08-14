@@ -31,6 +31,15 @@ let TrainingStageForm = React.memo(props => {
                 disabled={true}
                 />
             }
+            <Field name="name"
+              component={InputText}
+              label="Name"
+              placeholder='Stage name'
+              // icon='glyphicon glyphicon-check'
+              // required={true}
+              // isMulti={true}
+              // isSearchable={true}
+            />
             <Field name="element"
               component={InputSelect}
               // onChange={handleChange}
@@ -40,6 +49,7 @@ let TrainingStageForm = React.memo(props => {
               icon='glyphicon glyphicon-check'
               // required={true}
               isMulti={true}
+              autoFocus={true}
               // isSearchable={true}
             />
             <Field name="shots"
@@ -58,12 +68,9 @@ let TrainingStageForm = React.memo(props => {
       <div className="hr-line-dashed"></div>
 
       <div className="form-group">
-        <div className="col-sm-10">
-          <button type="submit" className="btn btn-primary" onClick={handleSubmit}>{submitBtnText || formatMessage(common.save)}</button>
-          <button type="button" className="btn btn-white" onClick={handleReset}>{resetBtnText || formatMessage(common.reset)} </button>
-        </div>
+        <button type="submit" className="btn btn-primary" onClick={handleSubmit}>{submitBtnText || formatMessage(common.save)}</button>
+        <button type="button" className="btn btn-white" onClick={handleReset}>{resetBtnText || formatMessage(common.reset)} </button>
       </div>
-
     </form>
   )
 })
@@ -89,7 +96,7 @@ const mapStateToProps = state => ({
 
 TrainingStageForm = reduxForm({
   form: 'TrainingStageForm',
-  validate: Validate,
+  // validate: Validate,
   enableReinitialize: true,
   touchOnBlur: false,
 })(TrainingStageForm);

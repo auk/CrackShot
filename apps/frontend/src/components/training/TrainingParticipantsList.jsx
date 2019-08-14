@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Page from 'components/common/pageTemplate/Page';
 
@@ -21,7 +21,7 @@ const TrainingParticipantsList = props => {
           { data && 
             <ul>
               { data.map(u => 
-                <li>{u.name}</li>
+                <li key={u.id}>{u.name}</li>
               )}
             </ul>
           }
@@ -40,7 +40,7 @@ const TrainingParticipantsList = props => {
 
 TrainingParticipantsList.propTypes = {
   intl: intlShape.isRequired,
-  data: PropTypes.object.isRequired,
+  // data: PropTypes.object.isRequired,
   // trainingElements: PropTypes.object.isRequired,
 }
 

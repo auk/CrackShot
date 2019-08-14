@@ -29,7 +29,13 @@ public class TrainingStageController {
   @Autowired private TrainingElementService trainingElementService;
 
   @PostMapping(value = "/training/{tid}/stage")
-  public ResponseEntity<Stage> createTrainingStage(@NotNull Principal principal, @PathVariable String tid, @RequestParam(required = false) List<String> elems) {
+  public ResponseEntity<Stage> createTrainingStage(
+          @NotNull Principal principal,
+          @PathVariable String tid,
+          @RequestParam(required = false) List<String> elems,
+          @RequestParam(required = false, defaultValue = "0") int shots,
+          @RequestParam String name
+  ) {
     SecurityContext context = securityService.createContext(principal);
 
     List<TrainingElement> elements = new ArrayList<>();
@@ -38,7 +44,10 @@ public class TrainingStageController {
     }
 
     Training training = trainingService.getTraining(context, tid);
-    Stage stage = stageService.createStage(context, training, elements);
+    Stage stage = stageService.createStage(context, training, elements, shots);
+    stage.setShots(shots);
+    stage.setName(name);
+    stage = stageService.saveStage(context, stage);
     return new ResponseEntity<>(stage, HttpStatus.CREATED);
   }
 

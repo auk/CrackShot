@@ -45,8 +45,8 @@ const TrainingElementsList = (props) => {
 
 TrainingElementsList.propTypes = {
   intl: intlShape.isRequired,
-  data: PropTypes.object.isRequired,
-  trainingElements: PropTypes.object.isRequired,
+  // trainingId: PropTypes.number.isRequired,
+  trainingElements: PropTypes.array.isRequired,
 }
 
 export default injectIntl(TrainingElementsList);

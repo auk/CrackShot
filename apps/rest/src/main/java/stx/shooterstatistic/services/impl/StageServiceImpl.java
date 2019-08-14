@@ -22,10 +22,11 @@ public class StageServiceImpl implements StageService {
   TrainingStageRepository trainingStageRepository;
 
   @Override
-  public @NotNull Stage createStage(@NotNull SecurityContext context, @NotNull Training training, @Null List<TrainingElement> trainingElements) {
+  public @NotNull Stage createStage(@NotNull SecurityContext context, @NotNull Training training, @Null List<TrainingElement> trainingElements, int shots) {
     Stage stage = new Stage(training);
     if (trainingElements != null)
       stage.setTrainingElements(trainingElements.stream().map(AbstractEntity::getId).collect(Collectors.toList()));
+    stage.setShots(shots);
     return trainingStageRepository.save(stage);
   }
 
@@ -52,6 +53,6 @@ public class StageServiceImpl implements StageService {
 
   @Override
   public @NotNull Stage saveStage(@NotNull SecurityContext context, @NotNull Stage stage) {
-    return null;
+    return trainingStageRepository.save(stage);
   }
 }
