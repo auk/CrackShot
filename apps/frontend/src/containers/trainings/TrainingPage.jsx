@@ -204,7 +204,7 @@ class TrainingPage extends React.Component {
                   trainingElements={trainingElementsState.content}/>
 
                 <TrainingParticipantsList
-                  data={training.users}/>
+                  data={training.participants ? training.participants.map(p => p.user) : []}/>
               </div>
             </div>
           }
