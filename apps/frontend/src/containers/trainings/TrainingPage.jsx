@@ -86,7 +86,7 @@ class TrainingPage extends React.Component {
   }
 
   render() {
-    const { trainingState, trainingElementsState, links, intl: { formatMessage } } = this.props;
+    const { trainingState, trainingElementsState, trainingStagesState, links, intl: { formatMessage } } = this.props;
     // const { handleCreateElement, onSizeChange, onSortChange, onPageChange } = this.props;
 
     const training = trainingState.content;
@@ -117,6 +117,7 @@ class TrainingPage extends React.Component {
         <Page title={title}>
           {trainingState.error && <Page.Error error={trainingState.error} />}
           {trainingElementsState.error && <Page.Error error={trainingElementsState.error} />}
+          {trainingStagesState.error && <Page.Error error={trainingStagesState.error} />}
 
           { training &&
             <div className="row m-b-lg m-t-lg">
