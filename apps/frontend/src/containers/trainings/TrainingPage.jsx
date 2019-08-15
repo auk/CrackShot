@@ -163,7 +163,7 @@ class TrainingPage extends React.Component {
                             <div className="vertical-timeline-content">
                               <div className="row">
                                 <div className="col-xs-11 col-sm-11 col-md-11">
-                                  <h2>Stage 4</h2>
+                                  <h2>{ stage.name || 'Stage' }</h2>
                                 </div>
                                 <div className="col-xs-1 col-sm-1 col-md-1">
                                   <ActionMenu>

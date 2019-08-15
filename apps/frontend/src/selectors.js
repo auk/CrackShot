@@ -60,6 +60,8 @@ export const createTrainingStageUrl = state => state.config.links.trainingStage.
 export const deleteTrainingStageUrl = state => state.config.links.trainingStage.api.delete;
 export const updateTrainingStageUrl = state => state.config.links.trainingStage.api.update;
 
+export const getTrainingStagesParams = state => state.training.stages.requestParams;
+
 // Users
 export const getCurrentUserUrl = state => state.config.links.currentUser.api.get;
 export const getCurrentUserTrainingsUrl = state => state.config.links.currentUserTrainings.api.get;

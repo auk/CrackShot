@@ -97,6 +97,20 @@ export function* fetchTrainings({ payload: { requestParams } }) {
 }
 
 export function* createTrainingStage({ payload }) {
+  yield call(createTrainingStageRequest, { payload });
+
+  // refetch data for list
+  const tid = payload.trainingId;
+  const requestParams = yield select(selectors.getTrainingStagesParams);
+  console.log("createTrainingStage.fetchTrainingStages, tid:", tid, ", params: ", requestParams);
+
+  const action = actions.fetchTrainingStages(tid, requestParams);
+  console.log("createTrainingStage.fetchTrainingStages, action:", action);
+
+  yield call(fetchTrainingStages({ payload: { params: tid, pageable: requestParams }}));
+}
+
+export function* createTrainingStageRequest({ payload }) {
   try {
     const tid = payload.trainingId;
     console.assert(tid);
@@ -133,8 +147,8 @@ export function* fetchTrainingStages({ payload }) {
   const id = payload.params;
   const pageable = payload.pageable;
 
-  console.log("fetchTrainingStages: payload {}", payload);
-  console.log("fetchTrainingStages: {}", payload.pageable);
+  console.log("fetchTrainingStages: payload", payload);
+  console.log("fetchTrainingStages:", payload.pageable);
 
   try {
     const url = yield select(selectors.getTrainingStagesUrl);
