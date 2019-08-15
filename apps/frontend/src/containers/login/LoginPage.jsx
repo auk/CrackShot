@@ -11,6 +11,7 @@ import { defaultMessage } from 'i18n/defineMessages';
 import LoginForm from 'components/login/LoginForm';
 import { getLocaleSelector, getAuthSelector } from 'selectors';
 import './loginPage.css';
+import Logo from 'assets/img/IPSC.svg';
 
 const messages = defaultMessage.loginpage;
 
@@ -44,9 +45,13 @@ class LoginPage extends Component {
     return (
       <DocumentTitle title={formatMessage(messages.title)}>
         <div className="flex-wrapper animated fadeInDown">
-          <span className="company-name">startext</span>
-          <p className="logo-name">Crack shot</p>
+          {/* <span className="company-name">startext</span> */}
+          {/* <p className="logo-name">Crack shot</p> */}
           <div className="middle-box text-center loginscreen">
+            <div>
+              <img src={Logo} className="logo" alt="en" width="180" />
+            </div>
+
             <h3><FormattedMessage {...messages.welcome} /></h3>
             <p><FormattedMessage {...messages.description} /></p>
 
