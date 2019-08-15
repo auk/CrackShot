@@ -31,8 +31,7 @@ build:
     - java
 
 variables:
-  CONTAINER_IMAGE: registry.startext.ru/auk/shooterstatistic
-  CONTAINER_TEST_IMAGE: $CONTAINER_IMAGE:$CI_BUILD_REF_NAME
+  CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
   CONTAINER_RELEASE_IMAGE: $CONTAINER_IMAGE:latest
 
 build-docker-image:
