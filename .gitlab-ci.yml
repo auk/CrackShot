@@ -32,7 +32,7 @@ build:
 
 variables:
   CONTAINER_TEST_IMAGE: $CI_REGISTRY_IMAGE:$CI_BUILD_REF_NAME
-  CONTAINER_RELEASE_IMAGE: $CONTAINER_IMAGE:latest
+  CONTAINER_RELEASE_IMAGE: $CI_REGISTRY_IMAGE:latest
 
 build-docker-image:
   stage: build-docker-image
