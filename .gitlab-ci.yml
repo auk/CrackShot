@@ -2,16 +2,13 @@ image: docker:git
 services:
   - docker:dind
 
+include: 'https://git.startext.ru/export/gitlab-ci/raw/master/ssh.yml'
+
 stages:
   - build
   - build-docker-image
   - release-docker-image
   - deploy
-
-before_script:
-  - uname -a
-  - echo $CI_REGISTRY
-  - echo $CI_REGISTRY_IMAGE
 
 build:
   stage: build
