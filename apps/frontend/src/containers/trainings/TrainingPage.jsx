@@ -91,6 +91,9 @@ class TrainingPage extends React.Component {
 
     const training = trainingState.content;
     const stages = trainingState.stages.content;
+    console.assert(stages);
+    console.assert(Array.isArray(stages), JSON.stringify(stages));
+
     const time = this.getTrainingTime(training);
 
     const crumbs = [
