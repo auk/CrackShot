@@ -7,14 +7,14 @@ import { Field, reduxForm } from 'redux-form';
 import { InputText, InputSelect } from '@startext/react-components';
 import { defaultMessage } from 'i18n/defineMessages';
 
-import Validate from './validate';
+// import Validate from './validate';
 
 const common = defaultMessage.common;
 
 let TrainingStageForm = React.memo(props => {
   const { handleReset, handleSubmit, resetBtnText, submitBtnText, intl: { formatMessage } } = props;
   const { training, trainingElements } = props;
-  
+
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
       <div className="form-group">
