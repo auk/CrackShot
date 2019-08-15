@@ -92,7 +92,7 @@ class TrainingPage extends React.Component {
     const training = trainingState.content;
     const stages = trainingState.stages.content;
     console.assert(stages);
-    console.assert(Array.isArray(stages), JSON.stringify(stages));
+    console.assert(Array.isArray(stages), "Expect array, got: " + JSON.stringify(stages) + ", training state: " + JSON.stringify(trainingState));
 
     const time = this.getTrainingTime(training);
 
