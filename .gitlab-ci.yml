@@ -6,6 +6,7 @@ stages:
   - build
   - build-docker-image
   - release-docker-image
+  - deploy
 
 before_script:
   - uname -a
@@ -60,3 +61,15 @@ release-docker-image:
     - master
   tags:
     - docker
+
+deploy_staging:
+  stage: deploy
+#  environment:
+#    name: staging
+  script:
+    - ssh_run "docker-deploy" "10.10.8.11" "$SSH_PRIVATE_KEY" "cd /opt/docker/CrackShot && docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN registry.startext.ru && /usr/local/bin/docker-compose pull && /usr/local/bin/docker-compose down && /usr/local/bin/docker-compose up -d"
+  only:
+    - develop
+  tags:
+    - deploy
+
