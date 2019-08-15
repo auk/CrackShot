@@ -11,15 +11,6 @@ const commonMessages = defaultMessage.common;
 const TrainingElementsList = (props) => {
   const { data, trainingElements } = props;
 
-<<<<<<< HEAD:apps/frontend/src/components/training/TrainingElementsList.jsx
-  const getTrainingElementById = id => {
-    // console.log("Training elements:", trainingElements);
-    // return id;
-    return trainingElements ? trainingElements.find(te => te.id === id) : undefined;
-  } 
-  
-=======
->>>>>>> feature-training-stage:apps/frontend/src/components/training/TrainingElementsFrame.jsx
   const getTrainingElementName = id => {
     const trainingElement = findObjectByID(id, trainingElements);
     return trainingElement ? trainingElement.name : id;
@@ -35,7 +26,7 @@ const TrainingElementsList = (props) => {
             { data && data.map((id) =>
               <li key={id}>{getTrainingElementName(id)}</li>
             )}
-            { !data && 
+            { !data &&
               <FormattedMessage {...commonMessages.no_data} />
             }
             </ul>

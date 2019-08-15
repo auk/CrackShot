@@ -8,7 +8,6 @@ import * as selectors from '../selectors';
 
 export const trainingWatcherSaga = [
   takeLatest(actions.createTraining.toString(), createTraining),
-  takeLatest(actions.createTrainingStage.toString(), createTrainingStage),
   takeLatest(actions.fetchTraining.toString(), fetchTraining),
   takeLatest(actions.fetchTrainings.toString(), fetchTrainings),
   takeLatest(actions.createTrainingStage.toString(), createTrainingStage),
@@ -61,37 +60,6 @@ export function* createTrainingRequest({payload}) {
   } catch (error) {
     console.error("Create training error:", error);
     yield put(actions.createTrainingError(createError(error)));
-  }
-}
-
-export function* createTrainingStage({ payload }) {
-  console.assert(payload.tid);
-
-  try {
-    const url = yield select(selectors.createTrainingStageUrl);
-    console.log("createTrainingStage - url:", url, ", values: ", payload);
-
-    let params = {
-      tid: payload.tid,
-    };
-    if (payload.element)
-      Object.assign(params, { elems: payload.element.map(u => u.value) });
-
-    const config = {
-      method: 'POST',
-      params: params
-    }
-    // console.log("config:", config);
-
-    const response = yield call(callApi, {
-      url: url.replace(/:tid/i, payload.tid),
-      config,
-    });
-
-    const action = actions.createTrainingStageSuccess({ ...response.data });
-    yield put(action);
-  } catch (error) {
-    yield put(actions.createTrainingStageError(createError(error)));
   }
 }
 

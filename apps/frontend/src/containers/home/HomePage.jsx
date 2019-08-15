@@ -107,19 +107,11 @@ class HomePage extends React.Component {
       }
     ];
 
-<<<<<<< HEAD
-    // const selectedUsersOptions = [ userToOptionSelector(currentUser) ];
-
-    // console.log("users options:", usersOptions);
-    // console.log("selected users options:", selectedUsersOptions);
-
-=======
->>>>>>> feature-training-stage
     return (
       <React.Fragment>
         <Breadcrumbs header={messages.title} crumbs={crumbs} />
         <Page title={formatMessage(messages.title)}>
-          
+
           {trainings.error && <Page.Error error={trainings.error} />}
 
           <div className="row m-b-lg m-t-lg">
@@ -128,7 +120,7 @@ class HomePage extends React.Component {
                 <div className="profile-image">
                     <img src={userAuthIcon} className="rounded-circle circle-border m-b-md" alt="profile"/>
                 </div>
-                { currentUser && 
+                { currentUser &&
                   <div className="profile-info">
                   <div className="">
                       <div>
@@ -207,7 +199,7 @@ class HomePage extends React.Component {
                 </Page.Content>
               </Page.Container>
             </div>
-            
+
             <div className="col-md-6">
               <TrainingStageForm
                 trainingElements={trainingElementsOptions}/>

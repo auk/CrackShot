@@ -55,18 +55,13 @@ export const getTrainingElementsUrl = state => state.config.links.trainingElemen
 
 // Training stages
 
-export const createTrainingStageUrl = state => state.config.links.trainingStage.api.create;
 export const getTrainingStagesUrl = state => state.config.links.trainingStages.api.get;
-<<<<<<< HEAD
-export const getTrainingStagesSelector = state => state.training.stages;
-=======
 export const createTrainingStageUrl = state => state.config.links.trainingStage.api.create;
 export const deleteTrainingStageUrl = state => state.config.links.trainingStage.api.delete;
 export const updateTrainingStageUrl = state => state.config.links.trainingStage.api.update;
 
 export const getTrainingStagesSelector = state => state.training.stages;
 export const getTrainingStagesParamsSelector = state => state.training.stages.requestParams;
->>>>>>> feature-training-stage
 
 // Users
 export const getCurrentUserUrl = state => state.config.links.currentUser.api.get;

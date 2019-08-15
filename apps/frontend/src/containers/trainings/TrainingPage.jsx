@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { injectIntl, intlShape } from 'react-intl';
+import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import Page from 'components/common/pageTemplate/Page';
 import List from 'components/common/pageTemplate/List';
@@ -120,24 +120,6 @@ class TrainingPage extends React.Component {
               <div className="col-md-9">
               <h2>Stages</h2>
               <br/>
-              {/* { training &&
-                <Page.ContainerRow>
-                  <Page.Container size="col-md-12">
-                    <Page.Header>
-                      <h5>Stages</h5>
-                      <Page.Tools>
-                        <span className="input-group-btn">
-                          <button type="button" className='btn btn-primary btn-xs active' onClick={this.handleCreateElement}>
-                            <FormattedMessage {...commonMessages.create} />
-                          </button>
-                        </span>
-                      </Page.Tools>
-                    </Page.Header>
-                    <Page.Content>
-                    </Page.Content>
-                  </Page.Container>
-                </Page.ContainerRow>
-              } */}
 
               <div id="vertical-timeline" className="vertical-container light-timeline no-margins">
                           <div className="vertical-timeline-block">

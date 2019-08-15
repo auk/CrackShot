@@ -68,7 +68,7 @@ public class TrainingStageControllerTest {
   }
 
   private Stage createStage(Training tr, List<TrainingElement> trainingElements) throws Exception {
-    MockHttpServletRequestBuilder requestBuilder = post("/training/{tid}/stage", tr.getId()).principal(adminPrincipal);
+    MockHttpServletRequestBuilder requestBuilder = post("/training/{tid}/stage", tr.getId()).principal(adminPrincipal).param("name", "fake stage");
     trainingElements.forEach(te -> requestBuilder.param("elems", te.getId()));
 
     MvcResult mvcResult = mockMvc.perform(requestBuilder)

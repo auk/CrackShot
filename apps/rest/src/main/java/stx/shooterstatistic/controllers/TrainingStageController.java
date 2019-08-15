@@ -61,8 +61,7 @@ public class TrainingStageController {
           @PageableDefault(size = 50) Pageable pageable) {
     SecurityContext context = securityService.createContext(principal);
     Training training = trainingService.getTraining(context, tid);
-    Page<Stage> stages = stageService.findStages(context, training, pageable);
-    return stages;
+    return stageService.findStages(context, training, pageable);
   }
 
   @GetMapping(value = "/training/{tid}/stage/{sid}")
@@ -77,12 +76,5 @@ public class TrainingStageController {
     SecurityContext context = securityService.createContext(principal);
     Stage stage = stageService.getStage(context, sid);
     stageService.deleteStage(context, stage);
-  }
-
-  @GetMapping(value = "/training/{tid}/stages")
-  public Page<Stage> getStages(@NotNull Principal principal, @PathVariable String tid, Pageable pageable) {
-    SecurityContext context = securityService.createContext(principal);
-    Training training = trainingService.getTraining(context, tid);
-    return stageService.findStages(context, training, pageable);
   }
 }
