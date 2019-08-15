@@ -107,11 +107,14 @@ class HomePage extends React.Component {
       }
     ];
 
+<<<<<<< HEAD
     // const selectedUsersOptions = [ userToOptionSelector(currentUser) ];
 
     // console.log("users options:", usersOptions);
     // console.log("selected users options:", selectedUsersOptions);
 
+=======
+>>>>>>> feature-training-stage
     return (
       <React.Fragment>
         <Breadcrumbs header={messages.title} crumbs={crumbs} />

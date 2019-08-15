@@ -2,13 +2,13 @@ package stx.shooterstatistic.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @Entity
 public class Stage extends AbstractEntity {
@@ -19,6 +19,13 @@ public class Stage extends AbstractEntity {
 
   @ElementCollection
   List<String> trainingElements = new ArrayList<>();
+
+  String name;
+
+  @Column(columnDefinition = "integer default 0")
+  int shots;
+
+  LocalTime time;
 
   private Stage() {} // JPA
 
@@ -40,5 +47,29 @@ public class Stage extends AbstractEntity {
 
   public void setTrainingElements(List<String> trainingElements) {
     this.trainingElements = trainingElements;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public int getShots() {
+    return shots;
+  }
+
+  public void setShots(int shots) {
+    this.shots = shots;
+  }
+
+  public LocalTime getTime() {
+    return time;
+  }
+
+  public void setTime(LocalTime time) {
+    this.time = time;
   }
 }

@@ -97,7 +97,17 @@ public class TrainingStageControllerTest {
     // 2: create training stage
     List<TrainingElement> trainingElements = trainingElementService.all(Pageable.unpaged()).getContent().subList(0, 1);
     Assert.assertNotNull(trainingElements);
-    Stage stage = createStage(tr, trainingElements);
+    MockHttpServletRequestBuilder requestBuilder = post("/training/{tid}/stage", tr.getId()).principal(adminPrincipal).param("name", "Test stage");
+    trainingElements.forEach(te -> requestBuilder.param("elems", te.getId()));
+
+    mvcResult = mockMvc.perform(requestBuilder)
+       .andDo(print())
+       .andExpect(status().isCreated())
+       .andReturn();
+
+    log.info("Response content: {}", mvcResult.getResponse().getContentAsString());
+
+    Stage stage = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Stage.class);
     Assert.assertNotNull(stage);
 
     // 3: read

@@ -68,7 +68,7 @@ public class StageServiceTest {
     Training training = trainingService.createTraining(context, LocalDate.now(), LocalTime.now(), null, null, Collections.emptyList());
     Page<TrainingElement> pageElements = trainingElementService.all(Pageable.unpaged());
 
-    Stage stage = stageService.createStage(context, training, pageElements.getContent());
+    Stage stage = stageService.createStage(context, training, pageElements.getContent(), 10);
     Assert.assertNotNull(stage);
     Assert.assertNotNull(stage.getTraining());
     Assert.assertEquals(training.getId(), stage.getTraining().getId());
@@ -83,7 +83,7 @@ public class StageServiceTest {
     Training training = trainingService.createTraining(context, LocalDate.now(), LocalTime.now(), null, null, Collections.emptyList());
     Page<TrainingElement> pageElements = trainingElementService.all(Pageable.unpaged());
 
-    Stage stage = stageService.createStage(context, training, pageElements.getContent());
+    Stage stage = stageService.createStage(context, training, pageElements.getContent(), 10);
     Assert.assertTrue(stageService.findStageById(context, stage.getId()).isPresent());
 
     stageService.deleteStage(context, stage);

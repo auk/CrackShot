@@ -4,13 +4,18 @@ import PropTypes from 'prop-types';
 import { injectIntl, intlShape } from 'react-intl';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import Page from 'components/common/pageTemplate/Page';
+import List from 'components/common/pageTemplate/List';
 import WithLayout from 'containers/layouts/WithLayout';
 import { defaultMessage } from 'i18n/defineMessages';
 import { getLinksSelector, getTrainingSelector, getTrainingElementsSelector, getTrainingElementsOptionsSelector, getTrainingStagesSelector } from 'selectors';
 import { fetchTraining, fetchTrainingElements, fetchTrainingStages } from 'actions/trainingActions';
 import { showModal } from 'actions/modalActions';
-import TrainingElementsList from 'components/training/TrainingElementsList';
+import TrainingElementsFrame from 'components/training/TrainingElementsFrame';
 import TrainingParticipantsList from 'components/training/TrainingParticipantsList';
+
+import { MenuItem } from 'react-bootstrap';
+import ActionMenu from 'components/actionMenu/ActionMenu';
+import { mapIDsToObjects } from 'services/taxonomyService';
 
 const commonMessages = defaultMessage.common;
 const navigationMessages = defaultMessage.navigation;
@@ -19,9 +24,10 @@ const pageMessages = defaultMessage.pages.training;
 class TrainingPage extends React.Component {
 
   componentDidMount() {
-    const { fetchTraining, fetchTrainingElements, fetchTrainingStages, trainingElementsState, trainingStagesState, match: { params } } = this.props;
+    const { fetchTraining, fetchTrainingElements, fetchTrainingStages, trainingElementsState: { requestParams }, match: { params } } = this.props;
+    const { trainingStagesState } = this.props;
     fetchTraining(params.tid);
-    fetchTrainingElements(trainingElementsState.requestParams);
+    fetchTrainingElements(requestParams);
     fetchTrainingStages(params.tid, trainingStagesState.requestParams);
   }
 
@@ -35,11 +41,11 @@ class TrainingPage extends React.Component {
   handleCreateTrainingStageModal = e => {
     e.preventDefault();
 
-    const { trainingState, trainingElementsOptions } = this.props;
+    const { trainingState, trainingElementsOptions, intl: { formatMessage } } = this.props;
+    const stages = trainingState.stages.content;
+    console.assert(stages);
 
-    console.log("Training:", trainingState);
-    console.log("Training elements:", trainingElementsOptions);
-
+    const stagesCount = stages ? stages.length + 1 : 1;
     const modal = {
       modalType: 'CREATE_TRAINING_STAGE',
       modalProps: {
@@ -48,10 +54,32 @@ class TrainingPage extends React.Component {
         training: trainingState.content,
         trainingElements: trainingElementsOptions,
         initialValues: {
-          tid: trainingState.content.id,
-          training: this.getTrainingTime(trainingState.content)
-          // user: selectedUsersOptions,
+          name: formatMessage(commonMessages.stage) + " " + stagesCount,
+          training: trainingState.content,
+          trainingId: trainingState.content.id,
+          trainingTitle: this.getTrainingTime(trainingState.content)
         }
+      }
+    };
+    this.props.showModal(modal);
+  }
+
+  handleEditTrainingStageModal = e => {
+    e.preventDefault();
+
+    const { trainingState, trainingElementsOptions } = this.props;
+    const stage = trainingState.stage.content;
+    const modal = {
+      modalType: 'EDIT_TRAINING_STAGE',
+      resetText: this.props.intl.formatMessage(commonMessages.reset),
+      submitText: this.props.intl.formatMessage(commonMessages.create),
+      training: trainingState.content,
+      stage: stage.content,
+      trainingElements: trainingElementsOptions,
+      initialValues: {
+        training: trainingState.content,
+        trainingId: trainingState.content.id,
+        trainingTitle: this.getTrainingTime(trainingState.content)
       }
     };
     this.props.showModal(modal);
@@ -62,6 +90,7 @@ class TrainingPage extends React.Component {
     // const { handleCreateElement, onSizeChange, onSortChange, onPageChange } = this.props;
 
     const training = trainingState.content;
+    const stages = trainingState.stages.content;
     const time = this.getTrainingTime(training);
 
     const crumbs = [
@@ -86,12 +115,12 @@ class TrainingPage extends React.Component {
           {trainingState.error && <Page.Error error={trainingState.error} />}
           {trainingElementsState.error && <Page.Error error={trainingElementsState.error} />}
 
-          { training && 
+          { training &&
             <div className="row m-b-lg m-t-lg">
               <div className="col-md-9">
               <h2>Stages</h2>
               <br/>
-              {/* { training && 
+              {/* { training &&
                 <Page.ContainerRow>
                   <Page.Container size="col-md-12">
                     <Page.Header>
@@ -105,15 +134,17 @@ class TrainingPage extends React.Component {
                       </Page.Tools>
                     </Page.Header>
                     <Page.Content>
-                    </Page.Content> 
+                    </Page.Content>
                   </Page.Container>
                 </Page.ContainerRow>
               } */}
 
-              <div id="vertical-timeline" class="vertical-container light-timeline no-margins">
+              <div id="vertical-timeline" className="vertical-container light-timeline no-margins">
                           <div className="vertical-timeline-block">
                             <div className="vertical-timeline-icon blue-bg">
-                                <i className="fa fa-plus"></i>
+                              {/* <a href="#top" onClick={this.handleCreateTrainingStageModal}> */}
+                                <i className="fa fa-plus" onClick={this.handleCreateTrainingStageModal}></i>
+                              {/* </a> */}
                             </div>
 
                             <div className="vertical-timeline-content">
@@ -122,70 +153,49 @@ class TrainingPage extends React.Component {
                                   <h2>Create</h2>
                                 </div>
                                 <div className="col-xs-4 col-sm-4 col-md-4">
-                                  <a href="#" className="btn btn-success" onClick={this.handleCreateTrainingStageModal}>
-                                    <i className="fa fa-plus"></i> Create
-                                  </a>
+                                  <a href="#top" className="btn btn-success" onClick={this.handleCreateTrainingStageModal}><i className="fa fa-plus"></i> Create</a>
                                 </div>
                               </div>
                               {/* <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.</p> */}
                             </div>
                         </div>
 
-                        <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon yellow-bg">
-                                <i class="fa fa-hand-o-right"></i>
+                        { stages && stages.map(stage =>
+                          <div className="vertical-timeline-block" key={stage.id}>
+                            <div className="vertical-timeline-icon white-bg">
+                                <i className="fa fa-rocket"></i>
                             </div>
 
-                            <div class="vertical-timeline-content">
-                                <h2>Stage 4</h2>
-                                <span className="vertical-date">
+                            <div className="vertical-timeline-content container-fluid">
+                              <div className="row">
+                                <div className="col-xs-11 col-sm-11 col-md-11">
+                                  <h2>{ stage.name || 'Stage' }</h2>
+                                </div>
+                                <div className="col-xs-1 col-sm-1 col-md-1">
+                                  <ActionMenu>
+                                    <MenuItem eventKey="edit">
+                                      <i className="fa fa-pencil"></i>
+                                      <span><FormattedMessage {...commonMessages.edit} /></span>
+                                    </MenuItem>
+                                    <MenuItem eventKey="delete">
+                                      <i className="fa fa-times"></i>
+                                      <span><FormattedMessage {...commonMessages.delete} /></span>
+                                    </MenuItem>
+                                  </ActionMenu>
+                                </div>
+                              </div>
+
+                              <span className="vertical-date">
+                                { stage.trainingElements &&
+                                  <List.CollectionList className="list-inline" itemClassName="badge badge-info" data={mapIDsToObjects(stage.trainingElements, trainingElementsState.content)}/>
+                                }
                                 <p>Targets - 5: paper - 3, steel plates - 2 </p>
-                                  <small>Shoots: 24</small>
-                                </span>
+                                <small>Shoots: {stage.shots}</small>
+                              </span>
                             </div>
-                        </div>
+                          </div>
+                        )}
 
-                        <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon gray-bg">
-                                <i class="fa fa-wheelchair-alt"></i>
-                            </div>
-
-                            <div class="vertical-timeline-content">
-                                <h2>Stage 3</h2>
-                                <p>Targets - 5: paper - 3, steel plates - 2 </p>
-                                <span className="vertical-date">
-                                  <small>Shoots: 24</small>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon white-bg">
-                                <i class="fa fa-rocket"></i>
-                            </div>
-
-                            <div class="vertical-timeline-content">
-                                <h2>Stage 2</h2>
-                                <p>Targets - 5: paper - 3, steel plates - 2 </p>
-                                <span className="vertical-date">
-                                  <small>Shoots: 24</small>
-                                </span>
-                            </div>
-                        </div>
-
-                        <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon white-bg">
-                                <i class="fa fa-phone"></i>
-                            </div>
-
-                            <div class="vertical-timeline-content">
-                                <h2>Stage 1</h2>
-                                <p>Targets - 5: paper - 3, steel plates - 2 </p>
-                                <span className="vertical-date">
-                                  <small>Shoots: 24</small>
-                                </span>
-                            </div>
-                        </div>
                     </div>
               </div>
               <div className="col-md-3">
@@ -203,12 +213,12 @@ class TrainingPage extends React.Component {
                   </Page.Container>
                 </Page.ContainerWrap>
 
-                <TrainingElementsList
+                <TrainingElementsFrame
                   data={training.trainingElements}
                   trainingElements={trainingElementsState.content}/>
 
                 <TrainingParticipantsList
-                  data={training.users}/>  
+                  data={training.users}/>
               </div>
             </div>
           }
@@ -224,6 +234,7 @@ TrainingPage.propTypes = {
   trainingState: PropTypes.object.isRequired,
   trainingElementsOptions: PropTypes.array.isRequired,
   trainingElementsState: PropTypes.object.isRequired,
+  trainingStagesState: PropTypes.object.isRequired,
   fetchTrainingElements: PropTypes.func.isRequired
 }
 

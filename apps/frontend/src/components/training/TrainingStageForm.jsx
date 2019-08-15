@@ -2,31 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
-import { Field, reduxForm/*, formValueSelector*/ } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 
 import { InputText, InputSelect } from '@startext/react-components';
 import { defaultMessage } from 'i18n/defineMessages';
 
-import Validate from './validate';
+// import Validate from './validate';
 
 const common = defaultMessage.common;
 
 let TrainingStageForm = React.memo(props => {
   const { handleReset, handleSubmit, resetBtnText, submitBtnText, intl: { formatMessage } } = props;
   const { training, trainingElements } = props;
-  
-  // const handleChange = (selectedOption) => {
-  //   // this.setState({ selectedOption });
-  //   console.log('Option selected:', selectedOption);
-  //   console.log('Users:', props.user);
-  // }
-  // const handleChangeTime = (selectedOption) => {
-  //   // this.setState({ selectedOption });
-  //   console.log(`Time selected:`, selectedOption, ', as string: ', selectedOption.format('HH:mm'));
-  // }
-  
-  // console.log("* organizations: ", organizations);
-  // console.log("* users: ", users);
 
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
@@ -34,16 +21,25 @@ let TrainingStageForm = React.memo(props => {
         <div className="row">
           <div className="col-md-12">
             { training &&
-              <Field name="tid" component="input" type="hidden"/>
+              <Field name="trainingId" component="input" type="hidden" />
             }
             { training &&
-              <Field name="training"
+              <Field name="trainingTitle"
                 component={InputText}
                 label="Training"
                 icon='glyphicon glyphicon-home'
                 disabled={true}
               />
             }
+            <Field name="name"
+              component={InputText}
+              label="Name"
+              placeholder='Stage name'
+              // icon='glyphicon glyphicon-check'
+              // required={true}
+              // isMulti={true}
+              // isSearchable={true}
+            />
             <Field name="element"
               component={InputSelect}
               // onChange={handleChange}
@@ -53,7 +49,17 @@ let TrainingStageForm = React.memo(props => {
               icon='glyphicon glyphicon-check'
               // required={true}
               isMulti={true}
+              autoFocus={true}
               // isSearchable={true}
+            />
+            <Field name="shots"
+              component={InputText}
+              // onChange={handleChange}
+              label="Shots"
+              placeholder='25'
+              // icon='glyphicon glyphicon-check'
+              type='number'
+              min='0'
             />
           </div>
         </div>
@@ -62,12 +68,9 @@ let TrainingStageForm = React.memo(props => {
       <div className="hr-line-dashed"></div>
 
       <div className="form-group">
-        <div className="col-sm-10">
-          <button type="submit" className="btn btn-primary" onClick={handleSubmit}>{submitBtnText || formatMessage(common.save)}</button>
-          <button type="button" className="btn btn-white" onClick={handleReset}>{resetBtnText || formatMessage(common.reset)} </button>
-        </div>
+        <button type="submit" className="btn btn-primary" onClick={handleSubmit}>{submitBtnText || formatMessage(common.save)}</button>
+        <button type="button" className="btn btn-white" onClick={handleReset}>{resetBtnText || formatMessage(common.reset)} </button>
       </div>
-
     </form>
   )
 })
@@ -93,7 +96,7 @@ const mapStateToProps = state => ({
 
 TrainingStageForm = reduxForm({
   form: 'TrainingStageForm',
-  validate: Validate,
+  // validate: Validate,
   enableReinitialize: true,
   touchOnBlur: false,
 })(TrainingStageForm);

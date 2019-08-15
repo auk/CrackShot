@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface StageService {
-  @NotNull Stage createStage(@NotNull SecurityContext context, @NotNull Training training, @Null List<TrainingElement> trainingElements);
+  @NotNull Stage createStage(@NotNull SecurityContext context, @NotNull Training training, @Null List<TrainingElement> trainingElements, int shots);
   @NotNull void deleteStage(@NotNull SecurityContext context, @NotNull Stage stage);
   Optional<Stage> findStageById(@NotNull SecurityContext context, @NotNull String id);
   @NotNull Page<Stage> findStages(@NotNull SecurityContext context, @NotNull Training training, Pageable pageable);

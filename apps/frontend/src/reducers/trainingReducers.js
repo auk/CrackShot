@@ -35,6 +35,6 @@ export const trainingStageReducer = handleActions({
 
 export const trainingStagesReducer = handleActions({
   [ combineActions(actions.fetchTrainingStages) ]: handleRequest,
-  [ combineActions(actions.fetchTrainingStagesSuccess) ]: handleRequestSuccess,
+  [ combineActions(actions.fetchTrainingStagesSuccess) ]: handlePageableRequestSuccess,
   [ combineActions(actions.fetchTrainingStagesError) ]: handleRequestError
 }, initialState.training.stages);

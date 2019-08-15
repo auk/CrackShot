@@ -11,6 +11,7 @@ export const trainingWatcherSaga = [
   takeLatest(actions.createTrainingStage.toString(), createTrainingStage),
   takeLatest(actions.fetchTraining.toString(), fetchTraining),
   takeLatest(actions.fetchTrainings.toString(), fetchTrainings),
+  takeLatest(actions.createTrainingStage.toString(), createTrainingStage),
   takeLatest(actions.fetchTrainingStages.toString(), fetchTrainingStages),
 ];
 
@@ -42,7 +43,7 @@ export function* createTrainingRequest({payload}) {
       Object.assign(params, { shots: payload.shots });
       Object.assign(params, { cost: payload.cost });
     }
-    
+
     const config = {
       method: 'POST',
       params: params
@@ -56,7 +57,7 @@ export function* createTrainingRequest({payload}) {
     // console.log("createOrganization - response:", response);
 
     yield put(actions.createTrainingSuccess(response.data));
-    toastr.success('Success', 'Training has been created');    
+    toastr.success('Success', 'Training has been created');
   } catch (error) {
     console.error("Create training error:", error);
     yield put(actions.createTrainingError(createError(error)));
@@ -75,7 +76,7 @@ export function* createTrainingStage({ payload }) {
     };
     if (payload.element)
       Object.assign(params, { elems: payload.element.map(u => u.value) });
-      
+
     const config = {
       method: 'POST',
       params: params
@@ -100,7 +101,7 @@ export function* fetchTraining({payload}) {
     const url = yield select(selectors.getTrainingUrl);
     const config = { params: { id: id } };
     const response = yield call(callApi, { url: url.replace(/:tid/i, id), config, });
-    
+
     const action = actions.fetchTrainingSuccess({ ...response.data });
     yield put(action);
   } catch (error) {
@@ -117,7 +118,7 @@ export function* fetchTrainings({ payload: { requestParams } }) {
     const config = { method: 'POST', params: { ...requestParams } };
     const response = yield call(callApi, { url, config, });
     // console.log('fetchTrainings: response=', response.data);
-    
+
     const action = actions.fetchTrainingsSuccess({ ...response.data, requestParams: requestParams });
     // console.log("fetchTrainings success action:", action);
     yield put(action);
@@ -127,20 +128,71 @@ export function* fetchTrainings({ payload: { requestParams } }) {
   }
 }
 
+export function* createTrainingStage({ payload }) {
+  yield call(createTrainingStageRequest, { payload });
+
+  // refetch data for list
+  const tid = payload.trainingId;
+  const requestParams = yield select(selectors.getTrainingStagesParamsSelector);
+  console.log("createTrainingStage.fetchTrainingStages, tid:", tid, ", params: ", requestParams);
+
+  const action = actions.fetchTrainingStages(tid, requestParams);
+  console.log("createTrainingStage.fetchTrainingStages, action:", action);
+
+  console.log("createTrainingStage.fetchTrainingStages::1");
+  yield put(action);
+
+  console.log("createTrainingStage.fetchTrainingStages::2");
+  yield call(fetchTrainingStages, { payload: { params: tid, pageable: requestParams }});
+}
+
+function* createTrainingStageRequest({ payload }) {
+  try {
+    const tid = payload.trainingId;
+    console.assert(tid);
+
+    const url = yield select(selectors.createTrainingStageUrl);
+    console.log("createTraining stage - url:", url, ", payload: ", payload);
+
+    let params = { name: payload.name };
+    if (payload.element)
+      Object.assign(params, { elems: payload.element.map(u => u.value) });
+    if (payload.shots)
+      Object.assign(params, { shots: payload.shots });
+
+    const config = {
+      method: 'POST',
+      params: params
+    }
+    console.log("config:", config);
+
+    const response = yield call(callApi, {
+      url: url.replace(/:tid/i, tid),
+      config,
+    });
+
+    yield put(actions.createTrainingStageSuccess(response.data));
+    toastr.success('Success', 'Training stage has been created');
+  } catch (error) {
+    console.error("Create training error:", error);
+    yield put(actions.createTrainingStageError(createError(error)));
+  }
+}
+
 export function* fetchTrainingStages({ payload }) {
   const id = payload.params;
-  // const pageable = payload.pageable;
+  const pageable = payload.pageable;
 
-  console.log("fetchTrainingStages: {}", id);
+  // console.log("fetchTrainingStages: payload", payload);
+  // console.log("fetchTrainingStages:", pageable);
 
   try {
     const url = yield select(selectors.getTrainingStagesUrl);
-    // console.log('fetchTrainingStages requestParams:', payload.requestParams);
 
-    const config = { method: 'GET', params: { ...payload.requestParams } };
+    const config = { method: 'GET', params: { ...pageable } };
     const response = yield call(callApi, { url: url.replace(/:tid/i, id), config, });
     // console.log('fetchTrainingStages: response=', response.data);
-    
+
     const action = actions.fetchTrainingStagesSuccess({ ...response.data, requestParams: payload.requestParams });
     // console.log("fetchTrainingStages success action:", action);
     yield put(action);

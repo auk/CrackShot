@@ -12,6 +12,7 @@ export default {
   "common.login": "Войти",
   "common.logout": "Выйти",
   "common.name": "Имя",
+  "common.no_data": "Нет данных",
   "common.organization": "Организация",
   "common.refresh": "Обновить",
   "common.reset": "Сбросить",
@@ -43,8 +44,11 @@ export default {
   "navigation.admin": "Админ",
   "navigation.navItem.home": "Главная страница",
   "navigation.navItem.about": "О проекте",
+  "navigation.navItem.admin": "Администратор",
   "navigation.navItem.calculator": " Калькулятор",
   "navigation.navItem.organizations": "Организации",
+  "navigation.navItem.training": "Тренировка {time}",
+  "navigation.navItem.trainingElements": "Элементы тренировок",
   "navigation.navItem.users": "Пользователи", 
   "language.en": "Английский",
   "language.de": "Немецкий",
@@ -71,6 +75,7 @@ export default {
   "pages.organization.title": "Crack shot | Организация",
   "pages.calculator.title": "Crack shot | Калькулятор",
   "pages.calculator.header": "Калькулятор",
+  "pages.training.title": "Crack shot | Тренировка {time}",
   "organization.create": "Создать организацию",
   "organization.name": "Название"
 }

@@ -104,9 +104,9 @@
     "trainingStage": {
       "api": {
         "create": "{REST_URL}/training/:tid/stage",
-        "delete": "{REST_URL}/training/:tid/stage",
+        "delete": "{REST_URL}/training/:tid/stage/:sid",
         "get": "{REST_URL}/training/:tid/stage/:sid",
-        "update": "{REST_URL}/training/:tid/stage"
+        "update": "{REST_URL}/training/:tid/stage/:sid"
       }
     },
     "trainingStages": {

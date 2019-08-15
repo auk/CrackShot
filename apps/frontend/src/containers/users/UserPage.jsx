@@ -75,10 +75,7 @@ class UserPage extends React.Component {
   render() {
     const { userState, userTrainings, links, intl: { formatMessage } } = this.props;
 
-    // console.log("User trainings:", userTrainings);
-
     const user = userState.content;
-
     const crumbs = [
       {
         url: links.home.url,
@@ -96,7 +93,7 @@ class UserPage extends React.Component {
       <React.Fragment>
         <Breadcrumbs header={pageMessages.title} crumbs={crumbs} />
         <Page title={formatMessage(pageMessages.title)}>
-          
+
           {userState && userState.error && <Page.Error error={userState.error} />}
 
           { user &&
@@ -182,7 +179,7 @@ class UserPage extends React.Component {
                     onSizeChange={this.onSizeChange}/>
                 </Page.Content>
               </Page.Container>
-            </div>            
+            </div>
           </Page.ContainerRow>
           }
         </Page>

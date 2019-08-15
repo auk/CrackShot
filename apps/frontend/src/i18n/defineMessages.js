@@ -66,6 +66,10 @@ export const defaultMessage = defineMessages({
       id: 'common.save',
       defaultMessage: 'Save'
     },
+    stage: {
+      id: 'common.stage',
+      defaultMessage: 'Stage'
+    },
     status: {
       id: 'common.status',
       defaultMessage: 'Status'

@@ -11,6 +11,7 @@ import stx.shooterstatistic.services.StageService;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -22,10 +23,12 @@ public class StageServiceImpl implements StageService {
   TrainingStageRepository trainingStageRepository;
 
   @Override
-  public @NotNull Stage createStage(@NotNull SecurityContext context, @NotNull Training training, @Null List<TrainingElement> trainingElements) {
+  public @NotNull Stage createStage(@NotNull SecurityContext context, @NotNull Training training, @Null List<TrainingElement> trainingElements, int shots) {
     Stage stage = new Stage(training);
     if (trainingElements != null)
       stage.setTrainingElements(trainingElements.stream().map(AbstractEntity::getId).collect(Collectors.toList()));
+    stage.setShots(shots);
+    stage.setTime(LocalTime.now());
     return trainingStageRepository.save(stage);
   }
 
@@ -52,6 +55,6 @@ public class StageServiceImpl implements StageService {
 
   @Override
   public @NotNull Stage saveStage(@NotNull SecurityContext context, @NotNull Stage stage) {
-    return null;
+    return trainingStageRepository.save(stage);
   }
 }

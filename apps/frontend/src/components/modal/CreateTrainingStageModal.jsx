@@ -21,8 +21,9 @@ const CreateTrainingStageModal = (props) => {
     dispatch(hideModal());
   }
 
-  console.log("Training:", training);
-  console.log("Training elements:", trainingElements);
+  console.log("CreateTrainingStageModal - training:", training);
+  console.log("CreateTrainingStageModal - training elements:", trainingElements);
+  console.log("CreateTrainingStageModal - initial values:", initialValues);
 
   return (
     <Modal show={true} onHide={() => dispatch(hideModal())}>

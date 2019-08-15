@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
+import { findObjectByID } from 'services/taxonomyService';
 import Page from 'components/common/pageTemplate/Page';
 
 import { defaultMessage } from 'i18n/defineMessages';
@@ -10,14 +11,17 @@ const commonMessages = defaultMessage.common;
 const TrainingElementsList = (props) => {
   const { data, trainingElements } = props;
 
+<<<<<<< HEAD:apps/frontend/src/components/training/TrainingElementsList.jsx
   const getTrainingElementById = id => {
     // console.log("Training elements:", trainingElements);
     // return id;
     return trainingElements ? trainingElements.find(te => te.id === id) : undefined;
   } 
   
+=======
+>>>>>>> feature-training-stage:apps/frontend/src/components/training/TrainingElementsFrame.jsx
   const getTrainingElementName = id => {
-    const trainingElement = getTrainingElementById(id);
+    const trainingElement = findObjectByID(id, trainingElements);
     return trainingElement ? trainingElement.name : id;
   }
 
@@ -45,8 +49,8 @@ const TrainingElementsList = (props) => {
 
 TrainingElementsList.propTypes = {
   intl: intlShape.isRequired,
-  data: PropTypes.object.isRequired,
-  trainingElements: PropTypes.object.isRequired,
+  // trainingId: PropTypes.number.isRequired,
+  trainingElements: PropTypes.array.isRequired,
 }
 
 export default injectIntl(TrainingElementsList);

@@ -46,7 +46,7 @@ const UserTrainingsList = props => {
           { data.content && data.content.map((tr) =>
             <tr key={tr.id} className={tr.id === 'wid' ? "active" : ""} onClick={() => { if (onClick) onClick(tr); } }>
               <td className="col-md-5 col-sm-5">
-              { tr.training.organization && 
+              { tr.training.organization &&
                 <div>
                   {tr.training.organization.name}
                   &nbsp;
@@ -57,7 +57,7 @@ const UserTrainingsList = props => {
                   }
                 </div>
               }
-              { !tr.training.organization && 
+              { !tr.training.organization &&
                 <div>--</div>
               }
               </td>
@@ -65,7 +65,7 @@ const UserTrainingsList = props => {
                 <Link to={links.training.url.replace(/:tid/i, tr.training.id)}>
                   {tr.training.date}
                 </Link>
-              </td> 
+              </td>
               <td className="col-md-2 col-sm-2">
                 <Link to={links.training.url.replace(/:tid/i, tr.training.id)}>
                   {tr.training.time}
