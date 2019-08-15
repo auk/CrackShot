@@ -75,11 +75,17 @@ export default {
   },
   locale: initializeLocale(),
   organization: defaultObjectState,
-  organizations: defaultPageableState, 
+  organizations: defaultPageableState,
   training: {
     ...defaultObjectState,
     stage: defaultObjectState,
-    stages: defaultPageableState
+    stages: {
+      ...defaultPageableState,
+      requestParams: {
+        ...defaultPageableState.requestParams,
+        sort: [ 'time,desc', 'name' ]
+      }
+    }
   },
   trainings: defaultPageableState,
   trainingElement: defaultObjectState,

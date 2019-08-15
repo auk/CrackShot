@@ -4,16 +4,18 @@ import PropTypes from 'prop-types';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import Page from 'components/common/pageTemplate/Page';
+import List from 'components/common/pageTemplate/List';
 import WithLayout from 'containers/layouts/WithLayout';
 import { defaultMessage } from 'i18n/defineMessages';
-import { getLinksSelector, getTrainingSelector, getTrainingElementsSelector, getTrainingElementsOptionsSelector } from 'selectors';
+import { getLinksSelector, getTrainingSelector, getTrainingElementsSelector, getTrainingElementsOptionsSelector, getTrainingStagesSelector } from 'selectors';
 import { fetchTraining, fetchTrainingElements, fetchTrainingStages } from 'actions/trainingActions';
 import { showModal } from 'actions/modalActions';
-import TrainingElementsList from 'components/training/TrainingElementsList';
+import TrainingElementsFrame from 'components/training/TrainingElementsFrame';
 import TrainingParticipantsList from 'components/training/TrainingParticipantsList';
 
 import { MenuItem } from 'react-bootstrap';
 import ActionMenu from 'components/actionMenu/ActionMenu';
+import { mapIDsToObjects } from 'services/taxonomyService';
 
 const commonMessages = defaultMessage.common;
 const navigationMessages = defaultMessage.navigation;
@@ -23,9 +25,10 @@ class TrainingPage extends React.Component {
 
   componentDidMount() {
     const { fetchTraining, fetchTrainingElements, fetchTrainingStages, trainingElementsState: { requestParams }, match: { params } } = this.props;
+    const { trainingStagesState } = this.props;
     fetchTraining(params.tid);
     fetchTrainingElements(requestParams);
-    fetchTrainingStages(params.tid, requestParams);
+    fetchTrainingStages(params.tid, trainingStagesState.requestParams);
   }
 
   getTrainingTime(training) {
@@ -71,6 +74,7 @@ class TrainingPage extends React.Component {
       resetText: this.props.intl.formatMessage(commonMessages.reset),
       submitText: this.props.intl.formatMessage(commonMessages.create),
       training: trainingState.content,
+      stage: stage.content,
       trainingElements: trainingElementsOptions,
       initialValues: {
         training: trainingState.content,
@@ -138,7 +142,9 @@ class TrainingPage extends React.Component {
               <div id="vertical-timeline" className="vertical-container light-timeline no-margins">
                           <div className="vertical-timeline-block">
                             <div className="vertical-timeline-icon blue-bg">
-                                <i className="fa fa-plus"></i>
+                              {/* <a href="#top" onClick={this.handleCreateTrainingStageModal}> */}
+                                <i className="fa fa-plus" onClick={this.handleCreateTrainingStageModal}></i>
+                              {/* </a> */}
                             </div>
 
                             <div className="vertical-timeline-content">
@@ -160,7 +166,7 @@ class TrainingPage extends React.Component {
                                 <i className="fa fa-rocket"></i>
                             </div>
 
-                            <div className="vertical-timeline-content">
+                            <div className="vertical-timeline-content container-fluid">
                               <div className="row">
                                 <div className="col-xs-11 col-sm-11 col-md-11">
                                   <h2>{ stage.name || 'Stage' }</h2>
@@ -177,71 +183,19 @@ class TrainingPage extends React.Component {
                                     </MenuItem>
                                   </ActionMenu>
                                 </div>
-                            </div>
-                                  
+                              </div>
+
                               <span className="vertical-date">
-                              <p>Targets - 5: paper - 3, steel plates - 2 </p>
+                                { stage.trainingElements &&
+                                  <List.CollectionList className="list-inline" itemClassName="badge badge-info" data={mapIDsToObjects(stage.trainingElements, trainingElementsState.content)}/>
+                                }
+                                <p>Targets - 5: paper - 3, steel plates - 2 </p>
                                 <small>Shoots: {stage.shots}</small>
                               </span>
                             </div>
                           </div>
                         )}
 
-                        {/* <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon yellow-bg">
-                                <i class="fa fa-hand-o-right"></i>
-                            </div>
-
-                            <div class="vertical-timeline-content">
-                                <h2>Stage 4</h2>
-                                <span className="vertical-date">
-                                <p>Targets - 5: paper - 3, steel plates - 2 </p>
-                                  <small>Shoots: 24</small>
-                                </span>
-                            </div>
-                        </div> */}
-
-                        {/* <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon gray-bg">
-                                <i class="fa fa-wheelchair-alt"></i>
-                            </div>
-
-                            <div class="vertical-timeline-content">
-                                <h2>Stage 3</h2>
-                                <p>Targets - 5: paper - 3, steel plates - 2 </p>
-                                <span className="vertical-date">
-                                  <small>Shoots: 24</small>
-                                </span>
-                            </div>
-                        </div> */}
-
-                        {/* <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon white-bg">
-                                <i class="fa fa-rocket"></i>
-                            </div>
-
-                            <div class="vertical-timeline-content">
-                                <h2>Stage 2</h2>
-                                <p>Targets - 5: paper - 3, steel plates - 2 </p>
-                                <span className="vertical-date">
-                                  <small>Shoots: 24</small>
-                                </span>
-                            </div>
-                        </div> */}
-
-                        {/* <div class="vertical-timeline-block">
-                            <div class="vertical-timeline-icon white-bg">
-                                <i class="fa fa-phone"></i>
-                            </div>
-
-                            <div class="vertical-timeline-content">
-                                <h2>Stage 1</h2>
-                                <p>Targets - 5: paper - 3, steel plates - 2 </p>
-                                <span className="vertical-date">
-                                  <small>Shoots: 24</small>
-                                </span>
-                            </div>
-                        </div> */}
                     </div>
               </div>
               <div className="col-md-3">
@@ -259,7 +213,7 @@ class TrainingPage extends React.Component {
                   </Page.Container>
                 </Page.ContainerWrap>
 
-                <TrainingElementsList
+                <TrainingElementsFrame
                   data={training.trainingElements}
                   trainingElements={trainingElementsState.content}/>
 
@@ -280,6 +234,7 @@ TrainingPage.propTypes = {
   trainingState: PropTypes.object.isRequired,
   trainingElementsOptions: PropTypes.array.isRequired,
   trainingElementsState: PropTypes.object.isRequired,
+  trainingStagesState: PropTypes.object.isRequired,
   fetchTrainingElements: PropTypes.func.isRequired
 }
 
@@ -289,6 +244,7 @@ function mapStateToProps(state) {
     trainingState: getTrainingSelector(state),
     trainingElementsState: getTrainingElementsSelector(state),
     trainingElementsOptions: getTrainingElementsOptionsSelector(state),
+    trainingStagesState: getTrainingStagesSelector(state),
   };
 }
 

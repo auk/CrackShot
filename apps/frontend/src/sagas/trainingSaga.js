@@ -101,22 +101,26 @@ export function* createTrainingStage({ payload }) {
 
   // refetch data for list
   const tid = payload.trainingId;
-  const requestParams = yield select(selectors.getTrainingStagesParams);
+  const requestParams = yield select(selectors.getTrainingStagesParamsSelector);
   console.log("createTrainingStage.fetchTrainingStages, tid:", tid, ", params: ", requestParams);
 
   const action = actions.fetchTrainingStages(tid, requestParams);
   console.log("createTrainingStage.fetchTrainingStages, action:", action);
 
-  yield call(fetchTrainingStages({ payload: { params: tid, pageable: requestParams }}));
+  console.log("createTrainingStage.fetchTrainingStages::1");
+  yield put(action);
+  
+  console.log("createTrainingStage.fetchTrainingStages::2");
+  yield call(fetchTrainingStages, { payload: { params: tid, pageable: requestParams }});
 }
 
-export function* createTrainingStageRequest({ payload }) {
+function* createTrainingStageRequest({ payload }) {
   try {
     const tid = payload.trainingId;
     console.assert(tid);
 
     const url = yield select(selectors.createTrainingStageUrl);
-    console.log("createTraining stage - url:", url, ", values: ", payload);
+    console.log("createTraining stage - url:", url, ", payload: ", payload);
 
     let params = { name: payload.name };
     if (payload.element)
@@ -148,7 +152,7 @@ export function* fetchTrainingStages({ payload }) {
   const pageable = payload.pageable;
 
   console.log("fetchTrainingStages: payload", payload);
-  console.log("fetchTrainingStages:", payload.pageable);
+  console.log("fetchTrainingStages:", pageable);
 
   try {
     const url = yield select(selectors.getTrainingStagesUrl);

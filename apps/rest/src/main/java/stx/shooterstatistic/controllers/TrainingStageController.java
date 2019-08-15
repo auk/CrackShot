@@ -3,6 +3,7 @@ package stx.shooterstatistic.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +18,7 @@ import stx.shooterstatistic.services.TrainingService;
 
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -47,15 +49,19 @@ public class TrainingStageController {
     Stage stage = stageService.createStage(context, training, elements, shots);
     stage.setShots(shots);
     stage.setName(name);
+    stage.setTime(LocalTime.now());
     stage = stageService.saveStage(context, stage);
     return new ResponseEntity<>(stage, HttpStatus.CREATED);
   }
 
   @GetMapping(value = "/training/{tid}/stages")
-  public Page<Stage> getTrainingStages(@NotNull Principal principal, @PathVariable String tid) {
+  public Page<Stage> getTrainingStages(
+          @NotNull Principal principal,
+          @PathVariable String tid,
+          @PageableDefault(size = 50) Pageable pageable) {
     SecurityContext context = securityService.createContext(principal);
     Training training = trainingService.getTraining(context, tid);
-    Page<Stage> stages = stageService.findStages(context, training, Pageable.unpaged());
+    Page<Stage> stages = stageService.findStages(context, training, pageable);
     return stages;
   }
 

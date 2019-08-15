@@ -11,6 +11,7 @@ import stx.shooterstatistic.services.StageService;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class StageServiceImpl implements StageService {
     if (trainingElements != null)
       stage.setTrainingElements(trainingElements.stream().map(AbstractEntity::getId).collect(Collectors.toList()));
     stage.setShots(shots);
+    stage.setTime(LocalTime.now());
     return trainingStageRepository.save(stage);
   }
 
