@@ -18,10 +18,8 @@ services:
       - "8080:8080"
     env_file:
       - .env_rest
-#    volumes:
-#      - ../secrets:/etc/secrets:ro
     networks:
-      - auk-shooter-statistic
+      - crackshot
 
 networks:
-  auk-shooter-statistic:
+  crackshot:
