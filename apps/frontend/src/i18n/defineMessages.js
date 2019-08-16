@@ -357,6 +357,16 @@ export const defaultMessage = defineMessages({
         defaultMessage: 'Delete training element'
       },
     },
+    delete_trainingStage: {
+      confirm: {
+        id: 'modal.delete_trainingStage.confirm',
+        defaultMessage: "Are you sure you want to delete training stage '{name}'?"
+      },
+      title: {
+        id: 'modal.delete_trainingStage.title',
+        defaultMessage: 'Delete training stage'
+      },
+    },
     delete_user: {
       confirm: {
         id: 'modal.delete_user.confirm',
@@ -435,6 +445,6 @@ export const defaultMessage = defineMessages({
         id: 'pages.users.header',
         defaultMessage: 'Users'
       }
-    }  
+    }
   }
 })

@@ -18,6 +18,7 @@ import stx.shooterstatistic.services.TrainingElementService;
 
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,6 @@ public class TrainingStageController {
     Stage stage = stageService.createStage(context, training, elements, shots);
     stage.setShots(shots);
     stage.setName(name);
-    stage.setTime(LocalTime.now());
     stage = stageService.saveStage(context, stage);
 
     return new ResponseEntity<>(stage, HttpStatus.CREATED);

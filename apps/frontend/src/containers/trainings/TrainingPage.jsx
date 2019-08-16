@@ -38,7 +38,7 @@ class TrainingPage extends React.Component {
     return ''
   }
 
-  handleCreateTrainingStageModal = e => {
+  handleCreateTrainingStage = e => {
     e.preventDefault();
 
     const { trainingState, trainingElementsState, intl: { formatMessage } } = this.props;
@@ -60,9 +60,7 @@ class TrainingPage extends React.Component {
     this.props.showModal(modal);
   }
 
-  handleEditTrainingStageModal = stage => {
-    console.log("handleEditTrainingStageModal, data:", stage);
-
+  handleEditTrainingStage = stage => {
     const { trainingState, trainingElementsState } = this.props;
     const modal = {
       modalType: 'EDIT_TRAINING_STAGE_MODAL',
@@ -72,6 +70,19 @@ class TrainingPage extends React.Component {
         training: trainingState.content,
         stage: stage,
         trainingElementsTaxonomy: trainingElementsState.content,
+      }
+    };
+
+    this.props.showModal(modal);
+  }
+
+  handleDeleteTrainingStage = stage => {
+    const modal = {
+      modalType: 'DELETE_TRAINING_STAGE_MODAL',
+      modalProps: {
+        resetText: this.props.intl.formatMessage(commonMessages.reset),
+        submitText: this.props.intl.formatMessage(commonMessages.save),
+        stage: stage
       }
     };
 
@@ -153,11 +164,11 @@ class TrainingPage extends React.Component {
                                 </div>
                                 <div className="col-xs-1 col-sm-1 col-md-1">
                                   <ActionMenu>
-                                    <MenuItem eventKey="edit" onClick={this.handleEditTrainingStageModal.bind(this, stage)}>
+                                    <MenuItem eventKey="edit" onClick={this.handleEditTrainingStage.bind(this, stage)}>
                                       <i className="fa fa-pencil"></i>
                                       <span><FormattedMessage {...commonMessages.edit} /></span>
                                     </MenuItem>
-                                    <MenuItem eventKey="delete">
+                                    <MenuItem eventKey="delete" onClick={this.handleDeleteTrainingStage.bind(this, stage)}>
                                       <i className="fa fa-times"></i>
                                       <span><FormattedMessage {...commonMessages.delete} /></span>
                                     </MenuItem>

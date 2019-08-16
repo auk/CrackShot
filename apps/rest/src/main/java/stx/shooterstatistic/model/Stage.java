@@ -6,6 +6,8 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,7 @@ public class Stage extends AbstractEntity {
   @Column(columnDefinition = "integer default 0")
   int shots;
 
-  LocalTime time;
+  LocalDateTime created;
 
   private Stage() {} // JPA
 
@@ -65,11 +67,11 @@ public class Stage extends AbstractEntity {
     this.shots = shots;
   }
 
-  public LocalTime getTime() {
-    return time;
+  public LocalDateTime getCreated() {
+    return created;
   }
 
-  public void setTime(LocalTime time) {
-    this.time = time;
+  public void setCreated(LocalDateTime created) {
+    this.created = created;
   }
 }

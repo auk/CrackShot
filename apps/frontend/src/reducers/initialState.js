@@ -84,7 +84,7 @@ export default {
       ...defaultPageableState,
       requestParams: {
         ...defaultPageableState.requestParams,
-        sort: [ 'time,desc', 'name' ]
+        sort: [ 'created,desc', 'name' ]
       }
     }
   },

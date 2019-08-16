@@ -12,6 +12,7 @@ import stx.shooterstatistic.services.ITrainingService;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Objects;
@@ -32,7 +33,7 @@ public class StageServiceImpl implements IStageService {
     if (trainingElements != null)
       stage.setTrainingElements(trainingElements.stream().map(AbstractEntity::getId).collect(Collectors.toList()));
     stage.setShots(shots);
-    stage.setTime(LocalTime.now());
+    stage.setCreated(LocalDateTime.now());
     stage = trainingStageRepository.save(stage);
 
     trainingService.mergeTrainingElement(context, training, trainingElements);
