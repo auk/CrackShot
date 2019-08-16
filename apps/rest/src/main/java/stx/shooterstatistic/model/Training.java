@@ -1,5 +1,6 @@
 package stx.shooterstatistic.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.ElementCollection;
@@ -22,6 +23,7 @@ public class Training extends AbstractEntity {
 
   LocalDate date;
 
+  @JsonFormat(pattern="HH:mm")
   LocalTime time;
 
   @OneToMany(mappedBy = "training")

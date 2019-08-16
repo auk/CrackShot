@@ -64,17 +64,17 @@ class TrainingPage extends React.Component {
     this.props.showModal(modal);
   }
 
-  handleEditTrainingStageModal = e => {
-    e.preventDefault();
+  handleEditTrainingStageModal = stage => {
+    console.log("handleEditTrainingStageModal, data:", stage);
 
+    /* auk: TODO
     const { trainingState, trainingElementsOptions } = this.props;
-    const stage = trainingState.stage.content;
     const modal = {
       modalType: 'EDIT_TRAINING_STAGE',
       resetText: this.props.intl.formatMessage(commonMessages.reset),
       submitText: this.props.intl.formatMessage(commonMessages.create),
       training: trainingState.content,
-      stage: stage.content,
+      stage: stage,
       trainingElements: trainingElementsOptions,
       initialValues: {
         training: trainingState.content,
@@ -82,7 +82,9 @@ class TrainingPage extends React.Component {
         trainingTitle: this.getTrainingTime(trainingState.content)
       }
     };
+
     this.props.showModal(modal);
+    */
   }
 
   render() {
@@ -159,7 +161,7 @@ class TrainingPage extends React.Component {
                                 </div>
                                 <div className="col-xs-1 col-sm-1 col-md-1">
                                   <ActionMenu>
-                                    <MenuItem eventKey="edit">
+                                    <MenuItem eventKey="edit" onSelect={this.handleEditTrainingStageModal.bind(this, stage)}>
                                       <i className="fa fa-pencil"></i>
                                       <span><FormattedMessage {...commonMessages.edit} /></span>
                                     </MenuItem>

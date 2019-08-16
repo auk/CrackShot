@@ -67,8 +67,8 @@ export function* fetchTraining({payload}) {
   const id = payload;
   try {
     const url = yield select(selectors.getTrainingUrl);
-    const config = { params: { id: id } };
-    const response = yield call(callApi, { url: url.replace(/:tid/i, id), config, });
+    // const config = { params: { id: id } };
+    const response = yield call(callApi, { url: url.replace(/:tid/i, id) });
 
     const action = actions.fetchTrainingSuccess({ ...response.data });
     yield put(action);

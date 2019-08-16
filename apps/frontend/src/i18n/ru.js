@@ -20,7 +20,7 @@ export default {
   "common.yes": "Да",
   "common.no": "Нет",
   "common.cancel": "Отменить",
-  "common.breadcrumb.home": "Главная страница",
+  "common.breadcrumb.home": "Главная",
   "common.breadcrumb.about": "О проекте",
   "common.breadcrumb.create": "Создание",
   "common.breadcrumb.view": "Просмотр",
@@ -34,7 +34,7 @@ export default {
   "home.login": "Пожалуйста {loginLink} для того, чтобы использовать полный функционал приложения.",
   "home.start": "Начать {arr}",
   "home.loginLink": "авторизируйтесть",
-  "home.title": "Crack shot | Главная страница",
+  "home.title": "Главная страница",
   "footer.version": "Версия",
   "footer.rights": "Все права зарегистрированы.",
   "footer.copyright": "Разработка сайта {copy} {year} {copyrightLink}.",
@@ -75,7 +75,7 @@ export default {
   "pages.organization.title": "Crack shot | Организация",
   "pages.calculator.title": "Crack shot | Калькулятор",
   "pages.calculator.header": "Калькулятор",
-  "pages.training.title": "Crack shot | Тренировка {time}",
+  "pages.training.title": "Тренировка {time}",
   "organization.create": "Создать организацию",
   "organization.name": "Название"
 }
