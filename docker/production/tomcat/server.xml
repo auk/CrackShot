@@ -101,10 +101,10 @@
     <Connector port="8443" protocol="org.apache.coyote.http11.Http11AprProtocol"
                maxThreads="150" SSLEnabled="true" >
         <UpgradeProtocol className="org.apache.coyote.http2.Http2Protocol" />
-        <SSLHostConfig caCertificateFile="/etc/secrets/certs/tt.startext.ru.ca">
-		<Certificate certificateKeyFile="/etc/secrets/certs/tt.startext.ru.key"
-                         certificateFile="/etc/secrets/certs/tt.startext.ru.crt"
-                         certificateChainFile="/etc/secrets/certs/tt.startext.ru.fullchain"
+        <SSLHostConfig caCertificateFile="/etc/secrets/certs/ipsc.startext.ru.ca">
+		<Certificate certificateKeyFile="/etc/secrets/certs/ipsc.startext.ru.key"
+                         certificateFile="/etc/secrets/certs/ipsc.startext.ru.crt"
+                         certificateChainFile="/etc/secrets/certs/ipsc.startext.ru.fullchain"
                          type="RSA" />
         </SSLHostConfig>
     </Connector>

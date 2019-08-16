@@ -1,17 +1,41 @@
 version: "3.5"
 services:
-  rest:
-    container_name: crackshot
+  crackshot-app:
     image: registry.startext.ru/auk/crackshot:develop
+    container_name: crackshot-app
     restart: always
     ports:
-      - "8080:8080"
+      - "38080:8080"
+      - "38443:8443"
     env_file:
       - .env_rest
     volumes:
+      - ./certs:/etc/secrets/certs:ro
       - ./tomcat/server.xml:/usr/local/tomcat/conf/server.xml
     networks:
       - crackshot
+    depends_on:
+      - crackshot-postgresql
+
+  crackshot-postgresql:
+    image: postgres
+    restart: always
+    env_file:
+      - .env_postgresql
+    networks:
+      - crackshot
+#    ports:
+#      - 5432:5432
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+      - postgresql-logs:/var/log/postgresql
+      - ./postgresql:/docker-entrypoint-initdb.d:ro
 
 networks:
   crackshot:
+
+volumes:
+  postgresql-data:
+    driver: local
+  postgresql-logs:
+    driver: local
