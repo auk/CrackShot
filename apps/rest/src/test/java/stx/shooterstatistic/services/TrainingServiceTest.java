@@ -21,7 +21,10 @@ import stx.shooterstatistic.util.Definable;
 import javax.transaction.Transactional;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -37,7 +40,7 @@ public class TrainingServiceTest {
   @Autowired private TrainingParticipantRepository trainingParticipantRepository;
   @Autowired private OrganizationService organizationService;
   @Autowired private SecurityService securityService;
-  @Autowired private TrainingService trainingService;
+  @Autowired private ITrainingService trainingService;
   @Autowired private UserService userService;
   @Autowired private UserRepository userRepository;
 

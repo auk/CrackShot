@@ -8,12 +8,14 @@ import TrainingStageForm from 'components/training/TrainingStageForm';
 import { hideModal } from 'actions/modalActions';
 import { createTrainingStage } from 'actions/trainingActions';
 import { defaultMessage } from 'i18n/defineMessages';
+import * as selectors from 'selectors';
+import * as trainingService from 'services/trainingService';
 
 const messages = defaultMessage.training;
 
 const CreateTrainingStageModal = (props) => {
   const { submitText, resetText, dispatch } = props;
-  const { training, trainingElements, initialValues } = props;
+  const { training, trainingElementsTaxonomy, initialValues } = props;
 
   const handleSubmit = data => {
     console.log("CreateTrainingStageModal - data:", data);
@@ -21,8 +23,14 @@ const CreateTrainingStageModal = (props) => {
     dispatch(hideModal());
   }
 
+  const modalInitialValues = {
+    ...initialValues,
+    trainingId: training.id,
+    trainingTitle: trainingService.getTrainingTime(training)
+  }
+
   console.log("CreateTrainingStageModal - training:", training);
-  console.log("CreateTrainingStageModal - training elements:", trainingElements);
+  console.log("CreateTrainingStageModal - training elements taxonomy:", trainingElementsTaxonomy);
   console.log("CreateTrainingStageModal - initial values:", initialValues);
 
   return (
@@ -34,12 +42,11 @@ const CreateTrainingStageModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <TrainingStageForm
-          onSubmit={handleSubmit} 
+          onSubmit={handleSubmit}
           resetBtnText={resetText}
           submitBtnText={submitText}
-          training={training}
-          trainingElements={trainingElements}
-          initialValues={initialValues}
+          trainingElements={trainingElementsTaxonomy.map(te => selectors.taxonomyItemToOptionSelector(te))}
+          initialValues={modalInitialValues}
           />
       </Modal.Body>
     </Modal>

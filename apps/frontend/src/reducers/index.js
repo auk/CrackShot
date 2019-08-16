@@ -8,7 +8,7 @@ import { localeReducer } from 'reducers/localeReducer';
 import { reducer as modalReducer } from 'reducers/modalReducer';
 import { organizationReducer, organizationsReducer } from 'reducers/organizationReducer';
 import { trainingReducer, trainingsReducer } from 'reducers/trainingReducers';
-import { trainingElementReducer, trainingElementsReducer, trainingStagesReducer } from 'reducers/trainingReducers';
+import { trainingElementReducer, trainingElementsReducer, trainingStageReducer, trainingStagesReducer } from 'reducers/trainingReducers';
 import { currentUserReducer, userReducer, userTrainingsReducer, usersReducer } from 'reducers/userReducers';
 
 export function attachNestedReducers(original, reducers) {
@@ -40,13 +40,14 @@ const rootReducer = combineReducers({
   organization: organizationReducer,
   toastr: toastrReducer,
   training: attachNestedReducers(trainingReducer, {
+    stage: trainingStageReducer,
     stages: trainingStagesReducer
   }),
   trainings: trainingsReducer,
   trainingElement: trainingElementReducer,
   trainingElements: trainingElementsReducer,
-  user: attachNestedReducers(userReducer, { 
-  	trainings: userTrainingsReducer 
+  user: attachNestedReducers(userReducer, {
+  	trainings: userTrainingsReducer
   }),
   users: usersReducer,
 });

@@ -7,7 +7,8 @@ import org.springframework.stereotype.Service;
 import stx.shooterstatistic.exceptions.ResourceNotFoundException;
 import stx.shooterstatistic.jpa.TrainingStageRepository;
 import stx.shooterstatistic.model.*;
-import stx.shooterstatistic.services.StageService;
+import stx.shooterstatistic.services.IStageService;
+import stx.shooterstatistic.services.ITrainingService;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
@@ -18,9 +19,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class StageServiceImpl implements StageService {
+public class StageServiceImpl implements IStageService {
   @Autowired
   TrainingStageRepository trainingStageRepository;
+
+  @Autowired
+  ITrainingService trainingService;
 
   @Override
   public @NotNull Stage createStage(@NotNull SecurityContext context, @NotNull Training training, @Null List<TrainingElement> trainingElements, int shots) {
@@ -29,7 +33,10 @@ public class StageServiceImpl implements StageService {
       stage.setTrainingElements(trainingElements.stream().map(AbstractEntity::getId).collect(Collectors.toList()));
     stage.setShots(shots);
     stage.setTime(LocalTime.now());
-    return trainingStageRepository.save(stage);
+    stage = trainingStageRepository.save(stage);
+
+    trainingService.mergeTrainingElement(context, training, trainingElements);
+    return stage;
   }
 
   @Override
@@ -55,6 +62,7 @@ public class StageServiceImpl implements StageService {
 
   @Override
   public @NotNull Stage saveStage(@NotNull SecurityContext context, @NotNull Stage stage) {
-    return trainingStageRepository.save(stage);
+    stage = trainingStageRepository.save(stage);
+    return stage;
   }
 }

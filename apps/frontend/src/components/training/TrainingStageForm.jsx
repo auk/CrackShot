@@ -13,17 +13,20 @@ const common = defaultMessage.common;
 
 let TrainingStageForm = React.memo(props => {
   const { handleReset, handleSubmit, resetBtnText, submitBtnText, intl: { formatMessage } } = props;
-  const { training, trainingElements } = props;
+  const { trainingElements, initialValues } = props;
 
   return (
     <form className="form-horizontal" onSubmit={handleSubmit}>
       <div className="form-group">
         <div className="row">
           <div className="col-md-12">
-            { training &&
+            { initialValues && initialValues.id &&
+              <Field name="id" component="input" type="hidden" />
+            }
+            { initialValues && initialValues.trainingId &&
               <Field name="trainingId" component="input" type="hidden" />
             }
-            { training &&
+            { initialValues && initialValues.trainingTitle &&
               <Field name="trainingTitle"
                 component={InputText}
                 label="Training"

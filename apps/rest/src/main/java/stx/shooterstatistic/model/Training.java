@@ -12,6 +12,7 @@ import java.text.MessageFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -81,7 +82,7 @@ public class Training extends AbstractEntity {
   }
 
   public List<String> getTrainingElements() {
-    return trainingElements;
+    return Collections.unmodifiableList(trainingElements);
   }
 
   public void setTrainingElements(List<String> trainingElements) {

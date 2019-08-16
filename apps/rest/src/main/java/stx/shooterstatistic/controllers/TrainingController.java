@@ -34,7 +34,7 @@ public class TrainingController {
   private SecurityService securityService;
 
   @Autowired
-  private TrainingService trainingService;
+  private ITrainingService trainingService;
 
   @Autowired
   TrainingElementService trainingElementService;

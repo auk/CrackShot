@@ -11,23 +11,22 @@ import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.Stage;
 import stx.shooterstatistic.model.Training;
 import stx.shooterstatistic.model.TrainingElement;
+import stx.shooterstatistic.services.IStageService;
+import stx.shooterstatistic.services.ITrainingService;
 import stx.shooterstatistic.services.SecurityService;
-import stx.shooterstatistic.services.StageService;
 import stx.shooterstatistic.services.TrainingElementService;
-import stx.shooterstatistic.services.TrainingService;
 
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 @RestController()
 public class TrainingStageController {
   @Autowired private SecurityService securityService;
-  @Autowired private StageService stageService;
-  @Autowired private TrainingService trainingService;
+  @Autowired private IStageService stageService;
+  @Autowired private ITrainingService trainingService;
   @Autowired private TrainingElementService trainingElementService;
 
   @PostMapping(value = "/training/{tid}/stage")
@@ -51,6 +50,7 @@ public class TrainingStageController {
     stage.setName(name);
     stage.setTime(LocalTime.now());
     stage = stageService.saveStage(context, stage);
+
     return new ResponseEntity<>(stage, HttpStatus.CREATED);
   }
 
@@ -76,5 +76,31 @@ public class TrainingStageController {
     SecurityContext context = securityService.createContext(principal);
     Stage stage = stageService.getStage(context, sid);
     stageService.deleteStage(context, stage);
+  }
+
+  @PutMapping(value = "/training/{tid}/stage/{sid}")
+  public ResponseEntity<Stage> updateTrainingStage(
+          @NotNull Principal principal,
+          @PathVariable String tid,
+          @PathVariable String sid,
+          @RequestParam(required = false) List<String> elems,
+          @RequestParam(required = false, defaultValue = "0") int shots,
+          @RequestParam String name
+  ) {
+    SecurityContext context = securityService.createContext(principal);
+    Stage stage = stageService.getStage(context, sid);
+    stage.setName(name);
+    stage.setTrainingElements(elems);
+    stage.setShots(shots);
+    stage = stageService.saveStage(context, stage);
+
+    Training training = trainingService.getTraining(context, tid);
+    List<TrainingElement> elements = new ArrayList<>();
+    if (elems != null) {
+      elems.forEach(id -> trainingElementService.find(id).ifPresent(elements::add));
+    }
+    trainingService.mergeTrainingElement(context, training, elements);
+
+    return new ResponseEntity<>(stage, HttpStatus.OK);
   }
 }

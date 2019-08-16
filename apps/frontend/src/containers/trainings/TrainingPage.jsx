@@ -7,7 +7,7 @@ import Page from 'components/common/pageTemplate/Page';
 import List from 'components/common/pageTemplate/List';
 import WithLayout from 'containers/layouts/WithLayout';
 import { defaultMessage } from 'i18n/defineMessages';
-import { getLinksSelector, getTrainingSelector, getTrainingElementsSelector, getTrainingElementsOptionsSelector, getTrainingStagesSelector } from 'selectors';
+import { getLinksSelector, getTrainingSelector, getTrainingElementsSelector, getTrainingElementsOptionsSelector, getTrainingStageSelector, getTrainingStagesSelector } from 'selectors';
 import { fetchTraining, fetchTrainingElements, fetchTrainingStages } from 'actions/trainingActions';
 import { showModal } from 'actions/modalActions';
 import TrainingElementsFrame from 'components/training/TrainingElementsFrame';
@@ -41,23 +41,19 @@ class TrainingPage extends React.Component {
   handleCreateTrainingStageModal = e => {
     e.preventDefault();
 
-    const { trainingState, trainingElementsOptions, intl: { formatMessage } } = this.props;
+    const { trainingState, trainingElementsState, intl: { formatMessage } } = this.props;
     const stages = trainingState.stages.content;
-    console.assert(stages);
-
     const stagesCount = stages ? stages.length + 1 : 1;
+
     const modal = {
-      modalType: 'CREATE_TRAINING_STAGE',
+      modalType: 'CREATE_TRAINING_STAGE_MODAL',
       modalProps: {
         resetText: this.props.intl.formatMessage(commonMessages.reset),
         submitText: this.props.intl.formatMessage(commonMessages.create),
         training: trainingState.content,
-        trainingElements: trainingElementsOptions,
+        trainingElementsTaxonomy: trainingElementsState.content,
         initialValues: {
           name: formatMessage(commonMessages.stage) + " " + stagesCount,
-          training: trainingState.content,
-          trainingId: trainingState.content.id,
-          trainingTitle: this.getTrainingTime(trainingState.content)
         }
       }
     };
@@ -67,28 +63,23 @@ class TrainingPage extends React.Component {
   handleEditTrainingStageModal = stage => {
     console.log("handleEditTrainingStageModal, data:", stage);
 
-    /* auk: TODO
-    const { trainingState, trainingElementsOptions } = this.props;
+    const { trainingState, trainingElementsState } = this.props;
     const modal = {
-      modalType: 'EDIT_TRAINING_STAGE',
-      resetText: this.props.intl.formatMessage(commonMessages.reset),
-      submitText: this.props.intl.formatMessage(commonMessages.create),
-      training: trainingState.content,
-      stage: stage,
-      trainingElements: trainingElementsOptions,
-      initialValues: {
+      modalType: 'EDIT_TRAINING_STAGE_MODAL',
+      modalProps: {
+        resetText: this.props.intl.formatMessage(commonMessages.reset),
+        submitText: this.props.intl.formatMessage(commonMessages.save),
         training: trainingState.content,
-        trainingId: trainingState.content.id,
-        trainingTitle: this.getTrainingTime(trainingState.content)
+        stage: stage,
+        trainingElementsTaxonomy: trainingElementsState.content,
       }
     };
 
     this.props.showModal(modal);
-    */
   }
 
   render() {
-    const { trainingState, trainingElementsState, trainingStagesState, links, intl: { formatMessage } } = this.props;
+    const { trainingState, trainingElementsState, trainingStageState, trainingStagesState, links, intl: { formatMessage } } = this.props;
     // const { handleCreateElement, onSizeChange, onSortChange, onPageChange } = this.props;
 
     const training = trainingState.content;
@@ -119,6 +110,7 @@ class TrainingPage extends React.Component {
         <Page title={title}>
           {trainingState.error && <Page.Error error={trainingState.error} />}
           {trainingElementsState.error && <Page.Error error={trainingElementsState.error} />}
+          {trainingStageState.error && <Page.Error error={trainingStageState.error} />}
           {trainingStagesState.error && <Page.Error error={trainingStagesState.error} />}
 
           { training &&
@@ -154,14 +146,14 @@ class TrainingPage extends React.Component {
                                 <i className="fa fa-rocket"></i>
                             </div>
 
-                            <div className="vertical-timeline-content container-fluid">
+                            <div className="vertical-timeline-content container container-fluid">
                               <div className="row">
                                 <div className="col-xs-11 col-sm-11 col-md-11">
                                   <h2>{ stage.name || 'Stage' }</h2>
                                 </div>
                                 <div className="col-xs-1 col-sm-1 col-md-1">
                                   <ActionMenu>
-                                    <MenuItem eventKey="edit" onSelect={this.handleEditTrainingStageModal.bind(this, stage)}>
+                                    <MenuItem eventKey="edit" onClick={this.handleEditTrainingStageModal.bind(this, stage)}>
                                       <i className="fa fa-pencil"></i>
                                       <span><FormattedMessage {...commonMessages.edit} /></span>
                                     </MenuItem>
@@ -222,6 +214,7 @@ TrainingPage.propTypes = {
   trainingState: PropTypes.object.isRequired,
   trainingElementsOptions: PropTypes.array.isRequired,
   trainingElementsState: PropTypes.object.isRequired,
+  trainingStageState: PropTypes.object.isRequired,
   trainingStagesState: PropTypes.object.isRequired,
   fetchTrainingElements: PropTypes.func.isRequired
 }
@@ -232,6 +225,7 @@ function mapStateToProps(state) {
     trainingState: getTrainingSelector(state),
     trainingElementsState: getTrainingElementsSelector(state),
     trainingElementsOptions: getTrainingElementsOptionsSelector(state),
+    trainingStageState: getTrainingStageSelector(state),
     trainingStagesState: getTrainingStagesSelector(state)
   };
 }

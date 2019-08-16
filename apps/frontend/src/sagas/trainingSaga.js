@@ -12,6 +12,7 @@ export const trainingWatcherSaga = [
   takeLatest(actions.fetchTrainings.toString(), fetchTrainings),
   takeLatest(actions.createTrainingStage.toString(), createTrainingStage),
   takeLatest(actions.fetchTrainingStages.toString(), fetchTrainingStages),
+  takeLatest(actions.updateTrainingStage.toString(), updateTrainingStage)
 ];
 
 export function* createTraining({payload}) {
@@ -101,36 +102,32 @@ export function* createTrainingStage({ payload }) {
 
   // refetch data for list
   const tid = payload.trainingId;
+  yield put(actions.fetchTraining(tid));
+
   const requestParams = yield select(selectors.getTrainingStagesParamsSelector);
-  console.log("createTrainingStage.fetchTrainingStages, tid:", tid, ", params: ", requestParams);
+  yield put(actions.fetchTrainingStages(tid, requestParams));
+}
 
-  const action = actions.fetchTrainingStages(tid, requestParams);
-  console.log("createTrainingStage.fetchTrainingStages, action:", action);
-
-  console.log("createTrainingStage.fetchTrainingStages::1");
-  yield put(action);
-
-  console.log("createTrainingStage.fetchTrainingStages::2");
-  yield call(fetchTrainingStages, { payload: { params: tid, pageable: requestParams }});
+const trainingStageToRequestParams = (payload) => {
+  let params = { name: payload.name };
+  if (payload.element)
+    Object.assign(params, { elems: payload.element.map(u => u.value) });
+  if (payload.shots)
+    Object.assign(params, { shots: payload.shots });
+  return params;
 }
 
 function* createTrainingStageRequest({ payload }) {
   try {
+    const url = yield select(selectors.createTrainingStageUrl);
+    // console.log("createTrainingStage - url:", url, ", payload: ", payload);
+
     const tid = payload.trainingId;
     console.assert(tid);
 
-    const url = yield select(selectors.createTrainingStageUrl);
-    console.log("createTraining stage - url:", url, ", payload: ", payload);
-
-    let params = { name: payload.name };
-    if (payload.element)
-      Object.assign(params, { elems: payload.element.map(u => u.value) });
-    if (payload.shots)
-      Object.assign(params, { shots: payload.shots });
-
     const config = {
       method: 'POST',
-      params: params
+      params: trainingStageToRequestParams(payload)
     }
     console.log("config:", config);
 
@@ -167,5 +164,45 @@ export function* fetchTrainingStages({ payload }) {
   } catch (error) {
     // console.log("Error action:", createError(error))
     yield put(actions.fetchTrainingStagesError(createError(error)));
+  }
+}
+
+export function* updateTrainingStage({ payload }) {
+  yield call(updateTrainingStageRequest, { payload });
+
+  // refetch data for list
+  const tid = payload.trainingId;
+  yield put(actions.fetchTraining(tid));
+
+  const requestParams = yield select(selectors.getTrainingStagesParamsSelector);
+  yield put(actions.fetchTrainingStages(tid, requestParams));
+}
+
+export function* updateTrainingStageRequest({payload}) {
+  try {
+    const url = yield select(selectors.updateTrainingStageUrl);
+    console.log("updateTrainingStage - url:", url, ", payload: ", payload);
+
+    const id = payload.id;
+    console.assert(id, "Stage ID must me defined");
+
+    const tid = payload.trainingId;
+    console.assert(tid, "Training ID must me defined");
+
+    const config = {
+      method: 'PUT',
+      params: trainingStageToRequestParams(payload)
+    }
+    // console.log("config:", config);
+
+    const response = yield call(callApi, {
+      url: url.replace(/:tid/i, tid).replace(/:sid/i, id),
+      config,
+    });
+
+    yield put(actions.updateTrainingStageSuccess(response.data));
+    toastr.success('Success', 'Training stage has been updated');
+  } catch (error) {
+    yield put(actions.updateTrainingStageError(createError(error)));
   }
 }

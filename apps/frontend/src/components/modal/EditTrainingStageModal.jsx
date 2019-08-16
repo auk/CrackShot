@@ -6,30 +6,38 @@ import { FormattedMessage} from 'react-intl';
 import TrainingStageForm from 'components/training/TrainingStageForm';
 
 import { hideModal } from 'actions/modalActions';
-import { createTrainingStage } from 'actions/trainingActions';
+import { updateTrainingStage } from 'actions/trainingActions';
+import * as selectors from 'selectors';
+import * as taxonomyService from 'services/taxonomyService';
+import * as trainingService from 'services/trainingService';
+
 import { defaultMessage } from 'i18n/defineMessages';
 
 const messages = defaultMessage.training;
 
 const EditTrainingStageModal = (props) => {
   const { submitText, resetText, dispatch } = props;
-  const { stage, trainingElements } = props;
+  const { training, stage, trainingElementsTaxonomy } = props;
 
   const handleSubmit = data => {
     console.log("EditTrainingStageModal - data:", data);
-    dispatch(createTrainingStage(data));
+    dispatch(updateTrainingStage(data));
     dispatch(hideModal());
   }
 
-  // console.log("EditTrainingStageModal - training:", training);
-  // console.log("EditTrainingStageModal - training elements:", trainingElements);
-  // console.log("EditTrainingStageModal - initial values:", initialValues);
-
   const initialValues = {
+    id: stage.id,
     name: stage.name,
-    // trainingId: trainingState.content.id,
-    // trainingTitle: this.getTrainingTime(trainingState.content)
+    trainingId: training.id,
+    trainingTitle: trainingService.getTrainingTime(training),
+    element: taxonomyService.mapIDsToOptions(stage.trainingElements, trainingElementsTaxonomy),
+    shots: stage.shots
   }
+
+  console.log("EditTrainingStageModal - training:", training);
+  console.log("EditTrainingStageModal - stage:", stage);
+  console.log("EditTrainingStageModal - training elements taxonomy:", trainingElementsTaxonomy);
+  console.log("EditTrainingStageModal - initial values:", initialValues);
 
   return (
     <Modal show={true} onHide={() => dispatch(hideModal())}>
@@ -40,12 +48,10 @@ const EditTrainingStageModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <TrainingStageForm
-          onSubmit={handleSubmit} 
+          onSubmit={handleSubmit}
           resetBtnText={resetText}
           submitBtnText={submitText}
-          // training={training}
-          stage={stage}
-          trainingElements={trainingElements}
+          trainingElements={trainingElementsTaxonomy.map(te => selectors.taxonomyItemToOptionSelector(te))}
           initialValues={initialValues}
           />
       </Modal.Body>
@@ -55,6 +61,7 @@ const EditTrainingStageModal = (props) => {
 
 export default connect(
   (state, ownProps) => ({
+    stage: ownProps.stage
     // user: ownProps.initialValues.user,
     // validate: (values, props) => {
     //   console.log("values: ", values, ", props:", props)

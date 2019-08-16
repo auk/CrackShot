@@ -12,7 +12,7 @@ import javax.validation.constraints.Null;
 import java.util.List;
 import java.util.Optional;
 
-public interface StageService {
+public interface IStageService {
   @NotNull Stage createStage(@NotNull SecurityContext context, @NotNull Training training, @Null List<TrainingElement> trainingElements, int shots);
   @NotNull void deleteStage(@NotNull SecurityContext context, @NotNull Stage stage);
   Optional<Stage> findStageById(@NotNull SecurityContext context, @NotNull String id);

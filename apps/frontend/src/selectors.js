@@ -45,12 +45,12 @@ export const createTrainingElementUrl = state => state.config.links.trainingElem
 export const deleteTrainingElementUrl = state => state.config.links.trainingElement.api.delete;
 export const getTrainingElementUrl = state => state.config.links.trainingElement.api.get;
 export const updateTrainingElementUrl = state => state.config.links.trainingElement.api.update;
-export const trainingElementToOptionSelector = element => ({ label: element.name, value: element.id });
+export const taxonomyItemToOptionSelector = element => ({ label: element.name, value: element.id });
 export const getTrainingElementsRequestParams = state => state.trainingElements.requestParams;
 export const getTrainingElementsSelector = state => state.trainingElements;
 export const getTrainingElementsOptionsSelector = createSelector(
   getTrainingElementsSelector,
-  elements => elements.content ? elements.content.map(element => trainingElementToOptionSelector(element)) : {});
+  elements => elements.content ? elements.content.map(element => taxonomyItemToOptionSelector(element)) : {});
 export const getTrainingElementsUrl = state => state.config.links.trainingElements.api.get;
 
 // Training stages
@@ -60,6 +60,7 @@ export const createTrainingStageUrl = state => state.config.links.trainingStage.
 export const deleteTrainingStageUrl = state => state.config.links.trainingStage.api.delete;
 export const updateTrainingStageUrl = state => state.config.links.trainingStage.api.update;
 
+export const getTrainingStageSelector = state => state.training.stage;
 export const getTrainingStagesSelector = state => state.training.stages;
 export const getTrainingStagesParamsSelector = state => state.training.stages.requestParams;
 

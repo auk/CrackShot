@@ -1,4 +1,4 @@
-package stx.shooterstatistic.services;
+package stx.shooterstatistic.services.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +11,7 @@ import stx.shooterstatistic.exceptions.ResourceNotFoundException;
 import stx.shooterstatistic.jpa.TrainingParticipantRepository;
 import stx.shooterstatistic.jpa.TrainingRepository;
 import stx.shooterstatistic.model.*;
+import stx.shooterstatistic.services.*;
 import stx.shooterstatistic.util.Definable;
 
 import javax.persistence.EntityManager;
@@ -27,9 +28,8 @@ import static stx.shooterstatistic.jpa.CriteriaBuilderHelper.createOrders;
 import static stx.shooterstatistic.jpa.CriteriaBuilderHelper.setPagable;
 
 @Service
-public class TrainingService {
-
-  private final static Logger log = LoggerFactory.getLogger(TrainingService.class);
+public class TrainingServiceImpl implements ITrainingService {
+  private final static Logger log = LoggerFactory.getLogger(TrainingServiceImpl.class);
 
   @Autowired
   SecurityService securityService;
@@ -54,12 +54,12 @@ public class TrainingService {
 
   @NotNull
   public Training createTraining(
-     @NotNull SecurityContext context,
-     @NotNull LocalDate date,
-     @NotNull LocalTime time,
-     @Null Organization organization,
-     @Null List<User> users,
-     @NotNull List<TrainingElement> elements)
+          @NotNull SecurityContext context,
+          @NotNull LocalDate date,
+          @NotNull LocalTime time,
+          @Null Organization organization,
+          @Null List<User> users,
+          @NotNull List<TrainingElement> elements)
   {
     securityService.checkHasAccess(context, organization, Permission.READ);
 
@@ -198,8 +198,8 @@ public class TrainingService {
 //    log.info("- participating training: {}, user: {}, organization: {}", training.getId(), user.getId(), organization);
 
     return trainingParticipantRepository
-      .findByTrainingAndUser(training, user)
-      .orElseGet(() -> trainingParticipantRepository.save(new TrainingParticipant(training, user)));
+            .findByTrainingAndUser(training, user)
+            .orElseGet(() -> trainingParticipantRepository.save(new TrainingParticipant(training, user)));
   }
 
   public void leaveTraining(@NotNull SecurityContext context, @NotNull Training training, @NotNull User user) {
@@ -207,5 +207,26 @@ public class TrainingService {
     Objects.requireNonNull(user);
 
     trainingParticipantRepository.findByTrainingAndUser(training, user).ifPresent(p -> trainingParticipantRepository.delete(p));
+  }
+
+  @Override
+  public Training mergeTrainingElement(@NotNull SecurityContext context, @NotNull Training training, List<TrainingElement> elements) {
+    List<String> trainingElementIDs = new ArrayList<>(training.getTrainingElements());
+    for (TrainingElement te : elements) {
+      if (!trainingElementIDs.contains(te.getId())) {
+        trainingElementIDs.add(te.getId());
+      }
+    }
+
+    if (trainingElementIDs.size() != training.getTrainingElements().size()) {
+      training.setTrainingElements(trainingElementIDs);
+      training = saveTraining(context, training);
+    }
+    return training;
+  }
+
+  @NotNull
+  public Training saveTraining(@NotNull SecurityContext context, @NotNull Training training) {
+   return trainingRepository.save(training);
   }
 }

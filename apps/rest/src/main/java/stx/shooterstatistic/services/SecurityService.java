@@ -33,7 +33,7 @@ public class SecurityService {
     return SecurityContext.create(userService.getUser(principal));
   }
 
-  void checkHasAccess(SecurityContext context, Organization organization, Permission permission) {
+  public void checkHasAccess(SecurityContext context, Organization organization, Permission permission) {
     assert (context != null);
     if (!hasAccess(context, organization, permission))
       throw new SecurityException(MessageFormat.format(FORMAT_HasAccessException, context.getUser(), organization));
