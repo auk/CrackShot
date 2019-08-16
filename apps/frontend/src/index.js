@@ -36,7 +36,7 @@ ReactDOM.render(
   <Provider store={store}>
     <App history={history} />
     <ReduxToastr
-        position="bottom-right"
+        position="top-right"
         timeOut={3000}
         closeButton={true}
         showDuration={0}

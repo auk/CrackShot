@@ -133,8 +133,8 @@ class TrainingPage extends React.Component {
               <div id="vertical-timeline" className="vertical-container light-timeline no-margins">
                           <div className="vertical-timeline-block">
                             <div className="vertical-timeline-icon blue-bg">
-                              {/* <a href="#top" onClick={this.handleCreateTrainingStageModal}> */}
-                                <i className="fa fa-plus" onClick={this.handleCreateTrainingStageModal}></i>
+                              {/* <a href="#top" onClick={this.handleCreateTrainingStage}> */}
+                                <i className="fa fa-plus" onClick={this.handleCreateTrainingStage}></i>
                               {/* </a> */}
                             </div>
 
@@ -144,7 +144,7 @@ class TrainingPage extends React.Component {
                                   <h2>Create</h2>
                                 </div>
                                 <div className="col-xs-4 col-sm-4 col-md-4">
-                                  <a href="#top" className="btn btn-success" onClick={this.handleCreateTrainingStageModal}><i className="fa fa-plus"></i> Create</a>
+                                  <a href="#top" className="btn btn-success" onClick={this.handleCreateTrainingStage}><i className="fa fa-plus"></i> Create</a>
                                 </div>
                               </div>
                               {/* <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.</p> */}
