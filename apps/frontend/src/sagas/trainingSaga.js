@@ -27,7 +27,7 @@ export function* createTraining({payload}) {
   yield put(actions.fetchTrainings({ payload: requestParams }));
 }
 
-function* createTrainingRequest({payload}) {
+export function* createTrainingRequest({payload}) {
   try {
     const url = yield select(selectors.createTrainingUrl);
     // console.log("createTraining - url:", url, ", values: ", payload);
