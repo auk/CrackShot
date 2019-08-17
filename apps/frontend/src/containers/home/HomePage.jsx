@@ -17,13 +17,13 @@ import { fetchOrganizations } from 'actions/organizationActions';
 import { createTraining, createTrainingElement, fetchTrainings, fetchTrainingElements } from 'actions/trainingActions';
 import { fetchUsers } from 'actions/userActions';
 import TrainingsList from 'components/training/TrainingsList';
-import TrainingStageForm from 'components/training/TrainingStageForm';
+import * as trainingService from 'services/trainingService';
 import userAuthIcon from 'assets/img/profile.jpg';
 import moment from 'moment';
 
 const messages = defaultMessage.home;
 const trainingMessages = defaultMessage.training;
-const common = defaultMessage.common;
+const commonMessages = defaultMessage.common;
 
 class HomePage extends React.Component {
 
@@ -52,7 +52,7 @@ class HomePage extends React.Component {
   }
 
   onClickTraining = (tr) => {
-    console.log(tr);
+    console.log("onClickTraining - tr:", tr);
   }
 
   onPageChange = (page) => {
@@ -78,8 +78,8 @@ class HomePage extends React.Component {
     const modal = {
       modalType: 'CREATE_TRAINING',
       modalProps: {
-        resetText: this.props.intl.formatMessage(common.reset),
-        submitText: this.props.intl.formatMessage(common.create),
+        resetText: this.props.intl.formatMessage(commonMessages.reset),
+        submitText: this.props.intl.formatMessage(commonMessages.create),
         elements: trainingElementsOptions,
         organizations: organizationsOptions,
         users: usersOptions,
@@ -96,14 +96,31 @@ class HomePage extends React.Component {
     this.props.fetchTrainings(this.props.trainings.requestParams);
   }
 
+  handleDeleteTraining = training => {
+    console.log("handleDeleteTraining - training:", training);
+    console.assert(training);
+
+    const modal = {
+      modalType: 'DELETE_TRAINING_MODAL',
+      modalProps: {
+        training: training,
+        name: this.props.intl.formatMessage(commonMessages.training) + ' ' + trainingService.getTrainingTime(training),
+        initialValues: {
+          name: this.props.intl.formatMessage(commonMessages.training) + ' ' + trainingService.getTrainingTime(training),
+        }
+      }
+    };
+    this.props.showModal(modal);
+  }
+
   render() {
-    const { currentUser, links, trainings, trainingElementsState, trainingElementsOptions, intl: { formatMessage } } = this.props;
+    const { currentUser, links, trainings, trainingElementsState, intl: { formatMessage } } = this.props;
 
     const crumbs = [
       {
         url: links.home.url,
         icon: 'fa-bank',
-        text: common.breadcrumb.home,
+        text: commonMessages.breadcrumb.home,
       }
     ];
 
@@ -176,7 +193,7 @@ class HomePage extends React.Component {
           </div>
 
           <Page.ContainerRow>
-            <div className="col-md-6">
+            <div className="col-md-8">
               <Page.Container>
                 <Page.Header>
                   <h5>Last trainings</h5>
@@ -194,15 +211,18 @@ class HomePage extends React.Component {
                     links={links}
                     trainingElements={trainingElementsState.content}
                     onClick={this.onClickTraining}
+                    onDelete={this.handleDeleteTraining}
                     onPageChange={this.onPageChange}
                     onSizeChange={this.onSizeChange}/>
                 </Page.Content>
               </Page.Container>
             </div>
 
-            <div className="col-md-6">
-              <TrainingStageForm
-                trainingElements={trainingElementsOptions}/>
+            <div className="col-md-4">
+              <h2>My organizations</h2>
+              <br/>
+              {/* <TrainingStageForm
+                trainingElements={trainingElementsOptions}/> */}
             </div>
           </Page.ContainerRow>
         </Page>

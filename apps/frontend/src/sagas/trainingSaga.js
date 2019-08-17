@@ -8,6 +8,7 @@ import * as selectors from '../selectors';
 
 export const trainingWatcherSaga = [
   takeLatest(actions.createTraining.toString(), createTraining),
+  takeLatest(actions.deleteTraining.toString(), deleteTraining),
   takeLatest(actions.fetchTraining.toString(), fetchTraining),
   takeLatest(actions.fetchTrainings.toString(), fetchTrainings),
   takeLatest(actions.createTrainingStage.toString(), createTrainingStage),
@@ -26,7 +27,7 @@ export function* createTraining({payload}) {
   yield put(actions.fetchTrainings({ payload: requestParams }));
 }
 
-export function* createTrainingRequest({payload}) {
+function* createTrainingRequest({payload}) {
   try {
     const url = yield select(selectors.createTrainingUrl);
     // console.log("createTraining - url:", url, ", values: ", payload);
@@ -65,6 +66,20 @@ export function* createTrainingRequest({payload}) {
     console.error("Create training error:", error);
     yield put(actions.createTrainingError(createError(error)));
   }
+}
+
+export function* deleteTraining({payload}) {
+  /* auk: TODO 
+  console.log("deleteTraining - payload: ", payload);
+  yield call(deleteTrainingRequest, { payload });
+
+  // refetch data for list
+  const tid = payload.trainingId;
+  console.assert(tid, "Training ID must me defined");
+
+  const requestParams = yield select(selectors.getTrainingParamsSelector);
+  yield put(actions.fetchTrainings(requestParams));
+  */
 }
 
 export function* fetchTraining({payload}) {
@@ -150,7 +165,7 @@ function* createTrainingStageRequest({ payload }) {
 }
 
 export function* deleteTrainingStage({ payload }) {
-  console.log("deleteTrainingStage - payload: ", payload);
+  // console.log("deleteTrainingStage - payload: ", payload);
   yield call(deleteTrainingStageRequest, { payload });
 
   // refetch data for list

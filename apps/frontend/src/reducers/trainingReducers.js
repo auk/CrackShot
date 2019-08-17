@@ -4,9 +4,9 @@ import * as actions from '../actions/trainingActions';
 import initialState from './initialState';
 
 export const trainingReducer = handleActions({
-  [ combineActions(actions.createTraining, actions.fetchTraining, actions.updateTraining) ]: handleRequest,
-  [ combineActions(actions.createTrainingSuccess, actions.fetchTrainingSuccess, actions.updateTrainingSuccess) ]: handleRequestSuccess,
-  [ combineActions(actions.createTrainingError, actions.fetchTrainingError, actions.updateTrainingError) ]: handleRequestError
+  [ combineActions(actions.createTraining, actions.deleteTraining, actions.fetchTraining, actions.updateTraining) ]: handleRequest,
+  [ combineActions(actions.createTrainingSuccess, actions.deleteTrainingSuccess, actions.fetchTrainingSuccess, actions.updateTrainingSuccess) ]: handleRequestSuccess,
+  [ combineActions(actions.createTrainingError, actions.deleteTrainingError, actions.fetchTrainingError, actions.updateTrainingError) ]: handleRequestError
 }, initialState.training);
 
 export const trainingsReducer = handleActions({

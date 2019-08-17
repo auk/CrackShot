@@ -1,6 +1,7 @@
 import { createSimpleActions, createPageableActions, createPageableActionsEx } from './actionFactories';
 
 export const { createTraining, createTrainingSuccess, createTrainingError } = createSimpleActions('CREATE_TRAINING');
+export const { deleteTraining, deleteTrainingSuccess, deleteTrainingError } = createSimpleActions('DELETE_TRAINING');
 export const { fetchTraining, fetchTrainingSuccess, fetchTrainingError } = createSimpleActions('FETCH_TRAINING');
 export const { updateTraining, updateTrainingSuccess, updateTrainingError } = createSimpleActions('UPDATE_TRAINING');
 

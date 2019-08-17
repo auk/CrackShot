@@ -14,7 +14,7 @@ const common = defaultMessage.common;
 // const trainingMessage = defaultMessage.training;
 
 const TrainingsList = props => {
-  const { data, links, trainingElements, onSizeChange, onPageChange, onClick, intl: { formatMessage } } = props;
+  const { data, links, trainingElements, onSizeChange, onPageChange, onClick, onEdit, onDelete, intl: { formatMessage } } = props;
   const { showActions = true, showOrganizationLink = true, showPaging = true } = props;
 
   const getTrainingElementById = id => {
@@ -99,6 +99,18 @@ const TrainingsList = props => {
                         <span><FormattedMessage {...common.view} /></span>
                       </MenuItem>
                     </LinkContainer>
+                    { onEdit &&
+                      <MenuItem eventKey="edit">
+                        <i className="fa fa-pencil"></i>
+                        <span><FormattedMessage {...common.edit} /></span>
+                      </MenuItem>
+                    }
+                    { onDelete &&
+                      <MenuItem eventKey="delete" onClick={onDelete.bind(this, tr)}>
+                          <i className="fa fa-times"></i>
+                          <span><FormattedMessage {...common.delete} /></span>
+                      </MenuItem>
+                    }
                   </ActionMenu>
                 </td>
               }

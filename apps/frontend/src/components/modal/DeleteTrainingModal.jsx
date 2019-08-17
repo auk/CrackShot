@@ -4,14 +4,14 @@ import { Modal } from 'react-bootstrap';
 import { FormattedMessage } from 'react-intl';
 
 import { hideModal } from 'actions/modalActions';
-import { deleteTrainingStage } from 'actions/trainingActions';
+import { deleteTraining } from 'actions/trainingActions';
 import { defaultMessage } from 'i18n/defineMessages';
 
-const messages = defaultMessage.modal.deleteTrainingStage;
+const messages = defaultMessage.modal.deleteTraining;
 const common = defaultMessage.common;
 
-const DeleteTrainingStageModal = (props) => {
-  const { stage, dispatch } = props;
+const DeleteTrainingModal = (props) => {
+  const { training, name, dispatch } = props;
 
   return (
     <Modal show={true} onHide={() => dispatch(hideModal())}>
@@ -21,11 +21,11 @@ const DeleteTrainingStageModal = (props) => {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        <p className="m-b-n"><FormattedMessage {...messages.confirm} values={{ name: stage.name }}/></p>
+        <p className="m-b-n"><FormattedMessage {...messages.confirm} values={{ name }}/></p>
       </Modal.Body>
       <Modal.Footer>
         <button className="btn btn-primary" onClick={() => {
-          dispatch(deleteTrainingStage({ trainingId: stage.training.id, stageId: stage.id }));
+          dispatch(deleteTraining(training.id));
           dispatch(hideModal());
         }}>
           <FormattedMessage {...common.yes} />
@@ -40,6 +40,6 @@ const DeleteTrainingStageModal = (props) => {
 
 export default connect(
   (state, ownProps) => ({
-    TrainingStage: { name: ownProps.TrainingStageName, id: ownProps.TrainingStageId },
+    // TrainingStage: { name: ownProps.TrainingStageName, id: ownProps.TrainingStageId },
   })
-)(DeleteTrainingStageModal)
+)(DeleteTrainingModal)

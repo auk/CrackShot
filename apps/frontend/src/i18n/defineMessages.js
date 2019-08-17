@@ -78,6 +78,10 @@ export const defaultMessage = defineMessages({
       id: 'common.time',
       defaultMessage: 'Time'
     },
+    training: {
+      id: 'common.training',
+      defaultMessage: 'Training'
+    },
     view: {
       id: 'common.view',
       description: 'View button',
@@ -347,6 +351,16 @@ export const defaultMessage = defineMessages({
     }
   },
   modal: {
+    deleteTraining: {
+      confirm: {
+        id: 'modal.deleteTraining.confirm',
+        defaultMessage: "Are you sure you want to delete training '{name}'?"
+      },
+      title: {
+        id: 'modal.deleteTraining.title',
+        defaultMessage: 'Delete training'
+      },
+    },
     delete_trainingElement: {
       confirm: {
         id: 'modal.delete_trainingElement.confirm',
@@ -357,13 +371,13 @@ export const defaultMessage = defineMessages({
         defaultMessage: 'Delete training element'
       },
     },
-    delete_trainingStage: {
+    deleteTrainingStage: {
       confirm: {
-        id: 'modal.delete_trainingStage.confirm',
+        id: 'modal.deleteTrainingStage.confirm',
         defaultMessage: "Are you sure you want to delete training stage '{name}'?"
       },
       title: {
-        id: 'modal.delete_trainingStage.title',
+        id: 'modal.deleteTrainingStage.title',
         defaultMessage: 'Delete training stage'
       },
     },
