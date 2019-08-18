@@ -57,7 +57,7 @@ const TrainingsList = props => {
         </Table.Head>
         <Table.Body>
           {data.content && data.content.map((tr) =>
-            <tr key={tr.id} className={tr.id === 'wid' ? "active" : ""} onClick={() => onClick(tr)}>
+            <tr key={tr.id} className={tr.id === 'wid' ? "active" : ""} onClick={() => onClick ? onClick(tr) : undefined }>
               <td className="col-md-5 col-sm-5">
               { tr.organization && 
                 <div>
@@ -100,7 +100,7 @@ const TrainingsList = props => {
                       </MenuItem>
                     </LinkContainer>
                     { onEdit &&
-                      <MenuItem eventKey="edit">
+                      <MenuItem eventKey="edit" onClick={onEdit.bind(this, tr)}>
                         <i className="fa fa-pencil"></i>
                         <span><FormattedMessage {...common.edit} /></span>
                       </MenuItem>

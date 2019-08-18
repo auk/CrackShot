@@ -10,6 +10,7 @@ import DeleteTrainingElementModal from './DeleteTrainingElementModal';
 import DeleteTrainingStageModal from './DeleteTrainingStageModal';
 import DeleteUserModal from './DeleteUserModal';
 import EditOrganizationModal from './EditOrganizationModal';
+import EditTrainingModal from './EditTrainingModal';
 import EditTrainingElementModal from './EditTrainingElementModal';
 import EditTrainingStageModal from './EditTrainingStageModal';
 import EditUserModal from './EditUserModal';
@@ -20,6 +21,7 @@ const MODAL_COMPONENTS = {
   'CREATE_TRAINING_ELEMENT': CreateTrainingElementModal,
   'CREATE_TRAINING_STAGE_MODAL': CreateTrainingStageModal,
   'EDIT_ORGANIZATION': EditOrganizationModal,
+  'EDIT_TRAINING_MODAL': EditTrainingModal,
   'EDIT_TRAINING_ELEMENT': EditTrainingElementModal,
   'EDIT_TRAINING_STAGE_MODAL': EditTrainingStageModal,
   'EDIT_USER': EditUserModal,

@@ -3,10 +3,7 @@ package stx.shooterstatistic.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.text.MessageFormat;
 import java.time.LocalDate;
@@ -27,14 +24,14 @@ public class Training extends AbstractEntity {
   @JsonFormat(pattern="HH:mm")
   LocalTime time;
 
-  @OneToMany(mappedBy = "training")
+  @OneToMany(mappedBy = "training", cascade = CascadeType.REMOVE, orphanRemoval = true)
   @JsonIgnoreProperties("training")
   List<TrainingParticipant> participants = new ArrayList<>();
 
   @ElementCollection
   List<String> trainingElements = new ArrayList<>();
 
-  @OneToMany(mappedBy = "training")
+  @OneToMany(mappedBy = "training", cascade = CascadeType.REMOVE, orphanRemoval = true)
   @JsonIgnoreProperties("training")
   List<Stage> stages = new ArrayList<>();
 

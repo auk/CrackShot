@@ -9,7 +9,7 @@ import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
 import { getCurrentUserSelector, getLinksSelector, userToOptionSelector,
   getOrganizationsSelector, getOrganizationsOptionsSelector,
-  getTrainingsSelector,
+  getTrainingSelector, getTrainingsSelector,
   getTrainingElementsSelector, getTrainingElementsOptionsSelector,
   getUsersSelector, getUsersOptionsSelector } from 'selectors';
 import { showModal } from 'actions/modalActions';
@@ -35,22 +35,6 @@ class HomePage extends React.Component {
     fetchUsers(users.requestParams);
   }
 
-  handleSubmit = e => {
-    // e.preventDefault();
-    console.log(e)
-  }
-
-  handleCreateTraining = data => {
-    console.log("HomePage - data:", data);
-    console.log("HomePage - time: ", data.time, ', time parsed: ', data.time.format('HH:mm'))
-    this.props.createTraining(data)
-  }
-
-  handleCreateTrainingElement = data => {
-    console.log("HomePage - data:", data);
-    this.props.createTrainingElement(data)
-  }
-
   onClickTraining = (tr) => {
     console.log("onClickTraining - tr:", tr);
   }
@@ -69,7 +53,7 @@ class HomePage extends React.Component {
     // this.refetchData(newRequestParams);
   }
 
-  handleCreateTrainingModal = e => {
+  handleCreateTraining = e => {
     e.preventDefault();
 
     const { organizationsOptions, trainingElementsOptions, usersOptions, currentUser } = this.props;
@@ -97,7 +81,7 @@ class HomePage extends React.Component {
   }
 
   handleDeleteTraining = training => {
-    console.log("handleDeleteTraining - training:", training);
+    // console.log("handleDeleteTraining - training:", training);
     console.assert(training);
 
     const modal = {
@@ -105,16 +89,33 @@ class HomePage extends React.Component {
       modalProps: {
         training: training,
         name: this.props.intl.formatMessage(commonMessages.training) + ' ' + trainingService.getTrainingTime(training),
-        initialValues: {
-          name: this.props.intl.formatMessage(commonMessages.training) + ' ' + trainingService.getTrainingTime(training),
-        }
+      }
+    };
+    this.props.showModal(modal);
+  }
+
+  handleEditTraining = training => {
+    console.assert(training);
+
+    const { organizationsOptions, trainingElementsOptions, usersOptions, currentUser } = this.props;
+    // const selectedUsersOptions = [ userToOptionSelector(currentUser) ];
+
+    const modal = {
+      modalType: 'EDIT_TRAINING_MODAL',
+      modalProps: {
+        training: training,
+        resetText: this.props.intl.formatMessage(commonMessages.reset),
+        submitText: this.props.intl.formatMessage(commonMessages.create),
+        elements: trainingElementsOptions,
+        organizations: organizationsOptions,
+        users: usersOptions,
       }
     };
     this.props.showModal(modal);
   }
 
   render() {
-    const { currentUser, links, trainings, trainingElementsState, intl: { formatMessage } } = this.props;
+    const { currentUser, links, trainings, training, trainingElementsState, intl: { formatMessage } } = this.props;
 
     const crumbs = [
       {
@@ -130,6 +131,7 @@ class HomePage extends React.Component {
         <Page title={formatMessage(messages.title)}>
 
           {trainings.error && <Page.Error error={trainings.error} />}
+          {training.error && <Page.Error error={training.error} />}
 
           <div className="row m-b-lg m-t-lg">
             <div className="col-md-6">
@@ -199,7 +201,7 @@ class HomePage extends React.Component {
                   <h5>Last trainings</h5>
                   <Page.Tools>
                     <span className="input-group-btn">
-                      <button type="button" className='btn btn-primary btn-xs active' onClick={this.handleCreateTrainingModal}>
+                      <button type="button" className='btn btn-primary btn-xs active' onClick={this.handleCreateTraining}>
                         <FormattedMessage {...trainingMessages.create} />
                       </button>
                     </span>
@@ -210,8 +212,9 @@ class HomePage extends React.Component {
                     data={trainings}
                     links={links}
                     trainingElements={trainingElementsState.content}
-                    onClick={this.onClickTraining}
+                    // onClick={this.onClickTraining}
                     onDelete={this.handleDeleteTraining}
+                    onEdit={this.handleEditTraining}
                     onPageChange={this.onPageChange}
                     onSizeChange={this.onSizeChange}/>
                 </Page.Content>
@@ -240,6 +243,7 @@ HomePage.propTypes = {
     label: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
   })),
+  training: PropTypes.object,
   trainings: PropTypes.object.isRequired,
   trainingElementsState: PropTypes.object.isRequired,
   trainingElementsOptions: PropTypes.arrayOf(PropTypes.shape({
@@ -260,6 +264,7 @@ const mapStateToProps = state => {
     links: getLinksSelector(state),
     organizations: getOrganizationsSelector(state),
     organizationsOptions: getOrganizationsOptionsSelector(state),
+    training: getTrainingSelector(state),
     trainings: getTrainingsSelector(state),
     trainingElementsState: getTrainingElementsSelector(state),
     trainingElementsOptions: getTrainingElementsOptionsSelector(state),

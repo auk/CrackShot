@@ -23,7 +23,7 @@ export function* createTraining({payload}) {
   yield call(createTrainingRequest, { payload });
 
   // refetch data for list
-  const requestParams = yield select(selectors.getTrainingsParams);
+  const requestParams = yield select(selectors.getTrainingsRequestParamsSelector);
   yield put(actions.fetchTrainings({ payload: requestParams }));
 }
 
@@ -69,17 +69,39 @@ export function* createTrainingRequest({payload}) {
 }
 
 export function* deleteTraining({payload}) {
-  /* auk: TODO 
   console.log("deleteTraining - payload: ", payload);
   yield call(deleteTrainingRequest, { payload });
 
   // refetch data for list
-  const tid = payload.trainingId;
+  const tid = payload;
   console.assert(tid, "Training ID must me defined");
 
-  const requestParams = yield select(selectors.getTrainingParamsSelector);
+  const requestParams = yield select(selectors.getTrainingsRequestParamsSelector);
   yield put(actions.fetchTrainings(requestParams));
-  */
+}
+
+function* deleteTrainingRequest({ payload }) {
+  try {
+    const url = yield select(selectors.deleteTrainingUrl);
+    console.log("deleteTrainingUrl - url:", url);
+
+    const tid = payload;
+    console.assert(tid, "Training ID must me defined");
+
+    const config = {
+      method: 'DELETE',
+    }
+
+    const response = yield call(callApi, {
+      url: url.replace(/:tid/i, tid),
+      config,
+    });
+
+    yield put(actions.deleteTrainingSuccess(response.data));
+    toastr.success('Success', 'Training has been deleted');
+  } catch (error) {
+    yield put(actions.deleteTrainingError(createError(error)));
+  }
 }
 
 export function* fetchTraining({payload}) {
