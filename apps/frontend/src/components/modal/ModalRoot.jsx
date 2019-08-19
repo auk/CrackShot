@@ -22,7 +22,7 @@ const MODAL_COMPONENTS = {
   'CREATE_TRAINING_STAGE_MODAL': CreateTrainingStageModal,
   'EDIT_ORGANIZATION': EditOrganizationModal,
   'EDIT_TRAINING_MODAL': EditTrainingModal,
-  'EDIT_TRAINING_ELEMENT': EditTrainingElementModal,
+  'EDIT_TRAINING_ELEMENT_MODAL': EditTrainingElementModal,
   'EDIT_TRAINING_STAGE_MODAL': EditTrainingStageModal,
   'EDIT_USER': EditUserModal,
   'DELETE_TRAINING_MODAL': DeleteTrainingModal,

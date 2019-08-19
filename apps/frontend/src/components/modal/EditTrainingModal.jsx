@@ -7,9 +7,7 @@ import TrainingForm from 'components/training/TrainingForm';
 
 import { hideModal } from 'actions/modalActions';
 import { updateTraining } from 'actions/trainingActions';
-import * as selectors from 'selectors';
 import * as taxonomyService from 'services/taxonomyService';
-import * as trainingService from 'services/trainingService';
 
 import { defaultMessage } from 'i18n/defineMessages';
 
@@ -17,8 +15,8 @@ const messages = defaultMessage.training;
 
 const EditTrainingModal = (props) => {
   const { submitText, resetText, dispatch } = props;
-  const { training, stage, trainingElementsTaxonomy } = props;
-  const { elements, organizations, users } = props;
+  const { training } = props;
+  const { trainingElementsTaxonomy, organizationsTaxonomy, usersTaxonomy } = props;
 
   const handleSubmit = data => {
     console.log("EditTrainingModal - data:", data);
@@ -26,8 +24,16 @@ const EditTrainingModal = (props) => {
     dispatch(hideModal());
   }
 
+  const participantIDs = training.participants.map(p => p.user.id);
+  console.assert(participantIDs);
+
   const initialValues = {
     id: training.id,
+    date: training.date,
+    time: training.time,
+    organization: taxonomyService.mapIDsToOptions( [training.organization.id ], organizationsTaxonomy),
+    user: taxonomyService.mapIDsToOptions(participantIDs, usersTaxonomy),
+    element: taxonomyService.mapIDsToOptions(training.trainingElements, trainingElementsTaxonomy)
     // name: stage.name,
     // trainingId: training.id,
     // trainingTitle: trainingService.getTrainingTime(training),
@@ -52,10 +58,11 @@ const EditTrainingModal = (props) => {
           onSubmit={handleSubmit}
           resetBtnText={resetText}
           submitBtnText={submitText}
-          // trainingElements={trainingElementsTaxonomy.map(te => selectors.taxonomyItemToOptionSelector(te))}
-          elements={elements}
-          organizations={organizations}
-          users={users}
+
+          elements={taxonomyService.taxonomyToOptions(trainingElementsTaxonomy)}
+          organizations={taxonomyService.taxonomyToOptions(organizationsTaxonomy)}
+          users={taxonomyService.taxonomyToOptions(usersTaxonomy)}
+
           initialValues={initialValues}
           />
       </Modal.Body>
@@ -65,7 +72,7 @@ const EditTrainingModal = (props) => {
 
 export default connect(
   (state, ownProps) => ({
-    stage: ownProps.stage
+    training: ownProps.training
     // user: ownProps.initialValues.user,
     // validate: (values, props) => {
     //   console.log("values: ", values, ", props:", props)

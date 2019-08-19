@@ -34,7 +34,7 @@ class TrainingElementsPage extends React.Component   {
         submitText: formatMessage(commonMessages.create)
       }
     };
-    
+
     showModal(modal);
   }
 
@@ -44,14 +44,14 @@ class TrainingElementsPage extends React.Component   {
     const { showModal, intl: { formatMessage } } = this.props;
 
     const modal = {
-      modalType: 'EDIT_TRAINING_ELEMENT',
+      modalType: 'EDIT_TRAINING_ELEMENT_MODAL',
       modalProps: {
         resetText: formatMessage(commonMessages.reset),
         submitText: formatMessage(commonMessages.save),
         element: element
       }
     };
-    
+
     // console.log("Create modal form: ", modal);
 
     showModal(modal);

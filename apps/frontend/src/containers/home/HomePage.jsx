@@ -8,16 +8,19 @@ import Page from 'components/common/pageTemplate/Page';
 import Breadcrumbs from 'components/common/breadcrumbs/Breadcrumbs';
 import { defaultMessage } from 'i18n/defineMessages';
 import { getCurrentUserSelector, getLinksSelector, userToOptionSelector,
-  getOrganizationsSelector, getOrganizationsOptionsSelector,
+  getOrganizationsSelector,
   getTrainingSelector, getTrainingsSelector,
-  getTrainingElementsSelector, getTrainingElementsOptionsSelector,
-  getUsersSelector, getUsersOptionsSelector } from 'selectors';
+  getTrainingElementsSelector,
+  getUsersSelector } from 'selectors';
 import { showModal } from 'actions/modalActions';
 import { fetchOrganizations } from 'actions/organizationActions';
 import { createTraining, createTrainingElement, fetchTrainings, fetchTrainingElements } from 'actions/trainingActions';
 import { fetchUsers } from 'actions/userActions';
 import TrainingsList from 'components/training/TrainingsList';
+
+import * as taxonomyService from 'services/taxonomyService';
 import * as trainingService from 'services/trainingService';
+
 import userAuthIcon from 'assets/img/profile.jpg';
 import moment from 'moment';
 
@@ -28,11 +31,13 @@ const commonMessages = defaultMessage.common;
 class HomePage extends React.Component {
 
   componentDidMount() {
-    const { fetchOrganizations, fetchTrainings, fetchTrainingElements, fetchUsers, organizations, trainings, trainingElementsState, users } = this.props;
-    fetchOrganizations(organizations.requestParams);
-    fetchTrainings(trainings.requestParams);
+    const { fetchOrganizations, fetchTrainings, fetchTrainingElements, fetchUsers } = this.props;
+    const { organizationsState, trainingElementsState, trainingsState, usersState } = this.props;
+
+    fetchOrganizations(organizationsState.requestParams);
+    fetchTrainings(trainingsState.requestParams);
     fetchTrainingElements(trainingElementsState.requestParams);
-    fetchUsers(users.requestParams);
+    fetchUsers(usersState.requestParams);
   }
 
   onClickTraining = (tr) => {
@@ -56,7 +61,7 @@ class HomePage extends React.Component {
   handleCreateTraining = e => {
     e.preventDefault();
 
-    const { organizationsOptions, trainingElementsOptions, usersOptions, currentUser } = this.props;
+    const { organizationsState, trainingElementsState, usersState, currentUser } = this.props;
     const selectedUsersOptions = [ userToOptionSelector(currentUser) ];
 
     const modal = {
@@ -64,12 +69,14 @@ class HomePage extends React.Component {
       modalProps: {
         resetText: this.props.intl.formatMessage(commonMessages.reset),
         submitText: this.props.intl.formatMessage(commonMessages.create),
-        elements: trainingElementsOptions,
-        organizations: organizationsOptions,
-        users: usersOptions,
+
+        organizationsTaxonomy: organizationsState.content,
+        trainingElementsTaxonomy: trainingElementsState.content,
+        usersTaxonomy: usersState.content,
+
         initialValues: {
           user: selectedUsersOptions,
-          organization: organizationsOptions ? organizationsOptions[0] : null,
+          organization: organizationsState.content ? taxonomyService.taxonomyItemToOptionItem(organizationsState.content[0]) : null,
           date: moment(),
           time: moment('09:00', 'HH:mm'),
         }
@@ -77,7 +84,7 @@ class HomePage extends React.Component {
     };
     this.props.showModal(modal);
 
-    this.props.fetchTrainings(this.props.trainings.requestParams);
+    this.props.fetchTrainings(this.props.trainingsState.requestParams);
   }
 
   handleDeleteTraining = training => {
@@ -97,7 +104,7 @@ class HomePage extends React.Component {
   handleEditTraining = training => {
     console.assert(training);
 
-    const { organizationsOptions, trainingElementsOptions, usersOptions, currentUser } = this.props;
+    const { organizationsState, usersState, trainingElementsState } = this.props;
     // const selectedUsersOptions = [ userToOptionSelector(currentUser) ];
 
     const modal = {
@@ -106,16 +113,17 @@ class HomePage extends React.Component {
         training: training,
         resetText: this.props.intl.formatMessage(commonMessages.reset),
         submitText: this.props.intl.formatMessage(commonMessages.create),
-        elements: trainingElementsOptions,
-        organizations: organizationsOptions,
-        users: usersOptions,
+
+        organizationsTaxonomy: organizationsState.content,
+        trainingElementsTaxonomy: trainingElementsState.content,
+        usersTaxonomy: usersState.content,
       }
     };
     this.props.showModal(modal);
   }
 
   render() {
-    const { currentUser, links, trainings, training, trainingElementsState, intl: { formatMessage } } = this.props;
+    const { currentUser, links, trainingsState, trainingState, trainingElementsState, intl: { formatMessage } } = this.props;
 
     const crumbs = [
       {
@@ -130,8 +138,8 @@ class HomePage extends React.Component {
         <Breadcrumbs header={messages.title} crumbs={crumbs} />
         <Page title={formatMessage(messages.title)}>
 
-          {trainings.error && <Page.Error error={trainings.error} />}
-          {training.error && <Page.Error error={training.error} />}
+          {trainingsState.error && <Page.Error error={trainingsState.error} />}
+          {trainingState.error && <Page.Error error={trainingState.error} />}
 
           <div className="row m-b-lg m-t-lg">
             <div className="col-md-6">
@@ -209,7 +217,7 @@ class HomePage extends React.Component {
                 </Page.Header>
                 <Page.Content>
                   <TrainingsList
-                    data={trainings}
+                    data={trainingsState}
                     links={links}
                     trainingElements={trainingElementsState.content}
                     // onClick={this.onClickTraining}
@@ -238,23 +246,11 @@ HomePage.propTypes = {
   currentUser: PropTypes.object.isRequired,
   intl: intlShape.isRequired,
   links: PropTypes.object.isRequired,
-  organizations: PropTypes.object.isRequired,
-  organizationsOptions: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  })),
-  training: PropTypes.object,
-  trainings: PropTypes.object.isRequired,
+  organizationsState: PropTypes.object.isRequired,
+  trainingState: PropTypes.object,
+  trainingsState: PropTypes.object.isRequired,
   trainingElementsState: PropTypes.object.isRequired,
-  trainingElementsOptions: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  })),
-  users: PropTypes.object.isRequired,
-  usersOptions: PropTypes.arrayOf(PropTypes.shape({
-    label: PropTypes.string.isRequired,
-    value: PropTypes.string.isRequired,
-  })),
+  usersState: PropTypes.object.isRequired,
 }
 
 const mapStateToProps = state => {
@@ -262,14 +258,11 @@ const mapStateToProps = state => {
     // auth: getAuthSelector(state),
     currentUser: getCurrentUserSelector(state),
     links: getLinksSelector(state),
-    organizations: getOrganizationsSelector(state),
-    organizationsOptions: getOrganizationsOptionsSelector(state),
-    training: getTrainingSelector(state),
-    trainings: getTrainingsSelector(state),
+    organizationsState: getOrganizationsSelector(state),
+    trainingState: getTrainingSelector(state),
+    trainingsState: getTrainingsSelector(state),
     trainingElementsState: getTrainingElementsSelector(state),
-    trainingElementsOptions: getTrainingElementsOptionsSelector(state),
-    users: getUsersSelector(state),
-    usersOptions: getUsersOptionsSelector(state),
+    usersState: getUsersSelector(state),
   };
 }
 

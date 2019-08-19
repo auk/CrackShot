@@ -4,6 +4,7 @@ import { Modal } from 'react-bootstrap';
 import { FormattedMessage} from 'react-intl';
 
 import TrainingForm from 'components/training/TrainingForm';
+import * as taxonomyService from 'services/taxonomyService';
 
 import { hideModal } from 'actions/modalActions';
 import { createTraining } from 'actions/trainingActions';
@@ -13,12 +14,9 @@ const messages = defaultMessage.training;
 
 const CreateTrainingModal = (props) => {
   const { submitText, resetText, dispatch } = props;
-  const { elements, organizations, users, initialValues } = props;
-  // const { user } = props;
+  const { organizationsTaxonomy, usersTaxonomy, trainingElementsTaxonomy, initialValues } = props;
 
   const handleSubmit = data => {
-    // console.log("CreateTrainingModal - data:", data);
-    // console.log("CreateTrainingModal - time: ", data.time, ', time parsed: ', data.time.format('HH:mm'))
     dispatch(createTraining(data));
     dispatch(hideModal());
   }
@@ -32,12 +30,12 @@ const CreateTrainingModal = (props) => {
       </Modal.Header>
       <Modal.Body>
         <TrainingForm
-          onSubmit={handleSubmit} 
+          onSubmit={handleSubmit}
           resetBtnText={resetText}
           submitBtnText={submitText}
-          elements={elements}
-          organizations={organizations}
-          users={users}
+          elements={taxonomyService.taxonomyToOptions(trainingElementsTaxonomy)}
+          organizations={taxonomyService.taxonomyToOptions(organizationsTaxonomy)}
+          users={taxonomyService.taxonomyToOptions(usersTaxonomy)}
           initialValues={initialValues}
           />
       </Modal.Body>
