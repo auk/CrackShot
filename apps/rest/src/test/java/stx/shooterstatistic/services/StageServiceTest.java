@@ -30,7 +30,7 @@ import java.util.UUID;
 @Transactional
 @ActiveProfiles("test")
 public class StageServiceTest {
-  private final static Logger log = LoggerFactory.getLogger(StageServiceTest.class);
+  private static final Logger log = LoggerFactory.getLogger(StageServiceTest.class);
 
   @Autowired private SecurityService securityService;
   @Autowired private IStageService stageService;

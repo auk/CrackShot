@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 public class TrainingController {
 
-  private final static Logger log = LoggerFactory.getLogger(TrainingController.class);
+  private static final Logger log = LoggerFactory.getLogger(TrainingController.class);
 
   @Autowired
   private OrganizationService organizationService;

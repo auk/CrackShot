@@ -24,7 +24,7 @@ import java.util.Objects;
 @RestController
 public class OrganizationController {
 
-  private final static Logger log = LoggerFactory.getLogger(OrganizationController.class);
+  private static final Logger log = LoggerFactory.getLogger(OrganizationController.class);
 
   @Autowired
   private OrganizationService organizationService;

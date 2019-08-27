@@ -32,7 +32,7 @@ import static graphql.GraphQL.newGraphQL;
 
 @RestController
 public class GraphQLController {
-  private final static Logger log = LoggerFactory.getLogger(GraphQLController.class);
+  private static final Logger log = LoggerFactory.getLogger(GraphQLController.class);
 
   @Autowired
   private ObjectMapper objectMapper;

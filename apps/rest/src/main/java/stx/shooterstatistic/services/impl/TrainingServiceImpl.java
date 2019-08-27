@@ -29,7 +29,7 @@ import static stx.shooterstatistic.jpa.CriteriaBuilderHelper.setPagable;
 
 @Service
 public class TrainingServiceImpl implements ITrainingService {
-  private final static Logger log = LoggerFactory.getLogger(TrainingServiceImpl.class);
+  private static final Logger log = LoggerFactory.getLogger(TrainingServiceImpl.class);
 
   @Autowired
   SecurityService securityService;
@@ -118,8 +118,7 @@ public class TrainingServiceImpl implements ITrainingService {
   }
 
   private TrainingSearchCriteria normalizeSearchCriteria(@NotNull SecurityContext context, @NotNull TrainingSearchCriteria searchCriteria) {
-    if (searchCriteria == null)
-      searchCriteria = new TrainingSearchCriteria();
+    Objects.requireNonNull(searchCriteria);
 
     Definable<String> defOrg = searchCriteria.getOrganization();
 
@@ -140,7 +139,7 @@ public class TrainingServiceImpl implements ITrainingService {
   }
 
   public Page<Training> findTrainings(@NotNull SecurityContext context, @NotNull TrainingSearchCriteria searchCriteria, @NotNull Pageable pageable) {
-
+    Objects.requireNonNull(searchCriteria);
     searchCriteria = normalizeSearchCriteria(context, searchCriteria);
 
     CriteriaBuilder builder = entityManager.getCriteriaBuilder();

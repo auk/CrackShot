@@ -32,7 +32,7 @@ import java.util.List;
 @ActiveProfiles("test")
 public class TrainingServiceTest {
 
-  private final static Logger log = LoggerFactory.getLogger(OrganizationServiceTest.class);
+  private static final Logger log = LoggerFactory.getLogger(OrganizationServiceTest.class);
 
   @Autowired private OrganizationRepository organizationRepository;
   @Autowired private OrganizationMembershipRepository organizationMembershipRepository;
@@ -189,10 +189,5 @@ public class TrainingServiceTest {
     Assert.assertEquals(5, getTrainingsCount(userContext3, searchCriteria));
     Assert.assertEquals(0, getTrainingsCount(userContextFake, searchCriteria));
     Assert.assertEquals(9, getTrainingsCount(adminContext, searchCriteria));
-
-    Assert.assertEquals(5, getTrainingsCount(userContext1, null));
-    Assert.assertEquals(4, getTrainingsCount(userContext2, null));
-    Assert.assertEquals(5, getTrainingsCount(userContext3, null));
-    Assert.assertEquals(9, getTrainingsCount(adminContext, null));
   }
 }

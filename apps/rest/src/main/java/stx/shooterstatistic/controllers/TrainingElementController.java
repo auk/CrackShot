@@ -22,7 +22,7 @@ import java.util.Objects;
 @RestController
 public class TrainingElementController {
 
-  private final static Logger log = LoggerFactory.getLogger(TrainingElementController.class);
+  private static final Logger log = LoggerFactory.getLogger(TrainingElementController.class);
 
   @Autowired
   TrainingElementService trainingElementService;

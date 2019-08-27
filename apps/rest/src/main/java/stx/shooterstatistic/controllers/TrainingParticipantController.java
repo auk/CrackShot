@@ -27,7 +27,7 @@ import java.util.List;
 
 @RestController
 public class TrainingParticipantController {
-  private final static Logger log = LoggerFactory.getLogger(TrainingParticipantController.class);
+  private static final Logger log = LoggerFactory.getLogger(TrainingParticipantController.class);
 
   @Autowired
   SecurityService securityService;
@@ -39,7 +39,7 @@ public class TrainingParticipantController {
   UserService userService;
 
   @PostMapping(value = "/user/trainings")
-  Page<TrainingParticipant> searchCurrentUserTrainingParticipants(
+  public Page<TrainingParticipant> searchCurrentUserTrainingParticipants(
      @NotNull Principal principal,
      @RequestParam(required = false)List<String> orgs,
      @RequestParam(required = false) LocalDate from,
@@ -59,7 +59,7 @@ public class TrainingParticipantController {
   }
 
   @PostMapping(value = "/user/{uid}/trainings")
-  Page<TrainingParticipant> searchTrainingParticipants(
+  public Page<TrainingParticipant> searchTrainingParticipants(
      @NotNull Principal principal,
      @PathVariable String uid,
      @RequestParam(required = false)List<String> orgs,

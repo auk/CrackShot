@@ -36,7 +36,8 @@ public class StageServiceImpl implements IStageService {
     stage.setCreated(LocalDateTime.now());
     stage = trainingStageRepository.save(stage);
 
-    trainingService.mergeTrainingElement(context, training, trainingElements);
+    if (trainingElements != null)
+      trainingService.mergeTrainingElement(context, training, trainingElements);
     return stage;
   }
 

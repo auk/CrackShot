@@ -16,8 +16,8 @@ import stx.shooterstatistic.tests.TestUtils;
 @ActiveProfiles("test")
 public class UserServiceTest {
 
-  private final static String EMAIL = "test@startext.ru";
-  private final static String NAME = "Test user";
+  private static final String EMAIL = "test@startext.ru";
+  private static final String NAME = "Test user";
 
   @Autowired
   UserService userService;

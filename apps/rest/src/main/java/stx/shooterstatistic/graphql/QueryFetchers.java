@@ -46,7 +46,7 @@ public class QueryFetchers {
     return Optional.empty();
   }
 
-  public static DataFetcher<Organization> organizationFetcher = env -> {
+  public static final DataFetcher<Organization> organizationFetcher = env -> {
     SecurityContext securityContext = (SecurityContext) getGraphQLContext(env.getContext()).get("securityContext");
     Objects.requireNonNull(securityContext);
 
@@ -58,7 +58,7 @@ public class QueryFetchers {
     return organizationService.getOrganization(securityContext, id);
   };
 
-  public static DataFetcher<User> userFetcher = env -> {
+  public static final DataFetcher<User> userFetcher = env -> {
     SecurityContext securityContext = (SecurityContext) getGraphQLContext(env.getContext()).get("securityContext");
     Objects.requireNonNull(securityContext);
 

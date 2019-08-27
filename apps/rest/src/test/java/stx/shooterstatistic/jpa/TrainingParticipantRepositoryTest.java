@@ -24,7 +24,7 @@ import java.util.Arrays;
 @ActiveProfiles("test")
 public class TrainingParticipantRepositoryTest {
 
-  private final static Logger log = LoggerFactory.getLogger(TrainingParticipantRepositoryTest.class);
+  private static final Logger log = LoggerFactory.getLogger(TrainingParticipantRepositoryTest.class);
 
   @Autowired OrganizationRepository organizationRepository;
   @Autowired OrganizationMembershipRepository organizationMembershipRepository;

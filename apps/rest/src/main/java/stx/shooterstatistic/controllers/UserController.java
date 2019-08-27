@@ -23,7 +23,7 @@ import java.util.Optional;
 
 @RestController
 public class UserController {
-  private final static Logger log = LoggerFactory.getLogger(UserController.class);
+  private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
   @Autowired
   UserService userService;
@@ -32,7 +32,7 @@ public class UserController {
   SecurityService securityService;
 
   @GetMapping(value = "/users")
-  Page<User> getUsers(Principal principal,
+  public Page<User> getUsers(Principal principal,
     @RequestParam(required = false) UserSearchCriteria userSearchCriteria,
     @PageableDefault(sort = {"name"}, direction = Sort.Direction.DESC) Pageable pageable
   ) {

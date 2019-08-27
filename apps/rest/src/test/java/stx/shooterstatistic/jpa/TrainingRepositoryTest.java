@@ -22,7 +22,7 @@ import java.util.Arrays;
 @ActiveProfiles("test")
 public class TrainingRepositoryTest {
 
-  private final static Logger log = LoggerFactory.getLogger(TrainingRepositoryTest.class);
+  private static final Logger log = LoggerFactory.getLogger(TrainingRepositoryTest.class);
 
   @Autowired
   OrganizationRepository organizationRepository;

@@ -45,7 +45,6 @@ public class LoginSuccessListener implements ApplicationListener<AuthenticationS
           userService.saveUser(user);
           log.info("user: " + user.toString() + " was created successfully");
         } catch (Exception e) {
-          e.printStackTrace();
           log.error(e.getMessage());
         }
       } else {

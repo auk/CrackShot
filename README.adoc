@@ -1,3 +1,21 @@
-# Shooter statistic
+= Shooter statistic
 
-Main aim of project to gather statistic for shooter trainings
+Main aim of project to gather statistic for shooter trainings.
+
+== Code quality
+
+Sonar is used to analyze code quality. You can start a local Sonar server (accessible on http://localhost:9001) with:
+
+[source,shell]
+----
+$ docker-compose -f docker/sonarcube.yml up -d
+----
+
+You can run a Sonar analysis with using the [sonar-scanner](https://docs.sonarqube.org/display/SCAN/Analyzing+with+SonarQube+Scanner) or by using the gradle plugin.
+
+Then, run a Sonar analysis:
+
+[source,shell]
+----
+$ gradle clean check sonarqube
+----

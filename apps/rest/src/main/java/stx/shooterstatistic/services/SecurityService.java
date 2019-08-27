@@ -15,7 +15,7 @@ import java.util.Objects;
 
 @Service
 public class SecurityService {
-  private final static String FORMAT_HasAccessException = "User ''{0}'' has no access to object ''{1}''";
+  private static final String FORMAT_HasAccessException = "User ''{0}'' has no access to object ''{1}''";
 
   @Autowired
   UserService userService;

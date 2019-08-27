@@ -24,7 +24,7 @@ import stx.shooterstatistic.tests.TestUtils;
 @ActiveProfiles("test")
 public class OrganizationServiceTest {
 
-  private final static Logger log = LoggerFactory.getLogger(OrganizationServiceTest.class);
+  private static final Logger log = LoggerFactory.getLogger(OrganizationServiceTest.class);
 
   final String adminEmail = "admin@startext.ru";
 

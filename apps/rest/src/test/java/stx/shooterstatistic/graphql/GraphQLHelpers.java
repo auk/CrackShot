@@ -14,7 +14,7 @@ import java.util.Objects;
 
 public abstract class GraphQLHelpers {
 
-  private final static Logger log = LoggerFactory.getLogger(GraphQLHelpers.class);
+  private static final Logger log = LoggerFactory.getLogger(GraphQLHelpers.class);
 
   private GraphQLHelpers() {}
 

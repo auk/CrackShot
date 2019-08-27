@@ -29,7 +29,7 @@ import java.util.*;
 @ActiveProfiles("test")
 public class QueryTest {
 
-  private final static Logger log = LoggerFactory.getLogger(QueryTest.class);
+  private static final Logger log = LoggerFactory.getLogger(QueryTest.class);
 
   @Autowired OrganizationService organizationService;
   @Autowired UserService userService;

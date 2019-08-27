@@ -87,7 +87,7 @@ public class ScoreService {
   }
 
   private BigDecimal createHitFactor(double value) {
-    BigDecimal result = new BigDecimal(value);
+    BigDecimal result = BigDecimal.valueOf(value);
     return result.setScale(3, 4);
   }
 }
