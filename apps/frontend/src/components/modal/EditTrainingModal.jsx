@@ -15,7 +15,7 @@ const messages = defaultMessage.training;
 
 const EditTrainingModal = (props) => {
   const { submitText, resetText, dispatch } = props;
-  const { training, currentUser } = props;
+  const { training } = props;
   const { trainingElementsTaxonomy, organizationsTaxonomy, usersTaxonomy } = props;
 
   const userDisplayFields = [ 'name', 'username', 'id' ];
