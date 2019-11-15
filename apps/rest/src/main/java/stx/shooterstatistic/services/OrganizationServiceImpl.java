@@ -11,6 +11,10 @@ import stx.shooterstatistic.jpa.OrganizationMembershipInvitationRepository;
 import stx.shooterstatistic.jpa.OrganizationMembershipRequestRepository;
 import stx.shooterstatistic.jpa.OrganizationRepository;
 import stx.shooterstatistic.model.*;
+import stx.shooterstatistic.interfaces.IOrganizationMembershipService;
+import stx.shooterstatistic.interfaces.IOrganizationService;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.IUserService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -28,7 +32,7 @@ import static stx.shooterstatistic.jpa.CriteriaBuilderHelper.setPagable;
 
 @Service
 @Transactional
-public class OrganizationService {
+public class OrganizationServiceImpl implements IOrganizationService {
   @Autowired
   OrganizationRepository organizationRepository;
 
@@ -39,19 +43,19 @@ public class OrganizationService {
   OrganizationMembershipRequestRepository organizationMembershipRequestRepository;
 
   @Autowired
-  SecurityService securityService;
+  ISecurityService securityService;
 
   @Autowired
-  UserService userService;
+  IUserService userService;
 
   @Autowired
-  OrganizationMembershipService organizationMembershipService;
+  IOrganizationMembershipService organizationMembershipService;
 
   @Autowired
   EntityManager entityManager;
 
-  @NotNull
-  public Organization createOrganization(Principal principal, String name) {
+  @Override
+  @NotNull public Organization createOrganization(Principal principal, String name) {
     Objects.requireNonNull(principal);
     Objects.requireNonNull(name);
 
@@ -69,10 +73,11 @@ public class OrganizationService {
 
     Organization workspace = new Organization(user, name);
     workspace = organizationRepository.save(workspace);
-    organizationMembershipService.register(SecurityContext.create(user), workspace, user, true);
+    organizationMembershipService.registerMember(SecurityContext.create(user), workspace, user, true);
     return workspace;
   }
 
+  @Override
   public void deleteOrganization(SecurityContext context, Organization organization) {
     Objects.requireNonNull(organization);
 
@@ -82,25 +87,27 @@ public class OrganizationService {
     organizationRepository.delete(organization);
   }
 
-  @NotNull
-  public Organization getOrganization(SecurityContext context, String id) {
+  @Override
+  @NotNull public Organization getOrganization(SecurityContext context, String id) {
     Organization org = organizationRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Organization", id));
     securityService.checkHasAccess(context, org, Permission.READ);
     return org;
   }
 
-  public Page<Organization> getOrganizations(SecurityContext context, OrganizationSearchCriteria criteris, Pageable pageable) {
+  @Override
+  public Page<Organization> getOrganizations(SecurityContext context, OrganizationSearchCriteria criteria, Pageable pageable) {
     return organizationRepository.findAll(pageable);
   }
 
+  @Override
   public boolean isOwner(@NotNull SecurityContext context, @NotNull Organization organization, @NotNull User user) {
     Objects.requireNonNull(organization);
     Objects.requireNonNull(user);
     return organization.getOwner().getId().equals(user.getId());
   }
 
-  @NotNull
-  public Organization save(@NotNull SecurityContext context, @NotNull Organization org) {
+  @Override
+  @NotNull public Organization save(@NotNull SecurityContext context, @NotNull Organization org) {
     Objects.requireNonNull(context);
     Objects.requireNonNull(org);
 
@@ -119,6 +126,7 @@ public class OrganizationService {
     return Collections.singletonList(builder.asc(date));
   }
 
+  @Override
   public Page<OrganizationMembershipInvitation> searchInvitations(@NotNull SecurityContext context, Organization organization, User user, @NotNull Pageable pageable) {
     Objects.requireNonNull(pageable);
 
@@ -158,6 +166,7 @@ public class OrganizationService {
     return new PageImpl<>(result, pageable, result.size());
   }
 
+  @Override
   public Page<OrganizationMembershipRequest> searchRequests(@NotNull SecurityContext context, Organization organization, User user, @NotNull Pageable pageable) {
     Objects.requireNonNull(pageable);
 

@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import stx.shooterstatistic.model.User;
-import stx.shooterstatistic.services.UserService;
+import stx.shooterstatistic.interfaces.IUserService;
 
 import java.util.HashSet;
 import java.util.List;
@@ -22,10 +22,10 @@ public class LoginSuccessListener implements ApplicationListener<AuthenticationS
 
   private static Logger log = LoggerFactory.getLogger(LoginSuccessListener.class);
 
-  private final UserService userService;
+  private final IUserService userService;
 
   @Autowired
-  public LoginSuccessListener(UserService userService) {
+  public LoginSuccessListener(IUserService userService) {
     this.userService = userService;
   }
 

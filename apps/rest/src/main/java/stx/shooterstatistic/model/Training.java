@@ -74,8 +74,10 @@ public class Training extends AbstractEntity {
     return participants;
   }
 
-  public void setParticipants(List<TrainingParticipant> participants) {
-    this.participants = participants;
+  public void   setParticipants(List<TrainingParticipant> participants) {
+    this.participants.clear();
+    if (participants != null)
+      this.participants = participants;
   }
 
   public List<String> getTrainingElements() {

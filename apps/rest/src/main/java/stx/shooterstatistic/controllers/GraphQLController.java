@@ -19,8 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import stx.shooterstatistic.graphql.Schema;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
-import stx.shooterstatistic.services.SecurityService;
-import stx.shooterstatistic.services.UserService;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.IUserService;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -38,10 +38,10 @@ public class GraphQLController {
   private ObjectMapper objectMapper;
 
   @Autowired
-  private UserService userService;
+  private IUserService userService;
 
   @Autowired
-  private SecurityService securityService;
+  private ISecurityService securityService;
 
   GraphQL graphQL;
 

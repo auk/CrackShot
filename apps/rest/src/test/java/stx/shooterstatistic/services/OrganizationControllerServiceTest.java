@@ -11,6 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import stx.shooterstatistic.interfaces.IOrganizationService;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.IUserService;
 import stx.shooterstatistic.jpa.OrganizationMembershipRepository;
 import stx.shooterstatistic.jpa.OrganizationRepository;
 import stx.shooterstatistic.jpa.UserRepository;
@@ -22,26 +25,21 @@ import stx.shooterstatistic.tests.TestUtils;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class OrganizationServiceTest {
+public class OrganizationControllerServiceTest {
 
-  private static final Logger log = LoggerFactory.getLogger(OrganizationServiceTest.class);
+  private static final Logger log = LoggerFactory.getLogger(OrganizationControllerServiceTest.class);
 
   final String adminEmail = "admin@startext.ru";
 
   User adminUser;
 
   @Autowired
-  OrganizationService organizationService;
-
+  IOrganizationService organizationService;
   @Autowired
-  SecurityService securityService;
-
+  ISecurityService securityService;
   @Autowired
-  UserService userService;
-
-  @Autowired
-  TestUtils testUtils;
-
+  IUserService userService;
+  @Autowired TestUtils testUtils;
   @Autowired OrganizationMembershipRepository organizationMembershipRepository;
   @Autowired OrganizationRepository organizationRepository;
   @Autowired UserRepository userRepository;

@@ -22,7 +22,7 @@ import stx.shooterstatistic.model.Stage;
 import stx.shooterstatistic.model.Training;
 import stx.shooterstatistic.model.TrainingElement;
 import stx.shooterstatistic.model.User;
-import stx.shooterstatistic.services.TrainingElementService;
+import stx.shooterstatistic.interfaces.ITrainingElementService;
 import stx.shooterstatistic.tests.TestUtils;
 
 import java.time.LocalDate;
@@ -47,7 +47,7 @@ public class TrainingStageControllerTest {
   @Autowired ObjectMapper objectMapper;
   @Autowired private WebApplicationContext webApplicationContext;
   @Autowired private TestUtils testUtils;
-  @Autowired private TrainingElementService trainingElementService;
+  @Autowired private ITrainingElementService trainingElementService;
 
   private MockMvc mockMvc;
   private User adminUser;

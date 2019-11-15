@@ -5,14 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import stx.shooterstatistic.interfaces.*;
 import stx.shooterstatistic.model.*;
-import stx.shooterstatistic.services.*;
+import stx.shooterstatistic.rest.TrainingApi;
 import stx.shooterstatistic.util.Definable;
 
 import java.math.BigDecimal;
@@ -23,39 +21,39 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-public class TrainingController {
+public class TrainingController implements TrainingApi {
 
   private static final Logger log = LoggerFactory.getLogger(TrainingController.class);
 
   @Autowired
-  private OrganizationService organizationService;
+  private IOrganizationService organizationService;
 
   @Autowired
-  private SecurityService securityService;
+  private ISecurityService securityService;
 
   @Autowired
   private ITrainingService trainingService;
 
   @Autowired
-  TrainingElementService trainingElementService;
+  ITrainingElementService trainingElementService;
 
   @Autowired
-  private TrainingParticipantService trainingParticipantService;
+  private ITrainingParticipantService trainingParticipantService;
 
   @Autowired
-  private UserService userService;
+  private IUserService userService;
 
-  @PostMapping(value = "/training")
+  @Override
   public ResponseEntity<Training> createTraining(
      Principal principal,
-     @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-     @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.TIME) LocalTime time,
-     @RequestParam(required = false) String oid,
-     @RequestParam(required = false) List<String> users,
-     @RequestParam(required = false) List<String> elems,
-     @RequestParam(required = false) Boolean participate,
-     @RequestParam(required = false) Integer shots,
-     @RequestParam(required = false) Integer cost) {
+     LocalDate date,
+     LocalTime time,
+     String oid,
+     List<String> users,
+     List<String> elems,
+     Boolean participate,
+     Integer shots,
+     Integer cost) {
 
     User currentUser = userService.getUser(principal);
     SecurityContext context = securityService.createContext(principal);
@@ -77,7 +75,7 @@ public class TrainingController {
 
     Training training = trainingService.createTraining(context, date, time, organization, participants, elements);
     if (cost != null || shots != null) {
-      trainingParticipantService.findTrainingParticipant(context, training, currentUser).ifPresent(tp -> {
+      trainingParticipantService.findTrainingParticipants(context, training, currentUser).ifPresent(tp -> {
         tp.setShots(shots);
         tp.setCost(BigDecimal.valueOf(cost));
         trainingParticipantService.save(context, tp);
@@ -86,28 +84,83 @@ public class TrainingController {
     return new ResponseEntity<>(training, HttpStatus.CREATED);
   }
 
-  @GetMapping(value = "/training/{tid}")
-  public ResponseEntity<Training> getTraining(Principal principal, @PathVariable String tid) {
+  @Override
+  public ResponseEntity<Training> getTraining(Principal principal, String tid) {
     SecurityContext context = securityService.createContext(principal);
     return ResponseEntity.ok(trainingService.getTraining(context, tid));
   }
 
-  @DeleteMapping(value = "/training/{tid}")
-  public ResponseEntity<Training> deleteTraining(Principal principal, @PathVariable String tid) {
+  @Override
+  public ResponseEntity<Training> deleteTraining(Principal principal, String tid) {
     SecurityContext context = securityService.createContext(principal);
     Training training = trainingService.getTraining(context, tid);
     trainingService.deleteTraining(context, training);
     return ResponseEntity.ok().build();
   }
 
-  @PostMapping(value = "/trainings/search")
+  @Override
+  public ResponseEntity<Training> updateTraining(
+     Principal principal, String tid,
+     LocalDate date,
+     LocalTime time,
+     String oid,
+     List<String> users,
+     List<String> elems
+  ) {
+    SecurityContext context = securityService.createContext(principal);
+    Training training = trainingService.getTraining(context, tid);
+    training.setDate(date);
+    training.setTime(time);
+
+    Organization organization = null;
+    if (oid != null && !oid.isEmpty()) {
+      organization = organizationService.getOrganization(context, oid);
+    }
+    training.setOrganization(organization);
+    training.setTrainingElements(elems);
+    training = trainingService.saveTraining(context, training);
+
+    // process participants
+
+    List<TrainingParticipant> participants = training.getParticipants();
+    for (TrainingParticipant tp : participants) {
+      if (users == null || !users.contains(tp.getUser().getId()))
+        trainingService.leaveTraining(context, training, tp.getUser());
+    }
+
+
+    if (users != null) {
+      for (String uid : users) {
+        if (!participants.stream().anyMatch(tp -> uid.equals(tp.getUser().getId()))) {
+          trainingService.participate(context, training, userService.getUserById(context, uid));
+        }
+      }
+    }
+
+//    List<TrainingParticipant> participants = new ArrayList<>();
+//    participants = participants.stream().filter(p -> users != null && users.contains(p.getUser().getId())).collect(Collectors.toList());
+//    if (users != null) {
+//      for (String uid: users) {
+//        if (!participants.stream().anyMatch(p -> uid.equals(p.getUser().getId()))) {
+//          TrainingParticipant tp = new TrainingParticipant(training, userService.getUserById(context, uid));
+//          participants.add(tp);
+////          participants.add(trainingParticipantService.save(context, tp));
+//        }
+//      }
+//    }
+//    training.setParticipants(participants);
+
+    return ResponseEntity.ok(training);
+  }
+
+  @Override
   public Page<Training> searchTrainings(
      Principal principal,
-     @RequestParam(required = false) String oid,
-     @RequestParam(required = false) LocalDate from,
-     @RequestParam(required = false) LocalDate to,
-     @RequestParam(required = false) List<String> users,
-     @PageableDefault(size = 50, sort = { "date", "time" }, direction = Sort.Direction.DESC) Pageable pageable)
+     String oid,
+     LocalDate from,
+     LocalDate to,
+     List<String> users,
+     Pageable pageable)
   {
     SecurityContext context = securityService.createContext(principal);
 

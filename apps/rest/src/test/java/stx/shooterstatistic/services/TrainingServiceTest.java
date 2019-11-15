@@ -13,6 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import stx.shooterstatistic.interfaces.IOrganizationService;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.ITrainingService;
+import stx.shooterstatistic.interfaces.IUserService;
 import stx.shooterstatistic.jpa.*;
 import stx.shooterstatistic.model.*;
 import stx.shooterstatistic.tests.TestUtils;
@@ -32,16 +36,16 @@ import java.util.List;
 @ActiveProfiles("test")
 public class TrainingServiceTest {
 
-  private static final Logger log = LoggerFactory.getLogger(OrganizationServiceTest.class);
+  private static final Logger log = LoggerFactory.getLogger(OrganizationControllerServiceTest.class);
 
   @Autowired private OrganizationRepository organizationRepository;
   @Autowired private OrganizationMembershipRepository organizationMembershipRepository;
   @Autowired private TrainingRepository trainingRepository;
   @Autowired private TrainingParticipantRepository trainingParticipantRepository;
-  @Autowired private OrganizationService organizationService;
-  @Autowired private SecurityService securityService;
+  @Autowired private IOrganizationService organizationService;
+  @Autowired private ISecurityService securityService;
   @Autowired private ITrainingService trainingService;
-  @Autowired private UserService userService;
+  @Autowired private IUserService userService;
   @Autowired private UserRepository userRepository;
 
   @Autowired private TestUtils testUtils;

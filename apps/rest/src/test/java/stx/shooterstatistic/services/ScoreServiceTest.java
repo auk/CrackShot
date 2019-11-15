@@ -9,6 +9,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import stx.shooterstatistic.enums.PowerFactor;
 import stx.shooterstatistic.enums.Result;
+import stx.shooterstatistic.interfaces.IScoreService;
 import stx.shooterstatistic.model.StageResult;
 
 import java.math.BigDecimal;
@@ -19,7 +20,7 @@ import java.math.BigDecimal;
 public class ScoreServiceTest {
 
   @Autowired
-  ScoreService scoreService;
+  IScoreService scoreService;
 
   @Test
   public void testScoreMinor() {

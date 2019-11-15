@@ -13,8 +13,8 @@ import stx.shooterstatistic.jpa.OrganizationRepository;
 import stx.shooterstatistic.jpa.UserRepository;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.User;
-import stx.shooterstatistic.services.OrganizationService;
-import stx.shooterstatistic.services.UserService;
+import stx.shooterstatistic.interfaces.IOrganizationService;
+import stx.shooterstatistic.interfaces.IUserService;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;
@@ -63,7 +63,7 @@ public class CrackShotApplication {
   String globalAdminRole;
 
   @Autowired
-  OrganizationService organizationService;
+  IOrganizationService organizationService;
 
   @Autowired
   OrganizationRepository organizationRepository;
@@ -72,7 +72,7 @@ public class CrackShotApplication {
   UserRepository userRepository;
 
   @Autowired
-  UserService userService;
+  IUserService userService;
 
   @Bean
   public synchronized InitializingBean insertDefaultUsers() {

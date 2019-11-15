@@ -5,63 +5,53 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import stx.shooterstatistic.exceptions.ResourceNotFoundException;
 import stx.shooterstatistic.jpa.UserSearchCriteria;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
-import stx.shooterstatistic.services.SecurityService;
-import stx.shooterstatistic.services.UserService;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.IUserService;
 
 import java.security.Principal;
 import java.util.Objects;
-import java.util.Optional;
 
 @RestController
-public class UserController {
+public class UserController implements UserApi {
   private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
   @Autowired
-  UserService userService;
+  IUserService userService;
 
   @Autowired
-  SecurityService securityService;
+  ISecurityService securityService;
 
-  @GetMapping(value = "/users")
-  public Page<User> getUsers(Principal principal,
-    @RequestParam(required = false) UserSearchCriteria userSearchCriteria,
-    @PageableDefault(sort = {"name"}, direction = Sort.Direction.DESC) Pageable pageable
-  ) {
+  @Override
+  public Page<User> getUsers(Principal principal, UserSearchCriteria userSearchCriteria, Pageable pageable) {
     SecurityContext context = securityService.createContext(principal);
     return userService.getUsers(context, userSearchCriteria, pageable);
   }
 
-  // return current user
-  @GetMapping(value = "/user")
+  @Override
   public ResponseEntity<User> getCurrentUser(Principal principal) {
     return new ResponseEntity<>(userService.getUser(principal), HttpStatus.OK);
   }
 
-  @GetMapping(value = "/user/{uid}")
-  public ResponseEntity<User> getUser(Principal principal, @PathVariable String uid) {
+  @Override
+  public ResponseEntity<User> getUser(Principal principal, String uid) {
     SecurityContext context = securityService.createContext(principal);
     return ResponseEntity.ok(userService.getUserById(context, uid));
   }
 
-  @DeleteMapping(value = "/user/{uid}")
-  public void deleteUser(
-     Principal principal,
-     @PathVariable String uid) {
+  @Override
+  public void deleteUser(Principal principal, String uid) {
     SecurityContext context = securityService.createContext(principal);
     User user = userService.getUserById(context, uid);
     userService.deleteUser(context, user);
   }
 
-  @PutMapping(value = "/user/{uid}")
+  @Override
   public ResponseEntity<User> updateUser(
      Principal principal,
      @PathVariable String uid,

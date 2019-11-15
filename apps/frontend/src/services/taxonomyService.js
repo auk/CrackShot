@@ -30,10 +30,10 @@ export const mapIDsToOptions = (ids, taxonomy, names = [ 'name', 'id' ]) => {
 /**
  * Convert taxonomy to options array
  */
-export const taxonomyToOptions = (taxonomy) => {
-  return taxonomy ? taxonomy.map(i => taxonomyItemToOptionSelector(i)) : [];
+export const taxonomyToOptions = (taxonomy, names = ['name', 'id']) => {
+  return taxonomy ? taxonomy.map(i => taxonomyItemToOptionSelector(i, names)) : [];
 }
 
-export const taxonomyItemToOptionItem = (element) => {
-  return taxonomyItemToOptionSelector(element);
+export const taxonomyItemToOptionItem = (element, names = ['name', 'id']) => {
+  return taxonomyItemToOptionSelector(element, names);
 }

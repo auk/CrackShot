@@ -18,6 +18,7 @@ const EditTrainingModal = (props) => {
   const { training } = props;
   const { trainingElementsTaxonomy, organizationsTaxonomy, usersTaxonomy } = props;
 
+  const userDisplayFields = [ 'name', 'username', 'id' ];
   const handleSubmit = data => {
     console.log("EditTrainingModal - data:", data);
     dispatch(updateTraining(data));
@@ -32,19 +33,14 @@ const EditTrainingModal = (props) => {
     date: training.date,
     time: training.time,
     organization: taxonomyService.mapIDsToOptions( [training.organization.id ], organizationsTaxonomy),
-    user: taxonomyService.mapIDsToOptions(participantIDs, usersTaxonomy),
-    element: taxonomyService.mapIDsToOptions(training.trainingElements, trainingElementsTaxonomy)
-    // name: stage.name,
-    // trainingId: training.id,
-    // trainingTitle: trainingService.getTrainingTime(training),
-    // element: taxonomyService.mapIDsToOptions(stage.trainingElements, trainingElementsTaxonomy),
-    // shots: stage.shots
+    user: taxonomyService.mapIDsToOptions(participantIDs, usersTaxonomy, userDisplayFields),
+    element: taxonomyService.mapIDsToOptions(training.trainingElements, trainingElementsTaxonomy),
   }
 
   console.log("EditTrainingModal - training:", training);
   // console.log("EditTrainingModal - stage:", stage);
   // console.log("EditTrainingModal - training elements taxonomy:", trainingElementsTaxonomy);
-  // console.log("EditTrainingModal - initial values:", initialValues);
+  console.log("EditTrainingModal - initial values:", initialValues);
 
   return (
     <Modal show={true} onHide={() => dispatch(hideModal())}>
@@ -61,7 +57,7 @@ const EditTrainingModal = (props) => {
 
           elements={taxonomyService.taxonomyToOptions(trainingElementsTaxonomy)}
           organizations={taxonomyService.taxonomyToOptions(organizationsTaxonomy)}
-          users={taxonomyService.taxonomyToOptions(usersTaxonomy)}
+          users={taxonomyService.taxonomyToOptions(usersTaxonomy, userDisplayFields)}
 
           initialValues={initialValues}
           />

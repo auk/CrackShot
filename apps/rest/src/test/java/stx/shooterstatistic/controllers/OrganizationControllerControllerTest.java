@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.context.WebApplicationContext;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.User;
-import stx.shooterstatistic.services.UserService;
+import stx.shooterstatistic.interfaces.IUserService;
 import stx.shooterstatistic.tests.TestUtils;
 
 import java.util.UUID;
@@ -33,15 +33,15 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class OrganizationControllerTest {
+public class OrganizationControllerControllerTest {
 
-  private static final Logger log = LoggerFactory.getLogger(OrganizationControllerTest.class);
+  private static final Logger log = LoggerFactory.getLogger(OrganizationControllerControllerTest.class);
   private static final MediaType contentType_JSON = MediaType.valueOf("application/json;charset=UTF-8");
 
   @Autowired private ObjectMapper objectMapper;
   @Autowired private WebApplicationContext webApplicationContext;
   @Autowired private TestUtils testUtils;
-  @Autowired private UserService userService;
+  @Autowired private IUserService userService;
 
   private User adminUser;
   private UsernamePasswordAuthenticationToken adminPrincipal;

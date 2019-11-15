@@ -35,7 +35,7 @@ const CreateTrainingModal = (props) => {
           submitBtnText={submitText}
           elements={taxonomyService.taxonomyToOptions(trainingElementsTaxonomy)}
           organizations={taxonomyService.taxonomyToOptions(organizationsTaxonomy)}
-          users={taxonomyService.taxonomyToOptions(usersTaxonomy)}
+          users={taxonomyService.taxonomyToOptions(usersTaxonomy, [ 'name', 'username', 'id' ])}
           initialValues={initialValues}
           />
       </Modal.Body>
