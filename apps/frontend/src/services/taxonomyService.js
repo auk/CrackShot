@@ -1,5 +1,14 @@
 import { taxonomyItemToOptionSelector } from 'selectors';
 
+export const getTaxonomyField = (element, fields) => {
+  if (fields) {
+    const name = fields.find(f => element[f]);
+    if (name)
+      return element[name];
+  }
+  return undefined;
+}
+
 /**
  *  Find element by ID
  * @param {*} id - id of element
