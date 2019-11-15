@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import stx.shooterstatistic.jpa.TrainingParticipantQueryBuilder;
 import stx.shooterstatistic.jpa.TrainingParticipantRepository;
 import stx.shooterstatistic.model.*;
+import stx.shooterstatistic.interfaces.IOrganizationMembershipService;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.ITrainingParticipantService;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -22,11 +25,14 @@ import java.util.stream.Collectors;
 import static stx.shooterstatistic.jpa.CriteriaBuilderHelper.setPagable;
 
 @Service
-public class TrainingParticipantService {
+public class TrainingParticipantServiceImpl implements ITrainingParticipantService {
 
-  @Autowired OrganizationMembershipService organizationMembershipService;
+  @Autowired
+  IOrganizationMembershipService organizationMembershipService;
+  @Autowired
+  ISecurityService securityService;
+
   @Autowired TrainingParticipantRepository trainingParticipantRepository;
-  @Autowired SecurityService securityService;
 
   @Autowired EntityManager entityManager;
 
@@ -51,10 +57,12 @@ public class TrainingParticipantService {
     return searchCriteria;
   }
 
+  @Override
   public Optional<TrainingParticipant> findTrainingParticipants(@NotNull SecurityContext context, @NotNull Training training, @NotNull User user) {
     return trainingParticipantRepository.findByTrainingAndUser(training, user);
   }
 
+  @Override
   public Page<TrainingParticipant> findTrainingParticipants(
      @NotNull SecurityContext context,
      TrainingParticipantSearchCriteria searchCriteria,
@@ -75,6 +83,7 @@ public class TrainingParticipantService {
     return new PageImpl<>(result, pageable, result.size());
   }
 
+  @Override
   public TrainingParticipant save(@NotNull SecurityContext context, @NotNull TrainingParticipant trainingParticipant) {
     Objects.requireNonNull(context);
     Objects.requireNonNull(trainingParticipant);

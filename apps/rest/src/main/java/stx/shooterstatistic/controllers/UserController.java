@@ -1,4 +1,4 @@
-package stx.shooterstatistic.controllers.impl;
+package stx.shooterstatistic.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,12 +8,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import stx.shooterstatistic.controllers.UserApi;
 import stx.shooterstatistic.jpa.UserSearchCriteria;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
-import stx.shooterstatistic.services.SecurityService;
-import stx.shooterstatistic.services.UserService;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.IUserService;
 
 import java.security.Principal;
 import java.util.Objects;
@@ -23,10 +22,10 @@ public class UserController implements UserApi {
   private static final Logger log = LoggerFactory.getLogger(UserController.class);
 
   @Autowired
-  UserService userService;
+  IUserService userService;
 
   @Autowired
-  SecurityService securityService;
+  ISecurityService securityService;
 
   @Override
   public Page<User> getUsers(Principal principal, UserSearchCriteria userSearchCriteria, Pageable pageable) {

@@ -16,9 +16,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
-import stx.shooterstatistic.services.OrganizationService;
-import stx.shooterstatistic.services.SecurityService;
-import stx.shooterstatistic.services.UserService;
+import stx.shooterstatistic.interfaces.IOrganizationService;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.IUserService;
 import stx.shooterstatistic.tests.TestUtils;
 
 import java.time.LocalDate;
@@ -31,9 +31,9 @@ public class QueryTest {
 
   private static final Logger log = LoggerFactory.getLogger(QueryTest.class);
 
-  @Autowired OrganizationService organizationService;
-  @Autowired UserService userService;
-  @Autowired SecurityService securityService;
+  @Autowired IOrganizationService organizationService;
+  @Autowired IUserService userService;
+  @Autowired ISecurityService securityService;
   @Autowired TestUtils testUtils;
 
   private GraphQL graphQL;

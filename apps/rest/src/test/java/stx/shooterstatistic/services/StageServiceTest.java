@@ -13,6 +13,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.IStageService;
+import stx.shooterstatistic.interfaces.ITrainingElementService;
+import stx.shooterstatistic.interfaces.ITrainingService;
 import stx.shooterstatistic.jpa.TrainingElementRepository;
 import stx.shooterstatistic.jpa.TrainingRepository;
 import stx.shooterstatistic.jpa.TrainingStageRepository;
@@ -32,10 +36,10 @@ import java.util.UUID;
 public class StageServiceTest {
   private static final Logger log = LoggerFactory.getLogger(StageServiceTest.class);
 
-  @Autowired private SecurityService securityService;
+  @Autowired private ISecurityService securityService;
   @Autowired private IStageService stageService;
   @Autowired private ITrainingService trainingService;
-  @Autowired private TrainingElementService trainingElementService;
+  @Autowired private ITrainingElementService trainingElementService;
 
   @Autowired private TestUtils testUtils;
 

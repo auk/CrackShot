@@ -1,4 +1,4 @@
-package stx.shooterstatistic.services.impl;
+package stx.shooterstatistic.services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,10 +8,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import stx.shooterstatistic.exceptions.ResourceNotFoundException;
+import stx.shooterstatistic.interfaces.*;
 import stx.shooterstatistic.jpa.TrainingParticipantRepository;
 import stx.shooterstatistic.jpa.TrainingRepository;
 import stx.shooterstatistic.model.*;
-import stx.shooterstatistic.services.*;
 import stx.shooterstatistic.util.Definable;
 
 import javax.persistence.EntityManager;
@@ -32,7 +32,7 @@ public class TrainingServiceImpl implements ITrainingService {
   private static final Logger log = LoggerFactory.getLogger(TrainingServiceImpl.class);
 
   @Autowired
-  SecurityService securityService;
+  ISecurityService securityService;
 
   @Autowired
   TrainingRepository trainingRepository;
@@ -41,13 +41,13 @@ public class TrainingServiceImpl implements ITrainingService {
   TrainingParticipantRepository trainingParticipantRepository;
 
   @Autowired
-  OrganizationMembershipService organizationMembershipService;
+  IOrganizationMembershipService organizationMembershipService;
 
   @Autowired
-  OrganizationService organizationService;
+  IOrganizationService organizationService;
 
   @Autowired
-  UserService userService;
+  IUserService userService;
 
   @Autowired
   EntityManager entityManager;

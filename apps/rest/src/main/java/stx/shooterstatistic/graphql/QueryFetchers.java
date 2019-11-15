@@ -6,9 +6,9 @@ import org.springframework.stereotype.Component;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
-import stx.shooterstatistic.services.OrganizationService;
-import stx.shooterstatistic.services.SecurityService;
-import stx.shooterstatistic.services.UserService;
+import stx.shooterstatistic.interfaces.IOrganizationService;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.IUserService;
 
 import java.util.Map;
 import java.util.Objects;
@@ -17,12 +17,12 @@ import java.util.Optional;
 @Component
 public class QueryFetchers {
 
-  private static OrganizationService organizationService;
-  private static SecurityService securityService;
-  private static UserService userService;
+  private static IOrganizationService organizationService;
+  private static ISecurityService securityService;
+  private static IUserService userService;
 
   @Autowired
-  public QueryFetchers(OrganizationService organizationService, SecurityService securityService, UserService userService) {
+  public QueryFetchers(IOrganizationService organizationService, ISecurityService securityService, IUserService userService) {
     QueryFetchers.organizationService = Objects.requireNonNull(organizationService);
     QueryFetchers.securityService = Objects.requireNonNull(securityService);
     QueryFetchers.userService = Objects.requireNonNull(userService);

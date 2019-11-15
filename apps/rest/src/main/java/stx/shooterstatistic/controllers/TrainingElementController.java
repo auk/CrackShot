@@ -5,16 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.TrainingElement;
 import stx.shooterstatistic.rest.TrainingElementApi;
-import stx.shooterstatistic.services.SecurityService;
-import stx.shooterstatistic.services.TrainingElementService;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.ITrainingElementService;
 
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
@@ -26,10 +24,10 @@ public class TrainingElementController implements TrainingElementApi {
   private static final Logger log = LoggerFactory.getLogger(TrainingElementController.class);
 
   @Autowired
-  TrainingElementService trainingElementService;
+  ITrainingElementService trainingElementService;
 
   @Autowired
-  SecurityService securityService;
+  ISecurityService securityService;
 
   @Override
   public ResponseEntity<TrainingElement> createTrainingElement(Principal principal, String name) {

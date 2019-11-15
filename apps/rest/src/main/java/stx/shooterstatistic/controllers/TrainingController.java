@@ -1,4 +1,4 @@
-package stx.shooterstatistic.controllers.impl;
+package stx.shooterstatistic.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,9 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import stx.shooterstatistic.rest.TrainingApi;
+import stx.shooterstatistic.interfaces.*;
 import stx.shooterstatistic.model.*;
-import stx.shooterstatistic.services.*;
+import stx.shooterstatistic.rest.TrainingApi;
 import stx.shooterstatistic.util.Definable;
 
 import java.math.BigDecimal;
@@ -26,22 +26,22 @@ public class TrainingController implements TrainingApi {
   private static final Logger log = LoggerFactory.getLogger(TrainingController.class);
 
   @Autowired
-  private OrganizationService organizationService;
+  private IOrganizationService organizationService;
 
   @Autowired
-  private SecurityService securityService;
+  private ISecurityService securityService;
 
   @Autowired
   private ITrainingService trainingService;
 
   @Autowired
-  TrainingElementService trainingElementService;
+  ITrainingElementService trainingElementService;
 
   @Autowired
-  private TrainingParticipantService trainingParticipantService;
+  private ITrainingParticipantService trainingParticipantService;
 
   @Autowired
-  private UserService userService;
+  private IUserService userService;
 
   @Override
   public ResponseEntity<Training> createTraining(

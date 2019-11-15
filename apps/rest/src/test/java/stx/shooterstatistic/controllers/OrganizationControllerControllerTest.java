@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.context.WebApplicationContext;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.User;
-import stx.shooterstatistic.services.UserService;
+import stx.shooterstatistic.interfaces.IUserService;
 import stx.shooterstatistic.tests.TestUtils;
 
 import java.util.UUID;
@@ -41,7 +41,7 @@ public class OrganizationControllerControllerTest {
   @Autowired private ObjectMapper objectMapper;
   @Autowired private WebApplicationContext webApplicationContext;
   @Autowired private TestUtils testUtils;
-  @Autowired private UserService userService;
+  @Autowired private IUserService userService;
 
   private User adminUser;
   private UsernamePasswordAuthenticationToken adminPrincipal;

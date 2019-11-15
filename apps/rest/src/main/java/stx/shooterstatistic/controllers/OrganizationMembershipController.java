@@ -1,18 +1,18 @@
-package stx.shooterstatistic.controllers.impl;
+package stx.shooterstatistic.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import stx.shooterstatistic.rest.OrganizationMembershipApi;
 import stx.shooterstatistic.jpa.OrganizationMembershipInvitationRepository;
 import stx.shooterstatistic.jpa.OrganizationMembershipRequestRepository;
 import stx.shooterstatistic.model.*;
-import stx.shooterstatistic.services.OrganizationMembershipService;
-import stx.shooterstatistic.services.OrganizationService;
-import stx.shooterstatistic.services.SecurityService;
-import stx.shooterstatistic.services.UserService;
+import stx.shooterstatistic.rest.OrganizationMembershipApi;
+import stx.shooterstatistic.interfaces.IOrganizationMembershipService;
+import stx.shooterstatistic.interfaces.IOrganizationService;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.IUserService;
 
 import java.security.Principal;
 import java.util.Objects;
@@ -20,16 +20,16 @@ import java.util.Objects;
 public class OrganizationMembershipController implements OrganizationMembershipApi {
 
   @Autowired
-  private OrganizationService organizationService;
+  private IOrganizationService organizationService;
 
   @Autowired
-  private OrganizationMembershipService organizationMembershipService;
+  private IOrganizationMembershipService organizationMembershipService;
 
   @Autowired
-  private SecurityService securityService;
+  private ISecurityService securityService;
 
   @Autowired
-  private UserService userService;
+  private IUserService userService;
 
   @Autowired
   private OrganizationMembershipInvitationRepository organizationMembershipInvitationRepository;

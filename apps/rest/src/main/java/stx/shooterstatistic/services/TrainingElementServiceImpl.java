@@ -9,21 +9,23 @@ import stx.shooterstatistic.exceptions.ResourceNotFoundException;
 import stx.shooterstatistic.jpa.TrainingElementRepository;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.TrainingElement;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.ITrainingElementService;
 
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class TrainingElementService {
+public class TrainingElementServiceImpl implements ITrainingElementService {
   @Autowired
   TrainingElementRepository trainingElementRepository;
 
   @Autowired
-  SecurityService securityService;
+  ISecurityService securityService;
 
-  @NotNull
-  public TrainingElement create(@NotNull SecurityContext context, @NotNull String name) {
+  @Override
+  @NotNull public TrainingElement create(@NotNull SecurityContext context, @NotNull String name) {
     securityService.checkGlobalAdmin(context);
 
     trainingElementRepository.findByName(name).ifPresent(el -> {
@@ -34,28 +36,31 @@ public class TrainingElementService {
     return trainingElementRepository.save(el);
   }
 
+  @Override
   public void delete(@NotNull SecurityContext context, @NotNull String id) {
     securityService.checkGlobalAdmin(context);
     TrainingElement el = get(id);
     trainingElementRepository.delete(el);
   }
 
+  @Override
   public Optional<TrainingElement> find(@NotNull String id) {
     return trainingElementRepository.findById(id);
   }
 
-  @NotNull
-  public TrainingElement get(@NotNull String id) {
+  @Override
+  @NotNull public TrainingElement get(@NotNull String id) {
     return trainingElementRepository
        .findById(id)
        .orElseThrow(() -> new ResourceNotFoundException(TrainingElement.class.getName(), id));
   }
 
-  @NotNull
-  public Page<TrainingElement> all(@NotNull Pageable pageable) {
+  @Override
+  @NotNull public Page<TrainingElement> all(@NotNull Pageable pageable) {
     return trainingElementRepository.findAll(pageable);
   }
 
+  @Override
   public TrainingElement save(@NotNull SecurityContext context, @NotNull TrainingElement trainingElement) {
     Objects.requireNonNull(context);
 

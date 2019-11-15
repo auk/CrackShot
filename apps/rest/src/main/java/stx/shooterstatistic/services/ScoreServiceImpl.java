@@ -6,6 +6,7 @@ import stx.shooterstatistic.enums.Result;
 import stx.shooterstatistic.exceptions.IPSCException;
 import stx.shooterstatistic.interfaces.IResultScore;
 import stx.shooterstatistic.model.StageResult;
+import stx.shooterstatistic.interfaces.IScoreService;
 
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
@@ -15,7 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Service
-public class ScoreService {
+public class ScoreServiceImpl implements IScoreService {
   static class IPSCResultScore implements IResultScore {
 
     Map<Result, Integer> scores;
@@ -58,6 +59,7 @@ public class ScoreService {
     put(PowerFactor.MAJOR, new IPSCResultScore(SCORES_MAJOR));
   }};
 
+  @Override
   public int calculateScore(@NotNull PowerFactor powerFactor, @NotNull Result result, int count) {
     if (count < 0)
       throw new IllegalArgumentException("Count must be greater or equal to zero.");
@@ -69,6 +71,7 @@ public class ScoreService {
     return resultScore.getScore(result) * count;
   }
 
+  @Override
   public int calculateScore(@NotNull PowerFactor powerFactor, @NotNull StageResult stageResult) {
     int result = 0;
     for (Map.Entry<Result, Integer> e : stageResult.getScores().entrySet()) {
@@ -77,6 +80,7 @@ public class ScoreService {
     return Math.max(result, 0);
   }
 
+  @Override
   public BigDecimal calculateHitFactor(@NotNull PowerFactor powerFactor, @NotNull StageResult stageResult) {
     if (stageResult.getDuration() == null || stageResult.getDuration().isZero())
       return BigDecimal.valueOf(0, 3);

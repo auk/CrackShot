@@ -11,10 +11,10 @@ import stx.shooterstatistic.model.Stage;
 import stx.shooterstatistic.model.Training;
 import stx.shooterstatistic.model.TrainingElement;
 import stx.shooterstatistic.rest.TrainingStageApi;
-import stx.shooterstatistic.services.IStageService;
-import stx.shooterstatistic.services.ITrainingService;
-import stx.shooterstatistic.services.SecurityService;
-import stx.shooterstatistic.services.TrainingElementService;
+import stx.shooterstatistic.interfaces.IStageService;
+import stx.shooterstatistic.interfaces.ITrainingService;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.ITrainingElementService;
 
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
@@ -23,10 +23,10 @@ import java.util.List;
 
 @RestController()
 public class TrainingStageController implements TrainingStageApi {
-  @Autowired private SecurityService securityService;
+  @Autowired private ISecurityService securityService;
   @Autowired private IStageService stageService;
   @Autowired private ITrainingService trainingService;
-  @Autowired private TrainingElementService trainingElementService;
+  @Autowired private ITrainingElementService trainingElementService;
 
   @Override
   public ResponseEntity<Stage> createTrainingStage(@NotNull Principal principal, String tid, List<String> elems, int shots, String name) {

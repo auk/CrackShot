@@ -1,4 +1,4 @@
-package stx.shooterstatistic.controllers.impl;
+package stx.shooterstatistic.controllers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,12 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
-import stx.shooterstatistic.rest.OrganizationApi;
 import stx.shooterstatistic.model.OrganizationSearchCriteria;
 import stx.shooterstatistic.model.SecurityContext;
-import stx.shooterstatistic.services.OrganizationService;
-import stx.shooterstatistic.services.SecurityService;
-import stx.shooterstatistic.services.UserService;
+import stx.shooterstatistic.rest.OrganizationApi;
+import stx.shooterstatistic.interfaces.IOrganizationService;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.IUserService;
 
 import javax.validation.constraints.NotNull;
 import java.security.Principal;
@@ -24,13 +24,13 @@ public class OrganizationController implements OrganizationApi {
   private static final Logger log = LoggerFactory.getLogger(OrganizationController.class);
 
   @Autowired
-  private OrganizationService organizationService;
+  private IOrganizationService organizationService;
 
   @Autowired
-  private SecurityService securityService;
+  private ISecurityService securityService;
 
   @Autowired
-  private UserService userService;
+  private IUserService userService;
 
   @Override
   public Page<stx.shooterstatistic.model.Organization> getOrganizations(Principal principal, OrganizationSearchCriteria organizationSearchCriteria, Pageable pageable)

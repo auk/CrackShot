@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.context.WebApplicationContext;
 import stx.shooterstatistic.model.Training;
 import stx.shooterstatistic.model.User;
-import stx.shooterstatistic.services.UserService;
+import stx.shooterstatistic.interfaces.IUserService;
 import stx.shooterstatistic.tests.TestUtils;
 
 import java.time.LocalDate;
@@ -43,7 +43,7 @@ public class TrainingControllerTest {
   @Autowired private ObjectMapper objectMapper;
   @Autowired private WebApplicationContext webApplicationContext;
   @Autowired private TestUtils testUtils;
-  @Autowired private UserService userService;
+  @Autowired private IUserService userService;
 
   private MockMvc mockMvc;
   private User adminUser;

@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
+import stx.shooterstatistic.interfaces.ISecurityService;
+import stx.shooterstatistic.interfaces.IUserService;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.User;
 import stx.shooterstatistic.tests.TestUtils;
@@ -20,10 +22,10 @@ public class UserServiceTest {
   private static final String NAME = "Test user";
 
   @Autowired
-  UserService userService;
+  IUserService userService;
 
   @Autowired
-  SecurityService securityService;
+  ISecurityService securityService;
 
   @Autowired
   TestUtils testUtils;
