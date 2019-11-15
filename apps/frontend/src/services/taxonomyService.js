@@ -23,8 +23,8 @@ export const mapIDsToObjects = (ids, taxonomy) => {
  * @param {*} ids
  * @param {*} taxonomy
  */
-export const mapIDsToOptions = (ids, taxonomy) => {
-  return ids ? mapIDsToObjects(ids, taxonomy).map(i => taxonomyItemToOptionSelector(i)) : [];
+export const mapIDsToOptions = (ids, taxonomy, names = [ 'name', 'id' ]) => {
+  return ids ? mapIDsToObjects(ids, taxonomy).map(i => taxonomyItemToOptionSelector(i, names)) : [];
 }
 
 /**

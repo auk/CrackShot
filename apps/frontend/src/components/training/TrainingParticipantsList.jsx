@@ -1,10 +1,12 @@
 import React from 'react';
 import { injectIntl, intlShape, FormattedMessage } from 'react-intl';
 import Page from 'components/common/pageTemplate/Page';
+import * as taxonomyService from 'services/taxonomyService';
 
 import { defaultMessage } from 'i18n/defineMessages';
 
 const common = defaultMessage.common;
+const userDisplayFields = [ 'name', 'username', 'id' ];
 
 const TrainingParticipantsList = props => {
   const { data } = props;
@@ -19,7 +21,7 @@ const TrainingParticipantsList = props => {
           { data &&
             <ul>
               { data.map(u =>
-                <li key={u.id}>{u.name}</li>
+                <li key={u.id}>{taxonomyService.getTaxonomyField(u, userDisplayFields)}</li>
               )}
             </ul>
           }
