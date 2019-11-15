@@ -33,9 +33,9 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ActiveProfiles("test")
-public class OrganizationControllerTest {
+public class OrganizationControllerControllerTest {
 
-  private static final Logger log = LoggerFactory.getLogger(OrganizationControllerTest.class);
+  private static final Logger log = LoggerFactory.getLogger(OrganizationControllerControllerTest.class);
   private static final MediaType contentType_JSON = MediaType.valueOf("application/json;charset=UTF-8");
 
   @Autowired private ObjectMapper objectMapper;

@@ -55,7 +55,7 @@ public class TrainingParticipantController {
     searchCriteria.setDateFrom(from);
     searchCriteria.setDateTo(to);
 
-    return trainingParticipantService.findTrainingParticipant(securityContext, searchCriteria, pageable);
+    return trainingParticipantService.findTrainingParticipants(securityContext, searchCriteria, pageable);
   }
 
   @PostMapping(value = "/user/{uid}/trainings")
@@ -76,6 +76,6 @@ public class TrainingParticipantController {
     searchCriteria.setDateFrom(from);
     searchCriteria.setDateTo(to);
 
-    return trainingParticipantService.findTrainingParticipant(securityContext, searchCriteria, pageable);
+    return trainingParticipantService.findTrainingParticipants(securityContext, searchCriteria, pageable);
   }
 }

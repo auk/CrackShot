@@ -89,7 +89,7 @@ public class OrganizationService {
     return org;
   }
 
-  public Page<Organization> getOrganizations(SecurityContext context, OrganizationSearchCriteria criteris, Pageable pageable) {
+  public Page<Organization> getOrganizations(SecurityContext context, OrganizationSearchCriteria criteria, Pageable pageable) {
     return organizationRepository.findAll(pageable);
   }
 

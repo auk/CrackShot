@@ -15,7 +15,7 @@ const common = defaultMessage.common;
 
 let TrainingForm = React.memo(props => {
   const { handleReset, handleSubmit, locale, resetBtnText, submitBtnText, intl: { formatMessage } } = props;
-  const { organizations, users, elements, participate } = props;
+  const { organizations, users, elements, participate, initialValues } = props;
 
   console.log("Users element:", users);
   
@@ -29,6 +29,7 @@ let TrainingForm = React.memo(props => {
     console.log(`Time selected:`, selectedOption, ', as string: ', selectedOption.format('HH:mm'));
   }
   
+  const id = initialValues ? initialValues.id : undefined;
   // console.log("* organizations: ", organizations);
   // console.log("* users: ", users);
 
@@ -105,40 +106,44 @@ let TrainingForm = React.memo(props => {
         </div>
       </div>
 
-      <div className="form-group">
-        <div className="row">
-          <div className="col-md-2">&nbsp;</div>
-          <div className="col-md-10">
-            <Field name="participate"
-                component={InputCheckbox}
-                checkboxClass="icheckbox_square-green"
-                label="Participate training"
-                onChange={handleChange}
-                />
+      { !id &&
+        <>
+          <div className="form-group">
+            <div className="row">
+              <div className="col-md-2">&nbsp;</div>
+              <div className="col-md-10">
+                <Field name="participate"
+                    component={InputCheckbox}
+                    checkboxClass="icheckbox_square-green"
+                    label="Participate training"
+                    onChange={handleChange}
+                    />
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
 
-      { participate && 
-        <div className="form-group">
-        <Field name="shots"
-          component={InputText}
-          label="Number of shots"
-          placeholder='100'
-          type='number' min='50' max='1000' step='10'
-          // icon='glyphicon glyphicon-home'
-          // required={true}
-        />
-        <Field name="cost"
-          component={InputText}
-          label="Cost"
-          placeholder='2000'
-          type='number' min='100' max='10000' step='100'
-          // icon='glyphicon glyphicon-euro'
-          // required={true}
-        />
-      </div>
-     }
+          { participate && 
+            <div className="form-group">
+            <Field name="shots"
+              component={InputText}
+              label="Number of shots"
+              placeholder='100'
+              type='number' min='50' max='1000' step='10'
+              // icon='glyphicon glyphicon-home'
+              // required={true}
+            />
+            <Field name="cost"
+              component={InputText}
+              label="Cost"
+              placeholder='2000'
+              type='number' min='100' max='10000' step='100'
+              // icon='glyphicon glyphicon-euro'
+              // required={true}
+            />
+          </div>
+        }
+        </>
+      }
 
       <div className="hr-line-dashed"></div>
 

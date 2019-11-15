@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import stx.shooterstatistic.model.SecurityContext;
 import stx.shooterstatistic.model.TrainingElement;
+import stx.shooterstatistic.rest.TrainingElementApi;
 import stx.shooterstatistic.services.SecurityService;
 import stx.shooterstatistic.services.TrainingElementService;
 
@@ -20,7 +21,7 @@ import java.security.Principal;
 import java.util.Objects;
 
 @RestController
-public class TrainingElementController {
+public class TrainingElementController implements TrainingElementApi {
 
   private static final Logger log = LoggerFactory.getLogger(TrainingElementController.class);
 
@@ -30,27 +31,27 @@ public class TrainingElementController {
   @Autowired
   SecurityService securityService;
 
-  @PostMapping(value = "/trainingElement")
-  public ResponseEntity<TrainingElement> createTrainingElement(Principal principal, @RequestParam String name) {
+  @Override
+  public ResponseEntity<TrainingElement> createTrainingElement(Principal principal, String name) {
     SecurityContext context = securityService.createContext(principal);
     TrainingElement el = trainingElementService.create(context, name);
     return new ResponseEntity<>(el, HttpStatus.CREATED);
   }
 
-  @DeleteMapping(value = "/trainingElement/{id}")
-  public void deleteTrainingElement(Principal principal, @PathVariable String id) {
+  @Override
+  public void deleteTrainingElement(Principal principal, String id) {
     SecurityContext context = securityService.createContext(principal);
     trainingElementService.delete(context, id);
   }
 
-  @GetMapping(value = "/trainingElement/{id}")
-  public ResponseEntity<TrainingElement> getTrainingElement(@PathVariable String id) {
+  @Override
+  public ResponseEntity<TrainingElement> getTrainingElement(String id) {
     TrainingElement el = trainingElementService.get(id);
     return ResponseEntity.ok(el);
   }
 
-  @PutMapping(value = "/trainingElement/{id}")
-  public ResponseEntity<TrainingElement> updateTrainingElement(Principal principal, @PathVariable String id, @NotNull @RequestParam String name) {
+  @Override
+  public ResponseEntity<TrainingElement> updateTrainingElement(Principal principal, String id, @NotNull String name) {
     Objects.requireNonNull(name);
 
     TrainingElement el = trainingElementService.get(id);
@@ -61,9 +62,8 @@ public class TrainingElementController {
     return ResponseEntity.ok(el);
   }
 
-  @GetMapping(value = "/trainingElements")
-  public Page<TrainingElement> getAllTrainingElements(
-     @PageableDefault(size = 50, sort = { "name" }, direction = Sort.Direction.ASC) Pageable pageable) {
+  @Override
+  public Page<TrainingElement> getAllTrainingElements(Pageable pageable) {
     return trainingElementService.all(pageable);
   }
 }

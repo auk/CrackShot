@@ -32,7 +32,7 @@ import java.util.List;
 @ActiveProfiles("test")
 public class TrainingServiceTest {
 
-  private static final Logger log = LoggerFactory.getLogger(OrganizationServiceTest.class);
+  private static final Logger log = LoggerFactory.getLogger(OrganizationControllerServiceTest.class);
 
   @Autowired private OrganizationRepository organizationRepository;
   @Autowired private OrganizationMembershipRepository organizationMembershipRepository;

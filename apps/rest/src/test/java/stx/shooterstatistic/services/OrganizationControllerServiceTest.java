@@ -22,9 +22,9 @@ import stx.shooterstatistic.tests.TestUtils;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @ActiveProfiles("test")
-public class OrganizationServiceTest {
+public class OrganizationControllerServiceTest {
 
-  private static final Logger log = LoggerFactory.getLogger(OrganizationServiceTest.class);
+  private static final Logger log = LoggerFactory.getLogger(OrganizationControllerServiceTest.class);
 
   final String adminEmail = "admin@startext.ru";
 

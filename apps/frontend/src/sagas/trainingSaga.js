@@ -3,6 +3,8 @@ import { toastr } from 'react-redux-toastr';
 import { callApi } from 'utils/ApiUtils';
 import { createError } from 'utils/utils';
 
+import moment from 'moment';
+
 import * as actions from "../actions/trainingActions";
 import * as selectors from '../selectors';
 
@@ -10,7 +12,10 @@ export const trainingWatcherSaga = [
   takeLatest(actions.createTraining.toString(), createTraining),
   takeLatest(actions.deleteTraining.toString(), deleteTraining),
   takeLatest(actions.fetchTraining.toString(), fetchTraining),
+  takeLatest(actions.updateTraining.toString(), updateTraining),
+
   takeLatest(actions.fetchTrainings.toString(), fetchTrainings),
+
   takeLatest(actions.createTrainingStage.toString(), createTrainingStage),
   takeLatest(actions.deleteTrainingStage.toString(), deleteTrainingStage),
   takeLatest(actions.updateTrainingStage.toString(), updateTrainingStage),
@@ -18,6 +23,21 @@ export const trainingWatcherSaga = [
 ];
 
 // Training
+
+const trainingToRequestParams = (payload) => {
+  let params = {
+    date: moment(payload.date).format('YYYY-MM-DD'),
+  };
+  if (payload.organization)
+    Object.assign(params, { oid: Array.isArray(payload.organization) ? payload.organization[0].value : payload.organization.value });
+  if (payload.time)
+    Object.assign(params, { time: (payload.time && payload.time instanceof moment ? payload.time.format('HH:mm') : payload.time) });
+  if (payload.user)
+    Object.assign(params, { users: payload.user.map(u => u.value) });
+  if (payload.element)
+    Object.assign(params, { elems: payload.element.map(u => u.value) });
+  return params;
+}
 
 export function* createTraining({payload}) {
   yield call(createTrainingRequest, { payload });
@@ -30,19 +50,8 @@ export function* createTraining({payload}) {
 export function* createTrainingRequest({payload}) {
   try {
     const url = yield select(selectors.createTrainingUrl);
-    // console.log("createTraining - url:", url, ", values: ", payload);
 
-    let params = {
-      date: payload.date.format('YYYY-MM-DD'),
-    };
-    if (payload.organization)
-      Object.assign(params, { oid: payload.organization.value });
-    if (payload.time)
-      Object.assign(params, { time: payload.time.format('HH:mm') });
-    if (payload.user)
-      Object.assign(params, { users: payload.user.map(u => u.value) });
-    if (payload.element)
-      Object.assign(params, { elems: payload.element.map(u => u.value) });
+    let params = trainingToRequestParams(payload);
     if (payload.participate) {
       Object.assign(params, { shots: payload.shots });
       Object.assign(params, { cost: payload.cost });
@@ -134,6 +143,42 @@ export function* fetchTrainings({ payload: { requestParams } }) {
   } catch (error) {
     // console.log("Error action:", createError(error))
     yield put(actions.fetchTrainingsError(createError(error)));
+  }
+}
+
+export function* updateTraining({ payload }) {
+  yield call(updateTrainingRequest, { payload });
+
+  // refetch data for list
+  const requestParams = yield select(selectors.getTrainingsRequestParamsSelector);
+  yield put(actions.fetchTrainings({ payload: requestParams }));
+}
+
+function* updateTrainingRequest({ payload }) {
+  try {
+    const id = payload.id;
+    console.assert(id, "Training ID must be specified.");
+
+    const url = yield select(selectors.updateTrainingUrl);
+    // console.log("createTraining - url:", url, ", values: ", payload);
+
+    let params = trainingToRequestParams(payload);
+    Object.assign(params, { id });
+
+    const config = {
+      method: 'PUT',
+      params: params
+    }
+
+    const response = yield call(callApi, {
+      url: url.replace(/:tid/i, id),
+      config,
+    });
+
+    yield put(actions.updateTrainingSuccess(response.data));
+    toastr.success('Success', 'Training has been updated');
+  } catch (error) {
+    yield put(actions.updateTrainingError(createError(error)));
   }
 }
 

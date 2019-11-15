@@ -51,11 +51,11 @@ public class TrainingParticipantService {
     return searchCriteria;
   }
 
-  public Optional<TrainingParticipant> findTrainingParticipant(@NotNull SecurityContext context, @NotNull Training training, @NotNull User user) {
+  public Optional<TrainingParticipant> findTrainingParticipants(@NotNull SecurityContext context, @NotNull Training training, @NotNull User user) {
     return trainingParticipantRepository.findByTrainingAndUser(training, user);
   }
 
-  public Page<TrainingParticipant> findTrainingParticipant(
+  public Page<TrainingParticipant> findTrainingParticipants(
      @NotNull SecurityContext context,
      TrainingParticipantSearchCriteria searchCriteria,
      @NotNull Pageable pageable)

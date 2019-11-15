@@ -1,4 +1,15 @@
-import { taxonomyItemToOptionSelector } from 'selectors';
+// import { taxonomyItemToOptionSelector } from 'selectors';
+
+const getTaxonomyField = (element, fields) => {
+  if (fields) {
+    const name = fields.find(f => element[f]);
+    if (name)
+      return element[name];
+  }
+  return undefined;
+}
+
+const taxonomyItemToOptionSelector = (element, names) => ({ label: getTaxonomyField(element, names), value: element.id });
 
 /**
  *  Find element by ID
@@ -23,17 +34,17 @@ export const mapIDsToObjects = (ids, taxonomy) => {
  * @param {*} ids
  * @param {*} taxonomy
  */
-export const mapIDsToOptions = (ids, taxonomy) => {
+export const mapIDsToOptions = (ids, taxonomy, names = [ 'name', 'id' ]) => {
   return ids ? mapIDsToObjects(ids, taxonomy).map(i => taxonomyItemToOptionSelector(i)) : [];
 }
 
 /**
  * Convert taxonomy to options array
  */
-export const taxonomyToOptions = (taxonomy) => {
-  return taxonomy ? taxonomy.map(i => taxonomyItemToOptionSelector(i)) : [];
+export const taxonomyToOptions = (taxonomy, names = ['name', 'id']) => {
+  return taxonomy ? taxonomy.map(i => taxonomyItemToOptionSelector(i, names)) : [];
 }
 
-export const taxonomyItemToOptionItem = (element) => {
-  return taxonomyItemToOptionSelector(element);
+export const taxonomyItemToOptionItem = (element, names = ['name', 'id']) => {
+  return taxonomyItemToOptionSelector(element, names);
 }

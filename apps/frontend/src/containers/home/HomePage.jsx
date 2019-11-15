@@ -104,13 +104,15 @@ class HomePage extends React.Component {
   handleEditTraining = training => {
     console.assert(training);
 
-    const { organizationsState, usersState, trainingElementsState } = this.props;
+    const { currentUser, organizationsState, usersState, trainingElementsState } = this.props;
     // const selectedUsersOptions = [ userToOptionSelector(currentUser) ];
 
     const modal = {
       modalType: 'EDIT_TRAINING_MODAL',
       modalProps: {
+        currentUser: currentUser,
         training: training,
+
         resetText: this.props.intl.formatMessage(commonMessages.reset),
         submitText: this.props.intl.formatMessage(commonMessages.create),
 
