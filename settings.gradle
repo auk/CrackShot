@@ -1,4 +1,4 @@
-rootProject.name = 'ShooterStatistic'
+rootProject.name = 'CrackShot'
 include ':apps:rest'
 include ':apps:frontend'
 //include ':testing'

@@ -9,12 +9,12 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.context.annotation.Bean;
+import stx.shooterstatistic.interfaces.IOrganizationService;
+import stx.shooterstatistic.interfaces.IUserService;
 import stx.shooterstatistic.jpa.OrganizationRepository;
 import stx.shooterstatistic.jpa.UserRepository;
 import stx.shooterstatistic.model.Organization;
 import stx.shooterstatistic.model.User;
-import stx.shooterstatistic.interfaces.IOrganizationService;
-import stx.shooterstatistic.interfaces.IUserService;
 
 import javax.annotation.PostConstruct;
 import java.util.Collections;

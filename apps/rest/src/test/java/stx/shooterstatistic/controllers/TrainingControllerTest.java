@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @ActiveProfiles("test")
 public class TrainingControllerTest {
   private static final Logger log = LoggerFactory.getLogger(TrainingControllerTest.class);
-  private static final MediaType contentType_JSON = MediaType.valueOf("application/json;charset=UTF-8");
+  private static final MediaType contentType_JSON = MediaType.valueOf("application/json");
 
   @Autowired private ObjectMapper objectMapper;
   @Autowired private WebApplicationContext webApplicationContext;

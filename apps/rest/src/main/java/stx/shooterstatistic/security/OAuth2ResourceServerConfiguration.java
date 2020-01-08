@@ -25,7 +25,6 @@ public class OAuth2ResourceServerConfiguration extends ResourceServerConfigurerA
 
   @Override
   public void configure(HttpSecurity http) throws Exception {
-    super.configure(http);
     // @formatter:off
       http
         .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.NEVER)
@@ -39,7 +38,8 @@ public class OAuth2ResourceServerConfiguration extends ResourceServerConfigurerA
             .antMatchers(HttpMethod.POST, "/**").access("#oauth2.hasScope('write')")
             .antMatchers(HttpMethod.PUT, "/**").access("#oauth2.hasScope('write')")
             .antMatchers(HttpMethod.DELETE, "/**").access("#oauth2.hasScope('write')")
-            .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')");
+            .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')")
+          .anyRequest().authenticated();
       // @formatter:on
   }
 

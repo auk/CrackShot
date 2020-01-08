@@ -1,6 +1,6 @@
 package stx.shooterstatistic.exceptions;
 
-import org.springframework.hateoas.VndErrors;
+import org.springframework.hateoas.mediatype.vnderrors.VndErrors;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
