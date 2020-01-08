@@ -1,12 +1,11 @@
 plugins {
-  id "com.moowork.node" version "1.2.0"
+  id "com.github.node-gradle.node" version "2.2.0"
 }
 
 import groovy.json.JsonSlurper
 import org.apache.tools.ant.taskdefs.condition.Os
 
 apply plugin: 'war'
-apply plugin: 'com.moowork.node'
 
 buildDir='buildGradle'
 
