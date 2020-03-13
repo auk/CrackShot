@@ -1,0 +1,18 @@
+version: "3.5"
+
+services:
+  crackshot-app:
+    container_name: crackshot
+    image: auk/crackshot-rest
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env_rest
+    networks:
+      - crackshot
+
+networks:
+  crackshot:

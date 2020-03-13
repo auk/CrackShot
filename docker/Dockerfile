@@ -6,4 +6,4 @@ ADD apps/frontend/buildGradle/libs/CrackShot*.war ${CATALINA_HOME}/webapps/Crack
 ADD apps/rest/build/libs/ShooterStatistic-rest-*.war ${CATALINA_HOME}/webapps/CrackShot-rest.war
 
 RUN rm -f ${CATALINA_HOME}/webapps/ROOT/index.jsp
-ADD docker/develop/ROOT/index.jsp ${CATALINA_HOME}/webapps/ROOT/index.jsp
+ADD docker/tomcat/ROOT/index.jsp ${CATALINA_HOME}/webapps/ROOT/index.jsp
