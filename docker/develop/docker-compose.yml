@@ -2,7 +2,7 @@ version: "3.5"
 services:
   rest:
     container_name: crackshot
-    image: auk/shooter-statistic
+    image: auk/crackshot-rest
     build:
       context: ../..
       dockerfile: docker/develop/Dockerfile
