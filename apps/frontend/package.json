@@ -7,7 +7,7 @@
     "@startext/ipsc": "^0.0.7",
     "@startext/react-components": "^0.1.10",
     "animate.css": "^3.7.2",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "babel-polyfill": "^6.26.0",
     "bootstrap": "^3.4.1",
     "font-awesome": "^4.7.0",
